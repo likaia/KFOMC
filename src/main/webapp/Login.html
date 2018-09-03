@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Login.html</title>
-	
-    <meta name="keywords" content="keyword1,keyword2,keyword3">
-    <meta name="description" content="this is my page">
-    <meta name="content-type" content="text/html; charset=UTF-8">
-    
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
-
-  </head>
-  
-  <body>
-      登录页面
-  </body>
+<head>
+<title>登录</title>
+<meta charset="UTF-8">
+<title>登录</title>
+<script src="jquery/jquery-3.3.1.min.js"></script>
+<script src="vue/vue.min.js"></script>
+<script src="layui/layui.js"></script>
+<script src="less/js/less.min.js"></script>
+<link rel="stylesheet" href="layui/css/layui.css">
+<link rel="stylesheet/less" href="less/css/login.less">
+<link rel="stylesheet" href="css/login.css">
+<script src="js/Login.js"></script>
+</head>
+<div class="dowebok">
+    <div class="logo"></div>
+    <div class="form-item">
+        <div class="img-panel">
+            <i class="layui-icon layui-icon-username" style="font-size: 30px; color: white;"></i>
+        </div>
+        <input id="username" type="text" autocomplete="off" placeholder="用户名">
+        <p class="tip">请输入合格的用户名</p>
+    </div>
+    <div class="form-item">
+        <div class="img-panel">
+            <i class="layui-icon layui-icon-password" style="font-size: 30px; color: white;"></i>
+        </div>
+        <input id="password" type="password" autocomplete="off" placeholder="登录密码">
+        <p class="tip">用户名或密码不正确</p>
+    </div>
+    <div class="form-item"><button id="submit">登 录</button></div>
+    <div class="reg-bar">
+        <a class="reg" href="javascript:">立即注册</a>
+        <a class="forget" href="javascript:">忘记密码</a>
+    </div>
+</div>
+<body>
+</body>
 </html>
