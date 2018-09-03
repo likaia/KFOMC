@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置属性  读取配置文件jdbc.properties-->
+	<properties resource="jdbc.properties" />
+	<!-- 配置别名 -->
+	<typeAliases>
+		<package name="com.lk.db"/>
+	</typeAliases>
+	<!-- PageHelper分页查询插件 -->
+	<plugins>
+	    <!-- com.github.pagehelper为PageHelper类所在包名 -->
+	    <plugin interceptor="com.github.pagehelper.PageInterceptor">
+	        <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
+	       <property name="helperDialect" value="mysql"/>
+		</plugin>
+	</plugins>
+	<!-- 开发环境 -->
+	<environments default="mysql">
+		<!-- 配置c3p0 -->
+		<environment id="mysql">
+             <transactionManager type="JDBC"></transactionManager>
+             <dataSource type="com.lk.DataSourceFactory.C3P0DataSourceFactory">
+                 <property name="driverClass" value="${jdbc.driverClassName}"/>
+                 <property name="jdbcUrl" value="${jdbc.url}"/>
+                 <property name="user" value="${jdbc.username}"/>
+                 <property name="password" value="${jdbc.password}"/>
+                 <!-- 初始化时创建的连接数 -->
+                 <property name="initialPoolSize" value="5"/>
+                 <!-- 连接池中保留的最大连接数 -->
+                 <property name="maxPoolSize" value="15"/>
+                 <!-- 连接池中保留的最小连接数 -->
+                 <property name="minPoolSize" value="5"/>
+                 <!-- 最大空闲时间 -->
+                 <property name="maxIdleTime" value="1800"/>
+                 <!-- 两次连接中间隔时间:单位毫秒 -->
+                 <property name="acquireRetryDelay" value="200"/>
+             </dataSource>
+         </environment>
+	</environments>
+	<!-- 扫描映射文件 -->
+	<mappers>
+		<package name="com.lk.mappers"/>
+	</mappers>
+	
+</configuration>

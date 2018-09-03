@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<restful>
+	<!-- example:
+	<api name="hello" class="my.HelloApi" /> 
+	-->
+	<api name="loginApi"  class="com.lk.API.LoginAPI" /> 
+	<api name="RegisteredApi"  class="com.lk.API.RegisteredAPI" /> 
+	<api name="productLisAPI"  class="com.lk.API.ProductLisAPI" /> 
+</restful>
