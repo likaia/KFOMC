@@ -47,8 +47,9 @@ public class LoginAPI extends AfRestfulApi
 				sqlSession.close();
 				if (dbData == null)
 				{
+					errorCode = 1;
 					msg = "此用户不存在!请注册";
-					logger.info("数据库没有此用户");
+					logger.error("数据库没有此用户");
 				} 
 				else
 				{
