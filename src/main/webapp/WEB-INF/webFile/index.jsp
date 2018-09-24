@@ -6,12 +6,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!DOCTYPE html>
 <html>
-<head>
-<base href="<%=basePath%>">
- <meta charset="UTF-8">
-<title>首页</title>
-</head>
-
-<body>
-</body>
+  <head>
+    <base href="<%=basePath%>">
+<script src="jquery/jquery-3.3.1.min.js "></script>
+     <jsp:include page="islogin.jsp"/>
+  </head>
+  
+  <body>
+    	
+  </body>
 </html>

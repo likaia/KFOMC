@@ -4,6 +4,8 @@
 	<api name="hello" class="my.HelloApi" /> 
 	-->
 	<api name="loginApi"  class="com.lk.API.LoginAPI" /> 
+	<!-- 注册接口  FileProcessing用于上传文件到服务器 DataModifyAPI上传图片到服务器-->
 	<api name="RegisteredApi"  class="com.lk.API.RegisteredAPI" /> 
-	<api name="productLisAPI"  class="com.lk.API.ProductLisAPI" /> 
+	<!-- 头像查询 接口 -->
+	<api name="AvatarQueryApi"  class="com.lk.API.AvatarQueryAPI" /> 
 </restful>

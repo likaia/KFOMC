@@ -5,30 +5,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.lk.mappers.UserMapper">
 	<!--定义结果集:用于存储所有数据 -->
 	<resultMap type="User" id="UserResult">
-		<id property="id" column="id"/>
+		<id property="id" column="id" />
 		<result property="userName" column="userName" />
 		<result property="passWord" column="passWord" />
+		<result property="cellPhone" column="cellPhone" />
+		<result property="filePath" column="filePath" />
+		<result property="version" column="version" />
+		<result property="RegistrationTime" column="RegistrationTime" />
 	</resultMap>
-	
+
 	<!-- 添加 -->
-	<insert id="add" parameterType="User"  >
-		insert into t_user (callPhone,userName,password)values(#{callPhone},#{userName},#{password})
+	<insert id="add" parameterType="User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				userName,
+			</if>
+			<if test="passWord != null">
+				passWord,
+			</if>
+			<if test="cellPhone != null">
+				cellPhone,
+			</if>
+			<if test="filePath != null">
+				filePath,
+			</if>
+			<if test="RegistrationTime != null">
+				RegistrationTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="passWord != null">
+				#{passWord,jdbcType=VARCHAR},
+			</if>
+			<if test="cellPhone != null">
+				#{cellPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				#{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="RegistrationTime != null">
+				#{RegistrationTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		<!-- (cellPhone,userName,passWord)values(#{cellPhone},#{userName},#{passWord}) -->
 	</insert>
 	<!-- 更新 -->
 	<update id="update" parameterType="User">
-		update t_user set userName=#{userName},avatar=#{avatar},picUrl =#{picUrl} where userName=#{nowUser}
+		update t_user set
+		userName=#{userName},avatar=#{avatar},picUrl =#{picUrl} where
+		userName=#{nowUser}
 	</update>
 	<!-- 删除 -->
 	<delete id="delete" parameterType="User">
-		delete from t_user where id = #{id}
+		delete from t_user where id =
+		#{id}
 	</delete>
 	<!-- 通过姓名和手机号查询 -->
 	<select id="findByNamePhone" parameterType="User" resultType="User">
-		select * from t_user where userName = #{userName} and callPhone = #{callPhone}
+		select * from t_user where userName = #{userName} and callPhone =
+		#{callPhone}
 	</select>
 	<!-- 通过姓名查询 -->
 	<select id="findByName" parameterType="User" resultType="User">
-		select * from t_user where userName = #{userName}
+		select *
+		from t_user where userName = #{userName}
 	</select>
 	<!-- 查询所有 -->
 	<select id="find" resultMap="UserResult">

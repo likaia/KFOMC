@@ -1,0 +1,860 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+body, html {
+    height: 100%;
+    background: #E2E2E2;
+    min-width: 900px;
+    font: 16px "微软雅黑", "宋体", "Arial Narrow", HELVETICA;
+    -webkit-text-size-adjust: 100%;
+}
+/*解决vue页面刷新变量闪烁问题
+    在html页面内绑定的el处添加  v-cloak
+    在此处添加如下css样式
+    [v-cloak] {
+    display: none !important;
+}
+*/
+[v-cloak] {
+    display: none !important;
+}
+body, ul {
+    margin: 0;
+    padding: 0
+}
+
+/*通用样式：layui-body内白色容器样式*/
+.padding15-panel{
+    padding: 15px;
+}
+.content-panel{
+    background: white;
+    border-radius: 10px;
+    box-shadow:0px 0px 15px #343b4a;
+    padding: 15px;
+}
+/*通用样式结束*/
+li {
+    list-style: none
+}
+
+a {
+    text-decoration: none;
+}
+
+#top {
+    width: 100%;
+    min-height: 80px;
+    background: #324052;
+}
+
+#top .MaterialInfo-panel {
+    width: 410px;
+    min-height: 80px;
+    float: right;
+}
+
+#top .MaterialInfo-panel .Sysmsg-panel {
+    width: 80px;
+    min-height: 80px;
+    float: left;
+    cursor: pointer;
+}
+
+#top .MaterialInfo-panel .Sysmsg-panel .ico-panel {
+    width: 30px;
+    height: 30px;
+    margin-top: 25px;
+    float: left;
+    text-align: center;
+    margin-left: 15px;
+}
+
+#top .MaterialInfo-panel .Sysmsg-panel .num-panel {
+    width: 25px;
+    height: 25px;
+    background: #E8561F;
+    float: left;
+    text-align: center;
+    color: white;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+#top .MaterialInfo-panel .Sysmsg-panel .num-panel span {
+    line-height: 25px;
+}
+/*系统消息模块鼠标移入*/
+#top .MaterialInfo-panel .Sysmsg-panel:hover {
+    background: #394C5B;
+}
+
+#top .MaterialInfo-panel .SysUseHelp-panel {
+    width: 160px;
+    min-height: 80px;
+    float: left;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+}
+
+#top .MaterialInfo-panel .SysUseHelp-panel span {
+    line-height: 80px;
+    font-size: 16px;
+}
+/*系统使用帮助鼠标移入*/
+#top .MaterialInfo-panel .SysUseHelp-panel:hover {
+    background: #394C5B;
+}
+
+#top .MaterialInfo-panel .userInfo-panel {
+    width: 140px;
+    min-height: 80px;
+    float: left;
+    cursor: pointer;
+}
+
+#top .MaterialInfo-panel .userInfo-panel .avatar-panel {
+    width: 50px;
+    height: 50px;
+    margin-top: 15px;
+    border-radius: 50%;
+    float: left;
+    overflow: hidden;
+}
+
+#top .MaterialInfo-panel .userInfo-panel .avatar-panel img {
+    width: 100%;
+    height: 100%;
+}
+
+#top .MaterialInfo-panel .userInfo-panel .nickName-panel {
+    width: 80px;
+    height: 50px;
+    float: left;
+    margin-top: 15px;
+    text-align: center;
+    color: white;
+}
+
+#top .MaterialInfo-panel .userInfo-panel .nickName-panel span {
+    font-size: 16px;
+    line-height: 50px;
+}
+/*头像模块鼠标移入样式*/
+#top .MaterialInfo-panel .userInfo-panel:hover {
+    background: #394C5B;
+}
+
+/*logo区域*/
+#top .logoInfo-panel {
+    width: 480px;
+    height: 80px;
+    float: left;
+    overflow: hidden;
+}
+/*轮播公告区域*/
+#top .notice-panel{
+    width: 710px;
+    height: 80px;
+    float: left;
+    /*margin-top: 10px;*/
+}
+#top .notice-panel .Transparent-panel{
+
+}
+#top .notice-panel .Transparent-panel img{
+    width: 100%;
+    height: 100%;
+}
+#top .logoInfo-panel img {
+    width: 100%;
+    height: 100%;
+}
+
+#top .logoInfo-panel .logo-panel {
+    width: 80px;
+    height: 80px;
+    float: left;
+}
+
+#top .logoInfo-panel .text-panel {
+    min-width: 380px;
+    height: 60px;
+    float: left;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#top .logoInfo-panel .text-panel span {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    line-height: 60px;
+}
+
+/*资料修改悬浮层*/
+#SysmsgSubmenu .row-panel {
+    width: 90%;
+    height: 40px;
+    margin: 20px auto;
+}
+
+#SysmsgSubmenu .row-panel .text-panel {
+    width: 30%;
+    height: 40px;
+    background: #F2F2F2;
+    text-align: center;
+    float: left;
+}
+
+#SysmsgSubmenu .row-panel .text-panel span {
+    line-height: 40px;
+    font-size: 16px;
+}
+
+#SysmsgSubmenu .row-panel .input-panel {
+    width: 30%;
+    height: 40px;
+    float: left;
+    margin-left: 3%;
+    text-align: center;
+}
+
+#SysmsgSubmenu .row-panel .input-panel span {
+    font-size: 16px;
+    line-height: 40px;
+    font-weight: 700;
+}
+
+#SysmsgSubmenu .row-panel .btn-panel {
+    height: 35px;
+    float: left;
+}
+
+#SysmsgSubmenu .infoEdit-panel {
+    width: 20%;
+    height: 40px;
+    margin: 0 auto;
+}
+
+/*左侧导航栏*/
+
+/* nav */
+.nav {
+    width: 200px;
+    height: 100%;
+    background: #324052;
+    transition: all .3s;
+}
+/*左边nav a标签颜色*/
+.nav a {
+    display: block;
+    overflow: hidden;
+    padding-left: 20px;
+    font-size: 18px;
+    line-height: 80px;
+    max-height: 80px;
+    color: white;
+    transition: all .3s;
+}
+/*左边nav鼠标移入背景色*/
+.nav-show, .nav-item > a:hover {
+    color: white;
+    background: #f07810;
+}
+/*每一个nav点开后ul背景色*/
+.nav-item ul {
+    display: none;
+    background:#393E46;
+}
+/*nav展开后鼠标移入每一条颜色*/
+.nav-item li:hover a {
+    color: #FFF;
+    background: #fd5f00;
+}
+/*nav 迷你鼠标移入背景色*/
+.nav-mini.nav .nav-item:hover {
+    background: #fd5f00;
+}
+/*鼠标悬浮左边蓝色光标高度*/
+.nav-item > a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 80px;
+    background: #34A0CE;
+    opacity: 0;
+    transition: all .3s;
+}
+.nav a span {
+    margin-left: 30px;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-item.nav-show {
+    border-bottom: none;
+}
+
+.nav-item.nav-show ul {
+    display: block;
+}
+.nav .nav-icon {
+    font-size: 20px;
+    position: absolute;
+    margin-left: -1px;
+}
+/*---------------------*/
+.nav-more {
+    float: right;
+    margin-right: 20px;
+    font-size: 16px;
+    transition: transform .3s;
+}
+/*---------------------*/
+.nav-show .nav-more {
+    transform: rotate(90deg);
+}
+.nav-show > a:before, .nav-item > a:hover:before {
+    opacity: 1;
+}
+
+/* nav-mini */
+.nav-mini.nav {
+    width: 60px;
+}
+
+.nav-mini.nav .nav-icon { /* margin-left:-2px; */
+}
+
+.nav-mini.nav .nav-item > a span {
+    display: none;
+}
+
+.nav-mini.nav .nav-more {
+    margin-right: -20px;
+}
+
+.nav-mini.nav .nav-item ul {
+    position: absolute;
+    top: 0px;
+    left: 60px;
+    width: 180px;
+    z-index: 99;
+    background: #3C474C;
+}
+
+
+.nav-mini.nav .nav-item:hover .nav-item a {
+    color: #FFF;
+}
+
+.nav-mini.nav .nav-item:hover a:before {
+    opacity: 1;
+}
+
+.nav-mini.nav .nav-item:hover ul {
+    display: block;
+}
+
+/*主内容模块*/
+.card-panel{
+    height: 200px;
+    background: black;
+    border: solid 1px white;
+    position: relative;
+}
+.cardContent-panel{
+    width: 80%;
+    min-height: 160px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    cursor: pointer;
+}
+.cardContent-panel .title-panel{
+    width: 100%;
+    min-height: 40px;
+    margin: 25px auto;
+    text-align: center;
+
+}
+
+.cardContent-panel .title-panel span{
+    line-height: 40px;
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+}
+.cardContent-panel .price-panel{
+    width: 100%;
+    min-height: 40px;
+    text-align: center;
+}
+.cardContent-panel .price-panel span{
+    line-height: 40px;
+    color: white;
+    font-size: 23px;
+}
+.title-toolbar{
+    height: 40px;
+    position: relative;
+}
+.title-toolbar .elem-panel{
+    width: 630px;
+    height: 40px;
+    position: absolute;
+    right: 0px;
+}
+.title-toolbar .elem-panel .input-panel{
+    width: 230px;
+    height: 40px;
+    float: left;
+}
+.title-toolbar .elem-panel .input-panel input{
+    cursor: pointer;
+    height: 40px;
+}
+.title-toolbar .elem-panel .btn-panel{
+    width: 80px;
+    height: 40px;
+    float: left;
+    margin-left: 5px;
+}
+.title-toolbar .elem-panel .btn-panel button{
+    height: 40px;
+}
+.title-toolbar .elem-panel .text-panel{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    float: left;
+}
+.title-toolbar .elem-panel .text-panel span{
+    line-height: 40px;
+    font-weight: 600;
+}
+#orderManagement-panel .title-panel{
+    height: 40px;
+}
+#orderManagement-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#orderManagement-panel .item-panel{
+    height: 40px;
+}
+.pointerStyle{
+    cursor: pointer;
+}
+#orderInformationDataList{
+    min-height: 40px;
+    margin-top: 15px;
+    border: solid 1px white;
+}
+#orderInformationDataList .title-BtnPanel{
+    width: 100%;
+    height: 40px;
+    position: relative;
+}
+#orderInformationDataList .title-BtnPanel .btn-panel{
+    width: 435px;
+    height: 40px;
+    position: absolute;
+    right: 0px;
+}
+#orderInformationDataList .ListDataTable-panel{
+    min-height: 130px;
+}
+/*进货管理*/
+#IncomingGoods-panel .title-panel{
+    min-height: 40px;
+}
+#IncomingGoods-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#IncomingGoods-panel .topBtn-panel{
+    height: 40px;
+    position: relative;
+}
+#IncomingGoods-panel .topBtn-panel .btn-panel{
+    position: absolute;
+    min-width: 120px;
+    height: 40px;
+    right: 0;
+}
+#IncomingGoods-panel .OriginaFlilmListTable-panel{
+    min-height: 270px;
+    margin-top: 10px;
+}
+/*出货管理*/
+#shipment-panel .title-panel{
+    min-height: 40px;
+}
+#shipment-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#shipment-panel .btnCondition-panel{
+    width: 750px;
+    height: 40px;
+
+}
+/*日期查询*/
+#shipment-panel .btnCondition-panel .dateQuery-panel{
+    width: 320px;
+    height: 40px;
+    float: left;
+}
+/*产品名称查询*/
+#shipment-panel .btnCondition-panel .ProductNameCheck-panel{
+    width: 320px;
+    height: 40px;
+    float: left;
+}
+#shipment-panel .btnCondition-panel .btn-panel{
+    width: 80px;
+    height: 40px;
+    float: left;
+    margin-left: 10px;
+}
+#shipment-panel .tableTopBtn-panel{
+    min-height: 40px;
+    margin-top: 10px;
+    position: relative;
+}
+#shipment-panel .tableTopBtn-panel .btn-panel{
+    min-width: 120px;
+    height: 40px;
+    position: absolute;
+    right: 35px;
+}
+#shipment-panel .originalFilmOutList-panel{
+    min-height: 270px;
+}
+#shipment-panel .originalFilmOutList2-panel{
+    min-height: 210px;
+}
+/*库存管理*/
+#stock-panel .title-panel{
+    min-height: 40px;
+}
+#stock-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#stock-panel .tableTopBtn-panel{
+    position: relative;
+    min-height: 40px;
+  }
+#stock-panel .tableTopBtn-panel .btn-panel{
+    position: absolute;
+    right: 0;
+}
+#stock-panel .originalFilmOutList-panel{
+    min-height: 270px;
+}
+/*订单月结管理*/
+#OrderMonth-panel .title-panel{
+    min-height: 40px;
+}
+#OrderMonth-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#OrderMonth-panel .onlyNumber-panel{
+    position: relative;
+}
+#OrderMonth-panel .onlyNumber-panel .condition-panel{
+    width: 430px;
+    height: 40px;
+}
+#OrderMonth-panel .onlyNumber-panel .condition-panel .text-panel{
+    width: 340px;
+    height: 40px;
+    float: left;
+}
+#OrderMonth-panel .onlyNumber-panel .condition-panel .btn-panel{
+    width: 80px;
+    height: 40px;
+    margin-left: 10px;
+    float: left;
+}
+#OrderMonth-panel .OrderMonthListBtn-panel{
+    min-height: 40px;
+    position: relative;
+}
+#OrderMonth-panel .OrderMonthListBtn-panel .btn-panel{
+    min-width: 290px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+}
+#OrderMonth-panel .OrderMonthList-panel{
+    min-height: 270px;
+}
+/*客户信息管理*/
+#CustomerInfo-panel .title-panel{
+    min-height: 40px;
+}
+#CustomerInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#CustomerInfo-panel .btnParent-panel{
+    min-height: 40px;
+    position: relative;
+}
+#CustomerInfo-panel .btnParent-panel .btn-panel{
+    min-width: 210px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+}
+#CustomerInfo-panel .CustomerInfoList-panel{
+    min-height: 270px;
+}
+/*收入管理*/
+#revenueInfo-panel .title-panel{
+    min-height: 40px;
+}
+#revenueInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#revenueInfo-panel .btnParent-panel{
+    min-height: 40px;
+    position: relative;
+}
+#revenueInfo-panel .btnParent-panel .btn-panel{
+    min-width: 140px;
+    min-height: 40px;
+    position: absolute;
+    right: 0;
+}
+#revenueInfo-panel .revenueInfoList-panel{
+    min-height: 270px;
+}
+/*支出管理*/
+#expenditureInfo-panel .title-panel{
+    min-height: 40px;
+}
+#expenditureInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#expenditureInfo-panel .btnParent-panel{
+    min-height: 40px;
+    position: relative;
+}
+#expenditureInfo-panel .btnParent-panel .btn-panel{
+    min-width: 140px;
+    min-height: 40px;
+    position: absolute;
+    right: 0;
+}
+#expenditureInfo-panel .revenueInfoList-panel{
+    min-height: 270px;
+}
+/*客户对账*/
+#customerReconciliation-panel .title-panel{
+    min-height: 40px;
+}
+#customerReconciliation-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#customerReconciliation-panel .lump-panel{
+    height: 330px;
+    position: relative;
+    cursor: pointer;
+}
+#customerReconciliation-panel .lump-panel img{
+    width: 100%;
+    height: 100%;
+}
+/*黑色遮罩*/
+#customerReconciliation-panel .lump-panel .BlackSuspensionLayer{
+    width: 100%;
+    height: 330px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+}
+#customerReconciliation-panel .lump-panel .BlackSuspensionLayer span{
+    font-size: 30px;
+    color: white;
+    line-height: 330px;
+}
+#customerReconciliation-panel .btnParent-panel{
+    min-height: 40px;
+    position: relative;
+}
+#customerReconciliation-panel .btnParent-panel .btn-panel{
+    width: 410px;
+    min-height: 40px;
+    float: left;
+
+}
+#customerReconciliation-panel .btnParent-panel .queryBtn-panel{
+    width: 80px;
+    height: 40px;
+    margin-left: 10px;
+    float: left;
+}
+#customerReconciliation-panel .customerReconciliationList-panel{
+    min-height: 270px;
+    float: left;
+}
+/*考勤管理*/
+#AttendanceInfo-panel .title-panel{
+    min-height: 40px;
+}
+#AttendanceInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#AttendanceInfo-panel .ConditionalScreening-panel{
+    min-height: 40px;
+}
+#AttendanceInfo-panel .AttendanceInfoList-panel{
+    min-height: 270px;
+}
+/*工资发放*/
+#salaryGiving-panel .title-panel{
+    min-height: 40px;
+}
+#salaryGiving-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#salaryGiving-panel .ConditionalScreening-panel{
+    min-height: 40px;
+}
+#salaryGiving-panel .salaryGivingList-panel{
+    min-height: 270px;
+}
+/*员工信息*/
+#employeeInfo-panel .title-panel{
+    min-height: 40px;
+}
+#employeeInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#employeeInfo-panel .ConditionalScreening-panel{
+    min-height: 40px;
+}
+#employeeInfo-panel .employeeInfoList-panel{
+    min-height: 270px;
+}
+/*原片信息*/
+#OriginalInfo-panel .title-panel{
+    min-height: 40px;
+}
+#OriginalInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#OriginalInfo-panel .ConditionalScreening-panel{
+    min-height: 40px;
+}
+#OriginalInfo-panel .btnParent-panel{
+    min-height: 40px;
+    position: relative;
+}
+#OriginalInfo-panel .btnParent-panel .btn-panel{
+    min-width: 240px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+}
+#OriginalInfo-panel .OriginalInfo-panel{
+    min-height: 270px;
+}
+/*附件信息*/
+#AttachmentInfo-panel .title-panel{
+    min-height: 40px;
+}
+#AttachmentInfo-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#AttachmentInfo-panel .ConditionalScreening-panel{
+    min-height: 40px;
+}
+#AttachmentInfo-panel .btnParent-panel{
+    min-height: 40px;
+    position: relative;
+}
+#AttachmentInfo-panel .btnParent-panel .btn-panel{
+    min-width: 240px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+}
+#AttachmentInfo-panel .AttachmentInfo-panel{
+    min-height: 270px;
+}
+/*基本设置*/
+#basicSettings-panel .title-panel{
+    min-height: 40px;
+}
+#basicSettings-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#basicSettings-panel .cardParent-panel{
+    min-height: 280px;
+}
+/*联系我们*/
+#contactUs-panel .title-panel{
+    min-height: 40px;
+}
+#contactUs-panel .title-panel span{
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+#contactUs-panel .mainContent-panel{
+    min-height:310px;
+}
+#contactUs-panel .mainContent-panel .row-panel{
+    width: 100%;
+    min-height: 40px;
+    margin: 10px auto;
+    text-align: center;
+}
+#contactUs-panel .mainContent-panel .row-panel span{
+    line-height: 40px;
+    color: #838383;
+    font-size: 18px;
+}

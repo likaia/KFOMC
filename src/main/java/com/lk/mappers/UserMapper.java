@@ -11,9 +11,9 @@ public interface UserMapper
 	public int update(User user);
 	//通过id删除
 	public int delete(Integer id);
-	//通过姓名查找
+	//通过姓名手机号查找
 	public User findByNamePhone(User user);
-	//通过id查找
+	//通过姓名查找
 	public User findByName(String userName);
 	//查询全部用户
 	public List<User> find();	

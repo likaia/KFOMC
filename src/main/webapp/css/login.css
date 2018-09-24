@@ -5,6 +5,7 @@
 
 html {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -12,7 +13,7 @@ body {
     background: #fff url(../img/bg1.jpeg) 50% 50% no-repeat;
     background-size: cover;
 }
-
+/*边框发光容器*/
 .dowebok {
     position: absolute;
     left: 50%;
@@ -25,132 +26,177 @@ body {
     overflow: hidden;
     box-shadow: 0px 0px 15px #FFFFFF;
 }
-
-.logo {
-    width: 104px;
-    height: 104px;
-    margin: 50px auto 80px;
-    background: url(../img/login.png) 0 0 no-repeat;
-}
-
-.form-item {
-    position: relative;
-    width: 360px;
-    margin: 0 auto;
-    padding-bottom: 30px;
-}
-.form-item .img-panel{
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 8px;
-    left: 23px;
-}
-.form-item input {
-    width: 288px;
-    height: 48px;
-    padding-left: 70px;
-    border: 1px solid #fff;
-    border-radius: 25px;
-    font-size: 18px;
-    color: #fff;
-    background-color: transparent;
-    outline: none;
-}
-
-.form-item button {
-    width: 360px;
-    height: 50px;
-    border: 0;
-    border-radius: 25px;
-    font-size: 18px;
-    color: #1f6f4a;
-    outline: none;
-    cursor: pointer;
-    background-color: #fff;
-}
-
-
-
-.tip {
-    position: absolute;
-    left: 20px;
-    top: 52px;
-    font-size: 14px;
-    color: #f50;
-}
-
-.reg-bar {
-    width: 360px;
-    margin: 20px auto 0;
-    font-size: 14px;
+#login-panel .avatar-panel{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 20px auto;
     overflow: hidden;
 }
-
-.reg-bar a {
-    color: #fff;
-    text-decoration: none;
+#login-panel .avatar-panel img{
+    width: 100%;
+    height: 100%;
 }
-
-.reg-bar a:hover {
-    text-decoration: underline;
+/*注册头像样式*/
+#sign-panel .avatar-panel{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 20px auto;
+    overflow: hidden;
 }
-
-.reg-bar .reg {
+#sign-panel .avatar-panel img{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+/*注册头像样式结束*/
+.form-item{
+    width: 86%;
+    height: 50px;
+    margin: 25px auto;
+    border: solid 1px white;
+    border-radius: 25px;
+}
+.form-item button{
+    height: 50px;
+    font-size: 18px;
+}
+.form-item .img-panel{
+    width: 32px;
+    height: 32px;
+    margin-left: 20px;
+    margin-top: 8px;
+    float: left;
+    background: url("../img/user.png") no-repeat 50% 50%;
+}
+.form-item .password-panel{
+    background: url("../img/psdd.png") no-repeat 50% 50%;
+}
+.form-item .cellPhone-panel{
+    background: url("../img/cellPhone.png") no-repeat 50% 50%;
+}
+.form-item .input-panel{
+    width: 290px;
+    height: 32px;
+    float: left;
+    margin-top: 8px;
+    margin-left: 5px;
+}
+.form-item .input-panel input{
+    background: transparent;
+    color: white;
+    font-size: 20px;
+    border: none;
+}
+.form-item .input-panel input::placeholder{
+    color: white;
+    font-size: 20px;
+}
+.reg-bar{
+    width: 96%;
+    height: 40px;
+    margin: 0 auto;
+}
+.reg-bar .registered-link-panel{
+    float: left;
+    height: 40px;
+    width: 80px;
+    text-align: center;
+}
+.reg-bar .registered-link-panel a{
+    line-height: 40px;
+    font-size: 16px;
+    color: white;
+    font-weight: 700;
+}
+.reg-bar .forget-link-panel{
+    float: right;
+    height: 40px;
+    width: 80px;
+    text-align: center;
+}
+.reg-bar .forget-link-panel a{
+    line-height: 40px;
+    font-size: 16px;
+    color: white;
+    font-weight: 700;
+}
+/*滑块验证容器*/
+.slider-panel{
+    width: 86%;
+    height: 50px;
+    margin-left: 4%;
+}
+/*注册图文验证码*/
+#sign-panel .VerificationCode-panel{
+    width: 86%;
+    height: 60px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#sign-panel .VerificationCode-panel .codeImg-panel{
+    width: 40%;
+    height: 60px;
     float: left;
 }
-
-.reg-bar .forget {
-    float: right;
+#sign-panel .VerificationCode-panel .input-panel{
+    width: 60%;
+    height: 60px;
+    float: left;
+}
+/*图文验证码*/
+.code {
+    font-family: Arial;
+    font-style: italic;
+    font-size: 30px;
+    padding: 2px 3px;
+    letter-spacing: 3px;
+    font-weight: bolder;
+    float: left;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    line-height: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+#codeInput{
+    border: solid 1px white;
+    color: white;
+    font-weight: 600;
+    height: 60px;
+    font-size: 20px;
+    background: transparent;
+}
+#codeInput::placeholder{
+    color: white;
+}
+/*头像编辑悬浮层*/
+#editSubmenu .pic-panel{
+    width: 504px;
+    height: 374px;
+    margin: 10px auto;
+    border: solid 1px #666666;
+}
+#editSubmenu .pic-panel img{
+    width: 100%;
+    height: 100%;
+}
+#editSubmenu .btn-panel{
+    width: 320px;
+    height: 60px;
+    margin: 0 auto;
 }
 
-.dowebok ::-webkit-input-placeholder {
-    font-size: 18px;
-    line-height: 1.4;
-    color: #fff;
-}
+.jcrop-light .jcrop-selection {
+    -moz-box-shadow: 0px 0px 15px #999;
+    /* Firefox */
 
-.dowebok :-moz-placeholder {
-    font-size: 18px;
-    line-height: 1.4;
-    color: #fff;
-}
+    -webkit-box-shadow: 0px 0px 15px #999;
+    /* Safari, Chrome */
 
-.dowebok ::-moz-placeholder {
-    font-size: 18px;
-    line-height: 1.4;
-    color: #fff;
-}
+    box-shadow: 0px 0px 15px #999;
+    /* CSS3 */
 
-.dowebok :-ms-input-placeholder {
-    font-size: 18px;
-    line-height: 1.4;
-    color: #fff;
-}
-
-@media screen and (max-width: 500px) {
-    * {
-        box-sizing: border-box;
-    }
-
-    .dowebok {
-        position: static;
-        width: auto;
-        height: auto;
-        margin: 0 30px;
-        border: 0;
-        border-radius: 0;
-    }
-
-    .logo {
-        margin: 50px auto;
-    }
-
-    .form-item {
-        width: auto;
-    }
-
-    .form-item input, .form-item button, .reg-bar {
-        width: 100%;
-    }
 }
