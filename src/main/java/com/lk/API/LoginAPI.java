@@ -1,6 +1,7 @@
 package com.lk.API;
 
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -62,6 +63,7 @@ public class LoginAPI extends AfRestfulApi
 					{
 						errorCode = 0;
 						msg = "密码正确";
+						httpSession.setAttribute("user",sqlUserName );
 					} else
 					{
 						errorCode = 1;
@@ -82,5 +84,12 @@ public class LoginAPI extends AfRestfulApi
 		jsReply.put("msg", msg);
 		jsReply.put("data", data);
 		return jsReply.toString();
+	}
+
+	@Override
+	public void setContext(HttpServletRequest req, HttpServletResponse resp)
+	{
+		// TODO Auto-generated method stub
+		super.setContext(req, resp);
 	}
 }
