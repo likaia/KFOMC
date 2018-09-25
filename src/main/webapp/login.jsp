@@ -24,7 +24,6 @@
 <link rel="icon" type="image/x-icon" href="img/logo.ico" />
 </head>
 <body>
-     <jsp:include page="islogin.jsp"/>
 	<%-- 登录--%>
 	<div class="dowebok" id="login-panel">
 		<!--头像-->

@@ -63,6 +63,7 @@ $(function() {
 					} else {
 						//登录成功
 						layer.msg("登录成功");
+						window.location.href='index.jsp';
 					}
 				});
 			}

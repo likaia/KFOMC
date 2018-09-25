@@ -5,7 +5,7 @@
 	id="WebApp_ID" version="3.1">
 	<display-name>KFOMC</display-name>
 	<welcome-file-list>
-		<welcome-file>./WEB-INF/webFile/login.jsp</welcome-file>
+		<welcome-file>test.jsp</welcome-file>
 	</welcome-file-list>
 	<!-- af-restful 支持 -->
 	<filter>

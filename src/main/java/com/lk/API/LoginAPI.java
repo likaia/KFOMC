@@ -1,6 +1,7 @@
 package com.lk.API;
 
 
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -18,7 +19,6 @@ public class LoginAPI extends AfRestfulApi
 	@Override
 	public String execute(String reqText) throws Exception
 	{
-	
 		// 构造错误码 错误信息 返回数据
 		int errorCode = 0;
 		String msg = "ok";
@@ -62,7 +62,6 @@ public class LoginAPI extends AfRestfulApi
 					{
 						errorCode = 0;
 						msg = "密码正确";
-						httpSession.setAttribute("user", userName);
 					} else
 					{
 						errorCode = 1;

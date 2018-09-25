@@ -10,7 +10,7 @@ var Af = {};
 Af.rest = function (URI, ARGS, SUCCESS_CALLBACK, ERROR_CALLBACK)
 {
 	jQuery.ajax({				
-		url: "https://www.kaisir.cn/"+URI, // <--			
+		url: URI, // <--			
 		method: "POST", 
 		processData: false,	
 		data: JSON.stringify(ARGS), // <--
