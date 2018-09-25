@@ -50,7 +50,6 @@ $(function() {
 				//密码框 用户名框颜色变白
 				$('#userNameInputPanel').css({"border-color":"white"});
 				$('#passWordInput').css({"border-color":"white"});
-				fullScreen();
 				/*向后台发送请求*/
 				var req = {};
 				req.userName = userName;
@@ -63,7 +62,9 @@ $(function() {
 					} else {
 						//登录成功
 						layer.msg("登录成功");
-						window.location.href='index.jsp';
+						setTimeout(function() {
+							window.location.reload();
+						}, 1600);
 					}
 				});
 			}
@@ -157,9 +158,7 @@ $(function() {
 						if (ans.errorCode == 0) {
 							layer.msg("注册成功");
 							//刷新当前页面
-							setTimeout(function() {
-								window.location.reload();
-							}, 600);
+							window.location.reload();
 						} else {
 							ErroAlert(ans.msg);
 						}
@@ -231,7 +230,7 @@ $(function() {
 		});
 	}
 	//让浏览器全屏函数
-	function fullScreen() {
+	MAIN.fullScreen  = function(){
 		var el = document.documentElement;
 		var rfs = el.requestFullScreen || el.webkitRequestFullScreen ||
 		el.mozRequestFullScreen || el.msRequestFullScreen;
