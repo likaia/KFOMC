@@ -7,10 +7,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      //取得session对象
           HttpSession hs = request.getSession();
           //从session会话里取得user值
-          String user = (String)hs.getAttribute("user");
-        if(user==null)
+          String nowUser = (String)hs.getAttribute("nowUser");
+        if(nowUser==null)
         {
-        	System.out.println(user);
      	   	%>
 			<jsp:forward page="login.jsp"/>
 		<%

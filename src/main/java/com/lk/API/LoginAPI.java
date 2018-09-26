@@ -63,7 +63,8 @@ public class LoginAPI extends AfRestfulApi
 					{
 						errorCode = 0;
 						msg = "密码正确";
-						httpSession.setAttribute("user",sqlUserName );
+						httpSession.setAttribute("nowUser",sqlUserName );
+						httpSession.setAttribute("userData",dbData );
 					} else
 					{
 						errorCode = 1;

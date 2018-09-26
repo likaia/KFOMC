@@ -87,6 +87,12 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.8</version>
 		</dependency>
+		<!-- 伪静态省略jsp等后缀 -->
+			<dependency>
+			    <groupId>org.tuckey</groupId>
+			    <artifactId>urlrewritefilter</artifactId>
+			    <version>4.0.4</version>
+			</dependency>
 		<!-- 项目默认添加 -->
 		<dependency>
 			<groupId>javax</groupId>

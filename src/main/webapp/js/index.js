@@ -3,14 +3,14 @@ $(function () {
     var MAIN = {};
     //实例化vue
     var vm = new Vue({
-        //帮顶元素
+        //绑定元素
         el: "#vue-panel",
         //数据
         data: {
             //版本号
-            Version:"© kaisir.cn - 开发版本",
+            Version:"体验版",
             //昵称
-            nickName: "李凯",
+            nickName: "测试",
             /*顶部header颜色*/
             headerBgColor:"#1d1e22",
             //nav背景色

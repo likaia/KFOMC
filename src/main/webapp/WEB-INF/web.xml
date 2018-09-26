@@ -5,8 +5,54 @@
 	id="WebApp_ID" version="3.1">
 	<display-name>KFOMC</display-name>
 	<welcome-file-list>
-		<welcome-file>./WEB-INF/webFile/index.jsp</welcome-file>
+		<welcome-file>/WEB-INF/webFile/index.jsp</welcome-file>
 	</welcome-file-list>
+	<!-- 加到任何servlet映射的顶部,不然可能有些路径不能被过滤到 http://urlrewritefilter.googlecode.com/svn/trunk/src/doc/manual/3.2/index.html -->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<!-- 设备文件重加载间隔 (0默示随时加载， -1默示不重加载， 默认-1) -->
+		<init-param>
+			<param-name>confReloadCheckInterval</param-name>
+			<param-value>60</param-value>
+		</init-param>
+
+		<!-- 自定义配置文件的路径,是相对context的路径,(默认位置 /WEB-INF/urlrewrite.xml) -->
+		<init-param>
+			<param-name>confPath</param-name>
+			<!-- <param-value>classpath:spring/urlrewrite.xml</param-value> -->
+			<param-value>/WEB-INF/urlrewrite.xml</param-value>
+		</init-param>
+
+		<!-- 设置日志级别（将被记录到日志中） 可以为: TRACE, DEBUG, INFO (default), WARN, ERROR, FATAL, 
+			log4j, commons, slf4j, 比如 sysout:DEBUG（设置到控制台调试输出级别） (默认级别 WARN) -->
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>DEBUG</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>JSP Protect</servlet-name>
+		<servlet-class>com.companyname.web.JspProtect</servlet-class>
+		<init-param>
+			<param-name>prefix</param-name>
+			<param-value>/wp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>suffix</param-name>
+			<param-value>.shtm</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JSP Protect</servlet-name>
+		<url-pattern>*.shtm</url-pattern>
+	</servlet-mapping>
 	<!-- af-restful 支持 -->
 	<filter>
 		<filter-name>AfRestfulFilter</filter-name>
