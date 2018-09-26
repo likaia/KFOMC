@@ -3,9 +3,6 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE html>
-<html>
-  <head>
 	<%
      //取得session对象
           HttpSession hs = request.getSession();
@@ -21,9 +18,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  %>
 
-  </head>
-  
-  <body>
 
-  </body>
-</html>
