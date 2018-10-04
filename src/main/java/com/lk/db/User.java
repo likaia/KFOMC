@@ -9,6 +9,15 @@ public class User
 	private String filePath;
 	private String version;
 	private String RegistrationTime;
+	private String sysUseAuthority;
+	public String getSysUseAuthority()
+	{
+		return sysUseAuthority;
+	}
+	public void setSysUseAuthority(String sysUseAuthority)
+	{
+		this.sysUseAuthority = sysUseAuthority;
+	}
 	public User()
 	{
 		// 无参构造方法

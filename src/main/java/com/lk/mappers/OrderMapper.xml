@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.OrderMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="OrderInfo" id="OrderInfoResult">
+		<id property="id" column="id" />
+		<result property="orderNumber" column="orderNumber" />
+		<result property="orderDate" column="orderDate" />
+		<result property="clientName" column="clientName" />
+		<result property="projectName" column="projectName" />
+		<result property="glassNumber" column="glassNumber" />
+		<result property="totalArea" column="totalArea" />
+		<result property="numberShipments" column="numberShipments" />
+		<result property="shipArea" column="shipArea" />
+		<result property="additionalFees" column="additionalFees" />
+		<result property="totalAmount" column="totalAmount" />
+		<result property="AlreadyPaid" column="AlreadyPaid" />
+		<result property="Unpaid" column="Unpaid" />
+		<result property="FinishDelivery" column="FinishDelivery" />
+		<result property="PreparedBy" column="PreparedBy" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	<!-- 添加数据开始 -->
+	<insert id="add" parameterType="OrderInfo">
+
+	</insert>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="OrderInfoResult"
+		parameterType="OrderInfo">
+		SELECT
+		id,orderNumber,orderDate,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
+		FROM t_order_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="OrderInfoResult"
+		parameterType="OrderInfo">
+		SELECT id,${queryType}
+		FROM t_order_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="OrderInfoResult"
+		parameterType="OrderInfo">
+		SELECT
+		id,orderNumber,orderDate,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
+		FROM t_order_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
+			</if>
+			<if test="clientName != null">
+				AND clientName like #{clientName}
+			</if>
+			<if test="projectName != null">
+				AND projectName like #{projectName}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND orderDate <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND orderDate <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 更新数据开始 -->
+	<update id="update" parameterType="OrderInfo">
+		update t_basic set
+		basicDate=#{basicDate},basicBreed=#{basicBreed},basicQuantity
+		=#{basicQuantity},basicStandard =#{basicStandard},basicCastingSelling
+		=#{basicCastingSelling},basicBigSize =#{basicBigSize}
+		where id=#{id}
+	</update>
+	<!-- 删除一个客户开始 -->
+	<delete id="del" parameterType="OrderInfo">
+		delete from t_basic where id =
+		#{id}
+	</delete>
+	<!-- 模糊查找通过 规格型号 CONCAT（）函数用于将多个字符串连接成一个字符串，是最重要的mysql函数之一 -->
+	<select id="Gluestudy" parameterType="OrderInfo" resultMap="OrderInfoResult">
+		SELECT * FROM t_basic WHERE basicStandard LIKE
+		CONCAT('%',#{basicStandard},'%')
+	</select>
+
+</mapper> 

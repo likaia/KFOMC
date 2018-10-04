@@ -1,6 +1,6 @@
 $(function() {
-	var URL = "https://www.kaisir.cn/";
 	var MAIN = {};
+	var URL = "https://www.kaisir.cn/";
 	/*用户名输入失去焦点*/
 	$("#userNameInput").change(function(){
 		var userName = $("#userNameInput").val();
@@ -10,6 +10,10 @@ $(function() {
 	$("#loginBtn").click(function(){
 		var userName = $("#userNameInput").val();
 		 var  passWord = $("#passwordInp").val();
+		 $("#Animation-loading").css({"display":"block"});
+		 setTimeout(function() {
+			 $("#Animation-loading").css({"display":"none"});
+		 }, 700);
 		 MAIN.loginFun(userName,passWord,MAIN.loginVerification);
 	});
 	/*注册链接点击事件*/
@@ -64,7 +68,7 @@ $(function() {
 						layer.msg("登录成功");
 						setTimeout(function() {
 							window.location.reload();
-						}, 1600);
+						}, 400);
 					}
 				});
 			}
@@ -173,6 +177,10 @@ $(function() {
 	 $("#passWordInput").keypress(function(e) {
 		// 回车键事件
 		if (e.which == 13) {
+			 $("#Animation-loading").css({"display":"block"});
+			 setTimeout(function() {
+				 $("#Animation-loading").css({"display":"none"});
+			 }, 700);
 			//执行登录方法
 			var userName = $("#userNameInput").val();
 			 var  passWord = $("#passwordInp").val();
@@ -185,11 +193,13 @@ $(function() {
 		//执行实例
 		var uploadInst = upload.render({
 			elem : '#avatarUpload', //绑定元素
-			url : URL + "KFOMC/servlet/UploadAPI", //上传接口
+			url : "servlet/UploadAPI", //上传接口
 			done : function(ans) {
 				//上传完毕回调
 				if (ans.errorCode == 0) {
-					$("#signAvatarImg").attr("src",ans.userPicPath);
+					var userPicPath = URL+ans.userPicPath;
+					Af.trace(ans);
+					$("#signAvatarImg").attr("src",userPicPath);
 				} else {
 					ErroAlert(ans.msg);
 				}

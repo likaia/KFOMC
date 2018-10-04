@@ -2,48 +2,48 @@
 <%@page import="org.json.JSONObject"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    <title>首页</title>
-    <%--引入jQuery --%>
-     <script src="jquery/jquery-3.3.1.min.js"></script>
-     <%--头像裁减 --%>
-     <link rel="stylesheet" href="jquery/jquery.Jcrop.css">
-    <script src="jquery/jquery.Jcrop.js"></script>
-    <%--引入Vue --%>
-     <script src="vue/vue.min.js"></script>
-     <%--引入Layer --%>
-    <script type="text/javascript" src="layer/layer.js"></script>
-   <%--引入Layui --%> 
-    <script src="layui/layui.js"></script>
-    <%--引入Layui --%>
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <%-- 引入工具类--%>
-    <script src="js/LkCommon.js"></script>
-    <%--当前页面布局与交互文件 --%>
-    <script src="js/index.js"></script>
-    <link rel="stylesheet" href="css/index.css">
-    <%--引入字体库 --%>
-    <link rel="stylesheet" href="font/iconfont.css">
-    <link rel="icon" type="image/x-icon" href="img/logo.ico" />
-      <jsp:include page="islogin.jsp"></jsp:include>
-      <%--获取当前用户信息 --%>
-     <%
-   		User user = (User)session.getAttribute("userData");
-   		if(user!=null)
-   		{
-   		   		JSONObject ans = new JSONObject(user);
-   				System.out.println(ans);
-   		}
-
-      %>
-  </head>
+<head>
+<base href="<%=basePath%>">
+<title>首页</title>
+<%--引入jQuery --%>
+<script src="jquery/jquery-3.3.1.min.js"></script>
+<%--头像裁减 --%>
+<link rel="stylesheet" href="jquery/jquery.Jcrop.css">
+<script src="jquery/jquery.Jcrop.js"></script>
+<%--引入Vue --%>
+<script src="vue/vue.min.js"></script>
+<%--引入Layer --%>
+<script type="text/javascript" src="layer/layer.js"></script>
+<%--引入Layui --%>
+<script src="layui/layui.js"></script>
+<%--引入Layui --%>
+<link rel="stylesheet" href="layui/css/layui.css">
+<%-- 引入工具类--%>
+<script src="js/LkCommon.js"></script>
+<%--当前页面布局与交互文件 --%>
+<script src="js/index.js"></script>
+<link rel="stylesheet" href="css/index.css">
+<%--引入字体库 --%>
+<link rel="stylesheet" href="font/iconfont.css">
+<link rel="icon" type="image/x-icon" href="img/logo.ico" />
+<jsp:include page="islogin.jsp"></jsp:include>
+<%--获取当前用户信息 --%>
+<%
+	//取得session对象
+	HttpSession hs = request.getSession();
+	String Version = (String) hs.getAttribute("Version");
+	String nickName = (String) hs.getAttribute("nickName");
+	String avatarUrl = (String) hs.getAttribute("avatarUrl");
+	String sysUseAuthority = (String) hs.getAttribute("sysUseAuthority");
+%>
+ </head>
   <body>
   <div id="vue-panel" v-cloak>
     <div class="layui-layout layui-layout-admin">
@@ -59,26 +59,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <span>佰益中空玻璃企业管理系统</span>
                     </div>
                 </div>
-                <!--轮播公告区域-->
-                <!--<div class="layui-carousel notice-panel" id="noticePanel">-->
-                    <!--<div carousel-item>-->
-                        <!--<div class="Transparent-panel">-->
-                            <!--<img src="img/lunbo-1.jpg" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="Transparent-panel">-->
-                            <!--<img src="img/lunbo-2.jpg" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="Transparent-panel">-->
-                            <!--<img src="img/lunbo-3.jpg" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="Transparent-panel">-->
-                            <!--<img src="img/lunbo-4.jpg" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="Transparent-panel">-->
-                            <!--<img src="img/lunbo-5.jpg" alt="">-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <!--用户信息-->
                 <div class="MaterialInfo-panel">
                     <!--系统消息模块-->
@@ -98,10 +78,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <!--用户个人资料模块-->
                     <div class="userInfo-panel" @click="materialFun">
                         <div class="avatar-panel">
-                            <img v-bind:src="avatarUrl" alt="">
+                            <img src="<%=avatarUrl%>" alt="">
                         </div>
                         <div class="nickName-panel">
-                            <span>{{nickName}}</span>
+                            <span id="nickNameTextPanel"><%=nickName%></span>
                         </div>
                     </div>
                 </div>
@@ -270,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+               <%=Version%>
             </div>
         </div>
         <!--订单信息管理-->
@@ -283,11 +263,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <!--页面所展示的选择框-->
                     <div class="layui-row layui-col-space10">
                         <div class="layui-col-md3">
-                            <div class="item-panel layui-form">
+                            <div class="item-panel layui-form" >
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">订单号</label>
-                                    <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test" name="orderFormSelectPanel">
+                                    <div class="layui-input-block" id="orderFormSelectPanel">
+                                        <select lay-search="" lay-filter="orderNumberSelectPanel" name="orderFormSelectPanel">
                                             <option value="">直接选择或手动输入订单号</option>
                                         </select>
                                     </div>
@@ -299,7 +279,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">客户名称</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test" name="clientNameSelectPanel">
+                                        <select lay-search="" lay-filter="orderClientNameSelectPanel" name="clientNameSelectPanel">
                                             <option value="">直接选择或手动输入客户名称</option>
                                         </select>
                                     </div>
@@ -309,30 +289,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">送货地址</label>
-                                    <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test" name="deliveryAddressSelectPanel">
-                                            <option value="">直接选择或手动输入送货地址</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                                <label class="layui-form-label">工程名称</label>
+                                                <div class="layui-input-block">
+                                                    <select lay-search="" lay-filter="orderprojectNameSelectPanel" name="projectNameSelectPanel">
+                                                        <option value="">直接选择或手动输入工程名称</option>
+                                                    </select>
+                                                </div>
+                                 </div>
                             </div>
                         </div>
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">联系电话</label>
+                                    <label class="layui-form-label">日期</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test" name="contactNumberSelectPanel">
-                                            <option value="">直接选择或手动输入联系电话</option>
-                                        </select>
-                                    </div>
+                                     <input id="timeInterval" type="text" readonly="readonly" placeholder="点击选择日期" autocomplete="off" class="layui-input pointerStyle">
+                                    </div>                       
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--折叠面板中的选择框-->
-                    <div class="layui-collapse" lay-accordion="" style="margin-top: 15px">
+                  
+                    <%--
+                      <!--折叠面板中的选择框-->
+                                        <div class="layui-collapse" lay-accordion="" style="margin-top: 15px">
                         <div class="layui-colla-item">
                             <h2 class="layui-colla-title">更多条件(点击展开)</h2>
                             <div class="layui-colla-content">
@@ -340,32 +320,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <div class="layui-col-md3">
                                         <div class="item-panel layui-form">
                                             <div class="layui-form-item">
-                                                <label class="layui-form-label">制单人</label>
+                                                <label class="layui-form-label">送货地址</label>
+                                                <div class="layui-input-block">
+                                    <select lay-search="" lay-filter="test" name="deliveryAddressSelectPanel">
+                                          <option value="">直接选择或手动输入送货地址</option>
+                                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md3">
+                                        <div class="item-panel layui-form">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">联系电话</label>
+			                      <div class="layui-input-block">
+		                                    <select lay-search="" lay-filter="test" name="contactNumberSelectPanel">
+	                                            <option value="">直接选择或手动输入联系电话</option>
+	                                        </select>
+                                           </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md3">
+                                        <div class="item-panel layui-form">
+                                            <div class="layui-form-item">
+                                      		<label class="layui-form-label">制单人</label>
                                                 <div class="layui-input-block">
                                                     <select lay-search="" lay-filter="" name="orderNumberSelectPanel">
                                                         <option value="">直接选择或手动输入制单人</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="layui-col-md3">
-                                        <div class="item-panel layui-form">
-                                            <div class="layui-form-item">
-                                                <label class="layui-form-label">日期</label>
-                                                <div class="layui-input-block">
-                                                    <input id="timeInterval" type="text" readonly="readonly" placeholder="点击选择日期" autocomplete="off" class="layui-input pointerStyle">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="layui-col-md3">
-                                        <div class="item-panel layui-form">
-                                            <div class="layui-form-item">
-                                                <label class="layui-form-label">工程名称</label>
-                                                <div class="layui-input-block">
-                                                    <select lay-search="" lay-filter="" name="projectNameSelectPanel">
-                                                        <option value="">直接选择或手动输入工程名称</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -437,15 +419,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </div>
                         </div>
                     </div>
+                    
+                     --%>
+
                     <!--订单信息管理数据表格-->
                     <div class="layui-row">
                         <div id="orderInformationDataList">
                             <div class="title-BtnPanel">
                                 <div class="btn-panel">
-                                    <button class="layui-btn layui-btn-normal"v-bind:style="{background:BtnColor}">
+                                    <button class="layui-btn layui-btn-normal "v-bind:style="{background:BtnColor}">
                                         开单
                                     </button>
-                                    <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">查询</button>
+                                    <button  @click="orderBtnQueryFun" class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">查询</button>
                                     <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">报表</button>
                                     <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">优化排版</button>
                                     <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">导出订单</button>
@@ -461,7 +446,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+               <%=Version%>
             </div>
         </div>
         <!--进货管理-->
@@ -534,7 +519,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <div class="btn-panel">
                                         <button class="layui-btn layui-btn-normal">采购登记</button>
                                         <button class="layui-btn layui-btn-normal">报表</button>
-                                        <button class="layui-btn layui-btn-normal">查询</button>
+                                        <button  class="layui-btn layui-btn-normal">查询</button>
                                     </div>
                                 </div>
                                 <!--原片采购数据表格1-->
@@ -615,7 +600,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--出货管理-->
@@ -675,7 +660,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+           		<%=Version%>
             </div>
         </div>
         <!--库存管理-->
@@ -761,7 +746,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--订单月结管理-->
@@ -804,7 +789,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+			<%=Version%>
             </div>
         </div>
         <!--客户信息管理-->
@@ -860,7 +845,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+    <%=Version%>
             </div>
         </div>
         <!--收入管理-->
@@ -907,7 +892,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--支出管理-->
@@ -954,7 +939,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--客户对账-->
@@ -1022,7 +1007,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--考勤管理-->
@@ -1088,7 +1073,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--工资发放-->
@@ -1154,7 +1139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--员工信息-->
@@ -1220,7 +1205,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--原片信息-->
@@ -1270,7 +1255,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--附件信息-->
@@ -1320,7 +1305,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--基本设置-->
@@ -1373,7 +1358,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--联系我们-->
@@ -1398,7 +1383,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <!-- 底部固定区域 -->
             <div class="layui-footer">
-                {{Version}}
+                <%=Version%>
             </div>
         </div>
         <!--用户资料悬浮层-->
@@ -1408,7 +1393,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <span>当前权限:</span>
                 </div>
                 <div class="input-panel">
-                    <span>{{purview}}</span>
+                    <span><%=sysUseAuthority%></span>
                 </div>
                 <div class="btn-panel">
                     <button class="layui-btn">

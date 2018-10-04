@@ -6,7 +6,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<%
      //取得session对象
           HttpSession hs = request.getSession();
-          //从session会话里取得user值
+          //从session会话里取得nowUser值
           String nowUser = (String)hs.getAttribute("nowUser");
         if(nowUser==null)
         {

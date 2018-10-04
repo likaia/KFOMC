@@ -28,7 +28,7 @@
 			log4j, commons, slf4j, 比如 sysout:DEBUG（设置到控制台调试输出级别） (默认级别 WARN) -->
 		<init-param>
 			<param-name>logLevel</param-name>
-			<param-value>DEBUG</param-value>
+			<param-value>ERROR</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

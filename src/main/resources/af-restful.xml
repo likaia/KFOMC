@@ -8,4 +8,6 @@
 	<api name="RegisteredApi"  class="com.lk.API.RegisteredAPI" /> 
 	<!-- 头像查询 接口 -->
 	<api name="AvatarQueryApi"  class="com.lk.API.AvatarQueryAPI" /> 
+	<!--  订单信息查询数据表格-->
+	<api name="orderInfonQueiry"  class="com.lk.API.OrderInfonQueiry" />
 </restful>

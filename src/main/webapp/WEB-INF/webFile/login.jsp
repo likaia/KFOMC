@@ -110,6 +110,14 @@
 			<button class="layui-btn layui-btn-radius layui-btn-normal layui-btn-fluid" id="SignBtn">注册</button>
 		</div>
 	</div>
-
+	<!-- 加载动画悬浮层 -->
+	<div id="Animation-loading">
+	   <section>
+        <div class="loader loader-1">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </section>
+	</div>
 </body>
 </html>

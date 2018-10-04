@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="filePath" column="filePath" />
 		<result property="version" column="version" />
 		<result property="RegistrationTime" column="RegistrationTime" />
+		<result property="sysUseAuthority" column="sysUseAuthority" />
 	</resultMap>
 
 	<!-- 添加 -->
@@ -33,6 +34,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="RegistrationTime != null">
 				RegistrationTime,
 			</if>
+			<if test="sysUseAuthority != null">
+				sysUseAuthority,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userName != null">
@@ -50,8 +54,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="RegistrationTime != null">
 				#{RegistrationTime,jdbcType=VARCHAR},
 			</if>
+			<if test="sysUseAuthority != null">
+				#{sysUseAuthority,jdbcType=VARCHAR},
+			</if>
 		</trim>
-		<!-- (cellPhone,userName,passWord)values(#{cellPhone},#{userName},#{passWord}) -->
 	</insert>
 	<!-- 更新 -->
 	<update id="update" parameterType="User">
