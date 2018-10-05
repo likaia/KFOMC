@@ -228,6 +228,16 @@ $(function() {
 					});
 				}
 			},
+			/*开单交互函数*/
+			billingFun:function(){
+				layer.open({
+					title : "正在开单",
+					type : 1,
+					area : [ '1270px', '840px' ],
+					shadeClose : true, //点击遮罩关闭
+					content : $("#billingManageSubmenu")
+				});
+			},
 			/*订单月结管理点击事件*/
 			OrderMonthlyFun : function() {
 				this.OrderMonthStatus = "block";
