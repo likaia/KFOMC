@@ -1,6 +1,7 @@
 $(function() {
 	var URL = "https://www.kaisir.cn/KFOMC";
 	var MAIN = {};
+	MAIN.dataObj = {};
 	//实例化vue
 	var vm = new Vue({
 		//绑定元素
@@ -229,9 +230,20 @@ $(function() {
 			billingFun : function() {
 				/*请求后台获取 规格型号[产品名称] 集合*/
 				var req = {};
+				//清空dataObj
+				MAIN.dataObj = {};
 				req.operator = $("#nickNameTextPanel").html();
+				var selectData = [];  //品名型号下拉列表数据
 				Af.rest("productNameModelInquiry.api",req,function(ans){
-					Af.trace(ans);
+					if(ans.errorCode==0)
+					{
+						var resultArray = ans.data; //--->JSONArray
+						for(var i=0;i<resultArray.length;i++)
+						{
+							var resultObj = resultArray[i];//--->JSONObject
+							selectData[i] = resultObj.productName;//--->array
+						}
+					}
 				});
 				layer.open({
 					title : "正在开单",
@@ -241,16 +253,15 @@ $(function() {
 					content : $("#billingManageSubmenu")
 				});
 				/*渲染Excel表格*/
-				var dataObject = [];  //数据源
-			    var options = ['Kia', 'Nissan', 'Toyota', 'Honda'];
 				var hotElement = document.querySelector('#excelTablePanel');//绑定容器
 				var hotSettings = {
-					data : dataObject,
+					data : MAIN.dataObj,
 					//标题栏 
 					columns : [
 						{
 							editor:'select',
-							selectOptions: options
+							selectOptions: selectData,
+							width:'300'
 						},
 						{
 							data : 'glassLength',  //长度
@@ -345,7 +356,7 @@ $(function() {
 				            }
 				        },//右键菜单
 					filters : true,//过滤器
-					minSpareRows: 1,  //为0时，handsontable 可去掉最后多余的一行
+					//minSpareRows: 1,  //为0时，handsontable 可去掉最后多余的一行
 					dropdownMenu : true//下拉式菜单
 				};
 				//渲染Excel表格
