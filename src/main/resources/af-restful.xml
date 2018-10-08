@@ -13,5 +13,5 @@
 	<!-- 安卓端使用post请求下载文件 -->
 	<api name="adnroidPostExportAPI"  class="com.lk.API.AdnroidPostExportAPI" />
 	<!-- 规格型号[产品名称] 字段数据查询 -->
-	<api name="productNameModelInquiry.api"  class="com.lk.API.ProductNameModelInquiry" />
+	<api name="productNameModelInquiry"  class="com.lk.API.ProductNameModelInquiry" />
 </restful>

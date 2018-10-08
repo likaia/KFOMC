@@ -1,6 +1,6 @@
 package com.lk.db;
 
-public class ProductNumeInfo
+public class ProductListInfo
 {
 	private Integer id;
 	private String productName;
@@ -92,11 +92,11 @@ public class ProductNumeInfo
 	{
 		WholesalePrice = wholesalePrice;
 	}
-	public ProductNumeInfo()
+	public ProductListInfo()
 	{
 		super();
 	}
-	public ProductNumeInfo(String productName, String specification, String color, String texture, String thickness,
+	public ProductListInfo(String productName, String specification, String color, String texture, String thickness,
 			String unitPrice, String memberPrice, String wholesalePrice)
 	{
 		super();

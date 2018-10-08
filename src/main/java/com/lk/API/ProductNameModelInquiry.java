@@ -1,9 +1,13 @@
 package com.lk.API;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.lk.db.ProductListInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.ProductNumeInfoMapper;
 
@@ -22,6 +26,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		int errorCode = 0;
 		String msg = "ok";
 		String operator = "";
+		JSONArray result = new JSONArray();
 		JSONObject jsReq = new JSONObject(reqText);
 		if(jsReq.has("operator"))
 		{
@@ -30,8 +35,8 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 			// 配置映射器
 			ProductNumeInfoMapper productNumeInfoMapper = sqlSession.getMapper(ProductNumeInfoMapper.class);
-			String result = productNumeInfoMapper.customQuery();
-			System.out.println(result);
+			List<ProductListInfo> resultList = productNumeInfoMapper.customQuery();
+			result = new JSONArray(resultList);
 		}
 		else
 		{
@@ -42,6 +47,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		JSONObject jsReply = new JSONObject();
 		jsReply.put("errorCode",errorCode);
 		jsReply.put("msg",msg );
+		jsReply.put("data", result);
 		jsReply.put("operator",operator );
 		return jsReply.toString();
 	}

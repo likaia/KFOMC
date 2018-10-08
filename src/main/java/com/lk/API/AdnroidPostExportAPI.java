@@ -77,6 +77,7 @@ public class AdnroidPostExportAPI extends AfRestfulApi
 				FileOutputStream fileOut = new FileOutputStream(tomcatPath+filePath);
 				wb.write(fileOut);
 				fileOut.close();
+				dbUtil.close(pstmt, con);//关闭数据库连接
 			}
 		}
 		else

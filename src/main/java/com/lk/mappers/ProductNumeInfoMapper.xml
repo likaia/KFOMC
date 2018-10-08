@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lk.mappers.ProductNumeInfoMapper">
 	<!--定义结果集:用于存储所有数据 -->
-	<resultMap type="ProductNumeInfo" id="ProductNumeInfoResult">
+	<resultMap type="ProductListInfo" id="ProductListInfoResult">
 		<id property="id" column="id" />
 		<result property="productName" column="productName" />
 		<result property="specification" column="specification" />
@@ -16,8 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="WholesalePrice" column="WholesalePrice" />
 	</resultMap>
 	<!-- 自定义查询表内数据 -->
-	<select id="customQuery" resultType="String">
+	<select id="customQuery" resultMap="ProductListInfoResult">
 		SELECT id,productName
-		FROM t_order_Info
+		FROM t_product_name_Info
 	</select>
 </mapper> 

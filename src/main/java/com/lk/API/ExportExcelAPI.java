@@ -16,11 +16,11 @@ import com.lk.Utils.*;
 import com.lk.dbutil.DbUtil;
 public class ExportExcelAPI extends HttpServlet
 {
+	private static DbUtil dbUtil = new DbUtil();
 	/*从数据库查询所有数据，并导出为Excel*/
 	private static final long serialVersionUID = 1L;
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		DbUtil dbUtil = new DbUtil();
 		request.setCharacterEncoding("UTF-8");
 		//取出用户名
 		String  operator = request.getParameter("operator");
@@ -44,6 +44,7 @@ public class ExportExcelAPI extends HttpServlet
 				//调用Excel工具类 生成excel文件
 				ExcelUtil.fillExcelData(rs, wb, headers);
 				FileDownloadUtil.export(response, wb, "订单信息.xls");
+				dbUtil.close(pstmt, con);//关闭数据库连接
 			} catch (Exception e)
 			{
 				System.out.println("数据库异常");

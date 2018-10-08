@@ -862,7 +862,6 @@ $(function() {
 			var date = new Date("2018", "12", "1");
 			Af.trace(date);
 		}
-
 		MAIN.List1Table = function() {
 			table.render({
 				url : URL + "/incomeRecordApi",
@@ -925,6 +924,8 @@ $(function() {
 		form.on('select(orderprojectNameSelectPanel)', function(data) {
 			vm.OrderProjectName = data.value;
 		});
+
+		
 		/*订单信息数据表格*/
 		MAIN.orderInfoCustomizeList = function(resultData) {
 			//订单信息数据表格 自定义数据
@@ -1182,7 +1183,6 @@ $(function() {
 				}
 			});
 		}
-
 
 		/*作为全局变量调用（订单信息数据表格）*/
 		MAIN.orderInfoList = function(userName) {
