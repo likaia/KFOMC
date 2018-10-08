@@ -35,8 +35,17 @@ public class AvatarQueryAPI extends AfRestfulApi
 			{
 				JSONObject nowUserInfo = new JSONObject(row);
 				//取出图片路径
-				data.put("userAvatar",nowUserInfo.getString("filePath"));
-				msg = "ok";
+				if(nowUserInfo.has("filePath"))
+				{
+					data.put("userAvatar",nowUserInfo.getString("filePath"));
+					msg = "ok";
+				}
+				else
+				{
+					errorCode = 1;
+					msg = "非web端注册账号,没有上传头像!";
+				}
+				
 			}
 		}
 		else

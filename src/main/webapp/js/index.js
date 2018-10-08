@@ -217,19 +217,22 @@ $(function() {
 				req.projectName = this.OrderProjectName;
 				req.dStart = this.dStart;
 				req.dEnd = this.dEnd;
-				if(Af.nullstr(req.orderNumber||req.clientName||req.projectName||req.dStart ||req.dEnd ))
-				{
+				if (Af.nullstr(req.orderNumber || req.clientName || req.projectName || req.dStart || req.dEnd)) {
 					MAIN.ErroAlert("请选择一个条件后,再点查询!");
-				}
-				else
-				{
+				} else {
 					Af.rest("orderInfonQueiry.api", req, function(ans) {
 						MAIN.orderInfoCustomizeList(ans.data);
 					});
 				}
 			},
 			/*开单交互函数*/
-			billingFun:function(){
+			billingFun : function() {
+				/*请求后台获取 规格型号[产品名称] 集合*/
+				var req = {};
+				req.operator = $("#nickNameTextPanel").html();
+				Af.rest("productNameModelInquiry.api",req,function(ans){
+					Af.trace(ans);
+				});
 				layer.open({
 					title : "正在开单",
 					type : 1,
@@ -237,6 +240,116 @@ $(function() {
 					shadeClose : true, //点击遮罩关闭
 					content : $("#billingManageSubmenu")
 				});
+				/*渲染Excel表格*/
+				var dataObject = [];  //数据源
+			    var options = ['Kia', 'Nissan', 'Toyota', 'Honda'];
+				var hotElement = document.querySelector('#excelTablePanel');//绑定容器
+				var hotSettings = {
+					data : dataObject,
+					//标题栏 
+					columns : [
+						{
+							editor:'select',
+							selectOptions: options
+						},
+						{
+							data : 'glassLength',  //长度
+							type : 'text'
+						},
+						{
+							data : 'glassWidth',  //宽度
+							type : 'text'
+						},
+						{
+							data : 'glassNum',//数量
+							type : 'text'
+						},
+						{
+							data : 'glassMark',//
+							type : 'text'   //标记
+						},
+						{
+							data : 'glassArea',//面积
+							type : 'text'
+						},
+						{
+							data : 'glassUnitPrice',//单价
+							type : 'text'
+						},
+						{
+							data : 'additionalProcess', //附加工艺
+							type : 'text'
+						},
+						{
+							data : 'additionalTotalValue',//附加总值
+							type : 'text',
+						},
+						{
+							data : 'totalAmount', //合计金额
+							type : 'text'
+						},
+						{
+							data : 'addTime',//日期
+							type : 'date',
+							dateFormat : 'MM/DD/YYYY'
+						},
+					],
+					stretchH : 'all',
+					width : 1200,
+					autoWrapRow : true,//自动换行
+					height : 470,
+					manualRowResize : true,//手动行调整大小
+					manualColumnResize : true,//手动列调整大小
+					rowHeaders : true,//行标题
+					colHeaders : [
+						'品名型号',
+						'长度',
+						'宽度',
+						'数量',
+						'标记',
+						'面积',
+						'单价',
+						'附加工艺',
+						'附加总值',
+						'合计金额',
+						'日期'
+					],
+					manualRowMove : true,
+					columnSorting:true,//排序
+					manualColumnMove : true,//手动列移动
+					　 contextMenu: {
+				            items: {
+				                'mergeCells':{ name: '合并单元格' , },
+				                'row_above': { name: '上方添加一行', },
+				                'row_below': { name: '下方添加一行', },
+				                'col_left': { name: '左侧添加一列', },
+				                'col_right': { name: '右侧添加一列', },
+				                'remove_row': { name: '移除此行', },
+				                'remove_col': { name: '移除此列', },
+				                'copy': { name: '复制', },
+				                'cut': { name: '剪切', },
+				                'make_read_only': { name: '禁止编辑选中项', },
+				                'alignment': { },
+				                'undo': { name: '还原上次操作', },
+				                'redo': { name: '重复上次动作', },
+				                'setAlias':{
+				                    name:'设置别名',
+				                    callback:function(){
+				                        if( $(Ccell) != undefined ){
+				                            addAliasDialog();
+				                        }else{
+				                            alert("请先选择单元格...");
+				                        }                        
+				                    }
+				                }
+				            }
+				        },//右键菜单
+					filters : true,//过滤器
+					minSpareRows: 1,  //为0时，handsontable 可去掉最后多余的一行
+					dropdownMenu : true//下拉式菜单
+				};
+				//渲染Excel表格
+				var hot = new Handsontable(hotElement, hotSettings);
 			},
 			/*订单月结管理点击事件*/
 			OrderMonthlyFun : function() {
@@ -638,9 +751,9 @@ $(function() {
 			laydate = layui.laydate,
 			carousel = layui.carousel,
 			colorpicker = layui.colorpicker;
-		
+
 		//错误信息弹出
-		MAIN.ErroAlert = function(e){
+		MAIN.ErroAlert = function(e) {
 			var index = layer.alert(e, {
 				icon : 5,
 				time : 2000,
@@ -700,9 +813,15 @@ $(function() {
 			range : true,
 			calendar : true,
 			done : function(value, date, endDate) {
-				vm.dStart= date.year +"-"+date.month+"-"+date.date+" "+date.hours+":"+date.minutes+":"+date.seconds;
-				vm.dEnd = endDate.year +"-"+endDate.month+"-"+endDate.date+" "+endDate.hours+":"+endDate.minutes+":"+endDate.seconds;
+				vm.dStart = date.year + "-" + date.month + "-" + date.date + " " + date.hours + ":" + date.minutes + ":" + date.seconds;
+				vm.dEnd = endDate.year + "-" + endDate.month + "-" + endDate.date + " " + endDate.hours + ":" + endDate.minutes + ":" + endDate.seconds;
 			}
+		});
+		laydate.render({
+			elem : '#billingDatePanel', //订单管理:开单日期选择
+			calendar : true,
+			type : "datetime",
+			done : function(value, date, endDate) {}
 		});
 		laydate.render({
 			elem : '#originalFilmPurchaseDate', //原片采购:日期区间选择
@@ -796,11 +915,11 @@ $(function() {
 			vm.OrderProjectName = data.value;
 		});
 		/*订单信息数据表格*/
-		MAIN.orderInfoCustomizeList = function(resultData){
+		MAIN.orderInfoCustomizeList = function(resultData) {
 			//订单信息数据表格 自定义数据
 			table.render({
 				//url : "orderInfonQueiry.api",
-				data:resultData, 
+				data : resultData,
 				elem : '#orderInfoList',
 				page : true,
 				limits : [ 10, 15, 20, 25 ],
@@ -884,7 +1003,7 @@ $(function() {
 						}
 					]
 				]
-			});	
+			});
 		}
 		function orderInfoList(userName) {
 			table.render({
@@ -2132,7 +2251,7 @@ $(function() {
 		}
 	});
 	//让浏览器全屏函数
-	MAIN.fullScreen  = function(){
+	MAIN.fullScreen = function() {
 		var el = document.documentElement;
 		var rfs = el.requestFullScreen || el.webkitRequestFullScreen ||
 		el.mozRequestFullScreen || el.msRequestFullScreen;
@@ -2146,7 +2265,9 @@ $(function() {
 			}
 		}
 	}
-	
+
+
+
 });
 
 

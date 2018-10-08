@@ -19,6 +19,9 @@
 <script src="jquery/jquery.Jcrop.js"></script>
 <%--引入Vue --%>
 <script src="vue/vue.min.js"></script>
+<%--仿 Excel效果的表格插件 --%>
+<script type="text/javascript" src="handsontable/handsontable.full.min.js"></script>
+<link rel="stylesheet" href="handsontable/handsontable.full.min.css">
 <%--引入Layer --%>
 <script type="text/javascript" src="layer/layer.js"></script>
 <%--引入Layui --%>
@@ -1505,7 +1508,7 @@
 				</div>
 			</div>
 			<!-- 开单管理悬浮层 -->
-			<div id="billingManageSubmenu">
+			<div id="billingManageSubmenu" >
 				<div class="top-panel">
 					<div class="row-panel">
 						<div class="item-panel">
@@ -1519,31 +1522,164 @@
 						</div>
 						<div class="item-panel">
 							<div class="layui-form-item">
-									<label class="layui-form-label">工程名称:</label>
+								<label class="layui-form-label">工程名称:</label>
+								<div class="layui-input-block">
+									<input type="text" placeholder="输入工程名称" autocomplete="off"
+										class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">订单号:</label>
+								<div class="layui-input-block">
+									<input type="text" placeholder="自动生成" autocomplete="off"
+										readonly="readonly" class="layui-input" style="cursor:pointer">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">日期:</label>
+								<div class="layui-input-block">
+									<input id="billingDatePanel" type="text" placeholder="点击选择日期"
+										autocomplete="off" readonly="readonly" class="layui-input"
+										style="cursor:pointer">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row-panel">
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">送货地址:</label>
+								<div class="layui-input-block">
+									<input type="text" placeholder="输入送货地址" autocomplete="off"
+										class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">联系电话:</label>
+								<div class="layui-input-block">
+									<input type="text" placeholder="输入联系电话" autocomplete="off"
+										class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel layui-form">
+							<div class="layui-form-item">
+								<label class="layui-form-label">发货方式:</label>
+								<div class="layui-input-block">
+									<select name="" lay-verify="ShippingMethodSelect">
+										<option value=""></option>
+										<option value="自取" selected>自取</option>
+										<option value="货车发货">货车发货</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="item-panel layui-form">
+							<div class="layui-form-item">
+								<label class="layui-form-label">制单人:</label>
+								<div class="layui-input-block">
+									<select name="" lay-verify="ShippingMethodSelect">
+										<option value=""></option>
+										<option value="管理员" selected>管理员</option>
+										<option value="其他">其他</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row-panel">
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">玻璃数量:</label>
+								<div class="layui-input-block">
+									<input style="cursor:pointer" readonly="readonly" type="text"
+										placeholder="自动计算" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">总面积:</label>
+								<div class="layui-input-block">
+									<input style="cursor:pointer" readonly="readonly" type="text"
+										placeholder="自动计算" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">其他费用:</label>
+								<div class="layui-input-block">
+									<input type="text" placeholder="输入金额" autocomplete="off"
+										class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="item-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">总金额:</label>
+								<div class="layui-input-block">
+									<input style="cursor:pointer" readonly="readonly" type="text"
+										placeholder="自动计算" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="Remarks-panel">
+						<div class="left-panel">
+							<div class="layui-form-item">
+								<label class="layui-form-label">备注:</label>
+								<div class="layui-input-block">
+									<input type="text" placeholder="输入备注" autocomplete="off"
+										class="layui-input">
+								</div>
+							</div>
+						</div>
+						<div class="right-panel">
+							<div class="item-panel">
+								<div class="layui-form-item">
+									<label class="layui-form-label">已付款:</label>
 									<div class="layui-input-block">
-										<input type="text" placeholder="输入工程名称" autocomplete="off"
+										<input style="cursor:pointer" readonly="readonly" type="text" placeholder="自动读取" autocomplete="off"
 											class="layui-input">
 									</div>
 								</div>
-						</div>
-						<div class="item-panel">
+							</div>
+							<div class="item-panel">
 								<div class="layui-form-item">
-									<label class="layui-form-label">订单号:</label>
-									<div class="layui-input-block"> 
-										<input type="text" placeholder="自动生成" autocomplete="off" readonly="readonly"
-											class="layui-input" style="cursor:pointer">
+									<label class="layui-form-label">未付款:</label>
+									<div class="layui-input-block">
+										<input readonly="readonly" style="cursor:pointer" type="text" placeholder="自动读取" autocomplete="off"
+											class="layui-input">
 									</div>
 								</div>
 							</div>
-						<div class="item-panel">
-								<div class="layui-form-item">
-									<label class="layui-form-label">日期:</label>
-									<div class="layui-input-block"> 
-										<input id="billingDatePanel" type="text" placeholder="点击选择日期" autocomplete="off" readonly="readonly"
-											class="layui-input" style="cursor:pointer">
-									</div>
-								</div>
 						</div>
+					</div>
+				</div>
+				<div class="btn-panel ">
+					<button class="layui-btn" style="background:#009688">
+						 <i class="layui-icon">&#xe608;</i> 
+						新增
+					</button>
+					<button class="layui-btn" style="background:#FF5722">
+						<i class="layui-icon">&#xe640;</i> 
+						删除
+					</button>
+					<button class="layui-btn" style="background: #2F4056">
+						<i class="layui-icon">	&#xe641;</i> 
+						打印
+					</button>
+				</div>
+				<div class="billingContentPanel">
+					<div id="excelTablePanel">
+						
 					</div>
 				</div>
 			</div>

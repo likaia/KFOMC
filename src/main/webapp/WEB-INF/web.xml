@@ -71,6 +71,12 @@
 		<servlet-name>PicCropAPI</servlet-name>
 		<servlet-class>com.lk.API.PicCropAPI</servlet-class>
 	</servlet>
+	<!-- 表格导出 -->
+	<servlet>
+		<servlet-name>ExportExcelAPI</servlet-name>
+		<servlet-class>com.lk.API.ExportExcelAPI</servlet-class>
+	</servlet>
+
 	<!-- 图片裁减 -->
 	<servlet-mapping>
 		<servlet-name>UploadAPI</servlet-name>
@@ -79,5 +85,9 @@
 	<servlet-mapping>
 		<servlet-name>PicCropAPI</servlet-name>
 		<url-pattern>/servlet/PicCropAPI</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ExportExcelAPI</servlet-name>
+		<url-pattern>/servlet/ExportExcelAPI</url-pattern>
 	</servlet-mapping>
 </web-app>

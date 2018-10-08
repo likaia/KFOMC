@@ -869,14 +869,43 @@ a {
 #billingManageSubmenu .top-panel{
 	width:100%;
 	height:230px;
-	border:solid 1px red;	
 }
 #billingManageSubmenu .top-panel .row-panel{
 	width:100%;
 	height:40px;
+	margin-bottom:10px;
 }
 #billingManageSubmenu .top-panel .row-panel .item-panel{
 	width:305px;
 	height:40px;
 	float:left;
 }
+#billingManageSubmenu .top-panel .Remarks-panel{
+	width: 100%;
+	height:40px;
+}
+#billingManageSubmenu .top-panel .Remarks-panel .left-panel{
+	width: 50%;
+	height:40px;
+	float:left;
+}
+#billingManageSubmenu .top-panel .Remarks-panel .right-panel{
+	width: 50%;
+	height:40px;
+	float:left;
+}
+#billingManageSubmenu .top-panel .Remarks-panel .right-panel .item-panel{
+	width: 50%;
+	height:40px;
+	float:left;
+}
+#billingManageSubmenu .btn-panel{
+	width: 400px;
+	height: 45px;
+}
+#billingManageSubmenu .billingContentPanel{
+	width: 99%;
+	height: 480px;
+	overflow: auto;
+}
+

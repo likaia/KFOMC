@@ -7,6 +7,27 @@ var Af = {};
  *  示例  Af.rest("XXX.api", jsReq, onSubmit_Result);	
  */
 
+/*servlet请求*/
+Af.servletRest = function (URI, ARGS, SUCCESS_CALLBACK, ERROR_CALLBACK)
+{
+	jQuery.ajax({				
+		url: URI, // <--	
+		method: "POST", 
+		data: ARGS,
+		success: function(data, textStatus, jqXHR){
+			SUCCESS_CALLBACK (data); // <--
+		},
+		error: function( jqXHR, textStatus, errorThrown){
+			if(typeof ERROR_CALLBACK != "undefined" && ERROR_CALLBACK != null) 
+				ERROR_CALLBACK(errorThrown);
+			else
+			{
+				if(errorThrown.length>0) alert( "error: " + errorThrown );	
+			}
+		}
+	});	
+};
+
 Af.rest = function (URI, ARGS, SUCCESS_CALLBACK, ERROR_CALLBACK)
 {
 	jQuery.ajax({				
