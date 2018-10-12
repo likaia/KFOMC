@@ -2,6 +2,7 @@ $(function() {
 	var URL = "https://www.kaisir.cn/KFOMC";
 	var MAIN = {};
 	MAIN.dataObj = {};
+	MAIN.LineNum = -1; //-->订单信息管理[开单]行号
 	//实例化vue
 	var vm = new Vue({
 		//绑定元素
@@ -162,7 +163,6 @@ $(function() {
 					/*渲染库存管理数据表格*/
 					MAIN.stockList();
 				}, 100);
-
 				/*进货管理 财务报表 订单信息管理 出货管理 隐藏*/
 				this.IncomingGoodsStatus = "none";
 				this.financeReportStatus = "none";
@@ -230,18 +230,14 @@ $(function() {
 			billingFun : function() {
 				/*请求后台获取 规格型号[产品名称] 集合*/
 				var req = {};
-				//清空dataObj
-				MAIN.dataObj = {};
 				req.operator = $("#nickNameTextPanel").html();
-				var selectData = [];  //品名型号下拉列表数据
-				Af.rest("productNameModelInquiry.api",req,function(ans){
-					if(ans.errorCode==0)
-					{
+				var selectData = []; //品名型号下拉列表数据
+				Af.rest("productNameModelInquiry.api", req, function(ans) {
+					if (ans.errorCode == 0) {
 						var resultArray = ans.data; //--->JSONArray
-						for(var i=0;i<resultArray.length;i++)
-						{
-							var resultObj = resultArray[i];//--->JSONObject
-							selectData[i] = resultObj.productName;//--->array
+						for (var i = 0; i < resultArray.length; i++) {
+							var resultObj = resultArray[i]; //--->JSONObject
+							selectData[i] = resultObj.productName; //--->array
 						}
 					}
 				});
@@ -253,114 +249,295 @@ $(function() {
 					content : $("#billingManageSubmenu")
 				});
 				/*渲染Excel表格*/
-				var hotElement = document.querySelector('#excelTablePanel');//绑定容器
-				var hotSettings = {
-					data : MAIN.dataObj,
+				MAIN.hotElement = document.querySelector('#excelTablePanel'); //绑定容器
+				MAIN.hotSettings = {
+					data : [ {
+						glassArea : "自动计算",
+						totalAmount : "自动计算"
+					} ],
 					//标题栏 
 					columns : [
 						{
-							editor:'select',
-							selectOptions: selectData,
-							width:'300'
+							editor : 'select',
+							selectOptions : selectData,
+							width : '300',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
-							data : 'glassLength',  //长度
-							type : 'text'
+							data : 'glassLength', //长度 
+							type : 'numeric', 
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
-							data : 'glassWidth',  //宽度
-							type : 'text'
+							data : 'glassWidth', //宽度
+							type : 'numeric',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
-							data : 'glassNum',//数量
-							type : 'text'
+							data : 'glassNum', //数量
+							type : 'numeric',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
-							data : 'glassMark',//
-							type : 'text'   //标记
+							data : 'glassMark', //标记
+							type : 'text',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
-							data : 'glassArea',//面积
-							type : 'text'
+							data : 'glassArea', //面积
+							type : 'numeric',
+							className : 'htCenter htMiddle', //垂直居中对齐
+							readOnly : true
 						},
 						{
-							data : 'glassUnitPrice',//单价
-							type : 'text'
+							data : 'glassUnitPrice', //单价
+							type : 'numeric',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
 							data : 'additionalProcess', //附加工艺
-							type : 'text'
+							type : 'text',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
-							data : 'additionalTotalValue',//附加总值
-							type : 'text',
+							data : 'additionalTotalValue', //附加总值  
+							type : 'numeric',
+							className : 'htCenter htMiddle' //垂直居中对齐
 						},
 						{
 							data : 'totalAmount', //合计金额
-							type : 'text'
-						},
-						{
-							data : 'addTime',//日期
-							type : 'date',
-							dateFormat : 'MM/DD/YYYY'
-						},
+							type : 'numeric',
+							className : 'htCenter htMiddle', //垂直居中对齐
+							readOnly : true
+						}
+					//						{
+					//							data : 'addTime', //日期
+					//							type : 'date',
+					//							dateFormat : 'MM/DD/YYYY',
+					//							className : 'htCenter htMiddle', //垂直居中对齐
+					//						},
 					],
 					stretchH : 'all',
 					width : 1200,
-					autoWrapRow : true,//自动换行
+					autoWrapRow : true, //自动换行
 					height : 470,
-					manualRowResize : true,//手动行调整大小
-					manualColumnResize : true,//手动列调整大小
-					rowHeaders : true,//行标题
+					manualRowResize : true, //手动行调整大小
+					manualColumnResize : true, //手动列调整大小
+					rowHeaders : true, //行标题
 					colHeaders : [
 						'品名型号',
 						'长度',
 						'宽度',
 						'数量',
 						'标记',
-						'面积',
-						'单价',
+						'面积(㎡)',
+						'单价(￥)',
 						'附加工艺',
 						'附加总值',
-						'合计金额',
-						'日期'
+						'合计金额(￥)',
+					//						'日期'
 					],
 					manualRowMove : true,
-					columnSorting:true,//排序
-					manualColumnMove : true,//手动列移动
-					　 contextMenu: {
-				            items: {
-				                'mergeCells':{ name: '合并单元格' , },
-				                'row_above': { name: '上方添加一行', },
-				                'row_below': { name: '下方添加一行', },
-				                'col_left': { name: '左侧添加一列', },
-				                'col_right': { name: '右侧添加一列', },
-				                'remove_row': { name: '移除此行', },
-				                'remove_col': { name: '移除此列', },
-				                'copy': { name: '复制', },
-				                'cut': { name: '剪切', },
-				                'make_read_only': { name: '禁止编辑选中项', },
-				                'alignment': { },
-				                'undo': { name: '还原上次操作', },
-				                'redo': { name: '重复上次动作', },
-				                'setAlias':{
-				                    name:'设置别名',
-				                    callback:function(){
-				                        if( $(Ccell) != undefined ){
-				                            addAliasDialog();
-				                        }else{
-				                            alert("请先选择单元格...");
-				                        }                        
-				                    }
-				                }
-				            }
-				        },//右键菜单
-					filters : true,//过滤器
+					columnSorting : true, //排序
+					manualColumnMove : true, //手动列移动
+					contextMenu : {
+						items : {
+							'mergeCells' : {
+								name : '合并单元格',
+							},
+							'row_above' : {
+								name : '上方添加一行',
+							},
+							'row_below' : {
+								name : '下方添加一行',
+							},
+							'col_left' : {
+								name : '左侧添加一列',
+							},
+							'col_right' : {
+								name : '右侧添加一列',
+							},
+							'remove_row' : {
+								name : '移除此行',
+							},
+							'remove_col' : {
+								name : '移除此列',
+							},
+							'copy' : {
+								name : '复制',
+							},
+							'cut' : {
+								name : '剪切',
+							},
+							'make_read_only' : {
+								name : '禁止编辑选中项',
+							},
+							'alignment' : { },
+							'undo' : {
+								name : '还原上次操作',
+							},
+							'redo' : {
+								name : '重复上次动作',
+							},
+							'setAlias' : {
+								name : '设置别名',
+								callback : function() {
+									if ($(Ccell) != undefined) {
+										addAliasDialog();
+									} else {
+										alert("请先选择单元格...");
+									}
+								}
+							}
+						}
+					}, //右键菜单
+					filters : true, //过滤器
 					//minSpareRows: 1,  //为0时，handsontable 可去掉最后多余的一行
-					dropdownMenu : true//下拉式菜单
+					dropdownMenu : true //下拉式菜单
 				};
 				//渲染Excel表格
-				var hot = new Handsontable(hotElement, hotSettings);
+				MAIN.hot = new Handsontable(MAIN.hotElement, MAIN.hotSettings);
+			},
+			/*订单信息管理:开单悬浮层[新增] 数据交互*/
+			billingaddFun : function() {
+				MAIN.LineNum++;
+				MAIN.hot.alter("insert_row"); //--->新增一行
+				//获取单元格数据
+				var lineData = MAIN.hot.getData(MAIN.LineNum, 11); //--->获取当前点击行的数据
+				var Product_length = lineData[MAIN.LineNum][1]; //--->品名长度
+				var Product_width = lineData[MAIN.LineNum][2]; //--->品名宽度
+				var Product_quantity = lineData[MAIN.LineNum][3]; //--->品名数量
+				var unit_price = lineData[MAIN.LineNum][6]; //--->品名单价
+				var area = Product_length * Product_width * Product_quantity / 10000; //--->面积
+				var Total_Amount = unit_price * Product_quantity; //--->合计金额
+				//给单元格赋值 (行,列,值)
+				MAIN.hot.setDataAtCell([ [ MAIN.LineNum, 5, area ], [ MAIN.LineNum, 9, Total_Amount ] ]); //--->面积和总价
+			},
+			/*订单信息管理:开单悬浮层[删除] 数据交互*/
+			billingDelFun : function() {
+				if(	MAIN.LineNum<=-1)
+				{
+					MAIN.ErroAlert("不能删除了!")
+				}
+				else
+				{
+					MAIN.hot.alter("remove_row"); //--->删除一行
+					MAIN.LineNum--;
+				}
+			},
+			/*订单信息管理:开单悬浮层[打印]*/
+			billingPrintFun:function(){
+            if(MAIN.LineNum>-1)
+                	{
+    			var Initial_modelArr = MAIN.hot.getData(MAIN.LineNum, 9);//--->参数讲解:(行,列) 获取当前表内数据
+				var Single_line = MAIN.hot.getDataAtRow(MAIN.LineNum+1); //--->返回单行数据：获取用户输入的最后一条信息
+				if(Single_line[0]!=null&&Single_line[5]==null)
+				{
+					layer.alert("最后一行有未计算内容,请再点一次新增!并确保最后一行为空！",{title:'不能打印'});
+				}
+				else
+				{
+					//生成JSONArray数据
+					var resultJSONArray = [];
+					for(var i=0;i<Initial_modelArr.length;i++)
+					{
+						var resultOBJ = {};
+						$("#ProductionOrderList  tbody").append(trStart+td+td1+td2+td3+td4+td5+td7+trEnd);
+						/*生成JSONArray*/
+						resultOBJ['id'] = i; 
+						resultOBJ['productName'] = Initial_modelArr[i][0]; //-->型号
+						resultOBJ['glassLength'] = Initial_modelArr[i][1]; //-->长
+						resultOBJ['glassWidth'] = Initial_modelArr[i][2]; //-->宽
+						resultOBJ['glassNum'] = Initial_modelArr[i][3]; //-->数量
+						resultOBJ['glassMark'] = Initial_modelArr[i][4]; //-->标记
+						resultOBJ['glassArea'] = Initial_modelArr[i][5]; //-->面积
+						resultOBJ['additionalProcess'] = Initial_modelArr[i][7]; //-->附加工艺
+						resultJSONArray.push(resultOBJ);
+					}
+					//JSONArray归类(相同的归为一类)
+					var dataArray = Af.getJSONArray(resultJSONArray)
+					var num = 0;
+					for(var i=0;i<dataArray.length;i++)  //--->渲染生产单表格区域
+					{
+						var trStart = "<tr>";
+						var trEnd = "</tr>";
+						var td,td1,td2,td3,td4,td5,td7;
+						var tdType = "<td colspan='7'>";
+						var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
+						if(dataArrayLength>1)
+						{
+							num++;
+							$("#ProductionOrderList  tbody").append(trStart+tdType+"规格型号:"+dataArray[i][0].productName+"</td>"+trEnd);
+							for(var j = 0;j<dataArrayLength;j++)   //---->遍历当前重复的规格型号下的数据,并追加页面
+							{
+								td =  "<td>"+j+"</td>";
+								td1 = "<td>"+dataArray[i][j].glassLength+"</td>";
+								td2 =  "<td>"+dataArray[i][j].glassWidth+"</td>";
+								td3 =  "<td>"+dataArray[i][j].glassNum+"</td>";
+								td4 =  "<td>"+dataArray[i][j].glassMark+"</td>";
+								td5 =  "<td>"+dataArray[i][j].glassArea+"</td>";
+								if(dataArray[i][j].additionalProcess==null)
+								{
+									td7 = "<td>"+"  "+"</td>";
+								}
+								else
+								{
+									td7 = "<td>"+dataArray[i][j].additionalProcess+"</td>";
+								}
+								$("#ProductionOrderList  tbody").append(trStart+td+td1+td2+td3+td4+td5+td7+trEnd); //---->追加到页面
+							}
+							
+						}
+						else
+						{
+							$("#ProductionOrderList  tbody").append(trStart+tdType+"规格型号:"+dataArray[i][0].productName+"</td>"+trEnd);
+							for(var j = 0;j<dataArrayLength;j++)   //---->遍历当前重复的规格型号下的数据,并追加页面
+							{
+								td =  "<td>"+j+"</td>";
+								td1 = "<td>"+dataArray[i][j].glassLength+"</td>";
+								td2 =  "<td>"+dataArray[i][j].glassWidth+"</td>";
+								td3 =  "<td>"+dataArray[i][j].glassNum+"</td>";
+								td4 =  "<td>"+dataArray[i][j].glassMark+"</td>";
+								td5 =  "<td>"+dataArray[i][j].glassArea+"</td>";
+								if(dataArray[i][j].additionalProcess==null)
+								{
+									td7 = "<td>"+"  "+"</td>";
+								}
+								else
+								{
+									td7 = "<td>"+dataArray[i][j].additionalProcess+"</td>";
+								}
+								td7 =  "<td>"+dataArray[i][j].additionalProcess+"</td>";
+								$("#ProductionOrderList  tbody").append(trStart+td+td1+td2+td3+td4+td5+td7+trEnd); //---->追加到页面
+							}
+						}
+					}
+				//	Af.trace("重复型号总共出现 "+num+" 次");
+					/*开始打印*/
+					$("#PrintTemplate").css({"display":"block"});
+					setTimeout(function() {
+						$("#PrintTemplate").css({"display":"none"});
+					}, 400);
+					$("#PrintTemplate").jqprint({});
+	                        MAIN.hot.alter('remove_row', 10, 2000); //--->清除表中所有数据
+	                        MAIN.LineNum = -1;  //全局变量复位
+	                        MAIN.hot.clear();	
+				}
+                	}
+            else
+	            {
+	            	MAIN.ErroAlert("不能打印空数据!");
+	            }
+            },
+			/*订单信息管理:报表交互函数*/
+			ReportFun:function(){
+				layer.open({
+					title : "打印模板",
+					type : 1,
+					area : [ '630px', '891px' ],
+					shadeClose : true, //点击遮罩关闭
+					content : $("#PrintTemplate")
+				});
 			},
 			/*订单月结管理点击事件*/
 			OrderMonthlyFun : function() {
@@ -672,6 +849,7 @@ $(function() {
 			}
 		}
 	});
+
 	//浏览器窗口大小变化时
 	$(window).resize(function() {
 		var window_width = $(window).width(); //获取浏览器窗口宽度
@@ -925,7 +1103,7 @@ $(function() {
 			vm.OrderProjectName = data.value;
 		});
 
-		
+
 		/*订单信息数据表格*/
 		MAIN.orderInfoCustomizeList = function(resultData) {
 			//订单信息数据表格 自定义数据
@@ -2201,6 +2379,64 @@ $(function() {
 				]
 			});
 		};
+		/*生产单数据表格渲染*/
+		MAIN.ProductionOrderList = function(resultData){
+			table.render({
+				//url : URL + "/AttachmentInfoList",
+				 data:resultData, //请求地址
+				//method : 'POST', //方式
+				elem : '#ProductionOrderList',
+				  totalRow: true, //--->开启合计行
+				cols : [
+					[
+						{
+							field : 'productName',
+							title : '规格型号',
+							align : "center",
+							//width: "30%"
+						},
+						{
+							field : 'glassLength',
+							title : '长度',
+							align : "center",
+						//	width: "5%"
+						},
+						{
+							field : 'glassWidth',
+							title : '宽度',
+							align : "center",
+					//		width: "5%"
+						},
+						{
+							field : 'glassNum',
+							title : '数量',
+							align : "center",
+							totalRow: true,   //开启合计
+						//	width: "5%"
+						},
+						{
+							field : 'glassMark',
+							title : '标记',
+							align : "center",
+						//	width: "15%"
+						},
+						{
+							field : 'glassArea',
+							title : '面积',
+							align : "center",
+							totalRow: true, //开启合计
+						//	width: "10%"
+						},
+						{
+							field : 'additionalProcess',
+							title : '附加工艺',
+							align : "center",
+						//	width:"30%"
+						}
+					]
+				]
+			});			
+		};
 		/*基础信息:附件信息*/
 		MAIN.AttachmentInfoList = function() {
 			table.render({
@@ -2277,8 +2513,17 @@ $(function() {
 		}
 	}
 
-
-
+	//打印方法
+	MAIN.preview = function(printpage) {
+		var headstr = "<html><head><title></title></head><body>";
+		var footstr = "</body>";
+		var newstr = document.all.item(printpage).innerHTML;
+		var oldstr = document.body.innerHTML;
+		document.body.innerHTML = headstr+newstr+footstr;
+		window.print(); 
+		document.body.innerHTML = oldstr;
+		return false;
+	}
 });
 
 

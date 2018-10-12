@@ -36,6 +36,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			// 配置映射器
 			ProductNumeInfoMapper productNumeInfoMapper = sqlSession.getMapper(ProductNumeInfoMapper.class);
 			List<ProductListInfo> resultList = productNumeInfoMapper.customQuery();
+			sqlSession.close(); //-->关闭数据库连接
 			result = new JSONArray(resultList);
 		}
 		else

@@ -6,7 +6,6 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,19 +19,34 @@
 <%--引入Vue --%>
 <script src="vue/vue.min.js"></script>
 <%--仿 Excel效果的表格插件 --%>
-<script type="text/javascript" src="handsontable/handsontable.full.min.js"></script>
+<script type="text/javascript"
+	src="handsontable/handsontable.full.min.js"></script>
 <link rel="stylesheet" href="handsontable/handsontable.full.min.css">
+<%--引入jquery打印插件 --%>
+<script type="text/javascript" src="jquery/jquery.jqprint-0.3.js"></script>
+<script>
+	jQuery.browser = {};
+	(function() {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
 <%--引入Layer --%>
 <script type="text/javascript" src="layer/layer.js"></script>
 <%--引入Layui --%>
 <script src="layui/layui.js"></script>
-<%--引入Layui --%>
 <link rel="stylesheet" href="layui/css/layui.css">
 <%-- 引入工具类--%>
 <script src="js/LkCommon.js"></script>
 <%--当前页面布局与交互文件 --%>
 <script src="js/index.js"></script>
 <link rel="stylesheet" href="css/index.css">
+<%--打印模板样式 --%>
+<link rel="stylesheet" href="css/Preview.css">
 <%--引入字体库 --%>
 <link rel="stylesheet" href="font/iconfont.css">
 <link rel="icon" type="image/x-icon" href="img/logo.ico" />
@@ -439,7 +453,7 @@
 											class="layui-btn layui-btn-normal"
 											v-bind:style="{background:BtnColor}">查询</button>
 										<button class="layui-btn layui-btn-normal"
-											v-bind:style="{background:BtnColor}">报表</button>
+											v-bind:style="{background:BtnColor}" @click="ReportFun">报表</button>
 										<button class="layui-btn layui-btn-normal"
 											v-bind:style="{background:BtnColor}">优化排版</button>
 										<button class="layui-btn layui-btn-normal"
@@ -1508,7 +1522,7 @@
 				</div>
 			</div>
 			<!-- 开单管理悬浮层 -->
-			<div id="billingManageSubmenu" >
+			<div id="billingManageSubmenu">
 				<div class="top-panel">
 					<div class="row-panel">
 						<div class="item-panel">
@@ -1646,8 +1660,8 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">已付款:</label>
 									<div class="layui-input-block">
-										<input style="cursor:pointer" readonly="readonly" type="text" placeholder="自动读取" autocomplete="off"
-											class="layui-input">
+										<input style="cursor:pointer" readonly="readonly" type="text"
+											placeholder="自动读取" autocomplete="off" class="layui-input">
 									</div>
 								</div>
 							</div>
@@ -1655,8 +1669,8 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">未付款:</label>
 									<div class="layui-input-block">
-										<input readonly="readonly" style="cursor:pointer" type="text" placeholder="自动读取" autocomplete="off"
-											class="layui-input">
+										<input readonly="readonly" style="cursor:pointer" type="text"
+											placeholder="自动读取" autocomplete="off" class="layui-input">
 									</div>
 								</div>
 							</div>
@@ -1664,26 +1678,126 @@
 					</div>
 				</div>
 				<div class="btn-panel ">
-					<button class="layui-btn" style="background:#009688">
-						 <i class="layui-icon">&#xe608;</i> 
-						新增
+					<button class="layui-btn" style="background:#009688"
+						@click="billingaddFun">
+						<i class="layui-icon">&#xe608;</i> 新增
 					</button>
-					<button class="layui-btn" style="background:#FF5722">
-						<i class="layui-icon">&#xe640;</i> 
-						删除
+					<button @click="billingDelFun" class="layui-btn"
+						style="background:#FF5722">
+						<i class="layui-icon">&#xe640;</i> 删除
 					</button>
-					<button class="layui-btn" style="background: #2F4056">
-						<i class="layui-icon">	&#xe641;</i> 
-						打印
+					<button @click="billingPrintFun" class="layui-btn"
+						style="background: #2F4056">
+						<i class="layui-icon"> &#xe641;</i> 打印
 					</button>
 				</div>
+				<!-- 要打印的区域 -->
 				<div class="billingContentPanel">
-					<div id="excelTablePanel">
-						
+					<div id="excelTablePanel"></div>
+				</div>
+				<!-- 要打印的区域结束 -->
+			</div>
+		</div>
+		<!-- 打印模板开始 -->
+		<div id="PrintTemplate" style="display:none">
+			<h1>陕西伯益中空玻璃有限公司</h1>
+			<h2>生产单</h2>
+			<!-- 生产单客户基本信息 -->
+			<div class="CustomerBasicInformatiofo-panel">
+				<div class="item-panel">
+					<div class="container-panel">
+						<span>客户名称:</span>
+					</div>
+					<div class="value-panel">
+						<span>王飞</span>
+					</div>
+				</div>
+				<div class="item-panel">
+					<div class="container-panel">
+						<span>工程名称:</span>
+					</div>
+					<div class="value-panel">
+						<span>延安大学</span>
+					</div>
+				</div>
+				<div class="item-panel">
+					<div class="container-panel">
+						<span>单号:</span>
+					</div>
+					<div class="value-panel">
+						<span>201810091809</span>
+					</div>
+				</div>
+				<div class="item-panel">
+					<div class="container-panel">
+						<span>联系电话:</span>
+					</div>
+					<div class="value-panel">
+						<span>15001009089</span>
+					</div>
+				</div>
+				<div class="item-panel">
+					<div class="container-panel">
+						<span>送货地址:</span>
+					</div>
+					<div class="value-panel">
+						<span>测试</span>
+					</div>
+				</div>
+				<div class="item-panel">
+					<div class="container-panel">
+						<span>日期:</span>
+					</div>
+					<div class="value-panel">
+						<span>2018-10-09</span>
+					</div>
+				</div>
+			</div>
+			<!-- 表格渲染模块 -->
+			<table class="layui-table" id="ProductionOrderList" style="border:solid 2px black">
+				<thead >
+					<tr>
+						<th>序号</th>
+						<th>长度</th>
+						<th>宽度</th>
+						<th>数量</th>
+						<th>标记</th>
+						<th>面积</th>
+						<th>附加工艺</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+			<!-- 公司信息区域 -->
+			<div class="companyInfo-panel">
+				<!--备注-->
+				<div class="Remarks-panel">
+					<div class="leftTops-pamnel">
+						<span>备注:</span>
+					</div>
+					<div class="RemarksVal-pamnel">
+						<p>各班在接前道工序流程卡时需要注意如下事项：</p>
+						<p>1.仔细核对客户名称,玻璃数量,规格,加工需求是否与加工单一致,标签是否与加工单一致</p>
+						<p>2.核对完成后在各工种栏里录入完成正次品数量,在各工种栏下签名确认,有次品及时回报补片.</p>
+					</div>
+				</div>
+				<!--地址/电话/传真-->
+				<div class="Address-telephone-fax-panel">
+					<div class="item-panel">
+						<span>地址:</span> <span>伯益中空玻璃有限公司</span>
+					</div>
+					<div class="item-panel">
+						<span>电话:</span> <span>029-86107926</span>
+					</div>
+					<div class="item-panel">
+						<span>传真:</span> <span>029-86107926</span>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- 打印模板结束 -->
 	</div>
 </body>
 </html>

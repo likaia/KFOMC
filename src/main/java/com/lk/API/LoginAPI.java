@@ -1,5 +1,6 @@
 package com.lk.API;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +20,7 @@ public class LoginAPI extends AfRestfulApi
 
 	@Override
 	public String execute(String reqText) throws Exception
-	{
+	{		
 		// 构造错误码 错误信息 返回数据
 		int errorCode = 0;
 		String msg = "ok";
@@ -27,8 +28,8 @@ public class LoginAPI extends AfRestfulApi
 		JSONObject jsReq = new JSONObject(reqText);
 		if (jsReq.has("userName") && jsReq.has("passWord"))
 		{
-			String userName = jsReq.getString("userName").replaceAll(" ", ""); 
-			String passWord = jsReq.getString("passWord").replaceAll(" ", ""); 
+			String userName = jsReq.getString("userName").replaceAll(" ", "");
+			String passWord = jsReq.getString("passWord").replaceAll(" ", "");
 			if (userName.equals("") || passWord.equals(""))
 			{
 				logger.error("用户名或密码为空(非法操作)");
@@ -63,12 +64,12 @@ public class LoginAPI extends AfRestfulApi
 					{
 						errorCode = 0;
 						msg = "密码正确";
-						httpSession.setAttribute("nowUser",sqlUserName );
-						httpSession.setAttribute("Version",dbData.getVersion() );
-						httpSession.setAttribute("nickName",dbData.getUserName());
-						httpSession.setAttribute("avatarUrl",dbData.getFilePath());
-						httpSession.setAttribute("sysUseAuthority",dbData.getSysUseAuthority());
-						
+						httpSession.setAttribute("nowUser", sqlUserName);
+						httpSession.setAttribute("Version", dbData.getVersion());
+						httpSession.setAttribute("nickName", dbData.getUserName());
+						httpSession.setAttribute("avatarUrl", dbData.getFilePath());
+						httpSession.setAttribute("sysUseAuthority", dbData.getSysUseAuthority());
+
 					} else
 					{
 						errorCode = 1;
@@ -76,12 +77,11 @@ public class LoginAPI extends AfRestfulApi
 					}
 				}
 			}
-		}
-		else
+		} else
 		{
 			errorCode = 1;
-		     msg = "字段缺失";
-		     logger.error("字段不全，非法操作");
+			msg = "字段缺失";
+			logger.error("字段不全，非法操作");
 		}
 		// 发送给前端的数据
 		JSONObject jsReply = new JSONObject();
