@@ -2,6 +2,7 @@ package com.lk.mappers;
 
 import java.util.List;
 
+
 import com.lk.db.OrderInfo;
 
 public interface OrderMapper
@@ -14,10 +15,12 @@ public interface OrderMapper
 	public List<OrderInfo> customQuery(OrderInfo row); 
 	//根据特定条件查询表内数据
 	public List<OrderInfo> conditionalQuery(OrderInfo row);
+	//根据订单号查询规格型号详情
+	public List<OrderInfo> queryModelDetails(OrderInfo row);
 	//更新数据
 	public int update(OrderInfo row);
 	//删除数据
-	public int del(int id);
+	public int del(OrderInfo row);
 	//模糊查询
 	public List<OrderInfo> Gluestudy(String basicStandard); 
 }

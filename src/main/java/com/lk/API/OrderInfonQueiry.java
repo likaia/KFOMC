@@ -18,10 +18,10 @@ import af.restful.AfRestfulApi;
 /*订单信息查询*/
 public class OrderInfonQueiry extends AfRestfulApi
 {
-
 	@Override
 	public String execute(String reqText) throws Exception
 	{
+		String operator = "";
 		int errorCode = 0;
 		// layui need
 		int code = 0;
@@ -36,7 +36,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 		String androidData = "";
 		if(jsReq.has("operator"))
 		{
-			String operator = jsReq.getString("operator");
+			operator = jsReq.getString("operator");
 			// 订单信息:分页查询接口
 			if (jsReq.has("page") || jsReq.has("limit"))
 			{
@@ -115,6 +115,99 @@ public class OrderInfonQueiry extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
+			//新增订单信息
+			if(jsReq.has("addOrderData"))
+			{
+				String orderNumber = jsReq.getString("orderNumber");//--->订单号
+				String clientName =  jsReq.getString("clientName"); //-->客户名称 
+				String projectName = jsReq.getString("projectName");//-->工程名称
+				String deliveryAddress = jsReq.getString("deliveryAddress");//--->送货地址
+				String orderDate = jsReq.getString("time");//---->日期
+				String contactNumber = jsReq.getString("contactNumber");//--->联系电话
+				String shippingMethod = jsReq.getString("ShippingMethod");//-->发货方式
+				String preparedBy = jsReq.getString("billingPreparedBy");//--->制单人
+				String glassNumber = jsReq.getString("glassNumber"); //--->玻璃数量
+				String totalArea = jsReq.getString("totalArea");//--->总面积
+				String additionalFees = jsReq.getString("otherCost");//---->其他费用
+				String totalAmount = jsReq.getString("totalAmount");//--->总金额
+				String remarks = jsReq.getString("remarks");//--->备注
+				String alreadyPaid = jsReq.getString("Paid");//--->已付款
+				String unpaid = jsReq.getString("Unpaid");//--->未付款
+				JSONArray modelDetails = jsReq.getJSONArray("data");//--->规格型号
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+				OrderInfo row = new OrderInfo();
+				row.setOperator(operator);
+				row.setOrderNumber(orderNumber);
+				row.setClientName(clientName);
+				row.setProjectName(projectName);
+				row.setDeliveryAddress(deliveryAddress);
+				row.setOrderDate(orderDate);
+				row.setContactNumber(contactNumber); 
+				row.setShippingMethod(shippingMethod);
+				row.setPreparedBy(preparedBy);
+				row.setGlassNumber(glassNumber);
+				row.setTotalArea(totalArea);
+				row.setAdditionalFees(additionalFees+"元");
+				row.setTotalAmount(totalAmount+"元");
+				row.setRemarks(remarks);
+				row.setAlreadyPaid(alreadyPaid+"元");
+				row.setUnpaid(unpaid);
+				row.setModelDetails(modelDetails.toString());
+				int processResult = orderMapper.add(row);
+				sqlSession.commit();
+				sqlSession.close();
+				if(processResult==1)
+				{
+					System.out.println("订单信息表添加一条信息成功!");
+				}
+				else
+				{
+					code = 1;
+					errorCode = 1;
+					msg = "数据库异常!数据添加失败";
+				}
+			}
+			//刪除订单
+			if(jsReq.has("delOrders"))
+			{
+			
+				JSONArray orders = jsReq.getJSONArray("orders");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+				OrderInfo row = new OrderInfo();
+				row.setOrders(orders);
+				row.setOperator(operator);
+				int processResult = orderMapper.del(row);
+				sqlSession.commit();
+				sqlSession.close();
+				if(processResult>0)
+				{
+					msg = "删除成功!";
+				}
+				else
+				{
+					msg = "删除失败";
+				}
+			}
+			//查询规格型号
+			if(jsReq.has("queryModelDetails"))
+			{
+				String orderNumber = jsReq.getString("orderNumber");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+				OrderInfo row = new OrderInfo();
+				row.setOrderNumber(orderNumber);
+				List<OrderInfo> resultList = orderMapper.queryModelDetails(row);
+				result = new JSONArray(resultList);
+				sqlSession.close();
+			}
 		}
 		else
 		{
@@ -130,6 +223,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 		jsReply.put("data", result);
 		jsReply.put("androidData", androidData);
 		jsReply.put("count", count);
+		jsReply.put("operator", operator);
 		return jsReply.toString();
 	}
 

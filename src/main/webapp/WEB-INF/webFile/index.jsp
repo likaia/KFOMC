@@ -280,7 +280,7 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">订单号</label>
 										<div class="layui-input-block" id="orderFormSelectPanel">
-											<select lay-search="" lay-filter="orderNumberSelectPanel"
+											<select lay-search="" lay-filter="orderNumberSelectPanel" id="orderNumSelect"
 												name="orderFormSelectPanel">
 												<option value="">直接选择或手动输入订单号</option>
 											</select>
@@ -293,7 +293,7 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">客户名称</label>
 										<div class="layui-input-block">
-											<select lay-search="" lay-filter="orderClientNameSelectPanel"
+											<select lay-search="" lay-filter="orderClientNameSelectPanel" id="orderClientName"
 												name="clientNameSelectPanel">
 												<option value="">直接选择或手动输入客户名称</option>
 											</select>
@@ -306,7 +306,7 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">工程名称</label>
 										<div class="layui-input-block">
-											<select lay-search=""
+											<select lay-search="" id="orderprojectNameSelectId"
 												lay-filter="orderprojectNameSelectPanel"
 												name="projectNameSelectPanel">
 												<option value="">直接选择或手动输入工程名称</option>
@@ -453,15 +453,15 @@
 											class="layui-btn layui-btn-normal"
 											v-bind:style="{background:BtnColor}">查询</button>
 										<button class="layui-btn layui-btn-normal"
-											v-bind:style="{background:BtnColor}" @click="ReportFun">报表</button>
-										<button class="layui-btn layui-btn-normal"
-											v-bind:style="{background:BtnColor}">优化排版</button>
-										<button class="layui-btn layui-btn-normal"
+											v-bind:style="{background:BtnColor}" @click="DeleteOrderFun">删除</button>
+										<button class="layui-btn layui-btn-normal" @click="ExportOrderFun"
 											v-bind:style="{background:BtnColor}">导出订单</button>
+										<button class="layui-btn layui-btn-normal" @click="orderDetailsFun"
+											v-bind:style="{background:BtnColor}">订单详情</button>
 									</div>
 								</div>
 								<div class="ListDataTable-panel">
-									<table id="orderInfoList" lay-filter="orderInfoList"></table>
+									<table id="orderInfoList" lay-filter="orderInfoList" lay-data="{id:'orderInfoList'}" ></table>
 								</div>
 							</div>
 						</div>
@@ -1529,7 +1529,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">客户名称:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入客户名称" autocomplete="off"
+									<input type="text" placeholder="输入客户名称" autocomplete="off" id="billingClientName"
 										class="layui-input">
 								</div>
 							</div>
@@ -1538,7 +1538,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">工程名称:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入工程名称" autocomplete="off"
+									<input type="text" placeholder="输入工程名称" autocomplete="off" id="billingprojectName"
 										class="layui-input">
 								</div>
 							</div>
@@ -1547,7 +1547,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">订单号:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="自动生成" autocomplete="off"
+									<input id="billingOrderNumber" type="text" placeholder="自动生成" autocomplete="off"
 										readonly="readonly" class="layui-input" style="cursor:pointer">
 								</div>
 							</div>
@@ -1568,7 +1568,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">送货地址:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入送货地址" autocomplete="off"
+									<input type="text" placeholder="输入送货地址" autocomplete="off" id="billingdeliveryAddress"
 										class="layui-input">
 								</div>
 							</div>
@@ -1577,7 +1577,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">联系电话:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入联系电话" autocomplete="off"
+									<input type="number" placeholder="输入联系电话" id="billingcontactNumber" oninput="if(value.length>11)value=value.slice(0,11)"
 										class="layui-input">
 								</div>
 							</div>
@@ -1586,10 +1586,10 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">发货方式:</label>
 								<div class="layui-input-block">
-									<select name="" lay-verify="ShippingMethodSelect">
+									<select name="billingShippingMethod" lay-verify=""  id="billingShippingMethod">
 										<option value=""></option>
-										<option value="自取" selected>自取</option>
-										<option value="货车发货">货车发货</option>
+										<option value="0" selected>自取</option>
+										<option value="1">货车发货</option>
 									</select>
 								</div>
 							</div>
@@ -1598,7 +1598,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">制单人:</label>
 								<div class="layui-input-block">
-									<select name="" lay-verify="ShippingMethodSelect">
+									<select name="" lay-verify="ShippingMethodSelect" id="billingPreparedBy">
 										<option value=""></option>
 										<option value="管理员" selected>管理员</option>
 										<option value="其他">其他</option>
@@ -1612,7 +1612,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">玻璃数量:</label>
 								<div class="layui-input-block">
-									<input style="cursor:pointer" readonly="readonly" type="text"
+									<input style="cursor:pointer" readonly="readonly" type="text" id="billingGlassNum"
 										placeholder="自动计算" autocomplete="off" class="layui-input">
 								</div>
 							</div>
@@ -1621,7 +1621,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">总面积:</label>
 								<div class="layui-input-block">
-									<input style="cursor:pointer" readonly="readonly" type="text"
+									<input style="cursor:pointer" readonly="readonly" type="text" id="billingTotalArea"
 										placeholder="自动计算" autocomplete="off" class="layui-input">
 								</div>
 							</div>
@@ -1630,17 +1630,17 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">其他费用:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入金额" autocomplete="off"
+									<input type="number" placeholder="输入金额" autocomplete="off" id="billingOtherCost" oninput="if(value.length>11)value=value.slice(0,11)"
 										class="layui-input">
 								</div>
 							</div>
 						</div>
 						<div class="item-panel">
 							<div class="layui-form-item">
-								<label class="layui-form-label">总金额:</label>
+								<label class="layui-form-label">总金额(元):</label>
 								<div class="layui-input-block">
-									<input style="cursor:pointer" readonly="readonly" type="text"
-										placeholder="自动计算" autocomplete="off" class="layui-input">
+									<input style="cursor:pointer"  type="text" id="billingtotalAmount" 
+										placeholder="请输入" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1650,7 +1650,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">备注:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入备注" autocomplete="off"
+									<input type="text" placeholder="输入备注" autocomplete="off" id="billingRemarks"
 										class="layui-input">
 								</div>
 							</div>
@@ -1658,10 +1658,10 @@
 						<div class="right-panel">
 							<div class="item-panel">
 								<div class="layui-form-item">
-									<label class="layui-form-label">已付款:</label>
+									<label class="layui-form-label">已付款(元):</label>
 									<div class="layui-input-block">
-										<input style="cursor:pointer" readonly="readonly" type="text"
-											placeholder="自动读取" autocomplete="off" class="layui-input">
+										<input style="cursor:pointer"  type="text" id="billingPaid" maxlength="9" 
+											placeholder="请输入" autocomplete="off" class="layui-input">
 									</div>
 								</div>
 							</div>
@@ -1669,8 +1669,8 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">未付款:</label>
 									<div class="layui-input-block">
-										<input readonly="readonly" style="cursor:pointer" type="text"
-											placeholder="自动读取" autocomplete="off" class="layui-input">
+										<input style="cursor:pointer" type="text" readonly="readonly" id="billingUnpaid" 
+											placeholder="自动计算" autocomplete="off" class="layui-input">
 									</div>
 								</div>
 							</div>
@@ -1691,13 +1691,34 @@
 						<i class="layui-icon"> &#xe641;</i> 打印
 					</button>
 				</div>
-				<!-- 要打印的区域 -->
 				<div class="billingContentPanel">
 					<div id="excelTablePanel"></div>
 				</div>
-				<!-- 要打印的区域结束 -->
 			</div>
 		</div>
+		
+		<!-- 订单详情页面 -->
+		<div id="orderDetailsSubmenu">
+				<!-- 表格渲染模块 -->
+			<table class="layui-table" id="orderDetailsList" style="border:solid 1px black">
+				<thead >
+					<tr>
+						<th>序号</th>
+						<th>长度</th>
+						<th>宽度</th>
+						<th>数量</th>
+						<th>标记</th>
+						<th>面积</th>
+						<th>附加工艺</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+		
+		
 		<!-- 打印模板开始 -->
 		<div id="PrintTemplate" style="display:none">
 			<h1>陕西伯益中空玻璃有限公司</h1>
@@ -1709,7 +1730,7 @@
 						<span>客户名称:</span>
 					</div>
 					<div class="value-panel">
-						<span>王飞</span>
+						<span id="ProductionOrderName">xx</span>
 					</div>
 				</div>
 				<div class="item-panel">
@@ -1717,15 +1738,15 @@
 						<span>工程名称:</span>
 					</div>
 					<div class="value-panel">
-						<span>延安大学</span>
+						<span id="ProductionOrderProdyctName">xxxx</span>
 					</div>
 				</div>
 				<div class="item-panel">
-					<div class="container-panel">
+					<div class="container-panel" style="width:40%;text-align:center">
 						<span>单号:</span>
 					</div>
-					<div class="value-panel">
-						<span>201810091809</span>
+					<div class="value-panel" style="width:60%;text-align:left">
+						<span id="ProductionOrderOrderNum">xxxx</span>
 					</div>
 				</div>
 				<div class="item-panel">
@@ -1733,7 +1754,7 @@
 						<span>联系电话:</span>
 					</div>
 					<div class="value-panel">
-						<span>15001009089</span>
+						<span id="ProductionOrderProdyctCell">xxxx</span>
 					</div>
 				</div>
 				<div class="item-panel">
@@ -1741,15 +1762,15 @@
 						<span>送货地址:</span>
 					</div>
 					<div class="value-panel">
-						<span>测试</span>
+						<span id="ProductionOrderAddress">xxx</span>
 					</div>
 				</div>
 				<div class="item-panel">
-					<div class="container-panel">
+					<div class="container-panel" style="width:40%;text-align:center">
 						<span>日期:</span>
 					</div>
-					<div class="value-panel">
-						<span>2018-10-09</span>
+					<div class="value-panel" style="width:60%;text-align:left">
+						<span id="ProductionOrderDate">xxxx</span>
 					</div>
 				</div>
 			</div>
@@ -1786,13 +1807,13 @@
 				<!--地址/电话/传真-->
 				<div class="Address-telephone-fax-panel">
 					<div class="item-panel">
-						<span>地址:</span> <span>伯益中空玻璃有限公司</span>
+						<span>地址:</span> <span id="MerchantAddress">未央区百花建材不锈钢市场58-3</span>
 					</div>
 					<div class="item-panel">
-						<span>电话:</span> <span>029-86107926</span>
+						<span>电话:</span> <span id="MerchantCell">13991480754</span>
 					</div>
 					<div class="item-panel">
-						<span>传真:</span> <span>029-86107926</span>
+						<span>传真:</span> <span id="MerchantFax">13991480754</span>
 					</div>
 				</div>
 			</div>

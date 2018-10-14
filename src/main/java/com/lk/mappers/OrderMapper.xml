@@ -14,17 +14,146 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="totalArea" column="totalArea" />
 		<result property="numberShipments" column="numberShipments" />
 		<result property="shipArea" column="shipArea" />
-		<result property="additionalFees" column="additionalFees" />
+		<result property="additionalFees" column="additionalFees" /> <!-- 附加费用 -->
 		<result property="totalAmount" column="totalAmount" />
-		<result property="AlreadyPaid" column="AlreadyPaid" />
-		<result property="Unpaid" column="Unpaid" />
-		<result property="FinishDelivery" column="FinishDelivery" />
-		<result property="PreparedBy" column="PreparedBy" />
+		<result property="alreadyPaid" column="AlreadyPaid" />
+		<result property="unpaid" column="Unpaid" />
+		<result property="finishDelivery" column="FinishDelivery" />
+		<result property="preparedBy" column="PreparedBy" />
 		<result property="operator" column="operator" />
+		<result property="deliveryAddress" column="deliveryAddress" />
+		<result property="contactNumber" column="contactNumber" />
+		<result property="shippingMethod" column="shippingMethod" />
+		<result property="remarks" column="remarks" />
+		<result property="modelDetails" column="modelDetails" />
 	</resultMap>
 	<!-- 添加数据开始 -->
 	<insert id="add" parameterType="OrderInfo">
-
+		insert into t_order_Info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNumber != null">
+				orderNumber,
+			</if>
+			<if test="orderDate != null">
+				orderDate,
+			</if>
+			<if test="clientName != null">
+				clientName,
+			</if>
+			<if test="projectName != null">
+				projectName,
+			</if>
+			<if test="glassNumber != null">
+				glassNumber,
+			</if>
+			<if test="totalArea != null">
+				totalArea,
+			</if>
+			<if test=" numberShipments!= null">
+				numberShipments,
+			</if>
+			<if test=" shipArea!= null">
+				shipArea,
+			</if>
+			<if test=" additionalFees!= null">
+				additionalFees,
+			</if>
+			<if test=" totalAmount!= null">
+				totalAmount,
+			</if>
+			<if test=" alreadyPaid!= null">
+				alreadyPaid,
+			</if>
+			<if test="unpaid != null">
+				unpaid,
+			</if>
+			<if test=" finishDelivery!= null">
+				finishDelivery,
+			</if>
+			<if test="preparedBy != null">
+				preparedBy,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+			<if test="deliveryAddress != null">
+				deliveryAddress,
+			</if>
+			<if test="contactNumber != null">
+				contactNumber,
+			</if>
+			<if test=" shippingMethod!= null">
+				shippingMethod,
+			</if>
+			<if test=" remarks!= null">
+				remarks,
+			</if>
+			<if test="modelDetails != null">
+				modelDetails,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNumber != null">
+				#{orderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="orderDate != null">
+				#{orderDate,jdbcType=VARCHAR},
+			</if>
+			<if test="clientName != null">
+				#{clientName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="glassNumber != null">
+				#{glassNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="totalArea != null">
+				#{totalArea,jdbcType=VARCHAR},
+			</if>
+			<if test="numberShipments != null">
+				#{numberShipments,jdbcType=VARCHAR},
+			</if>
+			<if test="shipArea != null">
+				#{shipArea,jdbcType=VARCHAR},
+			</if>
+			<if test=" additionalFees!= null">
+				#{additionalFees,jdbcType=VARCHAR},
+			</if>
+			<if test="totalAmount != null">
+				#{totalAmount,jdbcType=VARCHAR},
+			</if>
+			<if test=" alreadyPaid!= null">
+				#{alreadyPaid,jdbcType=VARCHAR},
+			</if>
+			<if test="unpaid != null">
+				#{unpaid,jdbcType=VARCHAR},
+			</if>
+			<if test=" finishDelivery!= null">
+				#{finishDelivery,jdbcType=VARCHAR},
+			</if>
+			<if test="preparedBy != null">
+				#{preparedBy,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="deliveryAddress != null">
+				#{deliveryAddress,jdbcType=VARCHAR},
+			</if>
+			<if test=" contactNumber!= null">
+				#{contactNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="shippingMethod != null">
+				#{shippingMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="modelDetails != null">
+				#{modelDetails,jdbcType=VARCHAR},
+			</if>
+		</trim>
 	</insert>
 	<!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="OrderInfoResult"
@@ -79,16 +208,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 更新数据开始 -->
 	<update id="update" parameterType="OrderInfo">
-		update t_basic set
-		basicDate=#{basicDate},basicBreed=#{basicBreed},basicQuantity
-		=#{basicQuantity},basicStandard =#{basicStandard},basicCastingSelling
-		=#{basicCastingSelling},basicBigSize =#{basicBigSize}
-		where id=#{id}
+
 	</update>
-	<!-- 删除一个客户开始 -->
+	<!-- 批量删除  订单号/操作人-->
 	<delete id="del" parameterType="OrderInfo">
-		delete from t_basic where id =
-		#{id}
+		delete from t_order_Info where (orderNumber) in
+		<foreach item="orderItem" collection="orders" open="("
+			separator="," close=")">
+			#{orderItem}
+		</foreach>
 	</delete>
 	<!-- 模糊查找通过 规格型号 CONCAT（）函数用于将多个字符串连接成一个字符串，是最重要的mysql函数之一 -->
 	<select id="Gluestudy" parameterType="OrderInfo" resultMap="OrderInfoResult">

@@ -1,5 +1,7 @@
 package com.lk.db;
 
+import org.json.JSONArray;
+
 public class OrderInfo
 {	
 	private Integer id;
@@ -7,51 +9,73 @@ public class OrderInfo
 	private String orderDate;
 	private String clientName;
 	private String projectName;
-	private Integer glassNumber;
-	private Integer totalArea;
-	private Integer numberShipments;
-	private Integer shipArea;
-	private Integer additionalFees;
-	private Integer totalAmount;
-	private Integer AlreadyPaid;
-	private Integer Unpaid;
+	private String glassNumber;
+	private String totalArea;
+	private String numberShipments;
+	private String shipArea;
+	private String additionalFees; //--->其他费用
+	private String totalAmount;
+	private String AlreadyPaid;
+	private String Unpaid;
 	private String FinishDelivery;
 	private String PreparedBy;
 	private String operator;
 	private String  queryType;
 	private String dStart;
 	private String dEnd;
-	public String getdStart()
+	private String deliveryAddress;  //--->送货地址
+	private String contactNumber; //--->联系电话
+	private String shippingMethod;//--->发货方式
+	private String remarks;//--->备注
+	private String modelDetails;//--->规格型号
+	private JSONArray orders;
+	public JSONArray getOrders()
 	{
-		return dStart;
+		return orders;
 	}
-	public void setdStart(String dStart)
+	public void setOrders(JSONArray orders)
 	{
-		this.dStart = dStart;
+		this.orders = orders;
 	}
-	public String getdEnd()
+	public String getModelDetails()
 	{
-		return dEnd;
+		return modelDetails;
 	}
-	public void setdEnd(String dEnd)
+	public void setModelDetails(String modelDetails)
 	{
-		this.dEnd = dEnd;
+		this.modelDetails = modelDetails;
 	}
-	public String getQueryType()
+	public String getRemarks()
 	{
-		return queryType;
+		return remarks;
 	}
-	public void setQueryType(String queryType)
+	public void setRemarks(String remarks)
 	{
-		this.queryType = queryType;
+		this.remarks = remarks;
 	}
-	public Integer getId()
+	public String getShippingMethod()
 	{
-		return id;
+		return shippingMethod;
 	}
-	public void setId(Integer id)
+	public void setShippingMethod(String shippingMethod)
 	{
-		this.id = id;
+		this.shippingMethod = shippingMethod;
+	}
+	public String getContactNumber()
+	{
+		return contactNumber;
+	}
+	public void setContactNumber(String contactNumber)
+	{
+		this.contactNumber = contactNumber;
+	}
+	public String getDeliveryAddress()
+	{
+		return deliveryAddress;
+	}
+	public void setDeliveryAddress(String deliveryAddress)
+	{
+		this.deliveryAddress = deliveryAddress;
 	}
 	public String getOrderNumber()
 	{
@@ -85,67 +109,67 @@ public class OrderInfo
 	{
 		this.projectName = projectName;
 	}
-	public Integer getGlassNumber()
+	public String getGlassNumber()
 	{
 		return glassNumber;
 	}
-	public void setGlassNumber(Integer glassNumber)
+	public void setGlassNumber(String glassNumber)
 	{
 		this.glassNumber = glassNumber;
 	}
-	public Integer getTotalArea()
+	public String getTotalArea()
 	{
 		return totalArea;
 	}
-	public void setTotalArea(Integer totalArea)
+	public void setTotalArea(String totalArea)
 	{
 		this.totalArea = totalArea;
 	}
-	public Integer getNumberShipments()
+	public String getNumberShipments()
 	{
 		return numberShipments;
 	}
-	public void setNumberShipments(Integer numberShipments)
+	public void setNumberShipments(String numberShipments)
 	{
 		this.numberShipments = numberShipments;
 	}
-	public Integer getShipArea()
+	public String getShipArea()
 	{
 		return shipArea;
 	}
-	public void setShipArea(Integer shipArea)
+	public void setShipArea(String shipArea)
 	{
 		this.shipArea = shipArea;
 	}
-	public Integer getAdditionalFees()
+	public String getAdditionalFees()
 	{
 		return additionalFees;
 	}
-	public void setAdditionalFees(Integer additionalFees)
+	public void setAdditionalFees(String additionalFees)
 	{
 		this.additionalFees = additionalFees;
 	}
-	public Integer getTotalAmount()
+	public String getTotalAmount()
 	{
 		return totalAmount;
 	}
-	public void setTotalAmount(Integer totalAmount)
+	public void setTotalAmount(String totalAmount)
 	{
 		this.totalAmount = totalAmount;
 	}
-	public Integer getAlreadyPaid()
+	public String getAlreadyPaid()
 	{
 		return AlreadyPaid;
 	}
-	public void setAlreadyPaid(Integer alreadyPaid)
+	public void setAlreadyPaid(String alreadyPaid)
 	{
 		AlreadyPaid = alreadyPaid;
 	}
-	public Integer getUnpaid()
+	public String getUnpaid()
 	{
 		return Unpaid;
 	}
-	public void setUnpaid(Integer unpaid)
+	public void setUnpaid(String unpaid)
 	{
 		Unpaid = unpaid;
 	}
@@ -173,17 +197,40 @@ public class OrderInfo
 	{
 		this.operator = operator;
 	}
-	public OrderInfo()
+	public String getQueryType()
 	{
-		super();
+		return queryType;
 	}
-	public OrderInfo(Integer id, String orderNumber, String orderDate, String clientName, String projectName,
-			Integer glassNumber, Integer totalArea, Integer numberShipments, Integer shipArea, Integer additionalFees,
-			Integer totalAmount, Integer alreadyPaid, Integer unpaid, String finishDelivery, String preparedBy,
-			String operator, String queryType)
+	public void setQueryType(String queryType)
+	{
+		this.queryType = queryType;
+	}
+	public String getdStart()
+	{
+		return dStart;
+	}
+	public void setdStart(String dStart)
+	{
+		this.dStart = dStart;
+	}
+	public String getdEnd()
+	{
+		return dEnd;
+	}
+	public void setdEnd(String dEnd)
+	{
+		this.dEnd = dEnd;
+	}
+	public Integer getId()
+	{
+		return id;
+	}
+	public OrderInfo(String orderNumber, String orderDate, String clientName, String projectName, String glassNumber,
+			String totalArea, String numberShipments, String shipArea, String additionalFees, String totalAmount,
+			String alreadyPaid, String unpaid, String finishDelivery, String preparedBy, String operator,
+			String queryType, String dStart, String dEnd)
 	{
 		super();
-		this.id = id;
 		this.orderNumber = orderNumber;
 		this.orderDate = orderDate;
 		this.clientName = clientName;
@@ -200,7 +247,12 @@ public class OrderInfo
 		PreparedBy = preparedBy;
 		this.operator = operator;
 		this.queryType = queryType;
+		this.dStart = dStart;
+		this.dEnd = dEnd;
 	}
-
+	public OrderInfo()
+	{
+		super();
+	}
 	
 }

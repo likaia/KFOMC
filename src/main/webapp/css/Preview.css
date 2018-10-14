@@ -1,5 +1,10 @@
+@page {
+  size: A4; 			/*设置打印纸为A4*/
+  margin: 2cm;
+}
+
 #PrintTemplate{
-	width:98%;
+	width:100%;
 	height:100%;
 	margin:0 auto;
 	text-align:center;

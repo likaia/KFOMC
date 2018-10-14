@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.lk.Utils.UUIDUtil;
 import com.lk.db.ProductListInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.ProductNumeInfoMapper;
@@ -46,8 +47,11 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			logger.error("查询品名型号API报错:缺少[operator]字段");
 		}
 		JSONObject jsReply = new JSONObject();
+		//产生订单号:UUID（16位）
+		String serverTime = UUIDUtil.getOrderIdByUUId();
 		jsReply.put("errorCode",errorCode);
 		jsReply.put("msg",msg );
+		jsReply.put("serverTime", serverTime);
 		jsReply.put("data", result);
 		jsReply.put("operator",operator );
 		return jsReply.toString();
