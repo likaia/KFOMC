@@ -388,9 +388,9 @@ $(function() {
 					area : [ '1270px', '840px' ],
 					//shadeClose : true, //点击遮罩关闭
 					content : $("#billingManageSubmenu"),
-			        	end: function () { //弹层销毁出发回调
-			        		
-			        	}
+					end : function() { //弹层销毁出发回调
+
+					}
 				});
 			},
 			/*订单信息管理:开单悬浮层[新增] 数据交互*/
@@ -406,15 +406,15 @@ $(function() {
 				var area = Product_length * Product_width * Product_quantity / 10000; //--->面积
 				var Total_Amount = unit_price * Product_quantity; //--->合计金额
 				//计算总玻璃数量
-				MAIN.totalGlassNum = Af.accAdd(Product_quantity,snaptotalGlassNum);
+				MAIN.totalGlassNum = Af.accAdd(Product_quantity, snaptotalGlassNum);
 				//计算总面积
-				MAIN.totalArea = Af.accAdd(area.toFixed(2),snapGlassArea);
-				$("#billingGlassNum").val(MAIN.totalGlassNum+"片"); //--->赋值玻璃总数量
-				$("#billingTotalArea").val(MAIN.totalArea+"平方"); //--->赋值总面积
+				MAIN.totalArea = Af.accAdd(area.toFixed(2), snapGlassArea);
+				$("#billingGlassNum").val(MAIN.totalGlassNum + "片"); //--->赋值玻璃总数量
+				$("#billingTotalArea").val(MAIN.totalArea + "平方"); //--->赋值总面积
 				//给单元格赋值 (行,列,值)
-				MAIN.hot.setDataAtCell([ [ MAIN.LineNum, 5, area.toFixed(2)], [ MAIN.LineNum, 7, Total_Amount ] ]); //--->面积和总价
-				snaptotalGlassNum = Product_quantity+snaptotalGlassNum; //--->玻璃数量临时变量赋值当前玻璃数量
-				snapGlassArea = area.toFixed(2)+snapGlassArea.toFixed(2); //-->玻璃总面积临时变量赋值当前玻璃总面积
+				MAIN.hot.setDataAtCell([ [ MAIN.LineNum, 5, area.toFixed(2) ], [ MAIN.LineNum, 7, Total_Amount ] ]); //--->面积和总价
+				snaptotalGlassNum = Product_quantity + snaptotalGlassNum; //--->玻璃数量临时变量赋值当前玻璃数量
+				snapGlassArea = area.toFixed(2) + snapGlassArea.toFixed(2); //-->玻璃总面积临时变量赋值当前玻璃总面积
 			},
 			/*订单信息管理:开单悬浮层[删除] 数据交互*/
 			billingDelFun : function() {
@@ -546,12 +546,9 @@ $(function() {
 							req.data = dataArray;
 							req.addOrderData = "addOrderData";
 							Af.rest("orderInfonQueiry.api", req, function(ans) {
-								if(ans.errorCode!=0)
-								{
-									layer.msg("处理异常:"+ans.msg);
-								}
-								else
-								{
+								if (ans.errorCode != 0) {
+									layer.msg("处理异常:" + ans.msg);
+								} else {
 									MAIN.orderInfoList(ans.operator);
 								}
 							});
@@ -609,21 +606,21 @@ $(function() {
 									"display" : "none"
 								});
 							}, 400);
-							$("#PrintTemplate").jqprint({});   //---->打印函数
+							$("#PrintTemplate").jqprint({}); //---->打印函数
 							MAIN.hot.alter('remove_row', 1000, 10000); //--->清除表中所有数据
 							MAIN.LineNum = -1; //--->全局变量复位
-							snaptotalGlassNum=0;
+							snaptotalGlassNum = 0;
 							snapGlassArea = 0;
-							layer.closeAll();  //关闭所有弹出层
+							layer.closeAll(); //关闭所有弹出层
 							//清空用户输入与自动计算数据
-							 $("#billingClientName").val(""); //-->客户名称 
-							 $("#billingprojectName").val(""); //-->工程名称
-							 MAIN.billingorderNumber  = 0//-->订单号
+							$("#billingClientName").val(""); //-->客户名称 
+							$("#billingprojectName").val(""); //-->工程名称
+							MAIN.billingorderNumber = 0 //-->订单号
 							$("#billingDatePanel").val(""); //-->日期
 							$("#billingdeliveryAddress").val(""); //--->送货地址
 							$("#billingcontactNumber").val(""); //--->联系电话
 							$("#billingShippingMethod").val("1") //--->发货方式
-							$("#billingPreparedBy").val("1") ;//---->制单人
+							$("#billingPreparedBy").val("1") ; //---->制单人
 							$("#billingGlassNum").val(""); //--->玻璃数量
 							$("#billingTotalArea").val(""); //-->总面积
 							$("#billingOtherCost").val(""); //-->其他费用
@@ -632,7 +629,7 @@ $(function() {
 							$("#billingPaid").val(""); //--->已付款
 							$("#billingUnpaid").val(""); //--->未付款
 							//清空动态Table中tbody中的数据
-							 $("#ProductionOrderList tbody").html("");
+							$("#ProductionOrderList tbody").html("");
 							//重新渲染数据表格
 							MAIN.hot = new Handsontable(MAIN.hotElement, MAIN.hotSettings);
 						}
@@ -644,17 +641,14 @@ $(function() {
 			},
 			/*订单信息管理:删除订单交互函数*/
 			DeleteOrderFun : function() {
-				var req = {}; 
+				var req = {};
 				//取出当前选择项订单号
 				var ordersArray = MAIN.getSelectOrder("orderInfoList");
-				if(Af.nullstr(ordersArray))
-				{
+				if (Af.nullstr(ordersArray)) {
 					MAIN.ErroAlert("不能删除空数据,请勾选订单!");
-				}
-				else
-				{
+				} else {
 					//提示用户删除
-					layer.confirm('确定要删除吗?', function(index){
+					layer.confirm('确定要删除吗?', function(index) {
 						var ordersStr = ordersArray.toString();
 						req.orders = Af.strToIntArr(ordersStr); //将String字符串转int数组
 						req.operator = $("#nickNameTextPanel").html();
@@ -662,97 +656,102 @@ $(function() {
 						Af.rest("orderInfonQueiry.api", req, function(ans) {
 							layer.close(index);
 							layer.msg(ans.msg);
-							if(ans.errorCode==0)
-							{
+							if (ans.errorCode == 0) {
 								//数据表格重载
 								MAIN.orderInfoList($("#nickNameTextPanel").html());
 							}
 						});
-				      });
+					});
 				}
 			},
 			/*订单信息管理:订单导出函数*/
-			ExportOrderFun:function(){
-				var tableTitle = ['订单号','日期','客户名称','工程名称','玻璃数量','总面积','发货数量','发货面积','附加费用','总金额','已付款','未付款','完成发货','制单人'];
+			ExportOrderFun : function() {
+				var tableTitle = [ '订单号', '日期', '客户名称', '工程名称', '玻璃数量', '总面积', '发货数量', '发货面积', '附加费用', '总金额', '已付款', '未付款', '完成发货', '制单人' ];
 				var selectDatas = MAIN.getSelectDatas("orderInfoList");
-				if(!Af.nullstr(selectDatas))
-				{
-					MAIN.exportFun(tableTitle,selectDatas);
+				if (!Af.nullstr(selectDatas)) {
+					MAIN.exportFun(tableTitle, selectDatas);
 				}
 			},
 			/*订单信息管理:订单详情交互*/
-			orderDetailsFun:function(){
+			orderDetailsFun : function() {
 				//渲染订单详情表格
 				var orders = orderNumber = MAIN.getSelectOrder("orderInfoList");
-				if(Af.nullstr(orders))
-				{
-					MAIN.erroAlert("请勾选一个订单");
-				}
-				else
-				{
-					var req = {};
-					req.orderNumber = orders[0];
-					req.queryModelDetails = "modelDetails";
-					req.operator = "";
-					Af.trace(req);
-					Af.rest("orderInfonQueiry.api",req,function(ans){
-						var dataArray = ans.modelDetails;
-						for (var i = 0; i < dataArray.length; i++) //--->渲染订单详情表格区域
-						{
-							var trStart = "<tr>";
-							var trEnd = "</tr>";
-							var td,
-								td1,
-								td2,
-								td3,
-								td4,
-								td5,
-								td7;
-							var tdType = "<td colspan='7'>";
-							var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
-							if (dataArrayLength > 1) {
-								num++;
-								$("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
-								for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
-								{
-									td = "<td>" + j + "</td>";
-									td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
-									td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
-									td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
-									td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
-									td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
-									td7 = "<td>" + "  " + "</td>";
-									$("#ProductionOrderList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
-								}
-
+				if (Af.nullstr(orders)) {
+					MAIN.ErroAlert("请勾选一个订单");
+				} else {
+					if(orders.length>1)
+					{
+						MAIN.ErroAlert("只能勾选一个订单号进行查询,请更改!");
+					}
+					else
+					{
+						var req = {};
+						req.orderNumber = orders[0];
+						req.queryModelDetails = "modelDetails";
+						req.operator = "";
+						Af.rest("orderInfonQueiry.api", req, function(ans) {
+							var dataArray = ans.data;
+							if (Af.nullstr(dataArray)) {
+								MAIN.ErroAlert("该订单下没有录入规格型号!");
 							} else {
-								$("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
-								for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+								var num = 0;
+								for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
 								{
-									td = "<td>" + j + "</td>";
-									td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
-									td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
-									td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
-									td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
-									td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
-									td7 = "<td>" + "  " + "</td>";
-									$("#ProductionOrderList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
-								}
-							}
-						}
-					})
+									var trStart = "<tr>";
+									var trEnd = "</tr>";
+									var td,
+										td1,
+										td2,
+										td3,
+										td4,
+										td5,
+										td7;
+									var tdType = "<td colspan='7' class='title'>";
+									var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
+									if (dataArrayLength > 1) {
+										num++;
+										$("#orderDetailsSubmenu  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+										for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+										{
+											td = "<td>" + j + "</td>";
+											td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
+											td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
+											td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
+											td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+											td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+											td7 = "<td>" + "  " + "</td>";
+											$("#orderDetailsSubmenu  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
+										}
 
+									} else {
+										$("#orderDetailsSubmenu  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+										for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+										{
+											td = "<td>" + j + "</td>";
+											td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
+											td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
+											td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
+											td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+											td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+											td7 = "<td>" + "  " + "</td>";
+											$("#orderDetailsSubmenu  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
+										}
+									}
+								}
+								layer.open({
+									title : "订单详情",
+									type : 1,
+									area : [ '970px', '640px' ],
+									//shadeClose : true, //点击遮罩关闭
+									content : $("#orderDetailsSubmenu"),
+									end : function() { //弹层销毁出发回调
+
+									}
+								});
+							}
+						});
+					}
 				}
-				layer.open({
-					title : "正在开单",
-					type : 1,
-					area : [ '1270px', '840px' ],
-					//shadeClose : true, //点击遮罩关闭
-					content : $("#orderDetailsSubmenu"),
-			        	end: function () { //弹层销毁出发回调
-			        	
-			        	}
-				});
 			},
 			/*订单月结管理点击事件*/
 			OrderMonthlyFun : function() {
@@ -1204,74 +1203,60 @@ $(function() {
 		});
 		colorpicker.render({
 			elem : '#navigationColorMatchingPanel' //系统左侧导航配色
-		});	
-		
+		});
+
 		/*导出函数*/
-		MAIN.exportFun = function(tableTitle,tableDats){
+		MAIN.exportFun = function(tableTitle, tableDats) {
 			table.exportFile(tableTitle, tableDats, 'xls'); //默认导出 csv，也可以为：xls
 		}
 		//数据当前数据表格选择项数据
-		MAIN.getSelectOrder = function(tableId){
-			 var checkStatus = table.checkStatus(tableId)
-		      	,data = checkStatus.data;
-			 	var orders = [];
-			 	for(var i = 0;i<data.length;i++)
-			 	{
-			 		orders.push(data[i].orderNumber);
-			 	}
-			 	return orders;
-		};
-		MAIN.getSelectDatas = function(tableId){
-			var checkStatus = table.checkStatus(tableId)
-	      	,data = checkStatus.data;
-			if(Af.nullstr(data))
-			{
-				MAIN.ErroAlert("不能导出空数据,请勾选要导出的订单!");
+		MAIN.getSelectOrder = function(tableId) {
+			var checkStatus = table.checkStatus(tableId),
+				data = checkStatus.data;
+			var orders = [];
+			for (var i = 0; i < data.length; i++) {
+				orders.push(data[i].orderNumber);
 			}
-			else
-			{
+			return orders;
+		};
+		MAIN.getSelectDatas = function(tableId) {
+			var checkStatus = table.checkStatus(tableId),
+				data = checkStatus.data;
+			if (Af.nullstr(data)) {
+				MAIN.ErroAlert("不能导出空数据,请勾选要导出的订单!");
+			} else {
 				var datas = [];
-			 	for(var i = 0;i<data.length;i++)
-			 	{
-			 		var dataArr = [];
-			 		dataArr[0] = data[i].orderNumber;
-			 		dataArr[1] = data[i].orderDate;
-			 		dataArr[2] = data[i].clientName;
-			 		dataArr[3] = data[i].projectName;
-			 		dataArr[4] = data[i].glassNumber;
-			 		if(data[i].numberShipments)
-			 		{
-			 			dataArr[5] = data[i].numberShipments;
-			 		}
-			 		else
-			 		{
-			 			dataArr[5] = "空";
-			 		}
-			 		if(data[i].shipArea)
-			 		{
-			 			dataArr[6] = data[i].shipArea;
-			 		}
-			 		else
-			 		{
-			 			dataArr[6] = "空";
-			 		}
-			 		dataArr[7] = data[i].additionalFees;
-			 		dataArr[8] = data[i].totalAmount;
-			 		dataArr[9] = data[i].alreadyPaid;
-			 		dataArr[10] = data[i].unpaid;
-			 		if(data[i].finishDelivery)
-			 		{
-			 			dataArr[11] = data[i].finishDelivery;
-			 		}
-			 		else
-			 		{
-			 			dataArr[11] = "空";
-			 		}
-			 		dataArr[12] = data[i].preparedBy;
-			 		dataArr[13] = data[i].operator;
-			 		datas.push(dataArr);
-			 	}
-			 	return datas;
+				for (var i = 0; i < data.length; i++) {
+					var dataArr = [];
+					dataArr[0] = data[i].orderNumber;
+					dataArr[1] = data[i].orderDate;
+					dataArr[2] = data[i].clientName;
+					dataArr[3] = data[i].projectName;
+					dataArr[4] = data[i].glassNumber;
+					if (data[i].numberShipments) {
+						dataArr[5] = data[i].numberShipments;
+					} else {
+						dataArr[5] = "空";
+					}
+					if (data[i].shipArea) {
+						dataArr[6] = data[i].shipArea;
+					} else {
+						dataArr[6] = "空";
+					}
+					dataArr[7] = data[i].additionalFees;
+					dataArr[8] = data[i].totalAmount;
+					dataArr[9] = data[i].alreadyPaid;
+					dataArr[10] = data[i].unpaid;
+					if (data[i].finishDelivery) {
+						dataArr[11] = data[i].finishDelivery;
+					} else {
+						dataArr[11] = "空";
+					}
+					dataArr[12] = data[i].preparedBy;
+					dataArr[13] = data[i].operator;
+					datas.push(dataArr);
+				}
+				return datas;
 			}
 			return null;
 		}

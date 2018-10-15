@@ -1,6 +1,6 @@
 package com.lk.POI;
 
-
+import org.json.JSONArray;
 
 public class Test
 {
@@ -24,6 +24,9 @@ public class Test
 			fileOut.close();
 		 * 
 		 * */
-	
+		String orders = "["+1+","+2+","+3+"]";
+		JSONArray array = new JSONArray(orders);
+		System.out.println(array);
+		
 	}
 }

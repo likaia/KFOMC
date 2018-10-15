@@ -1698,18 +1698,18 @@
 		</div>
 		
 		<!-- 订单详情页面 -->
-		<div id="orderDetailsSubmenu">
+		<div id="orderDetailsSubmenu" style="display:none">
 				<!-- 表格渲染模块 -->
-			<table class="layui-table" id="orderDetailsList" style="border:solid 1px black">
+			<table class="layui-table" id="orderDetailsList">
 				<thead >
-					<tr>
-						<th>序号</th>
-						<th>长度</th>
-						<th>宽度</th>
-						<th>数量</th>
-						<th>标记</th>
-						<th>面积</th>
-						<th>附加工艺</th>
+					<tr >
+						<th class="layui-bg-cyan">序号</th>
+						<th class="layui-bg-cyan">长度</th>
+						<th class="layui-bg-cyan">宽度</th>
+						<th class="layui-bg-cyan">数量</th>
+						<th class="layui-bg-cyan">标记</th>
+						<th class="layui-bg-cyan">面积</th>
+						<th class="layui-bg-cyan">附加工艺</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -218,6 +218,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{orderItem}
 		</foreach>
 	</delete>
+	<!-- 根据订单查询规格型号 -->
+	<select id="queryModelDetails" resultMap="OrderInfoResult"
+		parameterType="OrderInfo">
+		SELECT modelDetails
+		FROM t_order_Info
+		<where>
+			<if test="orderNumber != null">
+				orderNumber = #{orderNumber}
+			</if>
+		</where>
+	</select>
 	<!-- 模糊查找通过 规格型号 CONCAT（）函数用于将多个字符串连接成一个字符串，是最重要的mysql函数之一 -->
 	<select id="Gluestudy" parameterType="OrderInfo" resultMap="OrderInfoResult">
 		SELECT * FROM t_basic WHERE basicStandard LIKE

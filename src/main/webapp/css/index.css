@@ -1020,3 +1020,11 @@ a {
 #orderDetailsList thead tr th{
 	text-align: center;
 }
+#orderDetailsList tbody .title{
+	background:#FF5722;
+	text-align: left;
+	color:white;
+}
+#orderDetailsList tbody tr td{
+	text-align:center;
+}
