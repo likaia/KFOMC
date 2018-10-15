@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-body>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.PurchaseMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="PurchaseInfo" id="PurchaseInfoResult">
+		<id property="id" column="id" />
+		<result property="orderNumber" column="orderNumber" />
+		<result property="purchaseDate" column="purchaseDate" />
+		<result property="supplier" column="supplier" />
+		<result property="specificationModel" column="specificationModel" />
+		<result property="thickness" column="thickness" />
+		<result property="color" column="color" />
+		<result property="quantity" column="quantity" />
+		<result property="unitPrice" column="unitPrice" />
+		<result property="totalPurchase" column="TotalPurchase" />
+		<result property="ShippingFee" column="ShippingFee" />
+		<result property="remarks" column="remarks" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	
+	
+</mapper> 
 
-</xml-body>

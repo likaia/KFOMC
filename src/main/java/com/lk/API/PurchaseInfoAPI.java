@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import af.restful.AfRestfulApi;
 
 /*进货信息管理*/
-public class PurchaseInfo extends AfRestfulApi
+public class PurchaseInfoAPI extends AfRestfulApi
 {
 
 	@Override
