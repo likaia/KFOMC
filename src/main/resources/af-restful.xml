@@ -14,4 +14,7 @@
 	<api name="adnroidPostExportAPI"  class="com.lk.API.AdnroidPostExportAPI" />
 	<!-- 规格型号[产品名称] 字段数据查询 -->
 	<api name="productNameModelInquiry"  class="com.lk.API.ProductNameModelInquiry" />
+	<!-- 进货管理接口 -->
+	<api name="PurchaseInfo"  class="com.lk.API.PurchaseInfoAPI" />
+	
 </restful>

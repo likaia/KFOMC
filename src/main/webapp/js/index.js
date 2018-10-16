@@ -113,7 +113,7 @@ $(function() {
 				this.IncomingGoodsStatus = "block";
 				setTimeout(function() {
 					/*渲染原片采购数据表格*/
-					MAIN.OriginaFlilmList();
+					MAIN.OriginaFlilmList($("#nickNameTextPanel").html());
 				}, 100);
 				this.financeReportStatus = "none";
 				this.orderManagementStatus = "none";
@@ -132,11 +132,24 @@ $(function() {
 				this.basicSettingsStatus = "none";
 				this.contactUsStatus = "none";
 			},
+			/*进货管理:原片采购[采购登记点击事件]*/
+			purchaseRegistrationFun:function(){
+				layer.open({
+					title : "原片采购",
+					type : 1,
+					area : [ '970px', '640px' ],
+					//shadeClose : true, //点击遮罩关闭
+					content : $("#PurchaseRegistrationSubmenu"),
+					end : function() { //弹层销毁出发回调
+
+					}
+				});
+			},
 			//出货管理点击函数
 			shipmentFun : function() {
 				this.shipmentStatus = "block";
 				setTimeout(function() {
-					/*渲染原片采购数据表格*/
+					/*渲染出货管理数据表格*/
 					MAIN.originalFilmOutList();
 					MAIN.originalFilmOutList2();
 				}, 100);
@@ -1175,12 +1188,10 @@ $(function() {
 		element.on('tab(IncomingGoodsTab)', function(data) {
 			if (data.index == 0) {
 				//原片采购数据表格渲染
-				MAIN.OriginaFlilmList();
-				MAIN.OriginaFlilmList2();
+				MAIN.OriginaFlilmList($("#nickNameTextPanel").html());
 			} else if (data.index == 1) {
 				//附件数据表格渲染
 				MAIN.annexList();
-				MAIN.annexList2();
 			}
 			/*
 			* layer.msg("切换到了"+data.index+this.innerHTML);
@@ -1306,6 +1317,11 @@ $(function() {
 			elem : '#expenditureInfoDateInput', //支出管理:日期区间选择
 			range : true
 		});
+		laydate.render({
+			elem : '#OriginalFilmDateSelect', //进货管理[采购登记]:日期区间选择
+			type:"datetime"
+		});
+		
 		MAIN.dateString = function() {
 			var date = new Date("2018", "12", "1");
 			Af.trace(date);
@@ -1636,13 +1652,13 @@ $(function() {
 			});
 		}
 
-		/*作为全局变量调用（订单信息数据表格）*/
-		MAIN.orderInfoList = function(userName) {
+		
+		/*原片采购数据表格*/
+		MAIN.OriginaFlilmList = function(userName) {
 			table.render({
-				url : "orderInfonQueiry.api",
-				//                  data:testData, //请求地址
+				url :"PurchaseInfo.api",  //--->请求接口
 				method : 'POST', //方式
-				elem : '#orderInfoList',
+				elem : '#OriginaFlilmList',
 				page : true,
 				contentType : 'application/json', //发送到服务端的内容编码类型
 				where : {
@@ -1658,89 +1674,74 @@ $(function() {
 						},
 						{
 							field : 'orderNumber',
-							title : '订单号',
+							title : '单号',
 							align : "center"
 						},
 						{
-							field : 'orderDate',
+							field : 'purchaseDate',
 							title : '日期',
 							align : "center"
 						},
 						{
-							field : 'clientName',
-							title : '客户名称',
+							field : 'supplier',
+							title : '供货商',
 							align : "center"
 						},
 						{
-							field : 'projectName',
-							title : '工程名称',
+							field : 'specificationModel',
+							title : '规格型号',
 							align : "center"
 						},
 						{
-							field : 'glassNumber',
-							title : '玻璃数量',
+							field : 'thickness',
+							title : '厚度',
 							align : "center"
 						},
 						{
-							field : 'totalArea',
-							title : '总面积',
+							field : 'color',
+							title : '颜色',
 							align : "center"
 						},
 						{
-							field : 'numberShipments',
-							title : '发货数量',
+							field : 'quantity',
+							title : '数量',
 							align : "center"
 						},
 						{
-							field : 'shipArea',
-							title : '发货面积',
+							field : 'unitPrice',
+							title : '单价',
 							align : "center"
 						},
 						{
-							field : 'additionalFees',
-							title : '附加费用',
+							field : 'totalPurchase',
+							title : '采购总额',
 							align : "center"
 						},
 						{
-							field : 'totalAmount',
-							title : '总金额',
+							field : 'shippingFee',
+							title : '运输费',
 							align : "center"
 						},
 						{
-							field : 'alreadyPaid',
-							title : '已付款',
-							align : "center"
-						},
-						{
-							field : 'unpaid',
-							title : '未付款',
-							align : "center"
-						},
-						{
-							field : 'finishDelivery',
-							title : '完成发货',
-							align : "center"
-						},
-						{
-							fixed : "right",
-							field : 'preparedBy',
-							title : '制单人',
+							field : 'remarks',
+							title : '备注',
 							align : "center"
 						}
 					]
 				],
 				done : function(res, curr, count) {
 					//清空select中除第一个以外的选项
-					$("#orderNumSelect option:gt(0)").remove();
-					$("#orderClientName option:gt(0)").remove();
-					$("#orderprojectNameSelectId option:gt(0)").remove();
+
+					$("#SingleNumberSelectPanel option:gt(0)").remove();
+					$("#OriginalfilmsupplierSelectPanel option:gt(0)").remove();
+					$("#originalFilmremarkSelectPanel option:gt(0)").remove();
 					//如果是异步请求数据方式，res即为接口返回的信息。
 					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 					//console.log(res);
 					orderNumberSelectFun();
 					clientNameSelectFun();
 					projectNameSelectFun() ;
-					/*渲染订单号选择框*/
+					/*渲染原片采购:单号 选择框*/
 					function orderNumberSelectFun() {
 						var data = res.data;
 						var nowData = [];
@@ -1750,31 +1751,31 @@ $(function() {
 							temporaryData.name = data[i].orderNumber;
 							nowData.push(temporaryData);
 						}
-						addSelectVal(nowData, "orderFormSelectPanel");
+						addSelectVal(nowData, "SingleNumberSelectPanel");
 					}
-					/*渲染客户名称选择框*/
+					/*渲染原片采购:供货商选择框*/
 					function clientNameSelectFun() {
 						var data = res.data;
 						var nowData = [];
 						for (var i = 0; i < data.length; i++) {
 							var temporaryData = {};
 							temporaryData.id = data[i].id;
-							temporaryData.name = data[i].clientName;
+							temporaryData.name = data[i].supplier;
 							nowData.push(temporaryData);
 						}
-						addSelectVal(nowData, "clientNameSelectPanel");
+						addSelectVal(nowData, "OriginalfilmsupplierSelectPanel");
 					}
-					/*渲染工程名称选择框*/
+					/*渲染原片采购:备注选择框*/
 					function projectNameSelectFun() {
 						var data = res.data;
 						var nowData = [];
 						for (var i = 0; i < data.length; i++) {
 							var temporaryData = {};
 							temporaryData.id = data[i].id;
-							temporaryData.name = data[i].projectName;
+							temporaryData.name = data[i].remarks;
 							nowData.push(temporaryData);
 						}
-						addSelectVal(nowData, "projectNameSelectPanel");
+						addSelectVal(nowData, "originalFilmremarkSelectPanel");
 					}
 					/*动态赋值select函数*/
 					function addSelectVal(data, container) {
@@ -1805,93 +1806,6 @@ $(function() {
 				//                    //得到数据总量
 				//                    console.log(count);
 				}
-			});
-		};
-
-		/*页面加载渲染订单信息管理数据表格结束*/
-
-		/*原片采购数据表格*/
-		MAIN.OriginaFlilmList = function() {
-			table.render({
-				url : URL + "/OriginaFlilmList",
-				// data:testData, //请求地址
-				method : 'POST', //方式
-				elem : '#OriginaFlilmList',
-				page : true,
-				limits : [ 10, 15, 20, 25 ],
-				request : {
-					pageName : 'page', //页码的参数名称，默认：page
-					limitName : 'rows' //每页数据量的参数名，默认：limit
-				},
-				cols : [
-					[
-						{
-							fixed : "left",
-							type : 'checkbox',
-							align : "center"
-						},
-						{
-							field : 'CardID',
-							title : '单号',
-							align : "center"
-						},
-						{
-							field : 'CardName',
-							title : '日期',
-							align : "center"
-						},
-						{
-							field : 'LevelName',
-							title : '供货商',
-							align : "center"
-						},
-						{
-							field : 'Money',
-							title : '规格型号',
-							align : "center"
-						},
-						{
-							field : 'Money',
-							title : '厚度',
-							align : "center"
-						},
-						{
-							field : 'Money',
-							title : '颜色',
-							align : "center"
-						},
-						{
-							field : 'Point',
-							title : '数量',
-							align : "center"
-						},
-						{
-							field : 'Point',
-							title : '单价',
-							align : "center"
-						},
-						{
-							field : 'Point',
-							title : '采购总额',
-							align : "center"
-						},
-						{
-							field : 'Point',
-							title : '付款明细',
-							align : "center"
-						},
-						{
-							field : 'Point',
-							title : '运输费',
-							align : "center"
-						},
-						{
-							field : 'Point',
-							title : '备注',
-							align : "center"
-						}
-					]
-				]
 			});
 		};
 		/*附件采购数据表格*/
@@ -2038,6 +1952,7 @@ $(function() {
 				]
 			});
 		};
+		
 		/*库存管理数据表格*/
 		MAIN.stockList = function() {
 			table.render({
@@ -2885,118 +2800,3 @@ $(function() {
 
 	});
 });
-
-
-
-/*渲染客户名称选择框*/
-//addSelectVal(vm.clientNameDatas,"clientNameSelectPanel");
-/*渲染送货地址选择框*/
-//  addSelectVal(vm.deliveryAddressDatas,"deliveryAddressSelectPanel");
-/*渲染联系电话选择框*/
-//addSelectVal(vm.contactNumberDatas,"contactNumberSelectPanel");
-/*渲染制单人选择框*/
-//addSelectVal(vm.orderNumberDatas,"orderNumberSelectPanel");
-/*渲染备注选择框*/
-//addSelectVal(vm.RemarksDatas,"RemarksSelectPanel");
-/*渲染已结账选择框*/
-//addSelectVal(vm.CheckedOutDatas,"CheckedOutSelectPanel");
-/*渲染完成发货选择框*/
-//addSelectVal(vm.finishDeliveryDatas,"finishDeliverySelectPanel");
-/*渲染标签打印选择框*/
-// addSelectVal(vm.labelPrintingDatas,"labelPrintingSelectPanel");
-/*渲染自定义模板选择框*/
-//addSelectVal(vm.CustomTemplateDatas,"CustomTemplateSelectPanel");
-/*渲染原片采购选择框:(单号)*/
-//addSelectVal(vm.SingleNumberDatas,"SingleNumberSelectPanel");
-/*渲染原片采购:供货商*/
-// addSelectVal(vm.supplierDatas,"supplierSelectPanel");
-/*渲染原片采购:备注*/
-//addSelectVal(vm.originalFilmremarkDatas,"originalFilmremarkSelectPanel");
-/*渲染进货管理:附件采购（单号）*/
-//addSelectVal(vm.annexoddNumberDatas,"annexoddNumberSelectPanel");
-/*渲染进货管理:附件采购(供应商)*/
-//addSelectVal(vm.annexsupplierDatas,"annexsupplierSelectPanel");
-/*渲染进货管理:附件采购(备注)*/
-// addSelectVal(vm.annexRemarksDatas,"annexRemarksSelectPanel");
-/*渲染出货管理:产品名称*/
-//  addSelectVal(vm.outOfTheLibraryproductNameDatas,"outOfTheLibraryproductNameSelectPanel");
-/*渲染库存管理:产品名称*/
-//addSelectVal(vm.stockProductNameDatas,"stockProductNameSelectPanel");
-/*渲染库存管理:规格*/
-//addSelectVal(vm.stockspecificationDatas,"stockspecificationSelectPanel");
-/*渲染库存管理:纹理*/
-//addSelectVal(vm.stockTextureDatas,"stockTextureSelectPanel");
-/*渲染库存管理:厚度*/
-//addSelectVal(vm.stockthicknessDatas,"stockthicknessSelectPanel");
-/*渲染月结编号*/
-//addSelectVal(vm.OrderMonthDatas,"OrderMonthSelectPanel");
-/*渲染客户信息管理：客户姓名*/
-//addSelectVal(vm.customerNameDatas,"customerNameSelectPanel");
-/*渲染员工管理：考勤管理(部门)*/
-//addSelectVal(vm.departmentDatas,"departmentSelectPanel");
-/*渲染员工管理：考勤管理(姓名)*/
-//addSelectVal(vm.AttendanceNameDatas,"AttendanceNameSelectPanel");
-/*渲染员工管理：考勤管理(工号)*/
-//addSelectVal(vm.AttendanceJobNumberDatas,"AttendanceJobNumberSelectPanel");
-/*渲染原片信息:产品名称*/
-//addSelectVal(vm.OriginalInfoproductNameDatas,"OriginalInfoproductNameSelectPanel");
-/*渲染附件信息:商品名称*/
-//addSelectVal(vm.OriginalInfoCommodityNameDatas,"OriginalInfoCommodityNameSelectPanel");
-/*财务报表数据表格*/
-
-///*客户名称数据*/
-//clientNameDatas : {},
-///*送货地址数据*/
-//deliveryAddressDatas : {},
-///*联系电话数据*/
-//contactNumberDatas : {},
-///*制单人数据*/
-//orderNumberDatas : {},
-///*工程名称数据*/
-//projectNameDatas : {},
-///*备注数据*/
-//RemarksDatas : {},
-///*已结账数据*/
-//CheckedOutDatas : {},
-///*完成发货数据*/
-//finishDeliveryDatas : {},
-///*标签打印数据*/
-//labelPrintingDatas : {},
-///*自定义模板数据*/
-//CustomTemplateDatas : {},
-///*原片采购:(单号)数据*/
-//SingleNumberDatas : {},
-///*原片采购:供货商数据*/
-//supplierDatas : {},
-///*原片采购:备注数据*/
-//originalFilmremarkDatas : {},
-///*附件采购:单号数据*/
-//annexoddNumberDatas : {},
-///*附件采购:供货商数据*/
-//annexsupplierDatas : {},
-///*附件采购：备注数据*/
-//annexRemarksDatas : {},
-///*出货管理:产品名称数据*/
-//outOfTheLibraryproductNameDatas : {},
-///*库存管理:产品名称数据*/
-//stockProductNameDatas : {},
-///*库存管理:规格数据*/
-//stockspecificationDatas : {},
-///*库存管理:纹理查询数据*/
-//stockTextureDatas : {},
-///*库存管理:厚度数据*/
-//stockthicknessDatas : {},
-///*月结编号数据*/
-//OrderMonthDatas : {},
-///*客户信息管理：客户姓名数据*/
-//customerNameDatas : {},
-///*考勤管理:部门数据*/
-//departmentDatas : {},
-///*考勤管理:姓名数据*/
-//AttendanceNameDatas : {},
-///*考勤管理:工号数据*/
-//AttendanceJobNumberDatas : {},
-///*原片信息:产品名称*/
-//OriginalInfoproductNameDatas : {},
-///*附件信息:商品名称*/
-//OriginalInfoCommodityNameDatas : {}

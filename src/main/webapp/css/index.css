@@ -1028,3 +1028,19 @@ a {
 #orderDetailsList tbody tr td{
 	text-align:center;
 }
+/*采购登记悬浮层*/
+#PurchaseRegistrationSubmenu{
+	width:98%;
+	height:550px;
+	margin: 20px auto 0;
+	display:none;
+}
+#PurchaseRegistrationSubmenu .row-panel{
+	width:100%;
+	height: 40px;
+}
+#PurchaseRegistrationSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}

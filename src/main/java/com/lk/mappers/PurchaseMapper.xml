@@ -19,7 +19,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="remarks" column="remarks" />
 		<result property="operator" column="operator" />
 	</resultMap>
-	
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="PurchaseInfoResult"
+		parameterType="PurchaseInfo">
+		SELECT
+		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
+		FROM t_purchaseInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
 	
 </mapper> 
 

@@ -280,8 +280,8 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">订单号</label>
 										<div class="layui-input-block" id="orderFormSelectPanel">
-											<select lay-search="" lay-filter="orderNumberSelectPanel" id="orderNumSelect"
-												name="orderFormSelectPanel">
+											<select lay-search="" lay-filter="orderNumberSelectPanel"
+												id="orderNumSelect" name="orderFormSelectPanel">
 												<option value="">直接选择或手动输入订单号</option>
 											</select>
 										</div>
@@ -293,8 +293,8 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">客户名称</label>
 										<div class="layui-input-block">
-											<select lay-search="" lay-filter="orderClientNameSelectPanel" id="orderClientName"
-												name="clientNameSelectPanel">
+											<select lay-search="" lay-filter="orderClientNameSelectPanel"
+												id="orderClientName" name="clientNameSelectPanel">
 												<option value="">直接选择或手动输入客户名称</option>
 											</select>
 										</div>
@@ -454,14 +454,15 @@
 											v-bind:style="{background:BtnColor}">查询</button>
 										<button class="layui-btn layui-btn-normal"
 											v-bind:style="{background:BtnColor}" @click="DeleteOrderFun">删除</button>
-										<button class="layui-btn layui-btn-normal" @click="ExportOrderFun"
-											v-bind:style="{background:BtnColor}">导出订单</button>
-										<button class="layui-btn layui-btn-normal" @click="orderDetailsFun"
-											v-bind:style="{background:BtnColor}">订单详情</button>
+										<button class="layui-btn layui-btn-normal"
+											@click="ExportOrderFun" v-bind:style="{background:BtnColor}">导出订单</button>
+										<button class="layui-btn layui-btn-normal"
+											@click="orderDetailsFun" v-bind:style="{background:BtnColor}">订单详情</button>
 									</div>
 								</div>
 								<div class="ListDataTable-panel">
-									<table id="orderInfoList" lay-filter="orderInfoList" lay-data="{id:'orderInfoList'}" ></table>
+									<table id="orderInfoList" lay-filter="orderInfoList"
+										lay-data="{id:'orderInfoList'}"></table>
 								</div>
 							</div>
 						</div>
@@ -549,9 +550,13 @@
 									<!--表格顶部按钮-->
 									<div class="topBtn-panel">
 										<div class="btn-panel">
-											<button class="layui-btn layui-btn-normal">采购登记</button>
-											<button class="layui-btn layui-btn-normal">报表</button>
-											<button class="layui-btn layui-btn-normal">查询</button>
+											<button class="layui-btn layui-btn-normal"
+												@click="purchaseRegistrationFun"
+												v-bind:style="{background:BtnColor}">采购登记</button>
+											<button class="layui-btn layui-btn-normal"
+												v-bind:style="{background:BtnColor}">报表</button>
+											<button class="layui-btn layui-btn-normal"
+												v-bind:style="{background:BtnColor}">查询</button>
 										</div>
 									</div>
 									<!--原片采购数据表格1-->
@@ -1529,8 +1534,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">客户名称:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入客户名称" autocomplete="off" id="billingClientName"
-										class="layui-input">
+									<input type="text" placeholder="输入客户名称" autocomplete="off"
+										id="billingClientName" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1538,8 +1543,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">工程名称:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入工程名称" autocomplete="off" id="billingprojectName"
-										class="layui-input">
+									<input type="text" placeholder="输入工程名称" autocomplete="off"
+										id="billingprojectName" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1547,8 +1552,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">订单号:</label>
 								<div class="layui-input-block">
-									<input id="billingOrderNumber" type="text" placeholder="自动生成" autocomplete="off"
-										readonly="readonly" class="layui-input" style="cursor:pointer">
+									<input id="billingOrderNumber" type="text" placeholder="自动生成"
+										autocomplete="off" readonly="readonly" class="layui-input"
+										style="cursor:pointer">
 								</div>
 							</div>
 						</div>
@@ -1568,8 +1574,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">送货地址:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入送货地址" autocomplete="off" id="billingdeliveryAddress"
-										class="layui-input">
+									<input type="text" placeholder="输入送货地址" autocomplete="off"
+										id="billingdeliveryAddress" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1577,7 +1583,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">联系电话:</label>
 								<div class="layui-input-block">
-									<input type="number" placeholder="输入联系电话" id="billingcontactNumber" oninput="if(value.length>11)value=value.slice(0,11)"
+									<input type="number" placeholder="输入联系电话"
+										id="billingcontactNumber"
+										oninput="if(value.length>11)value=value.slice(0,11)"
 										class="layui-input">
 								</div>
 							</div>
@@ -1586,7 +1594,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">发货方式:</label>
 								<div class="layui-input-block">
-									<select name="billingShippingMethod" lay-verify=""  id="billingShippingMethod">
+									<select name="billingShippingMethod" lay-verify=""
+										id="billingShippingMethod">
 										<option value=""></option>
 										<option value="0" selected>自取</option>
 										<option value="1">货车发货</option>
@@ -1598,7 +1607,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">制单人:</label>
 								<div class="layui-input-block">
-									<select name="" lay-verify="ShippingMethodSelect" id="billingPreparedBy">
+									<select name="" lay-verify="ShippingMethodSelect"
+										id="billingPreparedBy">
 										<option value=""></option>
 										<option value="管理员" selected>管理员</option>
 										<option value="其他">其他</option>
@@ -1612,8 +1622,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">玻璃数量:</label>
 								<div class="layui-input-block">
-									<input style="cursor:pointer" readonly="readonly" type="text" id="billingGlassNum"
-										placeholder="自动计算" autocomplete="off" class="layui-input">
+									<input style="cursor:pointer" readonly="readonly" type="text"
+										id="billingGlassNum" placeholder="自动计算" autocomplete="off"
+										class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1621,8 +1632,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">总面积:</label>
 								<div class="layui-input-block">
-									<input style="cursor:pointer" readonly="readonly" type="text" id="billingTotalArea"
-										placeholder="自动计算" autocomplete="off" class="layui-input">
+									<input style="cursor:pointer" readonly="readonly" type="text"
+										id="billingTotalArea" placeholder="自动计算" autocomplete="off"
+										class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1630,7 +1642,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">其他费用:</label>
 								<div class="layui-input-block">
-									<input type="number" placeholder="输入金额" autocomplete="off" id="billingOtherCost" oninput="if(value.length>11)value=value.slice(0,11)"
+									<input type="number" placeholder="输入金额" autocomplete="off"
+										id="billingOtherCost"
+										oninput="if(value.length>11)value=value.slice(0,11)"
 										class="layui-input">
 								</div>
 							</div>
@@ -1639,8 +1653,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">总金额(元):</label>
 								<div class="layui-input-block">
-									<input style="cursor:pointer"  type="text" id="billingtotalAmount" 
-										placeholder="请输入" autocomplete="off" class="layui-input">
+									<input style="cursor:pointer" type="text"
+										id="billingtotalAmount" placeholder="请输入" autocomplete="off"
+										class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1650,8 +1665,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">备注:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="输入备注" autocomplete="off" id="billingRemarks"
-										class="layui-input">
+									<input type="text" placeholder="输入备注" autocomplete="off"
+										id="billingRemarks" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1660,8 +1675,9 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">已付款(元):</label>
 									<div class="layui-input-block">
-										<input style="cursor:pointer"  type="text" id="billingPaid" maxlength="9" 
-											placeholder="请输入" autocomplete="off" class="layui-input">
+										<input style="cursor:pointer" type="text" id="billingPaid"
+											maxlength="9" placeholder="请输入" autocomplete="off"
+											class="layui-input">
 									</div>
 								</div>
 							</div>
@@ -1669,8 +1685,9 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">未付款:</label>
 									<div class="layui-input-block">
-										<input style="cursor:pointer" type="text" readonly="readonly" id="billingUnpaid" 
-											placeholder="自动计算" autocomplete="off" class="layui-input">
+										<input style="cursor:pointer" type="text" readonly="readonly"
+											id="billingUnpaid" placeholder="自动计算" autocomplete="off"
+											class="layui-input">
 									</div>
 								</div>
 							</div>
@@ -1696,13 +1713,13 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- 订单详情页面 -->
 		<div id="orderDetailsSubmenu" style="display:none">
-				<!-- 表格渲染模块 -->
+			<!-- 表格渲染模块 -->
 			<table class="layui-table" id="orderDetailsList">
-				<thead >
-					<tr >
+				<thead>
+					<tr>
 						<th class="layui-bg-cyan">序号</th>
 						<th class="layui-bg-cyan">长度</th>
 						<th class="layui-bg-cyan">宽度</th>
@@ -1713,12 +1730,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					
+
 				</tbody>
 			</table>
 		</div>
-		
-		
+
+
 		<!-- 打印模板开始 -->
 		<div id="PrintTemplate" style="display:none">
 			<h1>陕西伯益中空玻璃有限公司</h1>
@@ -1775,8 +1792,9 @@
 				</div>
 			</div>
 			<!-- 表格渲染模块 -->
-			<table class="layui-table" id="ProductionOrderList" style="border:solid 2px black">
-				<thead >
+			<table class="layui-table" id="ProductionOrderList"
+				style="border:solid 2px black">
+				<thead>
 					<tr>
 						<th>序号</th>
 						<th>长度</th>
@@ -1788,7 +1806,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					
+
 				</tbody>
 			</table>
 			<!-- 公司信息区域 -->
@@ -1819,6 +1837,41 @@
 			</div>
 		</div>
 		<!-- 打印模板结束 -->
+<!-- 采购登记悬浮层 -->
+		<div id="PurchaseRegistrationSubmenu">
+			<form class="layui-form layui-form-pane" action="">
+				<div class="layui-form-item">
+					<label class="layui-form-label">订单号:</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" style="cursor:pointer"
+							readonly="readonly" placeholder="自动生成" class="layui-input">
+					</div>
+				</div>
+				<div class="row-panel">
+					<div class="item-panel">
+						<div class="layui-form-item">
+							<label class="layui-form-label">日期:</label>
+							<div class="layui-input-block">
+								<input type="text" style="cursor:pointer" readonly="readonly"
+									name="date" id="OriginalFilmDateSelect" autocomplete="off"
+									class="layui-input">
+							</div>
+						</div>
+					</div>
+					<div class="item-panel">
+						<div class="layui-form-item">
+							<label class="layui-form-label">供货商:</label>
+							<div class="layui-input-block">
+								<input type="text" name="title" placeholder="请输入供货商"
+									class="layui-input">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+<!-- 采购登记悬浮层结束 -->
 	</div>
+
 </body>
 </html>
