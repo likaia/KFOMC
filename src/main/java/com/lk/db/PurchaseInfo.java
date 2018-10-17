@@ -1,5 +1,7 @@
 package com.lk.db;
 
+import org.json.JSONArray;
+
 public class PurchaseInfo
 {
 	private int id;
@@ -15,6 +17,33 @@ public class PurchaseInfo
 	private String ShippingFee ;
 	private String remarks;
 	private String operator;
+	private String dStart;
+	private String dEnd;
+	private JSONArray orders;
+	public JSONArray getOrders()
+	{
+		return orders;
+	}
+	public void setOrders(JSONArray orders)
+	{
+		this.orders = orders;
+	}
+	public String getdStart()
+	{
+		return dStart;
+	}
+	public void setdStart(String dStart)
+	{
+		this.dStart = dStart;
+	}
+	public String getdEnd()
+	{
+		return dEnd;
+	}
+	public void setdEnd(String dEnd)
+	{
+		this.dEnd = dEnd;
+	}
 	public String getOrderNumber()
 	{
 		return orderNumber;
@@ -123,5 +152,22 @@ public class PurchaseInfo
 	{
 		super();
 	}
-	
+	public PurchaseInfo(String orderNumber, String purchaseDate, String supplier, String specificationModel,
+			String thickness, String color, String quantity, String unitPrice, String totalPurchase, String shippingFee,
+			String remarks, String operator)
+	{
+		super();
+		this.orderNumber = orderNumber;
+		this.purchaseDate = purchaseDate;
+		this.supplier = supplier;
+		this.specificationModel = specificationModel;
+		this.thickness = thickness;
+		this.color = color;
+		this.quantity = quantity;
+		this.unitPrice = unitPrice;
+		TotalPurchase = totalPurchase;
+		ShippingFee = shippingFee;
+		this.remarks = remarks;
+		this.operator = operator;
+	}
 }

@@ -171,7 +171,6 @@ public class OrderInfonQueiry extends AfRestfulApi
 			// 刪除订单
 			if (jsReq.has("delOrders"))
 			{
-
 				JSONArray orders = jsReq.getJSONArray("orders");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();

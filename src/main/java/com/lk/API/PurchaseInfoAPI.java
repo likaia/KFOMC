@@ -41,8 +41,8 @@ public class PurchaseInfoAPI extends AfRestfulApi
 		if (jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator"); // --->取出操作人
-			// 订单信息:分页查询接口
-			if (jsReq.has("page") || jsReq.has("limit"))
+			// 进货管理:分页查询接口
+			if (jsReq.has("page") && jsReq.has("limit"))
 			{
 				page = jsReq.getInt("page");
 				limit = jsReq.getInt("limit");
@@ -65,7 +65,98 @@ public class PurchaseInfoAPI extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
-
+			//进货管理:条件查询()
+			if(jsReq.has("conditionalQuery"))
+			{
+				String orderNumber = jsReq.getString("orderNumber");
+				String supplier = jsReq.getString("originalFilmSupplier");
+				String remarks = jsReq.getString("originalFilmRemarks");
+				String dStart = jsReq.getString("dStart");
+				String dEnd = jsReq.getString("dEnd");
+				if (orderNumber.equals(""))
+				{
+					orderNumber = null;
+				}
+				if (supplier.equals(""))
+				{
+					supplier = null;
+				}
+				if (remarks.equals(""))
+				{
+					remarks = null;
+				}
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				PurchaseMapper purchaseMapper = sqlSession.getMapper(PurchaseMapper.class);
+				PurchaseInfo row = new PurchaseInfo();
+				row.setOrderNumber(orderNumber);
+				row.setSupplier(supplier);
+				row.setRemarks(remarks);
+				row.setdStart(dStart);
+				row.setdEnd(dEnd);
+				row.setOperator(operator);
+				List<PurchaseInfo> resultList = purchaseMapper.conditionalQuery(row);
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
+			//进货管理新增数据
+			if(jsReq.has("addOrderData"))
+			{
+				String orderNumber = jsReq.getString("orderNumber");
+				String purchaseDate = jsReq.getString("purchaseDate");
+				String supplier = jsReq.getString("supplier");
+				String specificationModel = jsReq.getString("specificationModel");
+				String thickness = jsReq.getString("thickness");
+				String color = jsReq.getString("color");
+				String quantity = jsReq.getString("quantity");
+				String unitPrice = jsReq.getString("unitPrice");
+				String totalPurchase = jsReq.getString("totalPurchase");
+				String shippingFee = jsReq.getString("shippingFee");
+				String remarks = jsReq.getString("remarks");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				PurchaseMapper purchaseMapper = sqlSession.getMapper(PurchaseMapper.class);
+				PurchaseInfo row = new PurchaseInfo(orderNumber, purchaseDate, supplier, specificationModel, thickness, color, quantity, unitPrice, totalPurchase, shippingFee, remarks, operator);
+				int processResult = purchaseMapper.add(row);
+				sqlSession.commit();
+				if(processResult>0)
+				{
+					msg = "添加成功";
+				}
+				else
+				{
+					code = 1;
+					errorCode = 1;
+					msg = "添加失败";
+				}
+				sqlSession.close();
+			}
+			//进货管理:批量删除
+			if(jsReq.has("delOrders"))
+			{
+				JSONArray orders = jsReq.getJSONArray("orders");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				PurchaseMapper purchaseMapper = sqlSession.getMapper(PurchaseMapper.class);
+				PurchaseInfo row = new PurchaseInfo();
+				row.setOrders(orders);
+				int processResult = purchaseMapper.del(row);
+				sqlSession.commit();
+				if (processResult > 0)
+				{
+					msg = "删除成功!";
+				} else
+				{
+					msg = "删除失败";
+				}
+				sqlSession.close();
+			}
 		} else
 		{
 			code = 1;

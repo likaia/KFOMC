@@ -4,27 +4,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lk.mappers.PurchaseMapper">
 	<!--定义结果集:用于存储所有数据 -->
-	<resultMap type="PurchaseInfo" id="PurchaseInfoResult">
+	<resultMap type="FittingInfo" id="FittingInfoResult">
 		<id property="id" column="id" />
 		<result property="orderNumber" column="orderNumber" />
-		<result property="purchaseDate" column="purchaseDate" />
+		<result property="fittingDate" column="fittingDate" />
 		<result property="supplier" column="supplier" />
 		<result property="specificationModel" column="specificationModel" />
-		<result property="thickness" column="thickness" />
-		<result property="color" column="color" />
-		<result property="quantity" column="quantity" />
-		<result property="unitPrice" column="unitPrice" />
-		<result property="totalPurchase" column="TotalPurchase" />
-		<result property="ShippingFee" column="ShippingFee" />
+		<result property="purchaseQuantity" column="purchaseQuantity" />
+		<result property="totalPurchase" column="totalPurchase" />
+		<result property="paymentDetails" column="paymentDetails" />
+		<result property="otherFee" column="otherFee" />
 		<result property="remarks" column="remarks" />
 		<result property="operator" column="operator" />
 	</resultMap>
 	<!-- 分页查询数据开始: -->
-	<select id="findexpenditurePage" resultMap="PurchaseInfoResult"
-		parameterType="PurchaseInfo">
+	<select id="findexpenditurePage" resultMap="FittingInfoResult"
+		parameterType="FittingInfo">
 		SELECT
-		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
-		FROM t_purchaseInfo
+		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,operator
+		FROM t_fitting_Info
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -32,11 +30,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	<!-- 根据特定条件查询表内数据 -->
-	<select id="conditionalQuery" resultMap="PurchaseInfoResult"
-		parameterType="PurchaseInfo">
+	<select id="conditionalQuery" resultMap="FittingInfoResult"
+		parameterType="FittingInfo">
 		SELECT
-		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
-		FROM t_purchaseInfo
+		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,operator
+		FROM t_fitting_Info
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -60,22 +58,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	<!-- 批量删除 -->
-	<delete id="del" parameterType="PurchaseInfo">
-		delete from t_purchaseInfo where (orderNumber) in
+	<delete id="del" parameterType="FittingInfo">
+		delete from t_fitting_Info where (orderNumber) in
 		<foreach item="orderItem" collection="orders" open="("
 			separator="," close=")">
 			#{orderItem}
 		</foreach>
 	</delete>
 	<!-- 新增数据开始 -->
-	<insert id="add" parameterType="PurchaseInfo">
-		insert into t_purchaseInfo
+	<insert id="add" parameterType="FittingInfo">
+		insert into t_fitting_Info
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="orderNumber != null">
 				orderNumber,
 			</if>
-			<if test="purchaseDate != null">
-				purchaseDate,
+			<if test="fittingDate != null">
+				fittingDate,
 			</if>
 			<if test="supplier != null">
 				supplier,
@@ -83,23 +81,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="specificationModel != null">
 				specificationModel,
 			</if>
-			<if test="thickness != null">
-				thickness,
+			<if test="purchaseQuantity != null">
+				purchaseQuantity,
 			</if>
-			<if test="color != null">
-				color,
-			</if>
-			<if test=" quantity != null">
-				quantity,
-			</if>
-			<if test=" unitPrice != null">
-				unitPrice,
-			</if>
-			<if test=" totalPurchase != null">
+			<if test="totalPurchase != null">
 				totalPurchase,
 			</if>
-			<if test=" shippingFee != null">
-				shippingFee,
+			<if test=" paymentDetails != null">
+				paymentDetails,
+			</if>
+			<if test=" otherFee != null">
+				otherFee,
 			</if>
 			<if test=" remarks != null">
 				remarks,
@@ -112,8 +104,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="orderNumber != null">
 				#{orderNumber,jdbcType=VARCHAR},
 			</if>
-			<if test="purchaseDate != null">
-				#{purchaseDate,jdbcType=VARCHAR},
+			<if test="fittingDate != null">
+				#{fittingDate,jdbcType=VARCHAR},
 			</if>
 			<if test="supplier != null">
 				#{supplier,jdbcType=VARCHAR},
@@ -121,23 +113,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="specificationModel != null">
 				#{specificationModel,jdbcType=VARCHAR},
 			</if>
-			<if test="thickness != null">
-				#{thickness,jdbcType=VARCHAR},
+			<if test="purchaseQuantity != null">
+				#{purchaseQuantity,jdbcType=VARCHAR},
 			</if>
-			<if test="color != null">
-				#{color,jdbcType=VARCHAR},
-			</if>
-			<if test="quantity != null">
-				#{quantity,jdbcType=VARCHAR},
-			</if>
-			<if test="unitPrice != null">
-				#{unitPrice,jdbcType=VARCHAR},
-			</if>
-			<if test=" totalPurchase != null">
+			<if test="totalPurchase != null">
 				#{totalPurchase,jdbcType=VARCHAR},
 			</if>
-			<if test="shippingFee != null">
-				#{shippingFee,jdbcType=VARCHAR},
+			<if test="paymentDetails != null">
+				#{paymentDetails,jdbcType=VARCHAR},
+			</if>
+			<if test="otherFee != null">
+				#{otherFee,jdbcType=VARCHAR},
 			</if>
 			<if test=" remarks != null">
 				#{remarks,jdbcType=VARCHAR},

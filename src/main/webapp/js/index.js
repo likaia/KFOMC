@@ -72,7 +72,13 @@ $(function() {
 			OrderProjectName : "",
 			//订单信息管理:日期 用户选择数据
 			dStart : "",
-			dEnd : ""
+			dEnd : "",
+			/*进货管理:原片采购*/
+			originalFilmorderNumber : "", //--->订单号用户选择数据
+			supplierSelectVal : "", //--->供货商用户选择数据
+			originalFilmRemarksVal : "", //---->备注用户选择数据
+			originalFilmdStart : "", //开始时间
+			originalFilmEnd : "" //结束时间
 		},
 		methods : {
 			materialFun : function() {
@@ -133,7 +139,11 @@ $(function() {
 				this.contactUsStatus = "none";
 			},
 			/*进货管理:原片采购[采购登记点击事件]*/
-			purchaseRegistrationFun:function(){
+			purchaseRegistrationFun : function() {
+				//请求后台获取订单号
+				Af.rest("getOrderNumber.api", {}, function(ans) {
+					$("#OriginalFilmorderNumber").val(ans.orderNumber);
+				});
 				layer.open({
 					title : "原片采购",
 					type : 1,
@@ -144,6 +154,199 @@ $(function() {
 
 					}
 				});
+			},
+			/*进货管理:原片采购[采购登记{提交}点击事件]*/
+			purchaseRegistrationSubmitFun : function() {
+				/*获取用户输入的数据*/
+				var req = {};
+				req.orderNumber = $("#OriginalFilmorderNumber").val();
+				req.purchaseDate = $("#OriginalFilmDateSelect").val();
+				req.supplier = $("#OriginalFilmsupplier").val();
+				req.specificationModel = $("#OriginalFilmspecificationModel").val();
+				req.thickness = $("#OriginalFilmthickness").val();
+				req.color = $("#OriginalFilmcolor").val();
+				req.quantity = $("#OriginalFilmquantity").val();
+				req.unitPrice = $("#OriginalFilmunitPrice").val();
+				req.totalPurchase = $("#OriginalFilmtotalPurchase").val();
+				req.shippingFee = $("#OriginalFilmshippingFee").val();     	
+				req.remarks = $("#OriginalFilmremarks").val();
+				req.operator = $("#nickNameTextPanel").html();
+				req.addOrderData = "addOrderData";
+				if (Af.nullstr(req.purchaseDate) || Af.nullstr(req.supplier) || Af.nullstr(req.specificationModel) || Af.nullstr(req.thickness) || Af.nullstr(req.color) || Af.nullstr(req.quantity) || Af.nullstr(req.unitPrice) || Af.nullstr(req.totalPurchase) || Af.nullstr(req.shippingFee) || Af.nullstr(req.remarks)) {
+					MAIN.ErroAlert("请检查红色必填项!")
+					if(Af.nullstr(req.purchaseDate))
+					{
+						$("#OriginalFilmDateSelect").css({"border-color":"red"});
+					}
+					else{
+						$("#OriginalFilmDateSelect").css({"border-color":"#E5E5E5"});
+					}
+					if(Af.nullstr(req.supplier))
+					{
+						$("#OriginalFilmsupplier").css({"border-color":"red"});
+					}
+					else{
+						$("#OriginalFilmsupplier").css({"border-color":"#E5E5E5"});
+						
+					}
+					if(Af.nullstr(req.specificationModel))
+					{
+						$("#OriginalFilmspecificationModel").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmspecificationModel").css({"border-color":"#E5E5E5"});
+						
+					}
+					if(Af.nullstr(req.thickness))
+					{
+						$("#OriginalFilmthickness").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmthickness").css({"border-color":"#E5E5E5"});
+					}
+					if(Af.nullstr(req.color))
+					{
+						$("#OriginalFilmcolor").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmcolor").css({"border-color":"#E5E5E5"});
+						
+					}
+					if(Af.nullstr(req.quantity))
+					{
+						$("#OriginalFilmquantity").css({"border-color":"red"});
+					}else{
+						
+						$("#OriginalFilmquantity").css({"border-color":"#E5E5E5"});
+					}
+					if(Af.nullstr(req.unitPrice))
+					{
+						$("#OriginalFilmunitPrice").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmunitPrice").css({"border-color":"#E5E5E5"});
+						
+					}
+					if(Af.nullstr(req.totalPurchase ))
+					{
+						$("#OriginalFilmtotalPurchase").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmtotalPurchase").css({"border-color":"#E5E5E5"});
+						
+					}
+					if(Af.nullstr(req.shippingFee))
+					{
+						$("#OriginalFilmshippingFee").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmshippingFee").css({"border-color":"#E5E5E5"});
+						
+					}
+					if(Af.nullstr(req.remarks))
+					{
+						$("#OriginalFilmremarks").css({"border-color":"red"});
+					}else{
+						$("#OriginalFilmremarks").css({"border-color":"#E5E5E5"});
+						
+					}
+				}
+				else{
+					Af.rest("PurchaseInfo.api",req,function(ans){
+						if(ans.errorCode==0)
+						{
+							//数据表格重载
+							MAIN.OriginaFlilmList($("#nickNameTextPanel").html());
+							layer.closeAll();
+						}
+						else
+						{
+							layer.msg(ans.msg);
+						}
+					});
+					if(!Af.nullstr(req.purchaseDate))
+					{
+						$("#OriginalFilmDateSelect").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.supplier))
+					{
+						$("#OriginalFilmsupplier").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.specificationModel))
+					{
+						$("#OriginalFilmspecificationModel").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.thickness))
+					{
+						$("#OriginalFilmthickness").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.color))
+					{
+						$("#OriginalFilmcolor").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.quantity))
+					{
+						$("#OriginalFilmquantity").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.unitPrice))
+					{
+						$("#OriginalFilmunitPrice").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.totalPurchase ))
+					{
+						$("#OriginalFilmtotalPurchase").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.shippingFee))
+					{
+						$("#OriginalFilmshippingFee").css({"border-color":"#E5E5E5"});
+					}
+					if(!Af.nullstr(req.remarks))
+					{
+						$("#OriginalFilmremarks").css({"border-color":"#E5E5E5"});
+					}
+				}
+			},
+			/*进货管理:原片采购[采购登记{取消}点击事件]*/
+			purchaseRegistrationCancelFun : function() {
+				layer.closeAll();
+			},
+			/*进货管理:原片采购[查询]点击事件*/
+			PurchaseregistrationQueryFun : function() {
+				var req = {};
+				//获取查询条件
+				req.operator = $("#nickNameTextPanel").html();
+				req.conditionalQuery = "conditionalQuery";
+				req.orderNumber = this.originalFilmorderNumber; //---->订单号
+				req.originalFilmSupplier = this.supplierSelectVal; //--->供货商
+				req.originalFilmRemarks = this.originalFilmRemarksVal; //--->备注
+				req.dStart = this.originalFilmdStart;
+				req.dEnd = this.originalFilmEnd;
+				if (Af.nullstr(req.orderNumber || req.originalFilmSupplier || req.originalFilmRemarks || req.dStart || req.dEnd)) {
+					MAIN.ErroAlert("请选择一个条件后,再点查询!");
+				} else {
+					Af.rest("PurchaseInfo.api", req, function(ans) {
+						MAIN.OriginaFlilmDataList(ans.data);
+					});
+				}
+			},
+			/*进货管理:原片采购[删除]点击事件*/
+			PurchaseregistrationDelFun:function(){
+				var req = {};
+				//取出当前选择项订单号
+				var ordersArray = MAIN.getSelectOrder("OriginaFlilmList");
+				if (Af.nullstr(ordersArray)) {
+					MAIN.ErroAlert("不能删除空数据,请勾选订单!");
+				} else {
+					//提示用户删除
+					layer.confirm('确定要删除吗?', function(index) {
+						var ordersStr = ordersArray.toString();
+						req.orders = Af.strToIntArr(ordersStr); //将String字符串转int数组
+						req.operator = $("#nickNameTextPanel").html();
+						req.delOrders = "delOrders";
+						Af.rest("PurchaseInfo.api", req, function(ans) {
+							layer.close(index);
+							layer.msg(ans.msg);
+							if (ans.errorCode == 0) {
+								//数据表格重载
+								MAIN.OriginaFlilmList($("#nickNameTextPanel").html());
+							}
+						});
+					});
+				}
 			},
 			//出货管理点击函数
 			shipmentFun : function() {
@@ -692,12 +895,9 @@ $(function() {
 				if (Af.nullstr(orders)) {
 					MAIN.ErroAlert("请勾选一个订单");
 				} else {
-					if(orders.length>1)
-					{
+					if (orders.length > 1) {
 						MAIN.ErroAlert("只能勾选一个订单号进行查询,请更改!");
-					}
-					else
-					{
+					} else {
 						var req = {};
 						req.orderNumber = orders[0];
 						req.queryModelDetails = "modelDetails";
@@ -1295,7 +1495,12 @@ $(function() {
 		});
 		laydate.render({
 			elem : '#originalFilmPurchaseDate', //原片采购:日期区间选择
-			range : true
+			range : true,
+			calendar : true,
+			done : function(value, date, endDate) {
+				vm.originalFilmdStart = date.year + "-" + date.month + "-" + date.date + " " + date.hours + ":" + date.minutes + ":" + date.seconds;
+				vm.originalFilmEnd = endDate.year + "-" + endDate.month + "-" + endDate.date + " " + endDate.hours + ":" + endDate.minutes + ":" + endDate.seconds;
+			}
 		});
 		laydate.render({
 			elem : '#attachmentProcurementDate', //附件采购:日期区间选择
@@ -1319,9 +1524,9 @@ $(function() {
 		});
 		laydate.render({
 			elem : '#OriginalFilmDateSelect', //进货管理[采购登记]:日期区间选择
-			type:"datetime"
+			type : "datetime"
 		});
-		
+
 		MAIN.dateString = function() {
 			var date = new Date("2018", "12", "1");
 			Af.trace(date);
@@ -1388,7 +1593,16 @@ $(function() {
 		form.on('select(orderprojectNameSelectPanel)', function(data) {
 			vm.OrderProjectName = data.value;
 		});
-
+		/*监听原片采购*/
+		form.on('select(SingleNumberSelectPanel)', function(data) {
+			vm.originalFilmorderNumber = data.value;
+		});
+		form.on('select(supplierSelectPanel)', function(data) {
+			vm.supplierSelectVal = data.value;
+		});
+		form.on('select(originalFilmremarkSelectPanel)', function(data) {
+			vm.originalFilmRemarksVal = data.value;
+		});
 
 		/*订单信息数据表格*/
 		MAIN.orderInfoCustomizeList = function(resultData) {
@@ -1651,12 +1865,181 @@ $(function() {
 				}
 			});
 		}
+		/*作为全局变量调用:订单信息数据表格*/
+		MAIN.orderInfoList = function(userName) {
+			table.render({
+				url : "orderInfonQueiry.api",
+				//                data:testData, //请求地址
+				method : 'POST', //方式
+				elem : '#orderInfoList',
+				page : true,
+				contentType : 'application/json', //发送到服务端的内容编码类型
+				where : {
+					operator : userName
+				},
+				limits : [ 10, 15, 20, 25 ],
+				cols : [
+					[
+						{
+							fixed : "left",
+							type : 'checkbox',
+							align : "center"
+						},
+						{
+							field : 'orderNumber',
+							title : '订单号',
+							align : "center"
+						},
+						{
+							field : 'orderDate',
+							title : '日期',
+							align : "center"
+						},
+						{
+							field : 'clientName',
+							title : '客户名称',
+							align : "center"
+						},
+						{
+							field : 'projectName',
+							title : '工程名称',
+							align : "center"
+						},
+						{
+							field : 'glassNumber',
+							title : '玻璃数量(个)',
+							align : "center"
+						},
+						{
+							field : 'totalArea',
+							title : '总面积(㎡)',
+							align : "center"
+						},
+						{
+							field : 'numberShipments',
+							title : '发货数量(个)',
+							align : "center"
+						},
+						{
+							field : 'shipArea',
+							title : '发货面积(㎡)',
+							align : "center"
+						},
+						{
+							field : 'additionalFees',
+							title : '附加费用(元)',
+							align : "center"
+						},
+						{
+							field : 'totalAmount',
+							title : '总金额(元)',
+							align : "center"
+						},
+						{
+							field : 'alreadyPaid',
+							title : '已付款(元)',
+							align : "center"
+						},
+						{
+							field : 'unpaid',
+							title : '未付款(元)',
+							align : "center"
+						},
+						{
+							field : 'finishDelivery',
+							title : '完成发货(个)',
+							align : "center"
+						},
+						{
+							fixed : "right",
+							field : 'preparedBy',
+							title : '制单人',
+							align : "center"
+						}
+					]
+				],
+				done : function(res, curr, count) {
+					//清空select中除第一个以外的选项
+					$("#orderNumSelect option:gt(0)").remove();
+					$("#orderClientName option:gt(0)").remove();
+					$("#orderprojectNameSelectId option:gt(0)").remove();
+					//如果是异步请求数据方式，res即为接口返回的信息。
+					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+					//console.log(res);
+					orderNumberSelectFun();
+					clientNameSelectFun();
+					projectNameSelectFun() ;
+					/*渲染订单号选择框*/
+					function orderNumberSelectFun() {
+						var data = res.data;
+						var nowData = [];
+						for (var i = 0; i < data.length; i++) {
+							var temporaryData = {};
+							temporaryData.id = data[i].id;
+							temporaryData.name = data[i].orderNumber;
+							nowData.push(temporaryData);
+						}
+						addSelectVal(nowData, "orderFormSelectPanel");
+					}
+					/*渲染客户名称选择框*/
+					function clientNameSelectFun() {
+						var data = res.data;
+						var nowData = [];
+						for (var i = 0; i < data.length; i++) {
+							var temporaryData = {};
+							temporaryData.id = data[i].id;
+							temporaryData.name = data[i].clientName;
+							nowData.push(temporaryData);
+						}
+						addSelectVal(nowData, "clientNameSelectPanel");
+					}
+					/*渲染工程名称选择框*/
+					function projectNameSelectFun() {
+						var data = res.data;
+						var nowData = [];
+						for (var i = 0; i < data.length; i++) {
+							var temporaryData = {};
+							temporaryData.id = data[i].id;
+							temporaryData.name = data[i].projectName;
+							nowData.push(temporaryData);
+						}
+						addSelectVal(nowData, "projectNameSelectPanel");
+					}
+					/*动态赋值select函数*/
+					function addSelectVal(data, container) {
+						var $html = "";
+						if (data != null) {
+							$.each(data, function(index, item) {
+								if (item.proType) {
+									$html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+								} else {
+									$html += "<option value='" + item.name + "'>" + item.name + "</option>";
+								}
+							});
+							$("select[name='" + container + "']").append($html);
+							//反选
+							//$("select[name='"+container+"']").val($("#???").val());
+							//append后必须从新渲染
+							form.render('select');
+						} else {
+							$html += "<option value='0'>没有任何数据</option>";
+							$("select[name='" + container + "']").append($html);
+							//append后必须从新渲染
+							form.render('select');
+						}
 
-		
+					}
+				//                    //得到当前页码
+				//                    console.log(curr); 
+				//                    //得到数据总量
+				//                    console.log(count);
+				}
+			});
+		}
 		/*原片采购数据表格*/
 		MAIN.OriginaFlilmList = function(userName) {
 			table.render({
-				url :"PurchaseInfo.api",  //--->请求接口
+				url : "PurchaseInfo.api", //--->请求接口
 				method : 'POST', //方式
 				elem : '#OriginaFlilmList',
 				page : true,
@@ -1733,7 +2116,7 @@ $(function() {
 					//清空select中除第一个以外的选项
 
 					$("#SingleNumberSelectPanel option:gt(0)").remove();
-					$("#OriginalfilmsupplierSelectPanel option:gt(0)").remove();
+					$("#supplierSelectPanel option:gt(0)").remove();
 					$("#originalFilmremarkSelectPanel option:gt(0)").remove();
 					//如果是异步请求数据方式，res即为接口返回的信息。
 					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
@@ -1763,7 +2146,7 @@ $(function() {
 							temporaryData.name = data[i].supplier;
 							nowData.push(temporaryData);
 						}
-						addSelectVal(nowData, "OriginalfilmsupplierSelectPanel");
+						addSelectVal(nowData, "supplierSelectPanel");
 					}
 					/*渲染原片采购:备注选择框*/
 					function projectNameSelectFun() {
@@ -1808,7 +2191,160 @@ $(function() {
 				}
 			});
 		};
-		/*附件采购数据表格*/
+		/*原片采购数据表格:作为传值调用*/
+		MAIN.OriginaFlilmDataList = function(data) {
+			table.render({
+				data : data,
+				//url :"PurchaseInfo.api",  //--->请求接口
+				method : 'POST', //方式
+				elem : '#OriginaFlilmList',
+				page : true,
+				contentType : 'application/json', //发送到服务端的内容编码类型
+				limits : [ 10, 15, 20, 25 ],
+				cols : [
+					[
+						{
+							fixed : "left",
+							type : 'checkbox',
+							align : "center"
+						},
+						{
+							field : 'orderNumber',
+							title : '单号',
+							align : "center"
+						},
+						{
+							field : 'purchaseDate',
+							title : '日期',
+							align : "center"
+						},
+						{
+							field : 'supplier',
+							title : '供货商',
+							align : "center"
+						},
+						{
+							field : 'specificationModel',
+							title : '规格型号',
+							align : "center"
+						},
+						{
+							field : 'thickness',
+							title : '厚度',
+							align : "center"
+						},
+						{
+							field : 'color',
+							title : '颜色',
+							align : "center"
+						},
+						{
+							field : 'quantity',
+							title : '数量',
+							align : "center"
+						},
+						{
+							field : 'unitPrice',
+							title : '单价',
+							align : "center"
+						},
+						{
+							field : 'totalPurchase',
+							title : '采购总额',
+							align : "center"
+						},
+						{
+							field : 'shippingFee',
+							title : '运输费',
+							align : "center"
+						},
+						{
+							field : 'remarks',
+							title : '备注',
+							align : "center"
+						}
+					]
+				],
+				done : function(res, curr, count) {
+					//清空select中除第一个以外的选项
+
+					$("#SingleNumberSelectPanel option:gt(0)").remove();
+					$("#supplierSelectPanel option:gt(0)").remove();
+					$("#originalFilmremarkSelectPanel option:gt(0)").remove();
+					//如果是异步请求数据方式，res即为接口返回的信息。
+					//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+					//console.log(res);
+					orderNumberSelectFun();
+					clientNameSelectFun();
+					projectNameSelectFun() ;
+					/*渲染原片采购:单号 选择框*/
+					function orderNumberSelectFun() {
+						var data = res.data;
+						var nowData = [];
+						for (var i = 0; i < data.length; i++) {
+							var temporaryData = {};
+							temporaryData.id = data[i].id;
+							temporaryData.name = data[i].orderNumber;
+							nowData.push(temporaryData);
+						}
+						addSelectVal(nowData, "SingleNumberSelectPanel");
+					}
+					/*渲染原片采购:供货商选择框*/
+					function clientNameSelectFun() {
+						var data = res.data;
+						var nowData = [];
+						for (var i = 0; i < data.length; i++) {
+							var temporaryData = {};
+							temporaryData.id = data[i].id;
+							temporaryData.name = data[i].supplier;
+							nowData.push(temporaryData);
+						}
+						addSelectVal(nowData, "supplierSelectPanel");
+					}
+					/*渲染原片采购:备注选择框*/
+					function projectNameSelectFun() {
+						var data = res.data;
+						var nowData = [];
+						for (var i = 0; i < data.length; i++) {
+							var temporaryData = {};
+							temporaryData.id = data[i].id;
+							temporaryData.name = data[i].remarks;
+							nowData.push(temporaryData);
+						}
+						addSelectVal(nowData, "originalFilmremarkSelectPanel");
+					}
+					/*动态赋值select函数*/
+					function addSelectVal(data, container) {
+						var $html = "";
+						if (data != null) {
+							$.each(data, function(index, item) {
+								if (item.proType) {
+									$html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+								} else {
+									$html += "<option value='" + item.name + "'>" + item.name + "</option>";
+								}
+							});
+							$("select[name='" + container + "']").append($html);
+							//反选
+							//$("select[name='"+container+"']").val($("#???").val());
+							//append后必须从新渲染
+							form.render('select');
+						} else {
+							$html += "<option value='0'>没有任何数据</option>";
+							$("select[name='" + container + "']").append($html);
+							//append后必须从新渲染
+							form.render('select');
+						}
+
+					}
+				//                    //得到当前页码
+				//                    console.log(curr); 
+				//                    //得到数据总量
+				//                    console.log(count);
+				}
+			});
+		};
+		/*配件采购数据表格*/
 		MAIN.annexList = function() {
 			table.render({
 				url : URL + "/annexList",
@@ -1952,7 +2488,7 @@ $(function() {
 				]
 			});
 		};
-		
+
 		/*库存管理数据表格*/
 		MAIN.stockList = function() {
 			table.render({
@@ -2797,6 +3333,23 @@ $(function() {
 		} else {
 			$("#billingUnpaid").val(totalAmount + "元");
 		}
-
+	});
+	//发货管理:原片采购[单价] 失去焦点事件
+	$("#OriginalFilmunitPrice").blur(function(){
+		var totalAmount = Number($("#OriginalFilmquantity").val()) * Number($("#OriginalFilmunitPrice").val());
+		if (isNaN(totalAmount)) {
+			MAIN.ErroAlert("请输入数量和单价");
+		} else {
+			$("#OriginalFilmtotalPurchase").val(totalAmount + "元");
+		}
+	});
+	//发货管理:原片采购[运输费]失去焦点事件
+	$("#OriginalFilmshippingFee").blur(function(){
+		var totalAmount = Number($("#OriginalFilmquantity").val()) * Number($("#OriginalFilmunitPrice").val())+Number($("#OriginalFilmshippingFee").val());
+		if (isNaN(totalAmount)) {
+			MAIN.ErroAlert("请输入数量和单价");
+		} else {
+			$("#OriginalFilmtotalPurchase").val(totalAmount + "元");
+		}
 	});
 });

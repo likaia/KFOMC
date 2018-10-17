@@ -1038,9 +1038,22 @@ a {
 #PurchaseRegistrationSubmenu .row-panel{
 	width:100%;
 	height: 40px;
+	margin-bottom: 10px;
+	position: relative;
 }
 #PurchaseRegistrationSubmenu .row-panel .item-panel{
 	width: 50%;
 	height: 40px;
 	float: left;
+}
+#PurchaseRegistrationSubmenu .row-panel .item-panel .details-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#PurchaseRegistrationSubmenu .btns-panel{
+	min-width: 150px;
+	height: 40px;
+	position: absolute;
+	right: 0;
 }
