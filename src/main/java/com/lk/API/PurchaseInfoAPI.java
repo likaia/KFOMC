@@ -18,7 +18,7 @@ import af.restful.AfRestfulApi;
 /*进货信息管理[原片采购]*/
 public class PurchaseInfoAPI extends AfRestfulApi
 {
-	private static Logger logger = Logger.getLogger(LoginAPI.class);
+	private static Logger logger = Logger.getLogger(PurchaseInfoAPI.class);
 
 	@Override
 	public String execute(String reqText) throws Exception

@@ -49,11 +49,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND remarks like #{remarks}
 			</if>
 			<if test="dStart != null and dStart != ''">
-				AND purchaseDate <![CDATA[>=]]>
+				AND fittingDate <![CDATA[>=]]>
 				#{dStart}
 			</if>
 			<if test="dEnd != null and dEnd != ''">
-				AND purchaseDate <![CDATA[<=]]>#{dEnd}
+				AND fittingDate <![CDATA[<=]]>#{dEnd}
 			</if>
 		</where>
 	</select>
