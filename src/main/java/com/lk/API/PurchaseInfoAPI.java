@@ -15,7 +15,7 @@ import com.lk.mappers.PurchaseMapper;
 
 import af.restful.AfRestfulApi;
 
-/*进货信息管理*/
+/*进货信息管理[原片采购]*/
 public class PurchaseInfoAPI extends AfRestfulApi
 {
 	private static Logger logger = Logger.getLogger(LoginAPI.class);
