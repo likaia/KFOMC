@@ -10,7 +10,7 @@ html {
 
 body {
     height: 100%;
-    background: #fff url(../img/bg1.jpeg) 50% 50% no-repeat;
+    background: #fff url(../img/background2.jpg) 50% 50% no-repeat; /*页面背景图*/
     background-size: cover;
 }
 /*加载动画层*/

@@ -157,6 +157,8 @@ public class PurchaseInfoAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
+			//通过 订单号/客户名称 查询 原片采购表&配件采购表 用户数据
+			
 		} else
 		{
 			code = 1;
