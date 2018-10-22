@@ -965,32 +965,32 @@ $(function() {
 							td5,
 							td7;
 						var tdType = "<td colspan='7'>";
-						var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
+						var dataArrayLength = Af.getJsonLength(userInputArray[i]); //---->获取当前JSONArray下的数据长度
 						if (dataArrayLength > 1) {
 							num++;
-							$("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+							$("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + userInputArray[i][0].productName + "</td>" + trEnd);
 							for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
 							{
 								td = "<td>" + j + "</td>";
-								td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
-								td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
-								td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
-								td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
-								td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+								td1 = "<td>" + userInputArray[i][j].glassLength + "</td>";
+								td2 = "<td>" + userInputArray[i][j].glassWidth + "</td>";
+								td3 = "<td>" + userInputArray[i][j].glassNum + "</td>";
+								td4 = "<td>" + userInputArray[i][j].glassMark + "</td>";
+								td5 = "<td>" + userInputArray[i][j].glassArea + "</td>";
 								td7 = "<td>" + "  " + "</td>";
 								$("#ProductionOrderList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
 							}
 
 						} else {
-							$("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+							$("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + userInputArray[i][0].productName + "</td>" + trEnd);
 							for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
 							{
 								td = "<td>" + j + "</td>";
-								td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
-								td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
-								td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
-								td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
-								td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+								td1 = "<td>" + userInputArray[i][j].glassLength + "</td>";
+								td2 = "<td>" + userInputArray[i][j].glassWidth + "</td>";
+								td3 = "<td>" + userInputArray[i][j].glassNum + "</td>";
+								td4 = "<td>" + userInputArray[i][j].glassMark + "</td>";
+								td5 = "<td>" + userInputArray[i][j].glassArea + "</td>";
 								td7 = "<td>" + "  " + "</td>";
 								$("#ProductionOrderList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
 							}
