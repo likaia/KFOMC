@@ -57,6 +57,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	<!-- 根据订单号查询表内数据 -->
+		<select id="queryByOrderNumber" resultMap="FittingInfoResult"
+		parameterType="FittingInfo">
+		SELECT
+		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,operator
+		FROM t_fitting_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
+			</if>
+		</where>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="del" parameterType="FittingInfo">
 		delete from t_fitting_Info where (orderNumber) in

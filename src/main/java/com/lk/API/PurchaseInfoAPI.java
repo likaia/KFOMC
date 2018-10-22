@@ -9,8 +9,10 @@ import org.json.JSONObject;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lk.db.FittingInfo;
 import com.lk.db.PurchaseInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.FittingInfoMapper;
 import com.lk.mappers.PurchaseMapper;
 
 import af.restful.AfRestfulApi;
@@ -18,8 +20,8 @@ import af.restful.AfRestfulApi;
 /*进货信息管理[原片采购]*/
 public class PurchaseInfoAPI extends AfRestfulApi
 {
-	private static Logger logger = Logger.getLogger(PurchaseInfoAPI.class);
 
+	private static Logger logger = Logger.getLogger(PurchaseInfoAPI.class);
 	@Override
 	public String execute(String reqText) throws Exception
 	{
@@ -37,7 +39,6 @@ public class PurchaseInfoAPI extends AfRestfulApi
 		/* 定义分页需要的字段 */
 		int page = 0;
 		int limit = 0;
-
 		if (jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator"); // --->取出操作人
@@ -157,8 +158,47 @@ public class PurchaseInfoAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
-			//通过 订单号/客户名称 查询 原片采购表&配件采购表 用户数据
-			
+			//通过 订单号 查询原片采购表&配件采购表 用户数据
+			if(jsReq.has("originalAccessoriesQuiery"))
+			{
+				String orderNumber = jsReq.getString("orderNumber");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				PurchaseMapper purchaseMapper = sqlSession.getMapper(PurchaseMapper.class);
+				PurchaseInfo row = new PurchaseInfo();
+				row.setOperator(operator);
+				row.setOrderNumber(orderNumber);
+				List<PurchaseInfo> PurchaseResultList  = purchaseMapper.queryByOrderNumber(row);
+				JSONArray PurchaseResult = new JSONArray(PurchaseResultList);
+				if(PurchaseResult.length()>0)
+				{
+					result = PurchaseResult;
+					androidData = "\"" + result + "\"";
+					sqlSession.close();
+				}
+				else
+				{
+					// 配置映射器
+					FittingInfoMapper fittingInfoMapper = sqlSession.getMapper(FittingInfoMapper.class);
+					FittingInfo rows = new FittingInfo();
+					row.setOperator(operator);
+					rows.setOrderNumber(orderNumber);
+					List<FittingInfo> fittingResultList = fittingInfoMapper.queryByOrderNumber(rows);
+					JSONArray fittingResult = new JSONArray(fittingResultList);
+					if(fittingResult.length()>0)
+					{
+						result=fittingResult;
+					}
+					else
+					{
+						code = 1;
+						errorCode = 1;
+						msg = "此订单号不存在";
+					}
+					sqlSession.close();
+				}
+			}
 		} else
 		{
 			code = 1;

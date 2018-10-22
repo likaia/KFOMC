@@ -67,6 +67,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{orderItem}
 		</foreach>
 	</delete>
+	<!-- 根据订单号查询表内数据 -->
+		<select id="queryByOrderNumber" resultMap="PurchaseInfoResult"
+		parameterType="PurchaseInfo">
+		SELECT
+		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
+		FROM t_purchaseInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
+			</if>
+		</where>
+	</select>
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="PurchaseInfo">
 		insert into t_purchaseInfo

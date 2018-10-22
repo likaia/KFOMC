@@ -1,5 +1,7 @@
 package com.lk.API;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -49,8 +51,11 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		JSONObject jsReply = new JSONObject();
 		//产生订单号:UUID（16位）
 		String serverTime = UUIDUtil.getOrderIdByUUId();
+		// 获取当前服务器时间
+		String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		jsReply.put("errorCode",errorCode);
 		jsReply.put("msg",msg );
+		jsReply.put("nowTime",nowTime );
 		jsReply.put("serverTime", serverTime);
 		jsReply.put("data", result);
 		jsReply.put("operator",operator );

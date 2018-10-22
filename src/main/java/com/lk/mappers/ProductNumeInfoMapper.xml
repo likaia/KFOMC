@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	<!-- 自定义查询表内数据 -->
 	<select id="customQuery" resultMap="ProductListInfoResult">
-		SELECT id,productName
+		SELECT id,productName,unitPrice
 		FROM t_product_name_Info
 	</select>
 </mapper> 

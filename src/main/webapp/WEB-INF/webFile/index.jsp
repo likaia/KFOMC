@@ -18,10 +18,6 @@
 <script src="jquery/jquery.Jcrop.js"></script>
 <%--引入Vue --%>
 <script src="vue/vue.min.js"></script>
-<%--仿 Excel效果的表格插件 --%>
-<script type="text/javascript"
-	src="handsontable/handsontable.full.min.js"></script>
-<link rel="stylesheet" href="handsontable/handsontable.full.min.css">
 <%--引入jquery打印插件 --%>
 <script type="text/javascript" src="jquery/jquery.jqprint-0.3.js"></script>
 <script>
@@ -45,6 +41,8 @@
 <%--当前页面布局与交互文件 --%>
 <script src="js/index.js"></script>
 <link rel="stylesheet" href="css/index.css">
+<%--106监听 --%>
+<script src="js/LkTableupdate-min.js"></script>
 <%--打印模板样式 --%>
 <link rel="stylesheet" href="css/Preview.css">
 <%--引入字体库 --%>
@@ -499,7 +497,8 @@
 												<div class="layui-form-item">
 													<label class="layui-form-label">单号</label>
 													<div class="layui-input-block">
-														<select lay-search="" lay-filter="SingleNumberSelectPanel" id="SingleNumberSelectPanel"
+														<select lay-search="" lay-filter="SingleNumberSelectPanel"
+															id="SingleNumberSelectPanel"
 															name="SingleNumberSelectPanel">
 															<option value="">直接选择或手动输入单号</option>
 														</select>
@@ -525,8 +524,8 @@
 												<div class="layui-form-item">
 													<label class="layui-form-label">供货商</label>
 													<div class="layui-input-block">
-														<select lay-search="" lay-filter="supplierSelectPanel" id="supplierSelectPanel"
-															name="supplierSelectPanel">
+														<select lay-search="" lay-filter="supplierSelectPanel"
+															id="supplierSelectPanel" name="supplierSelectPanel">
 															<option value="">直接选择或手动输入</option>
 														</select>
 													</div>
@@ -538,7 +537,9 @@
 												<div class="layui-form-item">
 													<label class="layui-form-label">备注</label>
 													<div class="layui-input-block">
-														<select lay-search="" lay-filter="originalFilmremarkSelectPanel" id="originalFilmremarkSelectPanel"
+														<select lay-search=""
+															lay-filter="originalFilmremarkSelectPanel"
+															id="originalFilmremarkSelectPanel"
 															name="originalFilmremarkSelectPanel">
 															<option value="">直接选择或手动输入</option>
 														</select>
@@ -553,9 +554,11 @@
 											<button class="layui-btn layui-btn-normal"
 												@click="purchaseRegistrationFun"
 												v-bind:style="{background:BtnColor}">采购登记</button>
-											<button class="layui-btn layui-btn-normal" @click="PurchaseregistrationDelFun"
+											<button class="layui-btn layui-btn-normal"
+												@click="PurchaseregistrationDelFun"
 												v-bind:style="{background:BtnColor}">删除</button>
-											<button class="layui-btn layui-btn-normal" @click="PurchaseregistrationQueryFun"
+											<button class="layui-btn layui-btn-normal"
+												@click="PurchaseregistrationQueryFun"
 												v-bind:style="{background:BtnColor}">查询</button>
 										</div>
 									</div>
@@ -574,7 +577,9 @@
 													<div class="layui-form-item">
 														<label class="layui-form-label">单号</label>
 														<div class="layui-input-block">
-															<select lay-search="" lay-filter="FittingNumberSelectPanel" id="FittingNumberSelectPanel"
+															<select lay-search=""
+																lay-filter="FittingNumberSelectPanel"
+																id="FittingNumberSelectPanel"
 																name="FittingNumberSelectPanel">
 																<option value="">直接选择或手动输入单号</option>
 															</select>
@@ -600,7 +605,9 @@
 													<div class="layui-form-item">
 														<label class="layui-form-label">供货商</label>
 														<div class="layui-input-block">
-															<select lay-search="" lay-filter="FittingsupplierSelectPanel" id="FittingsupplierSelectPanel"
+															<select lay-search=""
+																lay-filter="FittingsupplierSelectPanel"
+																id="FittingsupplierSelectPanel"
 																name="FittingsupplierSelectPanel">
 																<option value="">直接选择或手动输入</option>
 															</select>
@@ -613,7 +620,9 @@
 													<div class="layui-form-item">
 														<label class="layui-form-label">备注</label>
 														<div class="layui-input-block">
-															<select lay-search="" lay-filter="FittingremarkSelectPanel" id="FittingremarkSelectPanel"
+															<select lay-search=""
+																lay-filter="FittingremarkSelectPanel"
+																id="FittingremarkSelectPanel"
 																name="FittingremarkSelectPanel">
 																<option value="">直接选择或手动输入</option>
 															</select>
@@ -625,9 +634,13 @@
 										<!--表格顶部按钮-->
 										<div class="topBtn-panel">
 											<div class="btn-panel">
-												<button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}" @click="fittingAddFun">采购登记</button>
-												<button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}" @click="fittingDelFun">删除</button>
-												<button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}" @click="fittingQueryFun">查询</button>
+												<button class="layui-btn layui-btn-normal"
+													v-bind:style="{background:BtnColor}" @click="fittingAddFun">采购登记</button>
+												<button class="layui-btn layui-btn-normal"
+													v-bind:style="{background:BtnColor}" @click="fittingDelFun">删除</button>
+												<button class="layui-btn layui-btn-normal"
+													v-bind:style="{background:BtnColor}"
+													@click="fittingQueryFun">查询</button>
 											</div>
 										</div>
 										<!--附件采购数据表格1-->
@@ -1562,7 +1575,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">日期:</label>
 								<div class="layui-input-block">
-									<input id="billingDatePanel" type="text" placeholder="点击选择日期"
+									<input id="billingDatePanel" type="text" placeholder="服务器获取"
 										autocomplete="off" readonly="readonly" class="layui-input"
 										style="cursor:pointer">
 								</div>
@@ -1709,7 +1722,89 @@
 					</button>
 				</div>
 				<div class="billingContentPanel">
-					<div id="excelTablePanel"></div>
+					<div id="submenu">
+						<div class="table-panel">
+							<div class="title-panel">
+								<div class="firstItem">
+									<span>序号</span>
+								</div>
+								<div class="specificationModel">
+									<span>品名型号</span>
+								</div>
+								<div class="item-panel">
+									<span>长度</span>
+								</div>
+								<div class="item-panel">
+									<span>宽度</span>
+								</div>
+								<div class="item-panel">
+									<span>数量</span>
+								</div>
+								<div class="item-panel">
+									<span>标记</span>
+								</div>
+								<div class="item-panel">
+									<span>面积</span>
+								</div>
+								<div class="item-panel">
+									<span>单价</span>
+								</div>
+								<div class="item-panel">
+									<span>合计金额</span>
+								</div>
+							</div>
+							<div class="content-panel layui-form">
+								<div class="row-panel row_1">
+									<div class="firstItem">
+										<span>1</span>
+									</div>
+									<div class="specificationModel">
+										<select name="customize1" lay-filter="customize1">
+											<option value="">点击选择规格型号</option>
+										</select>
+									</div>
+									<div class="item-panel">
+										<input maxlength="5" type="text" placeholder="mm"
+											class="layui-input getFocus glassLength"
+											onkeypress="if(event.keyCode==13) focusNextInput(this);">
+									</div>
+									<div class="item-panel">
+										<input maxlength='5' type='text' placeholder='mm'
+											class='layui-input glassWidth'
+											onkeypress='if(event.keyCode==13) focusNextInput(this);'>
+									</div>
+									<div class="item-panel">
+										<input maxlength="5" type="text" placeholder="片"
+											class="layui-input glassNum addRow">
+									</div>
+									<div class="item-panel">
+										<input maxlength="5" type="text" placeholder="请输入"
+											class="layui-input marks">
+									</div>
+									<div class="item-panel">
+										<input type="text" placeholder="自动计算"
+											class="layui-input not_allowed area" readonly="readonly">
+									</div>
+									<div class="item-panel">
+										<input type="text" placeholder="自动读取"
+											class="layui-input unitPrice not_allowed" readonly="readonly">
+									</div>
+									<div class="item-panel">
+										<input type="text" placeholder="自动计算"
+											class="layui-input totalAmount not_allowed"
+											readonly="readonly">
+									</div>
+								</div>
+							</div>
+							<div class="foot-panel">
+								<div class="right-panel">
+									<span>总面积:</span> <span class="foot_item_value" id="globalArea">平方</span>
+									<span>总金额:</span> <span class="foot_item_value"
+										id="globalPrice">￥</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1837,15 +1932,16 @@
 			</div>
 		</div>
 		<!-- 打印模板结束 -->
-<!-- 采购登记悬浮层 -->
+		<!-- 采购登记悬浮层 -->
 		<div id="PurchaseRegistrationSubmenu">
 			<form class="layui-form layui-form-pane" action="" id="PurchaseForm">
 				<div class="row-panel">
 					<div class="layui-form-item">
 						<label class="layui-form-label">订单号:</label>
 						<div class="layui-input-block">
-							<input type="text" name="title" style="cursor:pointer" id="OriginalFilmorderNumber"
-								   readonly="readonly" placeholder="自动生成" class="layui-input">
+							<input type="text" name="title" style="cursor:pointer"
+								id="OriginalFilmorderNumber" readonly="readonly"
+								placeholder="自动生成" class="layui-input">
 						</div>
 					</div>
 				</div>
@@ -1854,9 +1950,9 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">日期:</label>
 							<div class="layui-input-block">
-								<input type="text" style="cursor:pointer" readonly="readonly" placeholder="点击选择日期"
-									name="date" id="OriginalFilmDateSelect" autocomplete="off"
-									class="layui-input">
+								<input type="text" style="cursor:pointer" readonly="readonly"
+									placeholder="点击选择日期" name="date" id="OriginalFilmDateSelect"
+									autocomplete="off" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -1864,8 +1960,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">供货商:</label>
 							<div class="layui-input-block">
-								<input type="text" name="title" placeholder="请输入供货商" id="OriginalFilmsupplier"
-									class="layui-input">
+								<input type="text" name="title" placeholder="请输入供货商"
+									id="OriginalFilmsupplier" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -1875,8 +1971,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">规格型号:</label>
 							<div class="layui-input-block">
-								<input type="text"  placeholder="请输入规格型号" id="OriginalFilmspecificationModel"
-									   class="layui-input">
+								<input type="text" placeholder="请输入规格型号"
+									id="OriginalFilmspecificationModel" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -1886,7 +1982,7 @@
 								<label class="layui-form-label">厚度:</label>
 								<div class="layui-input-block">
 									<input type="text" placeholder="mm" id="OriginalFilmthickness"
-										   class="layui-input">
+										class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1894,8 +1990,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">颜色:</label>
 								<div class="layui-input-block">
-									<input type="text" name="title" placeholder="请输入颜色" id="OriginalFilmcolor"
-										   class="layui-input">
+									<input type="text" name="title" placeholder="请输入颜色"
+										id="OriginalFilmcolor" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1908,7 +2004,7 @@
 								<label class="layui-form-label">数量:</label>
 								<div class="layui-input-block">
 									<input type="text" placeholder="个" id="OriginalFilmquantity"
-										   class="layui-input">
+										class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1916,8 +2012,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">单价:</label>
 								<div class="layui-input-block">
-									<input type="text" name="title" placeholder="￥" id="OriginalFilmunitPrice"
-										   class="layui-input">
+									<input type="text" name="title" placeholder="￥"
+										id="OriginalFilmunitPrice" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1927,8 +2023,9 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">采购总额:</label>
 								<div class="layui-input-block">
-									<input type="text" placeholder="自动计算" id="OriginalFilmtotalPurchase" readonly="readonly"
-										   class="layui-input" style="cursor:not-allowed;">
+									<input type="text" placeholder="自动计算"
+										id="OriginalFilmtotalPurchase" readonly="readonly"
+										class="layui-input" style="cursor:not-allowed;">
 								</div>
 							</div>
 						</div>
@@ -1936,8 +2033,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">运输费:</label>
 								<div class="layui-input-block">
-									<input type="text" name="title" placeholder="￥" id="OriginalFilmshippingFee"
-										   class="layui-input">
+									<input type="text" name="title" placeholder="￥"
+										id="OriginalFilmshippingFee" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -1947,19 +2044,22 @@
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">备注:</label>
 					<div class="layui-input-block">
-						<textarea placeholder="请输入备注" class="layui-textarea" id="OriginalFilmremarks"></textarea>
+						<textarea placeholder="请输入备注" class="layui-textarea"
+							id="OriginalFilmremarks"></textarea>
 					</div>
 				</div>
 			</form>
-				<!--按钮区域:写在表单外,防止表单内按钮触发表单提交-->
-				<div class="row-panel">
-					<div class="btns-panel">
-						<button @click="purchaseRegistrationSubmitFun" class="layui-btn" v-bind:style="{background:BtnColor}">提交</button>
-						<button @click="purchaseRegistrationCancelFun"  class="layui-btn" v-bind:style="{background:BtnColor}">取消</button>
-					</div>
+			<!--按钮区域:写在表单外,防止表单内按钮触发表单提交-->
+			<div class="row-panel">
+				<div class="btns-panel">
+					<button @click="purchaseRegistrationSubmitFun" class="layui-btn"
+						v-bind:style="{background:BtnColor}">提交</button>
+					<button @click="purchaseRegistrationCancelFun" class="layui-btn"
+						v-bind:style="{background:BtnColor}">取消</button>
 				</div>
+			</div>
 		</div>
-<!-- 采购登记悬浮层结束 -->
+		<!-- 采购登记悬浮层结束 -->
 		<!--配件采购悬浮层[新增]开始-->
 		<div id="fittingAddSubmenu">
 			<form class="layui-form layui-form-pane" action="">
@@ -1967,8 +2067,9 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">订单号:</label>
 						<div class="layui-input-block">
-							<input type="text" name="title" style="cursor:pointer" id="fittingOrderNumberPanel"
-								   readonly="readonly" placeholder="自动生成" class="layui-input">
+							<input type="text" name="title" style="cursor:pointer"
+								id="fittingOrderNumberPanel" readonly="readonly"
+								placeholder="自动生成" class="layui-input">
 						</div>
 					</div>
 				</div>
@@ -1977,9 +2078,9 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">日期:</label>
 							<div class="layui-input-block">
-								<input type="text" style="cursor:pointer" readonly="readonly" placeholder="点击选择日期"
-									   name="date"  autocomplete="off" id="fittingOrderNumberDate"
-									   class="layui-input">
+								<input type="text" style="cursor:pointer" readonly="readonly"
+									placeholder="点击选择日期" name="date" autocomplete="off"
+									id="fittingOrderNumberDate" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -1987,8 +2088,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">供货商:</label>
 							<div class="layui-input-block">
-								<input type="text" name="title" placeholder="请输入供货商" id="fittingSupplier"
-									   class="layui-input">
+								<input type="text" name="title" placeholder="请输入供货商"
+									id="fittingSupplier" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -1998,8 +2099,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">规格型号:</label>
 							<div class="layui-input-block">
-								<input type="text"  placeholder="请输入规格型号" id="fittingSpecificationModel"
-									   class="layui-input">
+								<input type="text" placeholder="请输入规格型号"
+									id="fittingSpecificationModel" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -2009,7 +2110,7 @@
 								<label class="layui-form-label">采购数量:</label>
 								<div class="layui-input-block">
 									<input type="text" placeholder="片" id="fittingpurchaseQuantity"
-										   class="layui-input">
+										class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -2017,8 +2118,8 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">采购总额:</label>
 								<div class="layui-input-block">
-									<input type="text" name="title" placeholder="元" id="fittingtotalPurchase"
-										   class="layui-input">
+									<input type="text" name="title" placeholder="元"
+										id="fittingtotalPurchase" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -2029,8 +2130,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">付款明细:</label>
 							<div class="layui-input-block">
-								<input type="text" name="title" placeholder="输入文本" id="fittingpaymentDetails"
-									   class="layui-input">
+								<input type="text" name="title" placeholder="输入文本"
+									id="fittingpaymentDetails" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -2038,8 +2139,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">其他费用:</label>
 							<div class="layui-input-block">
-								<input type="text" name="title" placeholder="元" id="fittingOtherFee"
-									   class="layui-input">
+								<input type="text" name="title" placeholder="元"
+									id="fittingOtherFee" class="layui-input">
 							</div>
 						</div>
 					</div>
@@ -2048,15 +2149,18 @@
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">备注:</label>
 					<div class="layui-input-block">
-						<textarea placeholder="请输入备注" class="layui-textarea" id="fittingRemarks"></textarea>
+						<textarea placeholder="请输入备注" class="layui-textarea"
+							id="fittingRemarks"></textarea>
 					</div>
 				</div>
 			</form>
 			<!--按钮区域:写在表单外,防止表单内按钮触发表单提交-->
 			<div class="row-panel">
 				<div class="btns-panel">
-					<button  @click="fittingSubmitFun" class="layui-btn" v-bind:style="{background:BtnColor}">提交</button>
-					<button @click="purchaseRegistrationCancelFun"  class="layui-btn" v-bind:style="{background:BtnColor}">取消</button>
+					<button @click="fittingSubmitFun" class="layui-btn"
+						v-bind:style="{background:BtnColor}">提交</button>
+					<button @click="purchaseRegistrationCancelFun" class="layui-btn"
+						v-bind:style="{background:BtnColor}">取消</button>
 				</div>
 			</div>
 		</div>

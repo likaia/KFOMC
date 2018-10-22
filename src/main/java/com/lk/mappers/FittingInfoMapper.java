@@ -10,6 +10,8 @@ public interface FittingInfoMapper
 		public List<FittingInfo> findexpenditurePage(FittingInfo row);
 		//根据条件查询
 		public List<FittingInfo> conditionalQuery(FittingInfo row);
+		//根据订单号查询表内数据
+		public List<FittingInfo> queryByOrderNumber(FittingInfo row);
 		//删除数据
 		public int del(FittingInfo row);
 		//新增数据
