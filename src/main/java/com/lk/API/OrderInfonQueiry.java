@@ -32,6 +32,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 		/* 要返回给用户的数据 */
 		long count = 0;
 		JSONArray result = new JSONArray();
+		JSONArray nowOrderInfo = new JSONArray();
 		String androidData = "";
 		if (jsReq.has("operator"))
 		{
@@ -153,7 +154,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 				row.setTotalAmount(totalAmount + "元");
 				row.setRemarks(remarks);
 				row.setAlreadyPaid(alreadyPaid + "元");
-				row.setUnpaid(unpaid);
+				row.setUnpaid(unpaid+"元");
 				row.setModelDetails(modelDetails.toString());
 				int processResult = orderMapper.add(row);
 				sqlSession.commit();
@@ -201,6 +202,9 @@ public class OrderInfonQueiry extends AfRestfulApi
 				OrderInfo row = new OrderInfo();
 				row.setOrderNumber(orderNumber);
 				List<OrderInfo> resultList = orderMapper.queryModelDetails(row);
+				//查询当前订单下所有字段
+				List<OrderInfo> nowOrderInfoList = orderMapper.queryNowOrderInfo(row);
+				nowOrderInfo = new JSONArray(nowOrderInfoList);
 				JSONArray modelDetails = new JSONArray(resultList);//---->从List转换成JSONArray
 				JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); //--->从JSONArray中取出JSONObject型数据
 				String modelDetailsArr = modelDetailsOBJ.getString("modelDetails"); //---->从JSONObject中取出String型Array数据
@@ -219,6 +223,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 		jsReply.put("errorCode", errorCode);
 		jsReply.put("msg", msg);
 		jsReply.put("data", result);
+		jsReply.put("nowOrderInfo", nowOrderInfo);
 		jsReply.put("androidData", androidData);
 		jsReply.put("count", count);
 		jsReply.put("operator", operator);

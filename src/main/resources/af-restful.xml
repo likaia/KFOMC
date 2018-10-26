@@ -4,7 +4,7 @@
 	<api name="hello" class="my.HelloApi" /> 
 	-->
 	<api name="loginApi"  class="com.lk.API.LoginAPI" /> 
-	<!-- 注册接口  FileProcessing用于上传文件到服务器 DataModifyAPI上传图片到服务器-->
+	<!-- 注册接口 -->
 	<api name="RegisteredApi"  class="com.lk.API.RegisteredAPI" /> 
 	<!-- 头像查询 接口 -->
 	<api name="AvatarQueryApi"  class="com.lk.API.AvatarQueryAPI" /> 
@@ -18,6 +18,8 @@
 	<api name="PurchaseInfo"  class="com.lk.API.PurchaseInfoAPI" />
 	<!-- 进货管理[配件采购] -->
 	<api name="FittingInfo"  class="com.lk.API.FittingInfoAPI" />
+	<!-- 配件信息接口-->
+	<api name="FittingPublic"  class="com.lk.API.FittingPublicAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
 </restful>

@@ -21,7 +21,9 @@
 <script src="js/LkCommon.js"></script>
 <link rel="stylesheet" href="css/login.css">
 <script src="js/Login.js"></script>
-<link rel="icon" type="image/x-icon" href="img/logo.ico" />
+<!-- 百度验证 -->
+<meta name="baidu-site-verification" content="JwUB1mxjFy" />
+<link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
 </head>
 <body>
 	<%-- 登录--%>

@@ -1,88 +1,122 @@
 @page {
-  size: A4; 			/*设置打印纸为A4*/
-  margin: 2cm;
+	size: A4; /*设置打印纸为A4*/
+	margin: 2cm;
 }
 
-#PrintTemplate{
-	width:100%;
-	height:100%;
-	margin:0 auto;
-	text-align:center;
+#PrintTemplate {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	text-align: center;
 }
-#PrintTemplate h1{
+
+#PrintTemplate h1 {
 	font-weight: 700;
 }
-#PrintTemplate h2{
+
+#PrintTemplate h2 {
 	font-weight: 400;
 }
-#PrintTemplate .CustomerBasicInformatiofo-panel{
+
+#PrintTemplate .CustomerBasicInformatiofo-panel {
 	width: 100%;
 	height: 80px;
 }
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel{
+
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel {
 	width: 33%;
 	height: 40px;
 	float: left;
 }
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel{
-	width:50%;
+
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel
+	{
+	width: 50%;
 	height: 40px;
-	float:left;
+	float: left;
 }
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel span{
+
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel span
+	{
 	line-height: 40px;
 }
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel{
-	width:50%;
+
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel
+	{
+	width: 50%;
 	height: 40px;
-	float:left;
+	float: left;
 	text-align: left;
 }
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel span{
+
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel span
+	{
 	line-height: 40px;
 }
-#PrintTemplate .companyInfo-panel{
+
+#PrintTemplate .companyInfo-panel {
 	width: 100%;
 	height: 270px;
 	margin-top: 30px;
 }
-#PrintTemplate .companyInfo-panel .Remarks-panel{
+
+#PrintTemplate .companyInfo-panel .Remarks-panel {
 	width: 100%;
 	height: 140px;
 }
-#PrintTemplate .companyInfo-panel .Remarks-panel .leftTops-pamnel{
+
+#PrintTemplate .companyInfo-panel .Remarks-panel .leftTops-pamnel {
 	width: 10%;
 	height: 140px;
 	float: left;
 }
-#PrintTemplate .companyInfo-panel .Remarks-panel .RemarksVal-pamnel{
+
+#PrintTemplate .companyInfo-panel .Remarks-panel .RemarksVal-pamnel {
 	width: 90%;
-	height:140px;
+	height: 140px;
 	float: left;
 	text-align: left;
 }
-#PrintTemplate .companyInfo-panel .Remarks-panel .RemarksVal-pamnel{
+
+#PrintTemplate .companyInfo-panel .Remarks-panel .RemarksVal-pamnel {
 	font-weight: 600;
 }
-#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel{
+
+#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel {
 	width: 100%;
 	height: 40px;
 }
-#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel{
+
+#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel
+	{
 	width: 33%;
 	height: 40px;
 	text-align: center;
 	float: left;
 }
-#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel span{
+
+#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel span
+	{
 	line-height: 40px;
 }
-#ProductionOrderList tr{
-	border:solid 2px black;
+#ProductionOrderList{
+	color:black;
+	font-size: 17px;
 }
-#ProductionOrderList td{
-	border:solid 2px black;
+#ProductionOrderList tr {
+	border: solid 2px black;
 }
-#ProductionOrderList th{
-	border:solid 2px black;
+
+#ProductionOrderList tbody tr td {
+	font-size: 17px;
+	color: black;
+	font-weight: 600;
+}
+
+#ProductionOrderList td {
+	border: solid 2px black;
+}
+
+#ProductionOrderList th {
+	border: solid 2px black;
 }

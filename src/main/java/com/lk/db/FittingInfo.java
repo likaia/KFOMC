@@ -15,6 +15,15 @@ public class FittingInfo
 	private String paymentDetails;
 	private String otherFee;
 	private String remarks;
+	private String productImageUrl;
+	public String getProductImageUrl()
+	{
+		return productImageUrl;
+	}
+	public void setProductImageUrl(String productImageUrl)
+	{
+		this.productImageUrl = productImageUrl;
+	}
 	private String operator;
 	private JSONArray orders;
 	private String dStart;
@@ -145,6 +154,24 @@ public class FittingInfo
 		this.paymentDetails = paymentDetails;
 		this.otherFee = otherFee;
 		this.remarks = remarks;
+		this.operator = operator;
+	}
+	
+	public FittingInfo(String orderNumber, String fittingDate, String supplier, String specificationModel,
+			String purchaseQuantity, String totalPurchase, String paymentDetails, String otherFee, String remarks,
+			String productImageUrl, String operator)
+	{
+		super();
+		this.orderNumber = orderNumber;
+		this.fittingDate = fittingDate;
+		this.supplier = supplier;
+		this.specificationModel = specificationModel;
+		this.purchaseQuantity = purchaseQuantity;
+		this.totalPurchase = totalPurchase;
+		this.paymentDetails = paymentDetails;
+		this.otherFee = otherFee;
+		this.remarks = remarks;
+		this.productImageUrl = productImageUrl;
 		this.operator = operator;
 	}
 	public FittingInfo()

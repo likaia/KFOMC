@@ -15,13 +15,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="paymentDetails" column="paymentDetails" />
 		<result property="otherFee" column="otherFee" />
 		<result property="remarks" column="remarks" />
+		<result property="productImageUrl" column="productImageUrl" />
 		<result property="operator" column="operator" />
 	</resultMap>
 	<!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="FittingInfoResult"
 		parameterType="FittingInfo">
 		SELECT
-		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,operator
+		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,productImageUrl,operator
 		FROM t_fitting_Info
 		<where>
 			<if test="operator != null">
@@ -33,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="conditionalQuery" resultMap="FittingInfoResult"
 		parameterType="FittingInfo">
 		SELECT
-		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,operator
+		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,productImageUrl,operator
 		FROM t_fitting_Info
 		<where>
 			<if test="operator != null">
@@ -58,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	<!-- 根据订单号查询表内数据 -->
-		<select id="queryByOrderNumber" resultMap="FittingInfoResult"
+	<select id="queryByOrderNumber" resultMap="FittingInfoResult"
 		parameterType="FittingInfo">
 		SELECT
 		id,orderNumber,fittingDate,supplier,specificationModel,purchaseQuantity,totalPurchase,paymentDetails,otherFee,remarks,operator
@@ -80,6 +81,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{orderItem}
 		</foreach>
 	</delete>
+	<!-- 根据操作人查询表内 所有配件名称/配件图片 -->
+	<select id="getProductNameImgUrl" resultMap="FittingInfoResult"
+		parameterType="FittingInfo">
+		SELECT
+		id,specificationMode,productImageUrl
+		FROM t_fitting_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="FittingInfo">
 		insert into t_fitting_Info
@@ -114,6 +128,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				operator,
 			</if>
+			<if test="productImageUrl != null">
+				productImageUrl,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="orderNumber != null">
@@ -145,6 +162,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="operator != null">
 				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="productImageUrl != null">
+				#{productImageUrl,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>

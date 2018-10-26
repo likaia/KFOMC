@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.FittingPublicMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="FittingPublic" id="FittingPublicResult">
+		<id property="id" column="id" />
+		<result property="fittingName" column="fittingName" />
+		<result property="fittingImgUrl" column="fittingImgUrl" />
+		<result property="addTime" column="addTime" />
+		<result property="addAPerson" column="addAPerson" />
+	</resultMap>
+	<!-- 查询表内所有产品名称/图片地址 -->
+	<select id="findFitting" resultMap="FittingPublicResult"
+		parameterType="FittingPublic">
+		SELECT
+		id,fittingName,fittingImgUrl
+		FROM t_fitting_public
+	</select>
+	<!-- 根据id查询配件图片 -->
+	<select id="queryIdUrl" resultMap="FittingPublicResult"
+		parameterType="FittingPublic">
+		SELECT
+		fittingImgUrl
+		FROM t_fitting_public
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="FittingPublic">
+		delete from t_fitting_public where (id) in
+		<foreach item="idItem" collection="ids" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="FittingPublic">
+		insert into t_fitting_public
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fittingName != null">
+				fittingName,
+			</if>
+			<if test="fittingImgUrl != null">
+				fittingImgUrl,
+			</if>
+			<if test="addTime != null">
+				addTime,
+			</if>
+			<if test="addAPerson != null">
+				addAPerson,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fittingName != null">
+				#{fittingName,jdbcType=VARCHAR},
+			</if>
+			<if test="fittingImgUrl != null">
+				#{fittingImgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="addAPerson != null">
+				#{addAPerson,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper> 

@@ -9,10 +9,37 @@ function focusNextInput(thisInput) {
 		}
 	}
 }
+function getUserSelect(index){
+	var req = {};
+	req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
+	var selectData = []; //品名型号下拉列表数据
+	Af.rest("productNameModelInquiry.api", req, function(ans) {
+		if (ans.errorCode == 0) {
+			var resultArray = ans.data; //--->JSONArray
+			for (var i = 0; i < resultArray.length; i++) {
+				var resultOBJ = {};
+				resultOBJ['id'] = resultArray[i].id;
+				resultOBJ['name'] = resultArray[i].productName;
+				resultOBJ['unitPrice'] = resultArray[i].unitPrice;
+				selectData.push(resultOBJ);
+			}
+			var parent_panel = "#submenu";
+			var containerPanel = ".table-panel .content-panel"; //---->动态div之前的容器
+			var row_line = " .row_"; //--->动态div名称
+			var foot_panel = " .item-panel"; //---->每一个item
+			var pricePanel = $(parent_panel + " " + containerPanel + row_line + index + foot_panel + " .unitPrice");
+			var selectIds = $("select[name='customize" + index + "']").val();
+			if (!Af.nullstr(selectIds)) {
+				//给单价赋值
+				pricePanel.val(selectData[selectIds - 1].unitPrice);
+			}
+		}
+	});
+}
 $(function() {
-	var URL = "https://www.kaisir.cn/KFOMC";
+	var URL = "https://www.kaisir.cn/";
 	var MAIN = {};
-	var globalVar = 1;  // 
+	var globalVar = 1; // 
 	var marksPanel = $("#submenu .table-panel .content-panel .row_1 .marks");
 	var parent_panel = "#submenu";
 	var containerPanel = ".table-panel .content-panel"; //---->动态div之前的容器
@@ -102,9 +129,12 @@ $(function() {
 			FittingsupplierSelectval : "", //供货商用户选择数据
 			FittingremarkSelectval : "", //备注数据
 			fittingdStart : "", //开始时间
-			fittingEnd : "" //结束时间
-
-		},
+			fittingEnd : "", //结束时间
+            productImageUrl:"https://www.kaisir.cn/webPic/productImg/productUpLoad.jpg",
+            newAccessories:"",//--->新增配件时实现数据双向绑定
+            newAccessoriesState:false, //--->新增配件时配件图片折叠显隐状态
+            productLayerStatus:"block"  //-->配件采购图片上传黑色遮罩显示状态
+        },
 		methods : {
 			materialFun : function() {
 				layer.open({
@@ -114,6 +144,28 @@ $(function() {
 					shadeClose : true, //点击遮罩关闭
 					content : $("#SysmsgSubmenu")
 				});
+			},
+            newAccessoriesInputFun:function(){
+			  //--->监听新的配件名称实时输入:决定配件图片上传显隐状态
+                if(Af.nullstr(this.newAccessories)) {
+                    this.newAccessoriesState = false;
+                }
+                else{
+                    this.newAccessoriesState = true;
+                }
+            },
+            newAccessoriesBlurFun:function(){
+				//---->新增配件失去焦点事件
+                var req = {};//--->读取头像地址 & 配件名称
+                req.productImageUrl = this.productImageUrl;
+                req.fittingName = this.newAccessories;
+                if(Af.nullstr(req.fittingName)){
+                	return;
+				}
+                if(req.productImageUrl=="https://www.kaisir.cn/webPic/productImg/productUpLoad.jpg")
+				{
+					MAIN.ErroAlert("请上传配件图片!");
+				}
 			},
 			//财务报表点击函数
 			financeReportFun : function() {
@@ -168,6 +220,7 @@ $(function() {
 				//请求后台获取订单号
 				Af.rest("getOrderNumber.api", {}, function(ans) {
 					$("#OriginalFilmorderNumber").val(ans.orderNumber);
+					$("#OriginalFilmDateSelect").val(ans.serverTime);
 				});
 				layer.open({
 					title : "原片采购",
@@ -324,6 +377,8 @@ $(function() {
 							$("#OriginalFilmtotalPurchase").val("");
 							$("#OriginalFilmshippingFee").val("");
 							$("#OriginalFilmremarks").val("");
+                            //清空select中除第一个以外的选项
+                            $("#fittingSpecificationModel option:gt(0)").remove();
 							layer.msg("添加成功!");
 						} else {
 							layer.msg(ans.msg);
@@ -432,9 +487,25 @@ $(function() {
 			},
 			/*进货管理:[配件采购]新增点击事件*/
 			fittingAddFun : function() {
-				/*请求后台获取订单号*/
-				Af.rest("getOrderNumber.api", {}, function(ans) {
+				var req = {};
+				req.operator = $("#nickNameTextPanel").html();
+				req.queryAll = "queryAll";
+				/*请求后台获取订单号/配件名称/配件图片*/
+				Af.rest("FittingPublic.api", req, function(ans) {
 					$("#fittingOrderNumberPanel").val(ans.orderNumber);
+					var data =  ans.data;
+					var resultArray = [];
+					for(var i = 0;i<data.length;i++)
+					{
+						var resultObj = {};
+                        resultObj["id"] = data[i].id;
+                        resultObj["name"] = data[i].fittingName;
+                        resultArray.push(resultObj);
+					}
+					//渲染配件名称select
+                    MAIN.addSelectVal(resultArray,"fittingSpecificationModel");
+					//渲染日期
+					$("#fittingOrderNumberDate").val(ans.serverTime);
 				});
 				layer.open({
 					title : "配件采购",
@@ -446,12 +517,14 @@ $(function() {
 						$("#fittingOrderNumberPanel").val("");
 						$("#fittingOrderNumberDate").val("");
 						$("#fittingSupplier").val("");
-						$("#fittingSpecificationModel").val("");
+						$("#fittingSpecificationModel").val(""); //配件采购规格型号
 						$("#fittingpurchaseQuantity").val("");
 						$("#fittingtotalPurchase").val("");
 						$("#fittingpaymentDetails").val("");
 						$("#fittingOtherFee").val("");
 						$("#fittingRemarks").val("");
+                        //清空select中除第一个以外的选项
+                        $("#fittingSpecificationModel option:gt(0)").remove();
 					}
 				});
 			},
@@ -462,7 +535,8 @@ $(function() {
 				req.orderNumber = $("#fittingOrderNumberPanel").val();
 				req.fittingDate = $("#fittingOrderNumberDate").val();
 				req.supplier = $("#fittingSupplier").val();
-				req.specificationModel = $("#fittingSpecificationModel").val();
+				req.specificationModel =  $("#fittingSpecificationModel").find("option:selected").text();
+                req.specificationModelVal = $("#fittingSpecificationModel").val();
 				req.purchaseQuantity = $("#fittingpurchaseQuantity").val();
 				req.totalPurchase = $("#fittingtotalPurchase").val();
 				req.paymentDetails = $("#fittingpaymentDetails").val();
@@ -470,8 +544,10 @@ $(function() {
 				req.remarks = $("#fittingRemarks").val();
 				req.operator = $("#nickNameTextPanel").html();
 				req.addOrderData = "addOrderData";
-				Af.trace(req);
-				if (Af.nullstr(req.orderNumber) || Af.nullstr(req.fittingDate) || Af.nullstr(req.supplier) || Af.nullstr(req.specificationModel) || Af.nullstr(req.purchaseQuantity) || Af.nullstr(req.totalPurchase) || Af.nullstr(req.paymentDetails) || Af.nullstr(req.otherFee) || Af.nullstr(req.remarks)) {
+				//获取用户自定义输入的配件名称
+				req.fittingName = vm.newAccessories;
+				req.fittingImgUrl = vm.productImageUrl;
+				if (Af.nullstr(req.orderNumber) || Af.nullstr(req.fittingDate) || Af.nullstr(req.supplier) || Af.nullstr(req.purchaseQuantity) || Af.nullstr(req.totalPurchase)) {
 					MAIN.ErroAlert("请检查红色必填项!");
 					if (Af.nullstr(req.fittingDate)) {
 						$("#fittingOrderNumberDate").css({
@@ -492,16 +568,6 @@ $(function() {
 						});
 
 					}
-					if (Af.nullstr(req.specificationModel)) {
-						$("#fittingSpecificationModel").css({
-							"border-color" : "red"
-						});
-					} else {
-						$("#fittingSpecificationModel").css({
-							"border-color" : "#E5E5E5"
-						});
-
-					}
 					if (Af.nullstr(req.purchaseQuantity)) {
 						$("#fittingpurchaseQuantity").css({
 							"border-color" : "red"
@@ -517,36 +583,6 @@ $(function() {
 						});
 					} else {
 						$("#fittingtotalPurchase").css({
-							"border-color" : "#E5E5E5"
-						});
-
-					}
-					if (Af.nullstr(req.paymentDetails)) {
-						$("#fittingpaymentDetails").css({
-							"border-color" : "red"
-						});
-					} else {
-
-						$("#fittingpaymentDetails").css({
-							"border-color" : "#E5E5E5"
-						});
-					}
-					if (Af.nullstr(req.otherFee)) {
-						$("#fittingOtherFee").css({
-							"border-color" : "red"
-						});
-					} else {
-						$("#fittingOtherFee").css({
-							"border-color" : "#E5E5E5"
-						});
-
-					}
-					if (Af.nullstr(req.remarks)) {
-						$("#fittingRemarks").css({
-							"border-color" : "red"
-						});
-					} else {
-						$("#fittingRemarks").css({
 							"border-color" : "#E5E5E5"
 						});
 
@@ -807,6 +843,7 @@ $(function() {
 			billingPrintFun : function() {
 				/*获取用户输入的所有规格型号信息*/
 				var userInputDatas = [];
+				var userInputArray = [];
 				for (var i = 1; i <= 300; i++) {
 					var userInputOBJ = {};
 					//获取容器
@@ -817,7 +854,7 @@ $(function() {
 					var areaVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .area");
 					var totalAmountVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .totalAmount");
 					var userSelectData = $("#submenu .table-panel .content-panel .row_" + i + " .specificationModel select").find("option:selected").text();
-					if(Af.nullstr(userSelectData)||Af.nullstr(lengthVessel.val())){
+					if (Af.nullstr(userSelectData) || Af.nullstr(lengthVessel.val())) {
 						//退出循环
 						break;
 					}
@@ -836,20 +873,32 @@ $(function() {
 					userInputOBJ['glassMark'] = markval; //-->标记
 					userInputOBJ['glassArea'] = areaVal; //-->面积
 					userInputOBJ['totalAmount'] = totalAmount; //-->总金额
-					globalArea = Af.accAdd(areaVal,globalArea);
-	                		globalPrice = Af.accAdd(totalAmount,globalPrice);
-	                		 $("#globalArea").html(globalArea);
-	                         $("#globalPrice").html(globalPrice);
-	                         //计算玻璃数量
-	                         globalGlassNum = Af.accAdd(glassNum,globalGlassNum);
-	                        $("#billingGlassNum").val(globalGlassNum);
-	                        $("#billingTotalArea").val(globalArea);
-	                        $("#billingtotalAmount").val(globalPrice);
-	                        //put Obj
+					globalArea = Af.accAdd(areaVal, globalArea);
+					globalPrice = Af.accAdd(totalAmount, globalPrice);
+					$("#globalArea").html(globalArea);
+					$("#globalPrice").html(globalPrice);
+					//计算玻璃数量
+					globalGlassNum = Af.accAdd(glassNum, globalGlassNum);
+					$("#billingGlassNum").val(globalGlassNum);
+					$("#billingTotalArea").val(globalArea);
+					$("#billingtotalAmount").val(globalPrice);
+					//put Obj
 					userInputDatas.push(userInputOBJ);
 				}
+				//读取已付款
+				var billingPaidValue = $("#billingPaid").val();
+				if (Af.nullstr(billingPaidValue)) {
+					billingPaidValue = 0;
+				}
+				//计算未付款
+				$("#billingUnpaid").val(globalPrice - billingPaidValue);
+				//计算其他费用
+				var billingOtherCostVal = $("#billingOtherCost").val();
+				if (Af.nullstr(billingOtherCostVal)) {
+					var billingOtherCostVal = $("#billingOtherCost").val(0);
+				}
 				//JSONArray归类(相同的归为一类) :发送给后台
-				var userInputArray = Af.getJSONArray(userInputDatas);
+				userInputArray = Af.getJSONArray(userInputDatas);
 				var req = {};
 				req.operator = $("#nickNameTextPanel").html();
 				req.clientName = $("#billingClientName").val(); //-->客户名称 
@@ -867,6 +916,9 @@ $(function() {
 				req.remarks = $("#billingRemarks").val(); //--->备注
 				req.Paid = $("#billingPaid").val(); //--->已付款
 				req.Unpaid = $("#billingUnpaid").val(); //--->未付款
+				//数据发送后台
+				req.data = userInputArray;
+				req.addOrderData = "addOrderData";
 				if (Af.nullstr(req.clientName) || Af.nullstr(req.projectName) || Af.nullstr(req.time) || Af.nullstr(req.deliveryAddress) || Af.nullstr(req.contactNumber)) {
 					MAIN.ErroAlert("清检查红色必填项!");
 					if (Af.nullstr(req.clientName)) {
@@ -941,10 +993,6 @@ $(function() {
 					//$("#MerchantAddress").html();//--->当前登陆企业的地址
 					//$("#MerchantCell").html();//--->当前登陆企业电话
 					//$("#MerchantFax").html();//--->当前登陆企业传真
-					
-					//数据发送后台
-					req.data = userInputArray;
-					req.addOrderData = "addOrderData";
 					Af.rest("orderInfonQueiry.api", req, function(ans) {
 						if (ans.errorCode != 0) {
 							layer.msg("处理异常:" + ans.msg);
@@ -1014,23 +1062,25 @@ $(function() {
 					$("#billingDatePanel").val(""); //-->日期
 					$("#billingdeliveryAddress").val(""); //--->送货地址
 					$("#billingcontactNumber").val(""); //--->联系电话
-					$("#billingShippingMethod").val("1") //--->发货方式
-					$("#billingPreparedBy").val("1") ; //---->制单人
 					$("#billingGlassNum").val(""); //--->玻璃数量
 					$("#billingTotalArea").val(""); //-->总面积
 					$("#billingOtherCost").val(""); //-->其他费用
 					$("#billingtotalAmount").val(""); //--->总金额
 					$("#billingRemarks").val(""); //--->备注
-					$("#billingPaid").val(""); //--->已付款
-					$("#billingUnpaid").val(""); //--->未付款
+					$("#billingPaid").val(0); //--->已付款
+					$("#billingUnpaid").val(0); //--->未付款
 					//清空动态Table中tbody中的数据
 					$("#ProductionOrderList tbody").html("");
-					//全局变量复位,用户输入的品名型号表复位
+					//用户输入的品名型号表复位
+					for (var i = 2; i <= globalVar; i++) {
+						$("#submenu .table-panel .content-panel .row_" + i + "").remove();
+					}
+					//全局变量复位
 					globalVar = 1;
-					ansSelectData = [];
 					globalGlassNum = 0;
 					globalArea = 0;
 					globalPrice = 0 ;
+
 				}
 
 			},
@@ -1069,6 +1119,8 @@ $(function() {
 			},
 			/*订单信息管理:订单详情交互*/
 			orderDetailsFun : function() {
+				//清空订单详情表格
+				$("#orderDetailsSubmenu  tbody").html("");
 				//渲染订单详情表格
 				var orders = orderNumber = MAIN.getSelectOrder("orderInfoList");
 				if (Af.nullstr(orders)) {
@@ -1083,6 +1135,24 @@ $(function() {
 						req.operator = "";
 						Af.rest("orderInfonQueiry.api", req, function(ans) {
 							var dataArray = ans.data;
+							var nowOrderInfo = ans.nowOrderInfo;
+							if(!Af.nullstr(nowOrderInfo)){
+								$("#DetailsOrderNumber").val(nowOrderInfo[0].orderNumber);
+								$("#DetailsOrderClientName").val(nowOrderInfo[0].clientName);
+								$("#DetailsOrderProjectName").val(nowOrderInfo[0].projectName);
+								$("#DetailsOrderDate").val(nowOrderInfo[0].orderDate);
+								$("#DetailsOrderShippedQuantity").val(nowOrderInfo[0].numberShipments);
+								$("#DetailsOrderShippedArea").val(nowOrderInfo[0].shipArea);
+								$("#DetailsOrderUndeliveredQuantity").val();//--->未发货数量
+								$("#DetailsOrderUnshippedArea").val();//--->未发货面积
+								$("#DetailsOrderdeliveryAddress").val(nowOrderInfo[0].deliveryAddress);
+                                $("#DetailsOrderTransportationManager").val();//->运输负责人
+                                $("#DetailsOrderTransportationCosts").val();//--->运输费用
+                                $("#DetailsOrderRemarks").val(nowOrderInfo[0].remarks);
+
+                                $("#DetailsOrdertotalAmount").html(nowOrderInfo[0].totalAmount);  //--->总金额
+                                $("#DetailsOrdertheTotalArea").html(nowOrderInfo[0].totalArea);  //--->总面积
+							}
 							if (Af.nullstr(dataArray)) {
 								MAIN.ErroAlert("该订单下没有录入规格型号!");
 							} else {
@@ -1096,8 +1166,7 @@ $(function() {
 										td2,
 										td3,
 										td4,
-										td5,
-										td7;
+										td5;
 									var tdType = "<td colspan='7' class='title'>";
 									var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
 									if (dataArrayLength > 1) {
@@ -1111,8 +1180,7 @@ $(function() {
 											td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
 											td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
 											td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
-											td7 = "<td>" + "  " + "</td>";
-											$("#orderDetailsSubmenu  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
+											$("#orderDetailsSubmenu  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + trEnd); //---->追加到页面
 										}
 
 									} else {
@@ -1125,15 +1193,14 @@ $(function() {
 											td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
 											td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
 											td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
-											td7 = "<td>" + "  " + "</td>";
-											$("#orderDetailsSubmenu  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + trEnd); //---->追加到页面
+											$("#orderDetailsSubmenu  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5  + trEnd); //---->追加到页面
 										}
 									}
 								}
 								layer.open({
 									title : "订单详情",
 									type : 1,
-									area : [ '970px', '640px' ],
+									area : [ '1170px', '740px' ],
 									//shadeClose : true, //点击遮罩关闭
 									content : $("#orderDetailsSubmenu"),
 									end : function() { //弹层销毁出发回调
@@ -1538,15 +1605,51 @@ $(function() {
 			}, 270);
 		}
 	});
-	layui.use([ 'form', 'element', 'jquery', 'table', 'laydate', 'carousel', 'colorpicker' ], function() {
+	layui.use([ 'form', 'element', 'jquery', 'table', 'laydate', 'carousel', 'colorpicker','upload' ], function() {
 		var form = layui.form,
 			element = layui.element,
 			$ = layui.$,
 			table = layui.table,
 			laydate = layui.laydate,
 			carousel = layui.carousel,
-			colorpicker = layui.colorpicker;
+			colorpicker = layui.colorpicker,
+            upload = layui.upload;
 
+
+		/*监听配件名称选择*/
+        form.on('select(fittingSpecificationModel)', function(data) {
+            var thisSelectVal = data.value;
+            if(!Af.nullstr(thisSelectVal))
+			{
+				$("#newAccessoriesInput").addClass("noInput");
+                $("#newAccessoriesInput").attr("disabled", "disabled");
+            }
+            else {
+                $("#newAccessoriesInput").removeClass("noInput");
+                $("#newAccessoriesInput").removeAttr('disabled');
+			}
+        });
+        	//配件图片上传
+            var fileUpload =  upload.render({
+                elem : "#productUpIds", //绑定元素
+                url : "servlet/UploadAPI", //上传接口
+                done : function(ans) {
+                    //上传完毕回调
+                    if (ans.errorCode == 0) {
+                        var userPicPath = URL+ans.userPicPath;
+                        vm.productImageUrl = userPicPath;//--->配件图片赋值
+                        vm.productLayerStatus = "none"; //---->配件图片黑色遮罩隐藏
+                    } else {
+                        ErroAlert(ans.msg);
+                        vm.productLayerStatus = "block";
+                    }
+                },
+                error : function() {
+                    //请求异常回调
+                    layer.msg("服务器错误");
+                    vm.productLayerStatus = "block";
+                }
+            });
 		//错误信息弹出
 		MAIN.ErroAlert = function(e) {
 			var index = layer.alert(e, {
@@ -1562,17 +1665,27 @@ $(function() {
 			layer.style(index, {
 				color : '#777'
 			});
-		}
+		};
 
 		/*订单信息管理:开单悬浮层多行数据录入逻辑处理*/
 		/*数量框,按下回车键新增一行：并获取焦点*/
 		$("#submenu").on("keypress", ".table-panel .content-panel .row-panel .item-panel .addRow", function(e) {
 			if (e.which == 13) {
+				//判断用户第一行是否勾选规格型号
+				var firstLineSelectIds = $("select[name='customize1']").val();
+				if (Af.nullstr(firstLineSelectIds)) {
+					layer.alert("致命错误!请选择品名型号!然后鼠标单击数量输入框，并按下回车进行下一个品名型号的录入!");
+					return;
+				}
 				//判断用户是否勾选品名型号
 				var selectIds = $("select[name='customize" + globalVar + "']").val();
-				if (Af.nullstr(selectIds)) {
-					layer.alert("请勾选规格型号,勾选完成后,鼠标点击当前行的数量输入框，然后按回车继续输入下一个规格型号!");
-					return;
+				if (Af.nullstr(selectIds)) { //为空代表没有勾选
+					var lastselectId = $("select[name='customize1']").val(); //--->获取 用户第一项选择的规格型号
+					$("select[name='customize" + globalVar + "']").val(lastselectId); //---->赋值当前选择框的数据
+					/*获取单价panel*/
+					var pricePanel = $(parent_panel + " " + containerPanel + row_line + globalVar + foot_panel + " .unitPrice");
+					//给单价赋值
+					pricePanel.val(ansSelectData[lastselectId - 1].unitPrice);
 				}
 				//清理当前单价定时器
 				clearInterval(timer);
@@ -1593,7 +1706,6 @@ $(function() {
 		/*第一行标记框按下回车键响应*/
 		$("#submenu").on("keypress", ".table-panel .content-panel .row_1 .item-panel .marks", function(e) {
 			if (e.which == 13) {
-
 				//判断第一行用户是否有输入标记
 				var first_row = $("#submenu .table-panel .content-panel .row_1 .item-panel .marks").val();
 				if (Af.nullstr(first_row)) {
@@ -1610,13 +1722,13 @@ $(function() {
 		});
 		MAIN.addRow = function(elementDiv) {
 			/*拼凑div变量*/
-			var divStart = "<div class='row-panel " + "row_" + globalVar + "'>"; //--->class="row"的div
+			var divStart = "<div onclick='getUserSelect("+globalVar+");' class='row-panel " + "row_" + globalVar + "'>"; //--->class="row"的div
 			var firstItemStart = "<div class='firstItem'>"; //---->序号div
 			var specificationModelDivStart = "<div class=\"specificationModel\">"; //---->规格型号div
 			var itemDiv = "<div class=\"item-panel\">";
-			var specificationModel = "<select name='customize" + globalVar + "' lay-verify=\"required\">\n" + "<option value=\"\">点击选择规格型号</option>\n" + "</select>"; //--->规格型号标签 添加自定义属性/添加点击事件
-			var inputLength = "<input maxlength='5' type='text' rowLine='" + globalVar + "'  placeholder='mm' class='layui-input getFocus glassLength' onkeypress='if(event.keyCode==13) focusNextInput(this)'>"; //--->长度标签
-			var inputWidth = "<input maxlength='5' type='text' rowLine='\"+globalVar+\"'  placeholder='mm' class='layui-input glassWidth' onkeypress='if(event.keyCode==13) focusNextInput(this)'>"; //--->宽度标签
+			var specificationModel = "<select  name='customize" + globalVar + "' lay-verify=\"required\">\n" + "<option value=\"\">点击选择规格型号</option>\n" + "</select>"; //--->规格型号标签 添加自定义属性/添加点击事件
+			var inputLength = "<input  maxlength='5' type='text' rowLine='" + globalVar + "'  placeholder='mm' class='layui-input getFocus glassLength' onkeypress='if(event.keyCode==13) focusNextInput(this)'>"; //--->长度标签
+			var inputWidth = "<input  maxlength='5' type='text' rowLine='\"+globalVar+\"'  placeholder='mm' class='layui-input glassWidth' onkeypress='if(event.keyCode==13) focusNextInput(this)'>"; //--->宽度标签
 			var inputNum = "<input maxlength=\"5\" type=\"text\" rowLine='\"+globalVar+\"'  placeholder=\"片\" class=\"layui-input addRow glassNum\" >"; //---->数量标签
 			var inputMark = "<input maxlength=\"5\" type=\"text\" placeholder=\"请输入\" class=\"layui-input marks\">"; //---->标记标签
 			var inputArea = "<input type=\"text\" placeholder=\"自动计算\" class=\"layui-input not_allowed area\" readonly=\"readonly\">"; //---->面积标签
@@ -1665,7 +1777,7 @@ $(function() {
 				form.render('select');
 			}
 
-		}
+		};
 		/*监听进货管理tab选项卡切换:原片采购&配件采购*/
 		element.on('tab(IncomingGoodsTab)', function(data) {
 			if (data.index == 0) {
@@ -2585,7 +2697,7 @@ $(function() {
 						},
 						{
 							field : 'specificationModel',
-							title : '规格型号',
+							title : '配件名称',
 							align : "center"
 						},
 						{
@@ -2725,7 +2837,7 @@ $(function() {
 						},
 						{
 							field : 'specificationModel',
-							title : '规格型号',
+							title : '配件名称',
 							align : "center"
 						},
 						{

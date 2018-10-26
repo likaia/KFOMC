@@ -89,7 +89,7 @@ $(function() {
 				$("#avatarImg").attr("src",ans.data.userAvatar);
 			}	
 		});
-	}
+	};
 	//注册链接点击事件函数
 	 MAIN.SignFun = function()
 	 {
@@ -172,7 +172,7 @@ $(function() {
 				}
 
 			}
-	 }
+	 };
 	
 	 $("#passWordInput").keypress(function(e) {
 		// 回车键事件

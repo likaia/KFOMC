@@ -17,6 +17,8 @@ public interface OrderMapper
 	public List<OrderInfo> conditionalQuery(OrderInfo row);
 	//根据订单号查询规格型号详情
 	public List<OrderInfo> queryModelDetails(OrderInfo row);
+	//根据订单号查询当前订单号下所有字段
+	public List<OrderInfo> queryNowOrderInfo(OrderInfo row);
 	//更新数据
 	public int update(OrderInfo row);
 	//删除数据
