@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.ShipmentMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="ShipmentInfo" id="ShipmentInfoResult">
+		<id property="id" column="id" />
+		<result property="clientName" column="clientName" />
+		<result property="dateOfShipment" column="dateOfShipment" />
+		<result property="specificationModel" column="specificationModel" />
+		<result property="numberShipments" column="numberShipments" />
+		<result property="shipArea" column="shipArea" />
+		<result property="theRemainingAmount" column="theRemainingAmount" />
+		<result property="remainingArea" column="remainingArea" />
+		<result property="amountOfPayment" column="amountOfPayment" />
+		<result property="paymentDetails" column="paymentDetails" />
+		<result property="transportationManager" column="transportationManager" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="ShipmentInfoResult"
+		parameterType="ShipmentInfo">
+		SELECT
+		id,
+		clientName,
+		dateOfShipment,
+		specificationModel,
+		numberShipments,
+		shipArea,
+		theRemainingAmount,
+		remainingArea,
+		amountOfPayment,
+		paymentDetails,
+		transportationManager,
+		operator
+		FROM t_shipment
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="ShipmentInfoResult"
+		parameterType="ShipmentInfo">
+		SELECT
+		id,
+		clientName,
+		dateOfShipment,
+		specificationModel,
+		numberShipments,
+		shipArea,
+		theRemainingAmount,
+		remainingArea,
+		amountOfPayment,
+		paymentDetails,
+		transportationManager,
+		operator
+		FROM t_shipment
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND dateOfShipment <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND dateOfShipment <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="ShipmentInfo">
+		delete from t_shipment where (id) in
+		<foreach item="idItem" collection="ids" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="FittingInfo">
+		insert into t_fitting_Info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="clientName != null">
+				clientName,
+			</if>
+			<if test="dateOfShipment != null">
+				dateOfShipment,
+			</if>
+			<if test="specificationModel != null">
+				specificationModel,
+			</if>
+			<if test="numberShipments != null">
+				numberShipments,
+			</if>
+			<if test="shipArea != null">
+				shipArea,
+			</if>
+			<if test="theRemainingAmount != null">
+				theRemainingAmount,
+			</if>
+			<if test=" remainingArea != null">
+				remainingArea,
+			</if>
+			<if test=" amountOfPayment != null">
+				amountOfPayment,
+			</if>
+			<if test=" paymentDetails != null">
+				paymentDetails,
+			</if>
+			<if test="transportationManager != null">
+				transportationManager,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="clientName != null">
+				#{clientName,jdbcType=VARCHAR},
+			</if>
+			<if test="dateOfShipment != null">
+				#{dateOfShipment,jdbcType=VARCHAR},
+			</if>
+			<if test="specificationModel != null">
+				#{specificationModel,jdbcType=VARCHAR},
+			</if>
+			<if test="numberShipments != null">
+				#{numberShipments,jdbcType=VARCHAR},
+			</if>
+			<if test="shipArea != null">
+				#{shipArea,jdbcType=VARCHAR},
+			</if>
+			<if test="theRemainingAmount != null">
+				#{theRemainingAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remainingArea != null">
+				#{remainingArea,jdbcType=VARCHAR},
+			</if>
+			<if test="amountOfPayment != null">
+				#{amountOfPayment,jdbcType=VARCHAR},
+			</if>
+			<if test=" paymentDetails != null">
+				#{paymentDetails,jdbcType=VARCHAR},
+			</if>
+			<if test="transportationManager != null">
+				#{transportationManager,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper> 
+

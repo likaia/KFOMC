@@ -70,10 +70,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from t_user where id =
 		#{id}
 	</delete>
-	<!-- 通过姓名和手机号查询 -->
-	<select id="findByNamePhone" parameterType="User" resultType="User">
-		select * from t_user where userName = #{userName} and callPhone =
-		#{callPhone}
+	<!-- 通过手机号查询 -->
+	<select id="findCellphoneByUser" parameterType="User" resultType="User">
+		select *
+		from t_user where cellPhone = #{cellPhone}
 	</select>
 	<!-- 通过姓名查询 -->
 	<select id="findByName" parameterType="User" resultType="User">

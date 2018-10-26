@@ -1,11 +1,14 @@
 package com.lk.API;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.lk.db.User;
@@ -26,8 +29,42 @@ public class LoginAPI extends AfRestfulApi
 		String msg = "ok";
 		JSONObject data = new JSONObject();
 		JSONObject jsReq = new JSONObject(reqText);
+		
+		//android通过验证码登录
+		if(jsReq.has("verificationCodeLogin"))
+		{
+			String cellPhone = jsReq.getString("cellPhone");
+			if(cellPhone.equals(""))
+			{
+				errorCode =1;
+				msg = "验证失败,手机号为空!";
+			}
+			else
+			{
+				// 打开数据库连接 配置当前要使用的Mapper
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+				User row = new User();
+				row.setCellPhone(cellPhone);
+				List<User> resultList = userMapper.findCellphoneByUser(row);
+				JSONArray result = new JSONArray(resultList);
+				//关闭连接
+				sqlSession.close();
+				if(result.length()>0)
+				{
+					msg = "登录成功!";
+					errorCode = 0;
+				}
+				else
+				{
+					errorCode = 1;
+					msg = "此用户不存在";
+				}
+			}
+		}
 		if (jsReq.has("userName") && jsReq.has("passWord"))
 		{
+			//普通登录
 			String userName = jsReq.getString("userName").replaceAll(" ", "");
 			String passWord = jsReq.getString("passWord").replaceAll(" ", "");
 			if (userName.equals("") || passWord.equals(""))

@@ -699,8 +699,7 @@ $(function() {
 				this.shipmentStatus = "block";
 				setTimeout(function() {
 					/*渲染出货管理数据表格*/
-					MAIN.originalFilmOutList();
-					MAIN.originalFilmOutList2();
+					MAIN.originalFilmOutList($("#nickNameTextPanel").html());
 				}, 100);
 				/*进货管理 财务报表 订单信息管理 库存管理 隐藏*/
 				this.IncomingGoodsStatus = "none";
@@ -720,6 +719,10 @@ $(function() {
 				this.basicSettingsStatus = "none";
 				this.contactUsStatus = "none";
 			},
+            //出货管理[查询]点击函数
+            shipmentQueryFun:function(){
+			  layer.msg("出货管理[查询]函数测试");
+            },
 			//库存管理点击事件
 			stockFun : function() {
 				this.stockStatus = "block";
@@ -2352,7 +2355,7 @@ $(function() {
 				//                    console.log(count);
 				}
 			});
-		}
+		};
 		/*原片采购数据表格*/
 		MAIN.OriginaFlilmList = function(userName) {
 			table.render({
@@ -2946,18 +2949,18 @@ $(function() {
 			});
 		};
 		/*出货管理数据表格*/
-		MAIN.originalFilmOutList = function() {
+
+		MAIN.originalFilmOutList = function(userName) {
 			table.render({
-				url : URL + "/originalFilmOutList",
-				// data:testData, //请求地址
-				method : 'POST', //方式
+				url : 'ShipmentInfo.api',
+                method : 'POST', //方式
 				elem : '#originalFilmOutList',
 				page : true,
+                contentType : 'application/json', //发送到服务端的内容编码类型
+                where : {
+                    operator : userName
+                },
 				limits : [ 10, 15, 20, 25 ],
-				request : {
-					pageName : 'page', //页码的参数名称，默认：page
-					limitName : 'rows' //每页数据量的参数名，默认：limit
-				},
 				cols : [
 					[
 						{
@@ -2966,60 +2969,191 @@ $(function() {
 							align : "center"
 						},
 						{
-							field : 'CardID',
+							field : 'clientName',
 							title : '客户姓名',
 							align : "center"
 						},
 						{
-							field : 'CardID',
+							field : 'dateOfShipment',
 							title : '发货日期',
 							align : "center"
 						},
 						{
-							field : 'CardName',
+							field : 'specificationModel',
 							title : '规格型号',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'numberShipments',
 							title : '发货数量',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'shipArea',
 							title : '发货面积',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'theRemainingAmount',
 							title : '剩余数量',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'remainingArea',
 							title : '剩余面积',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'amountOfPayment',
 							title : '货款金额',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'paymentDetails',
 							title : '付款明细',
 							align : "center"
 						},
 						{
-							field : 'Point',
+							field : 'transportationManager',
 							title : '运输负责人',
 							align : "center"
 						},
 
 					]
-				]
+				],
+                done : function(res, curr, count) {
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function(index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
 			});
 		};
+        /*出货管理数据表格:作为全局变量赋值调用*/
+        MAIN.originalFilmOutDataList = function(resultData){
+            table.render({
+                data:resultData,
+                elem : '#originalFilmOutList',
+                page : true,
+                limits : [ 10, 15, 20, 25 ],
+                cols : [
+                    [
+                        {
+                            fixed : "left",
+                            type : 'checkbox',
+                            align : "center"
+                        },
+                        {
+                            field : 'clientName',
+                            title : '客户姓名',
+                            align : "center"
+                        },
+                        {
+                            field : 'dateOfShipment',
+                            title : '发货日期',
+                            align : "center"
+                        },
+                        {
+                            field : 'specificationModel',
+                            title : '规格型号',
+                            align : "center"
+                        },
+                        {
+                            field : 'numberShipments',
+                            title : '发货数量',
+                            align : "center"
+                        },
+                        {
+                            field : 'shipArea',
+                            title : '发货面积',
+                            align : "center"
+                        },
+                        {
+                            field : 'theRemainingAmount',
+                            title : '剩余数量',
+                            align : "center"
+                        },
+                        {
+                            field : 'remainingArea',
+                            title : '剩余面积',
+                            align : "center"
+                        },
+                        {
+                            field : 'amountOfPayment',
+                            title : '货款金额',
+                            align : "center"
+                        },
+                        {
+                            field : 'paymentDetails',
+                            title : '付款明细',
+                            align : "center"
+                        },
+                        {
+                            field : 'transportationManager',
+                            title : '运输负责人',
+                            align : "center"
+                        },
+
+                    ]
+                ],
+                done : function(res, curr, count) {
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function(index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+
+		/*出货管理数据表格结束*/
 
 		/*库存管理数据表格*/
 		MAIN.stockList = function() {

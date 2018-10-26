@@ -2,21 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/FittingInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/FittingInfoAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/GetOrderNumberAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/GetOrderNumberAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/FittingInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/FittingInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/FittingInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/FittingInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/FittingInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/FittingInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/ShipmentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/ShipmentInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/af-restful.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/af-restful.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/Preview.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/Preview.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -36,13 +29,14 @@
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.23" value="1" />
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.7" value="3" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="5" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -66,16 +60,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="823" />
-          <entry key="js" value="3069" />
-          <entry key="jsp" value="1904" />
+          <entry key="js" value="3301" />
+          <entry key="jsp" value="1937" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="823" />
-          <entry key="HTML" value="1694" />
+          <entry key="HTML" value="1727" />
           <entry key="JSP" value="210" />
-          <entry key="JavaScript" value="3069" />
+          <entry key="JavaScript" value="3301" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -84,11 +78,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="2319" column="87" selection-start-line="2319" selection-start-column="62" selection-end-line="2319" selection-end-column="87" />
+            <state relative-caret-position="369">
+              <caret line="723" column="111" selection-start-line="723" selection-start-column="111" selection-end-line="723" selection-end-column="111" />
               <folding>
                 <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -96,11 +90,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41">
-              <caret line="222" column="69" selection-start-line="222" selection-start-column="69" selection-end-line="222" selection-end-column="69" />
+            <state relative-caret-position="577">
+              <caret line="723" column="29" selection-start-line="723" selection-start-column="29" selection-end-line="723" selection-end-column="29" />
+              <folding>
+                <element signature="e#92061#93357#0" />
+                <element signature="e#95244#95268#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -108,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
+            <state relative-caret-position="52480">
               <caret line="1280" column="8" selection-start-line="1280" selection-start-column="1" selection-end-line="1280" selection-end-column="8" />
             </state>
           </provider>
@@ -118,14 +116,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>平方</find>
-      <find>tbody</find>
-      <find>fittingOrderNumberPanel</find>
-      <find>productImage-pane</find>
-      <find>productImage-panel</find>
-      <find>左边没有点击</find>
-      <find>点击上传</find>
-      <find>productImagePanel</find>
       <find>productLayerStatus</find>
       <find>URL</find>
       <find>配件采购点</find>
@@ -148,6 +138,14 @@
       <find>原片采购</find>
       <find>OriginalFilmorderNumber</find>
       <find>fittingSpecificationModel</find>
+      <find>originalFilmOutList2</find>
+      <find>OriginaFlilmList</find>
+      <find>outOfTheLibraryproductNameSelectPanel</find>
+      <find>BtnColor</find>
+      <find>出货管理数据表格</find>
+      <find>MAIN.originalFilmOutList</find>
+      <find>出货管理</find>
+      <find>shipmentQueryFun</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,7 +178,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -243,6 +240,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -289,14 +287,16 @@
       <workItem from="1540369980072" duration="6651000" />
       <workItem from="1540431129912" duration="13914000" />
       <workItem from="1540469048506" duration="4969000" />
+      <workItem from="1540523866557" duration="5109000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68153000" />
+    <option name="totallyTimeSpent" value="73262000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12216956" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -374,25 +374,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
+        <state relative-caret-position="52480">
           <caret line="1280" column="8" selection-start-line="1280" selection-start-column="1" selection-end-line="1280" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="2319" column="87" selection-start-line="2319" selection-start-column="62" selection-end-line="2319" selection-end-column="87" />
-          <folding>
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="222" column="69" selection-start-line="222" selection-start-column="69" selection-end-line="222" selection-end-column="69" />
+        <state relative-caret-position="577">
+          <caret line="723" column="29" selection-start-line="723" selection-start-column="29" selection-end-line="723" selection-end-column="29" />
+          <folding>
+            <element signature="e#92061#93357#0" />
+            <element signature="e#95244#95268#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="723" column="111" selection-start-line="723" selection-start-column="111" selection-end-line="723" selection-end-column="111" />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

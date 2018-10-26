@@ -7,7 +7,7 @@ import com.lk.db.ShipmentInfo;
 
 public interface ShipmentMapper
 {
-	//查询表内所有数据
+		//查询表内所有数据
 		public List<ShipmentInfo> findexpenditurePage(ShipmentInfo row);
 		//根据条件查询
 		public List<ShipmentInfo> conditionalQuery(ShipmentInfo row);

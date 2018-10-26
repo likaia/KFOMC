@@ -20,6 +20,8 @@
 	<api name="FittingInfo"  class="com.lk.API.FittingInfoAPI" />
 	<!-- 配件信息接口-->
 	<api name="FittingPublic"  class="com.lk.API.FittingPublicAPI" />
+	<!-- 出货管理接口 -->
+	<api name="ShipmentInfo"  class="com.lk.API.ShipmentInfoAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
 </restful>

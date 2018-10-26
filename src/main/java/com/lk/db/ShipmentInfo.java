@@ -1,4 +1,7 @@
 package com.lk.db;
+
+import org.json.JSONArray;
+
 /*出货管理*/
 public class ShipmentInfo
 {
@@ -16,6 +19,15 @@ public class ShipmentInfo
 	private String operator;
 	private String dStart;
 	private String dEnd;
+	private JSONArray ids;
+	public JSONArray getIds()
+	{
+		return ids;
+	}
+	public void setIds(JSONArray ids)
+	{
+		this.ids = ids;
+	}
 	public Integer getId()
 	{
 		return id;

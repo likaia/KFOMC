@@ -1,17 +1,26 @@
 package com.lk.API;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lk.db.ShipmentInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.ShipmentMapper;
 
 import af.restful.AfRestfulApi;
+
+/*出货管理*/
 
 public class ShipmentInfoAPI extends AfRestfulApi
 {
 	private static Logger logger = Logger.getLogger(ShipmentInfoAPI.class);
+
 	@Override
 	public String execute(String reqText) throws Exception
 	{
@@ -32,19 +41,110 @@ public class ShipmentInfoAPI extends AfRestfulApi
 		if (jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator"); // --->取出操作人
-			page = jsReq.getInt("page");
-			limit = jsReq.getInt("limit");
-			// 打开连接
-			SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-			// 配置映射器
-			
-		}
-		else
+			// 分页查询接口
+			if (jsReq.has("page") && jsReq.has("limit"))
+			{
+				page = jsReq.getInt("page");
+				limit = jsReq.getInt("limit");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				// 使用pageHelper插件进行分页查询
+				PageHelper.startPage(page, limit); // 设置分页
+				ShipmentInfo row = new ShipmentInfo();
+				row.setOperator(operator);
+				List<ShipmentInfo> resultList = shipmentMapper.findexpenditurePage(row);
+				// 获取表内所有的数据总记录数 :使用PageInfo方法
+				PageInfo<ShipmentInfo> pageInfo = new PageInfo<ShipmentInfo>(resultList);
+				// 获取总记录数
+				count = pageInfo.getTotal();
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
+			// 条件查询
+			if (jsReq.has("conditionalQuery"))
+			{
+				String dStart = jsReq.getString("dStart");
+				String dEnd = jsReq.getString("dEnd");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				ShipmentInfo row = new ShipmentInfo();
+				row.setdStart(dStart);
+				row.setdEnd(dEnd);
+				row.setOperator(operator);
+				List<ShipmentInfo> resultList = shipmentMapper.conditionalQuery(row);
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
+			// 新增数据
+			if (jsReq.has("addOrderData"))
+			{
+				String clientName = jsReq.getString("clientName");
+				String dateOfShipment = jsReq.getString("dateOfShipment");
+				String specificationModel = jsReq.getString("specificationModel");
+				String numberShipments = jsReq.getString("numberShipments");
+				String shipArea = jsReq.getString("shipArea");
+				String theRemainingAmount = jsReq.getString("theRemainingAmount");
+				String remainingArea = jsReq.getString("remainingArea");
+				String amountOfPayment = jsReq.getString("amountOfPayment");
+				String paymentDetails = jsReq.getString("paymentDetails");
+				String transportationManager = jsReq.getString("transportationManager");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				ShipmentInfo row = new ShipmentInfo(clientName, dateOfShipment, specificationModel, numberShipments,
+						shipArea, theRemainingAmount, remainingArea, amountOfPayment, paymentDetails,
+						transportationManager, operator);
+				int processResult = shipmentMapper.add(row);
+				sqlSession.commit();
+				if (processResult > 0)
+				{
+					msg = "添加成功";
+				} else
+				{
+					code = 1;
+					errorCode = 1;
+					msg = "添加失败";
+				}
+				sqlSession.close();
+			}
+			// 批量删除
+			if (jsReq.has("delOrders"))
+			{
+				JSONArray ids = jsReq.getJSONArray("ids");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				ShipmentInfo row = new ShipmentInfo();
+				row.setIds(ids);
+				int processResult = shipmentMapper.del(row);
+				sqlSession.commit();
+				if (processResult > 0)
+				{
+					msg = "删除成功!";
+				} else
+				{
+					msg = "删除失败";
+				}
+				sqlSession.close();
+			}
+		} else
 		{
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("进货管理接口异常:没有操作人");
+			logger.error("出货管理接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();
@@ -57,5 +157,5 @@ public class ShipmentInfoAPI extends AfRestfulApi
 		jsReply.put("count", count);
 		return jsReply.toString();
 	}
-	
+
 }

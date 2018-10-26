@@ -707,21 +707,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     </div>
                                 </div>
                             </div>
-                            <!--产品名称查询-->
-                            <div class="ProductNameCheck-panel layui-form">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">产品名称</label>
-                                    <div class="layui-input-block">
-                                        <select lay-search="" lay-filter=""
-                                                name="outOfTheLibraryproductNameSelectPanel">
-                                            <option value="">选择或输入产品名称</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
                             <!--按钮-->
                             <div class="btn-panel">
-                                <button class="layui-btn layui-btn-warm">查询</button>
+                                <button @click="shipmentQueryFun" class="layui-btn layui-btn-warm" v-bind:style="{background:BtnColor}">查询</button>
                             </div>
                         </div>
                     </div>
@@ -730,10 +718,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <!--表格顶部按钮区域-->
                         <div class="tableTopBtn-panel">
                             <div class="btn-panel">
-                                <button class="layui-btn layui-btn-normal">新增</button>
-                                <button class="layui-btn layui-btn-normal">删除</button>
-                                <button class="layui-btn layui-btn-normal">导出</button>
-                                <button class="layui-btn layui-btn-normal">报表</button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">新增</button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">删除</button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">导出</button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">报表</button>
                             </div>
                         </div>
                         <!--数据表格-->
