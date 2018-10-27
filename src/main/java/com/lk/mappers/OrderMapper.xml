@@ -179,10 +179,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	<!-- 根据id查询规格详情 --> 
+	<select id="findModelById" resultMap="OrderInfoResult"
+		parameterType="OrderInfo">
+		SELECT
+		modelDetails
+		FROM t_order_Info
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
+	</select>
 	<!-- 自定义查询表内数据 -->
 	<select id="customQuery" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
-		SELECT id,${queryType}
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
 		FROM t_order_Info
 		<where>
 			<if test="operator != null">

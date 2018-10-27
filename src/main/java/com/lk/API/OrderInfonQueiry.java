@@ -64,7 +64,8 @@ public class OrderInfonQueiry extends AfRestfulApi
 			// 自定义查询
 			if (jsReq.has("queryType"))
 			{
-				String queryType = jsReq.getString("queryType");
+				JSONArray queryType = jsReq.getJSONArray("queryType"); // --->传JSONArray
+																		// [需要获取的数据库字段名进行查询]
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
@@ -115,6 +116,33 @@ public class OrderInfonQueiry extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
+			// 根据id查询规格型号
+			if (jsReq.has("findModelById"))
+			{
+				String orderIdStr = jsReq.getString("orderId");
+				int orderId = 0;
+				try
+				{
+					orderId = Integer.parseInt(orderIdStr);
+				} catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+				}
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+				OrderInfo row = new OrderInfo();
+				row.setId(orderId);
+				List<OrderInfo> resultList = orderMapper.findModelById(row);
+				/* 查询规格型号后处理成JSONArray */
+				JSONArray modelDetails = new JSONArray(resultList);// ---->从List转换成JSONArray
+				JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
+				String modelDetailsArr = modelDetailsOBJ.getString("modelDetails"); // ---->从JSONObject中取出String型Array数据
+				result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
+				/* 查询规格型号后处理成JSONArray结束 */
+				sqlSession.close();
+			}
 			// 新增订单信息
 			if (jsReq.has("addOrderData"))
 			{
@@ -154,7 +182,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 				row.setTotalAmount(totalAmount + "元");
 				row.setRemarks(remarks);
 				row.setAlreadyPaid(alreadyPaid + "元");
-				row.setUnpaid(unpaid+"元");
+				row.setUnpaid(unpaid + "元");
 				row.setModelDetails(modelDetails.toString());
 				int processResult = orderMapper.add(row);
 				sqlSession.commit();
@@ -202,13 +230,13 @@ public class OrderInfonQueiry extends AfRestfulApi
 				OrderInfo row = new OrderInfo();
 				row.setOrderNumber(orderNumber);
 				List<OrderInfo> resultList = orderMapper.queryModelDetails(row);
-				//查询当前订单下所有字段
+				// 查询当前订单下所有字段
 				List<OrderInfo> nowOrderInfoList = orderMapper.queryNowOrderInfo(row);
 				nowOrderInfo = new JSONArray(nowOrderInfoList);
-				JSONArray modelDetails = new JSONArray(resultList);//---->从List转换成JSONArray
-				JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); //--->从JSONArray中取出JSONObject型数据
-				String modelDetailsArr = modelDetailsOBJ.getString("modelDetails"); //---->从JSONObject中取出String型Array数据
-				result = new JSONArray(modelDetailsArr);  //---->转化为JSONArray
+				JSONArray modelDetails = new JSONArray(resultList);// ---->从List转换成JSONArray
+				JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
+				String modelDetailsArr = modelDetailsOBJ.getString("modelDetails"); // ---->从JSONObject中取出String型Array数据
+				result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
 				sqlSession.close();
 			}
 		} else

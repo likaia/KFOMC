@@ -1281,3 +1281,92 @@ a {
 .noInput{
 	cursor: not-allowed;
 }
+/*出货管理[新增]悬浮层*/
+#shipmentAddSubmenu{
+	width: 98%;
+	height: 660px;
+	margin: 15px auto 0;
+	display: none;
+
+}
+#shipmentAddSubmenu .shipmentAddCon-panel{
+	width: 100%;
+	height: 610px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .row-panel{
+	width: 100%;
+	height: 40px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .row-panel .item-panel{
+	width: 33%;
+	float: left;
+	height: 40px;
+}
+#shipmentAddSubmenu .foot-panel{
+	width: 100%;
+	height: 40px;
+	margin: 0 auto;
+	position: relative;
+}
+#shipmentAddSubmenu .foot-panel .btn-panel{
+	min-width: 100px;
+	height: 40px;
+	position: absolute;
+	right: 0px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .Rowbtn-panel{
+	width: 100%;
+	height: 40px;
+    margin-top: 10px;
+	position: relative;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .Rowbtn-panel .btn-panel{
+	min-width: 64px;
+	height: 40px;
+	position: absolute;
+	right: 10px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .OrderModel-panel{
+	width: 100%;
+	height: 320px;
+	overflow: auto;
+    margin-bottom: 10px;
+}
+ #OrderModelList tbody .title{
+	 background: #5FB878;
+	 color:white;
+	 font-weight: 700;
+}
+ .rowLineSelectStyle{
+	 background: #5FB878;
+	 color:white;
+ }
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel{
+	width: 98%;
+	height: 210px;
+	margin: 0 auto;
+	border: solid 2px #E5E5E5;
+	overflow: auto;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel{
+	width: 19%;
+	height: 40px;
+	margin-bottom: 1%;
+	margin-right: 1%;
+	float: left;
+	background: royalblue;
+	text-align: center;
+	position: relative;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel span{
+	color: white;
+	line-height: 40px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel .close-panel{
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	cursor: pointer;
+	right: 0px;
+	top: 1px;
+}

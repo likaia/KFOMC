@@ -20,7 +20,16 @@ public class OrderInfo
 	private String FinishDelivery;
 	private String PreparedBy;
 	private String operator;
-	private String  queryType;
+	private JSONArray queryType; 
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
+	}
+
 	private String dStart;
 	private String dEnd;
 	private String deliveryAddress;  //--->送货地址
@@ -36,6 +45,11 @@ public class OrderInfo
 	public void setOrders(JSONArray orders)
 	{
 		this.orders = orders;
+	}
+	
+	public void setId(Integer id)
+	{
+		this.id = id;
 	}
 	public String getModelDetails()
 	{
@@ -197,14 +211,7 @@ public class OrderInfo
 	{
 		this.operator = operator;
 	}
-	public String getQueryType()
-	{
-		return queryType;
-	}
-	public void setQueryType(String queryType)
-	{
-		this.queryType = queryType;
-	}
+
 	public String getdStart()
 	{
 		return dStart;
@@ -225,31 +232,7 @@ public class OrderInfo
 	{
 		return id;
 	}
-	public OrderInfo(String orderNumber, String orderDate, String clientName, String projectName, String glassNumber,
-			String totalArea, String numberShipments, String shipArea, String additionalFees, String totalAmount,
-			String alreadyPaid, String unpaid, String finishDelivery, String preparedBy, String operator,
-			String queryType, String dStart, String dEnd)
-	{
-		super();
-		this.orderNumber = orderNumber;
-		this.orderDate = orderDate;
-		this.clientName = clientName;
-		this.projectName = projectName;
-		this.glassNumber = glassNumber;
-		this.totalArea = totalArea;
-		this.numberShipments = numberShipments;
-		this.shipArea = shipArea;
-		this.additionalFees = additionalFees;
-		this.totalAmount = totalAmount;
-		AlreadyPaid = alreadyPaid;
-		Unpaid = unpaid;
-		FinishDelivery = finishDelivery;
-		PreparedBy = preparedBy;
-		this.operator = operator;
-		this.queryType = queryType;
-		this.dStart = dStart;
-		this.dEnd = dEnd;
-	}
+	
 	public OrderInfo()
 	{
 		super();
