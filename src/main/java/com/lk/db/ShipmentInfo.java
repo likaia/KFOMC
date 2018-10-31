@@ -9,13 +9,48 @@ public class ShipmentInfo
 	private String clientName;
 	private String dateOfShipment;
 	private String specificationModel;
+	private String unfinishedArr;
+	private String theTotalAmount;
 	private String numberShipments;
 	private String shipArea;
 	private String theRemainingAmount;
 	private String remainingArea;
-	private String amountOfPayment;
 	private String paymentDetails;
 	private String transportationManager;
+	private String dataRecord;
+	public String getDataRecord()
+	{
+		return dataRecord;
+	}
+	public void setDataRecord(String dataRecord)
+	{
+		this.dataRecord = dataRecord;
+	}
+	private String  freight;
+	public String getFreight()
+	{
+		return freight;
+	}
+	public void setFreight(String freight)
+	{
+		this.freight = freight;
+	}
+	public String getUnfinishedArr()
+	{
+		return unfinishedArr;
+	}
+	public void setUnfinishedArr(String unfinishedArr)
+	{
+		this.unfinishedArr = unfinishedArr;
+	}
+	public String getTheTotalAmount()
+	{
+		return theTotalAmount;
+	}
+	public void setTheTotalAmount(String theTotalAmount)
+	{
+		this.theTotalAmount = theTotalAmount;
+	}
 	private String operator;
 	private String dStart;
 	private String dEnd;
@@ -92,14 +127,6 @@ public class ShipmentInfo
 	{
 		this.remainingArea = remainingArea;
 	}
-	public String getAmountOfPayment()
-	{
-		return amountOfPayment;
-	}
-	public void setAmountOfPayment(String amountOfPayment)
-	{
-		this.amountOfPayment = amountOfPayment;
-	}
 	public String getPaymentDetails()
 	{
 		return paymentDetails;
@@ -140,21 +167,24 @@ public class ShipmentInfo
 	{
 		this.dEnd = dEnd;
 	}
-	public ShipmentInfo(String clientName, String dateOfShipment, String specificationModel, String numberShipments,
-			String shipArea, String theRemainingAmount, String remainingArea, String amountOfPayment,
-			String paymentDetails, String transportationManager, String operator)
+	
+	public ShipmentInfo(String clientName, String dateOfShipment, String specificationModel, String unfinishedArr,
+			String theTotalAmount, String numberShipments, String shipArea, String theRemainingAmount,
+			String remainingArea, String paymentDetails, String transportationManager, String freight, String operator)
 	{
 		super();
 		this.clientName = clientName;
 		this.dateOfShipment = dateOfShipment;
 		this.specificationModel = specificationModel;
+		this.unfinishedArr = unfinishedArr;
+		this.theTotalAmount = theTotalAmount;
 		this.numberShipments = numberShipments;
 		this.shipArea = shipArea;
 		this.theRemainingAmount = theRemainingAmount;
 		this.remainingArea = remainingArea;
-		this.amountOfPayment = amountOfPayment;
 		this.paymentDetails = paymentDetails;
 		this.transportationManager = transportationManager;
+		this.freight = freight;
 		this.operator = operator;
 	}
 	public ShipmentInfo()

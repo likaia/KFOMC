@@ -81,6 +81,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{orderItem}
 		</foreach>
 	</delete>
+	<!-- 查询配件总额字段 -->
+	<select id="getTotalAmount" resultMap="FittingInfoResult"
+		parameterType="FittingInfo">
+		SELECT
+		totalPurchase
+		FROM t_fitting_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
 	<!-- 根据操作人查询表内 所有配件名称/配件图片 -->
 	<select id="getProductNameImgUrl" resultMap="FittingInfoResult"
 		parameterType="FittingInfo">

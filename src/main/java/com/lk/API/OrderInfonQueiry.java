@@ -137,9 +137,18 @@ public class OrderInfonQueiry extends AfRestfulApi
 				List<OrderInfo> resultList = orderMapper.findModelById(row);
 				/* 查询规格型号后处理成JSONArray */
 				JSONArray modelDetails = new JSONArray(resultList);// ---->从List转换成JSONArray
-				JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
-				String modelDetailsArr = modelDetailsOBJ.getString("modelDetails"); // ---->从JSONObject中取出String型Array数据
-				result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
+				if(modelDetails.length()>0)
+				{
+					JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
+					String modelDetailsArr = modelDetailsOBJ.getString("unfinishedArr"); // ---->从JSONObject中取出String型Array数据
+					result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
+				}
+				else
+				{
+					code = 1;
+					errorCode =1;
+					msg = "数据为空";
+				}
 				/* 查询规格型号后处理成JSONArray结束 */
 				sqlSession.close();
 			}
@@ -184,6 +193,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 				row.setAlreadyPaid(alreadyPaid + "元");
 				row.setUnpaid(unpaid + "元");
 				row.setModelDetails(modelDetails.toString());
+				row.setUnfinishedArr(modelDetails.toString()); //未发货规格型号
 				int processResult = orderMapper.add(row);
 				sqlSession.commit();
 				sqlSession.close();

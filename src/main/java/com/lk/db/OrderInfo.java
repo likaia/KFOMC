@@ -21,6 +21,15 @@ public class OrderInfo
 	private String PreparedBy;
 	private String operator;
 	private JSONArray queryType; 
+	private String unfinishedArr; //未发货的规格型号
+	public String getUnfinishedArr()
+	{
+		return unfinishedArr;
+	}
+	public void setUnfinishedArr(String unfinishedArr)
+	{
+		this.unfinishedArr = unfinishedArr;
+	}
 	public JSONArray getQueryType()
 	{
 		return queryType;

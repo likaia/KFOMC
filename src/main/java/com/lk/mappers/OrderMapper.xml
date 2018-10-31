@@ -26,6 +26,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="shippingMethod" column="shippingMethod" />
 		<result property="remarks" column="remarks" />
 		<result property="modelDetails" column="modelDetails" />
+		<result property="unfinishedArr" column="unfinishedArr" />
+
 	</resultMap>
 	<!-- 添加数据开始 -->
 	<insert id="add" parameterType="OrderInfo">
@@ -91,6 +93,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="modelDetails != null">
 				modelDetails,
 			</if>
+			<if test="unfinishedArr != null">
+				unfinishedArr,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="orderNumber != null">
@@ -153,13 +158,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="modelDetails != null">
 				#{modelDetails,jdbcType=VARCHAR},
 			</if>
+			<if test="unfinishedArr != null">
+				#{unfinishedArr,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
 		SELECT
-		id,orderNumber,orderDate,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
+		id,orderNumber,orderDate,clientName,unfinishedArr,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
 		FROM t_order_Info
 		<where>
 			<if test="operator != null">
@@ -171,7 +179,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="queryNowOrderInfo" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
 		SELECT
-		id,orderNumber,orderDate,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator,deliveryAddress,contactNumber,shippingMethod,remarks
+		id,orderNumber,orderDate,clientName,projectName,unfinishedArr,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator,deliveryAddress,contactNumber,shippingMethod,remarks
 		FROM t_order_Info
 		<where>
 			<if test="orderNumber != null">
@@ -179,11 +187,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
-	<!-- 根据id查询规格详情 --> 
+	<!-- 根据id查询规格详情 -->
 	<select id="findModelById" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
 		SELECT
-		modelDetails
+		unfinishedArr
 		FROM t_order_Info
 		<where>
 			<if test="id != null">
@@ -204,13 +212,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				operator = #{operator}
 			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="id != null">
+				AND clientName like #{clientName}
+			</if>
 		</where>
 	</select>
 	<!-- 根据特定条件查询表内数据 -->
 	<select id="conditionalQuery" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
 		SELECT
-		id,orderNumber,orderDate,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
+		id,orderNumber,orderDate,unfinishedArr,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
 		FROM t_order_Info
 		<where>
 			<if test="operator != null">
@@ -236,7 +250,71 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 更新数据开始 -->
 	<update id="update" parameterType="OrderInfo">
-
+		update t_order_Info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="orderDate != null">
+				orderDate = #{orderDate},
+			</if>
+			<if test="clientName != null">
+				clientName = #{orderDate},
+			</if>
+			<if test="projectName != null">
+				projectName = #{projectName}
+			</if>
+			<if test="glassNumber != null">
+				glassNumber = #{glassNumber},
+			</if>
+			<if test="totalArea != null">
+				totalArea = #{totalArea},
+			</if>
+			<if test=" numberShipments!= null">
+				numberShipments = #{numberShipments},
+			</if>
+			<if test=" shipArea!= null">
+				shipArea =#{shipArea},
+			</if>
+			<if test=" additionalFees!= null">
+				additionalFees = #{additionalFees},
+			</if>
+			<if test=" totalAmount!= null">
+				totalAmount,
+			</if>
+			<if test=" alreadyPaid!= null">
+				alreadyPaid = #{alreadyPaid},
+			</if>
+			<if test="unpaid != null">
+				unpaid = #{unpaid},
+			</if>
+			<if test=" finishDelivery!= null">
+				finishDelivery = #{finishDelivery},
+			</if>
+			<if test="preparedBy != null">
+				preparedBy = #{preparedBy},
+			</if>
+			<if test="deliveryAddress != null">
+				deliveryAddress = #{deliveryAddress},
+			</if>
+			<if test="contactNumber != null">
+				contactNumber = #{contactNumber},
+			</if>
+			<if test=" shippingMethod!= null">
+				shippingMethod = #{shippingMethod},
+			</if>
+			<if test=" remarks!= null">
+				remarks = #{remarks},
+			</if>
+			<if test="modelDetails != null">
+				modelDetails = #{modelDetails},
+			</if>
+			<if test="unfinishedArr != null">
+				unfinishedArr = #{unfinishedArr},
+			</if>
+		</trim>
+		<where>
+			<if test="orderNumber != null">
+				orderNumber = #{orderNumber}
+			</if>
+		</where>
 	</update>
 	<!-- 批量删除 订单号/操作人 -->
 	<delete id="del" parameterType="OrderInfo">

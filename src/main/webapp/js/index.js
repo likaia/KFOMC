@@ -21,7 +21,8 @@ function ModelItemFun(item, rowLine) {//参数说明:item:当前点击是第几�
     clearTimeout(clickTimeId);
     //Af.trace("当前点击行的是第"+rowLine+"项的第"+item+"行");
     $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeClass("rowLineSelectStyle");
-    $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-elementPosition");
+    $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-rowLine");
+    $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-item");
 }
 
 /*出货管理[新增发货]弹出层表格行单击事件*/
@@ -32,7 +33,8 @@ function ModelItemOneFun(item, rowLine) {
     clickTimeId = setTimeout(function () {
         //此处为单击事件要执行的代码
         $("#OrderModelList tbody .row_" + rowLine + "").eq(item).addClass("rowLineSelectStyle");
-        $("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-elementPosition", "" + rowLine + "," + item + "");
+        $("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-rowLine", "" + rowLine + ""); //添加当前选择项
+        $("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-item", "" + item + ""); //选择当前选择条目
     }, 250);
 }
 
@@ -78,6 +80,7 @@ $(function () {
     var timer;
     var globalArea = 0; //全局面积
     var globalPrice = 0; //全局单价
+    var selectedModelArr = [];
     //实例化vue
     var vm = new Vue({
         //绑定元素
@@ -166,7 +169,23 @@ $(function () {
             ShipmentdStart: "",
             ShipmentdEnd: "",
             shipmentAddStart: "",
-            shipmentAddEnd: ""
+            shipmentAddEnd: "",
+            shippingCustomerValArr: "",   //--->出货管理[新增发货]悬浮层,选择订单号后当前订单下的所有规格型号
+            modelDetailsList: [],   //--->规格型号小条目展示
+            invoiceClientName:"",    //--->发货单客户名称
+            invoiceProjectName:"",    //--->发货单工程名称
+            invoiceOrderNumber:"",    //--->发货单订单号
+            invoiceContactNumber:"",   //--->发货单联系电话
+            invoiceDeliveryAddress:"",  //--->发货单送货地址
+            invoiceOrderDate:"",        //--->发货单订单日期
+            invoiceDateOfShipment:"",    //--->发货单发货日期
+            invoiceTotalNumber:"",      //--->发货单总数量
+            invoiceTotalArea:"",        //--->发货单总面积
+            invoiceTotalAmount:"",      //--->发货单总金额
+            invoiceUnpaid:"",            //--->发货单未付款
+            invoicePaymentDetails:"", //付款明细
+            invoiceTransportationManager:"", //运输负责人
+            invoiceFreight:""//运费
         },
         methods: {
             materialFun: function () {
@@ -809,13 +828,175 @@ $(function () {
                     }
                 });
             },
+            itemCloseFun: function (index) {
+                if (vm.modelDetailsList.length == 1) {
+                    MAIN.ErroAlert("不能删除了");
+                }
+                else { //循环已发货数据找到相同itemID的元素并删除
+                    for(let i = 0;i<vm.modelDetailsList.length;i++)
+                    {
+                        if(index==vm.modelDetailsList[i].itemID)
+                        {
+                            vm.modelDetailsList.splice(i--,1);
+                        }
+                    }
+                }
+            },
             //出货管理[新增]悬浮层{添加发货}点击事件
             addShipmentFun: function () {
-                //获取当前元素表格下拥有自定义属性 data-elementposition的所有元素
-                var allCustomAttributes = $("#OrderModelList tbody tr[data-elementposition]");
-                for (var i = 0; i < allCustomAttributes.length; i++) {
-                    var itemElementPanel = allCustomAttributes[i]; //---->获取每一条选中的标签
-                    Af.trace(itemElementPanel);
+                layer.open({
+                    title: "配送信息",
+                    type: 1,
+                    area: ['710px', '370px'],
+                    //shadeClose : true, //点击遮罩关闭
+                    content: $("#invoiceTransport-panel"),
+                    anim: 1,//从上掉落
+                    shade:0, //关闭遮罩
+                    btn: ['确定'],
+                    yes: function(index, layero){
+                        if(Af.nullstr(vm.invoiceTransportationManager))
+                        {
+                            MAIN.ErroAlert("请输入运输负责人");
+                        }
+                        else{
+                            layer.close(index);
+                            var rawData = vm.shippingCustomerValArr;//-->用户选择客户名称后后台返回的用户规格型号
+                            //获取当前元素表格下 已选择的元素(用find查找.rowLineSelectStyle的元素产生一个集合)
+                            var elementCollection = $("#OrderModelList tbody").find(".rowLineSelectStyle");
+                            for (var i = 0; i < elementCollection.length; i++) {   /*遍历得到的集合,取出每一项的自定义属性 */
+                                var rowLine = elementCollection.eq(i).attr("data-rowLine");
+                                var item = elementCollection.eq(i).attr("data-item");
+                                var modelDetailsObj = {};//给已发货数据赋值
+                                modelDetailsObj["id"] = rawData[rowLine][item].id;//--->id
+                                modelDetailsObj["itemID"] = i;
+                                modelDetailsObj["productName"] = rawData[rowLine][item].productName;//--->规格型号名称
+                                modelDetailsObj["glassLength"] = rawData[rowLine][item].glassLength;//--->长度
+                                modelDetailsObj["glassWidth"] = rawData[rowLine][item].glassWidth;//--->宽度
+                                modelDetailsObj["glassNum"] = rawData[rowLine][item].glassNum; //--->数量
+                                modelDetailsObj["glassArea"] = rawData[rowLine][item].glassArea;//--->面积
+                                modelDetailsObj["totalAmount"] = rawData[rowLine][item].totalAmount;//--->总金额
+                                modelDetailsObj["glassMark"] = rawData[rowLine][item].glassMark;//--->标记
+                                vm.modelDetailsList.push(modelDetailsObj);//--->渲染型号详情蓝色小条目
+                            }
+                            $("#OrderModelList tbody .rowLineSelectStyle").remove();//--->删除表格内已选择的选项
+                            $("#OrderModelTableSubmenu").css({"display": "block"}); //--->表格遮罩显示,禁止用户编辑
+                            /*计算用户选择的规格型号,并产生将其归类结束*/
+                        }
+                    }
+                });
+            },
+            //出货管理[新增]悬浮层{提交}点击函数
+            addShipmentSubmitFun: function () {
+                //--->定义(发货总数量/发货总面积/发货总金额/剩余数量/剩余面积)
+                var theTotalNumber = 0;
+                var theTotalArea = 0;
+                var theTotalAmount = 0;
+                var theRemainingAmount = 0;
+                var remainingArea =0;
+                var req = {};
+                var rawData = vm.shippingCustomerValArr;//-->用户选择客户名称后后台返回的用户规格型号
+                /*计算未发货的玻璃规格型号:取出已发货的数组和总数组,未发货的数组 = 总数组 - 已发货数组*/
+                var editRawData = [];
+                fun(rawData);//--->将二维数组转成一维数组
+                //取出已发货数组里数据
+                var shippedDataList = vm.modelDetailsList;
+                for(let i = 0;i<shippedDataList.length;i++)
+                {
+                    delete shippedDataList[i].itemID; //删除json中的itemID
+                    //取出(玻璃数量/玻璃面积/金额/未付款)
+                    let glassNum = shippedDataList[i].glassNum;
+                    let glassArea = shippedDataList[i].glassArea;
+                    let totalAmount = shippedDataList[i].totalAmount;
+                    theTotalNumber = Af.accAdd(theTotalNumber,glassNum);
+                    theTotalArea = Af.accAdd(theTotalArea,glassArea);
+                    theTotalAmount = Af.accAdd(theTotalAmount,totalAmount);
+                }
+                //比对全部数据和已发货数据,删除已发货数据,计算未发货数据
+                for (let i = 0; i < editRawData.length; i++) {
+                    for (let j = 0; j < shippedDataList.length; j++) {
+                        if(_.isEqual(editRawData[i], shippedDataList[j])){//调用_.isEqual方法判断对象是否相等
+                            //layer.msg("相同元素出现");
+                            editRawData.splice(i--,1);   //删除相同元素:得到未发货数据
+                        }
+                    }
+                }
+                //计算剩余数量 剩余面积
+                for(let i = 0;i<editRawData.length;i++)
+                {
+                    let glassNum = editRawData[i].glassNum;
+                    let glassArea = editRawData[i].glassArea;
+                    theRemainingAmount = Af.accAdd(theRemainingAmount,glassNum);
+                    remainingArea = Af.accAdd(remainingArea,glassArea);
+                }
+                var shippedDataArr = Af.getJSONArray(shippedDataList);//将即将发货的数据归类
+                var unfinishedArr = Af.getJSONArray(editRawData);//将未发货的数组进行归类
+                /*Af.trace("将要发货的数据:");
+                Af.trace(shippedDataArr);
+                Af.trace("剩余未发货的数据:");
+                Af.trace(unfinishedArr);*/
+                /*计算未发货的玻璃规格型号结束*/
+                /*请求后台发送:已发货,剩余发货数据*/
+                req.addOrderData = "addOrderData"; //--->新增发货字段
+                req.clientName = Af.getSelectText("#shippingCustomerNameSelectPanel");//--->客户名称
+                req.clientId = $("#shippingCustomerNameSelectPanel").val(); //--->拿出当前客户对应的id
+                req.specificationModel = shippedDataArr; //已发货数据
+                req.unfinishedArr = unfinishedArr; //剩余未发货数据
+                req.operator = $("#nickNameTextPanel").html();
+                req.numberShipments = theTotalNumber.toString(); //--->发货数量
+                req.shipArea = theTotalArea.toString(); //--->发货面积
+                req.theTotalAmount = theTotalAmount.toString(); //--->发货金额
+                req.theRemainingAmount = theRemainingAmount.toString();//剩余数量
+                req.remainingArea = remainingArea.toString(); //剩余面积
+                req.paymentDetails = vm.invoicePaymentDetails; //付款明细
+                req.transportationManager = vm.invoiceTransportationManager; //运输负责人
+                req.freight = vm.invoiceFreight;//运费
+                Af.rest("ShipmentInfo.api",req,function (ans) {
+                    if(ans.errorCode!=0)
+                    {
+                        MAIN.ErroAlert(ans.msg);
+                    }
+                    else {
+                        var data = ans.orderInfo;
+                        Af.trace(data);
+                        //取出客户名称
+                        $("#invoiceClientName").html(Af.getSelectText("#shippingCustomerNameSelectPanel"));
+                        //从后台拿出(工程名称/订单号/联系电话/送货地址/订单日期/发货日期/未付款金额)
+                        $("#invoiceProjectName").html(data.invoiceProjectName);
+                        $("#invoiceOrderNumber").html(data.invoiceOrderNumber);
+                        $("#invoiceContactNumber").html(data.invoiceContactNumber);
+                        $("#invoiceDeliveryAddress").html(data.invoiceDeliveryAddress);
+                        $("#invoiceOrderDate").html(data.invoiceOrderDate);
+                        $("#invoiceDateOfShipment").html(data.invoiceDateOfShipment);
+                        $("#invoiceUnpaid").html(data.unpaid+"元");
+                        //总数量,总面积,总金额 打印时间
+                        $("#invoiceTotalNumber").html(theTotalNumber+"块");
+                        $("#invoiceTotalArea").html(theTotalArea+"平方");
+                        $("#invoiceTotalAmount").html(theTotalAmount+"元");
+                        $("#printTime").html(data.invoiceDateOfShipment);
+                        /*开始打印*/
+                        $("#invoicePrintTemplate").css({
+                            "display": "block"
+                        });
+                        setTimeout(function () {
+                            $("#invoicePrintTemplate").css({
+                                "display": "none"
+                            });
+                        }, 400);
+                        $("#invoicePrintTemplate").jqprint({}); //---->打印函数
+                    }
+                });
+
+
+
+                /*多维数组转一维数组函数*/
+                function fun(arr) {
+                    for (var i = 0; i < arr.length; i++) {
+                        if (Array.isArray(arr[i])) {
+                            fun(arr[i]);
+                        } else {
+                            editRawData.push(arr[i]);
+                        }
+                    }
                 }
             },
             //出货管理[新增]悬浮层{取消}点击函数
@@ -1720,6 +1901,12 @@ $(function () {
             colorpicker = layui.colorpicker,
             upload = layui.upload;
 
+        /*        $("#OrderModelList").on("click","tbody tr", function() {
+                    //--->出货管理[新增]悬浮层,规格详情下表格行点击事件
+                    setTimeout(function () {
+                        Af.trace($(this).attr("elementposition"));
+                    },1200);
+                });*/
         /*监听出货管理[新增发货]客户名称选择*/
         form.on('select(shippingCustomerNameSelectPanel)', function (data) {
             var thisSelectVal = data.value;
@@ -1732,6 +1919,7 @@ $(function () {
                 req.findModelById = "findModelById";
                 Af.rest("orderInfonQueiry.api", req, function (ans) {
                     var dataArray = ans.data;
+                    vm.shippingCustomerValArr = dataArray;
                     var num = 0;
                     for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
                     {
@@ -2250,7 +2438,7 @@ $(function () {
                         },
                         {
                             field: 'glassNumber',
-                            title: '玻璃数量(个)',
+                            title: '玻璃总数量(块)',
                             align: "center"
                         },
                         {
@@ -2260,19 +2448,15 @@ $(function () {
                         },
                         {
                             field: 'numberShipments',
-                            title: '发货数量(个)',
+                            title: '已发货数量(个)',
                             align: "center"
                         },
                         {
                             field: 'shipArea',
-                            title: '发货面积(㎡)',
+                            title: '已发货面积(㎡)',
                             align: "center"
                         },
-                        {
-                            field: 'additionalFees',
-                            title: '附加费用(元)',
-                            align: "center"
-                        },
+
                         {
                             field: 'totalAmount',
                             title: '总金额(元)',
@@ -2286,11 +2470,6 @@ $(function () {
                         {
                             field: 'unpaid',
                             title: '未付款(元)',
-                            align: "center"
-                        },
-                        {
-                            field: 'finishDelivery',
-                            title: '完成发货(个)',
                             align: "center"
                         },
                         {
@@ -2427,7 +2606,7 @@ $(function () {
                         },
                         {
                             field: 'glassNumber',
-                            title: '玻璃数量(个)',
+                            title: '玻璃总数量(块)',
                             align: "center"
                         },
                         {
@@ -2437,17 +2616,12 @@ $(function () {
                         },
                         {
                             field: 'numberShipments',
-                            title: '发货数量(个)',
+                            title: '已发货数量(个)',
                             align: "center"
                         },
                         {
                             field: 'shipArea',
-                            title: '发货面积(㎡)',
-                            align: "center"
-                        },
-                        {
-                            field: 'additionalFees',
-                            title: '附加费用(元)',
+                            title: '已发货面积(㎡)',
                             align: "center"
                         },
                         {
@@ -2463,11 +2637,6 @@ $(function () {
                         {
                             field: 'unpaid',
                             title: '未付款(元)',
-                            align: "center"
-                        },
-                        {
-                            field: 'finishDelivery',
-                            title: '完成发货(个)',
                             align: "center"
                         },
                         {
@@ -3204,11 +3373,6 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'specificationModel',
-                            title: '规格型号',
-                            align: "center"
-                        },
-                        {
                             field: 'numberShipments',
                             title: '发货数量',
                             align: "center"
@@ -3229,18 +3393,18 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'amountOfPayment',
-                            title: '货款金额',
-                            align: "center"
-                        },
-                        {
-                            field: 'paymentDetails',
-                            title: '付款明细',
+                            field: 'theTotalAmount',
+                            title: '发货金额',
                             align: "center"
                         },
                         {
                             field: 'transportationManager',
                             title: '运输负责人',
+                            align: "center"
+                        },
+                        {
+                            field: 'freight',
+                            title: '运费',
                             align: "center"
                         },
 
@@ -3304,11 +3468,6 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'specificationModel',
-                            title: '规格型号',
-                            align: "center"
-                        },
-                        {
                             field: 'numberShipments',
                             title: '发货数量',
                             align: "center"
@@ -3329,13 +3488,8 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'amountOfPayment',
-                            title: '货款金额',
-                            align: "center"
-                        },
-                        {
-                            field: 'paymentDetails',
-                            title: '付款明细',
+                            field: 'theTotalAmount',
+                            title: '发货金额',
                             align: "center"
                         },
                         {
@@ -3343,7 +3497,11 @@ $(function () {
                             title: '运输负责人',
                             align: "center"
                         },
-
+                        {
+                            field: 'freight',
+                            title: '运费',
+                            align: "center"
+                        },
                     ]
                 ],
                 done: function (res, curr, count) {

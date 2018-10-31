@@ -1,122 +1,308 @@
 @page {
-	size: A4; /*设置打印纸为A4*/
-	margin: 2cm;
+    size: A4; /*设置打印纸为A4*/
 }
 
+/*发货单样式开始*/
+#invoicePrintTemplate {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: none;
+    text-align: center;
+}
+
+#invoicePrintTemplate h1 {
+    font-weight: 700;
+}
+
+#invoicePrintTemplate h2 {
+    font-weight: 400;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel {
+    width: 100%;
+    height: 80px;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .item-panel {
+    width: 25%;
+    height: 40px;
+    float: left;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel {
+    width: 48%;
+    height: 40px;
+    float: left;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel span {
+    line-height: 40px;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel {
+    width: 52%;
+    height: 40px;
+    float: left;
+    text-align: left;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel span {
+    line-height: 40px;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel {
+    width: 100%;
+    height: 40px;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .left-panel{
+    width: 40%;
+    height: 40px;
+    float: left;
+}
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .left-panel .itemLeft-panel{
+    width: 30%;
+    height: 40px;
+    float: left;
+
+}
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .left-panel .itemVal-panel {
+    width:70%;
+    height: 40px;
+    float: left;
+    text-align: left;
+}
+
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .right-panel{
+    width: 60%;
+    height: 40px;
+    float: left;
+    text-align: left;
+}
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .right-panel .item-panel{
+    width: 50%;
+    height: 40px;
+    float: left;
+}
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .right-panel .item-panel .itemLeft-panel{
+    width: 30%;
+    height: 40px;
+    float: left;
+}
+#invoicePrintTemplate .CustomerBasicInformatiofo-panel .addressTimeFoot-panel .right-panel .item-panel .itemVal-panel{
+    width: 70%;
+    height: 20px;
+    float: left;
+}
+
+/*总数量 总面积 总金额 未付款*/
+#invoicePrintTemplate .dataSummary-panel {
+    width: 100%;
+    height: 40px;
+    text-align: left;
+}
+#invoicePrintTemplate .dataSummary-panel .item-panel {
+    width: 25%;
+    height: 40px;
+    float: left;
+}
+#invoicePrintTemplate .dataSummary-panel .item-panel span {
+    line-height: 40px;
+    text-align: center;
+}
+
+#invoicePrintTemplate .companyInfo-panel {
+    width: 100%;
+    height: 80px;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel {
+    width: 100%;
+    height: 20px;
+    text-align: left;
+    position: relative;
+    margin-top: 10px;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .leftCon-panel {
+    width: 50%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .rightCon-panel {
+    width: 50%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel span {
+    line-height: 20px;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .address-panel {
+    width: 50%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .address-panel .itemLeft-panel {
+    width: 10%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .address-panel .itemVal-panel {
+    width: 90%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .addressTelephone-panel {
+    width: 25%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .addressTelephone-panel span {
+    line-height: 20px;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .addressTelephone-panel .itemLeft-panel {
+    width: 40%;
+    height: 20px;
+    float: left;
+}
+
+#invoicePrintTemplate .companyInfo-panel .row-panel .addressTelephone-panel .itemVal-panel {
+    width: 60%;
+    height: 20px;
+    float: left;
+}
+/*表格区域*/
+#invoicePrintList thead th{
+    color: black;
+    font-weight: 700;
+    border: solid 2px black;
+}
+#invoicePrintList tbody td{
+    color: black;
+    border: solid 2px black;
+}
+
+
+/*发货单样式结束*/
 #PrintTemplate {
-	width: 100%;
-	height: 100%;
-	margin: 0 auto;
-	text-align: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 #PrintTemplate h1 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 #PrintTemplate h2 {
-	font-weight: 400;
+    font-weight: 400;
 }
 
 #PrintTemplate .CustomerBasicInformatiofo-panel {
-	width: 100%;
-	height: 80px;
+    width: 100%;
+    height: 80px;
 }
 
 #PrintTemplate .CustomerBasicInformatiofo-panel .item-panel {
-	width: 33%;
-	height: 40px;
-	float: left;
+    width: 33%;
+    height: 40px;
+    float: left;
 }
 
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel
-	{
-	width: 50%;
-	height: 40px;
-	float: left;
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel {
+    width: 50%;
+    height: 40px;
+    float: left;
 }
 
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel span
-	{
-	line-height: 40px;
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .container-panel span {
+    line-height: 40px;
 }
 
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel
-	{
-	width: 50%;
-	height: 40px;
-	float: left;
-	text-align: left;
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel {
+    width: 50%;
+    height: 40px;
+    float: left;
+    text-align: left;
 }
 
-#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel span
-	{
-	line-height: 40px;
+#PrintTemplate .CustomerBasicInformatiofo-panel .item-panel .value-panel span {
+    line-height: 40px;
 }
 
 #PrintTemplate .companyInfo-panel {
-	width: 100%;
-	height: 270px;
-	margin-top: 30px;
+    width: 100%;
+    height: 270px;
+    margin-top: 30px;
 }
 
 #PrintTemplate .companyInfo-panel .Remarks-panel {
-	width: 100%;
-	height: 140px;
+    width: 100%;
+    height: 140px;
 }
 
 #PrintTemplate .companyInfo-panel .Remarks-panel .leftTops-pamnel {
-	width: 10%;
-	height: 140px;
-	float: left;
+    width: 10%;
+    height: 140px;
+    float: left;
 }
 
 #PrintTemplate .companyInfo-panel .Remarks-panel .RemarksVal-pamnel {
-	width: 90%;
-	height: 140px;
-	float: left;
-	text-align: left;
+    width: 90%;
+    height: 140px;
+    float: left;
+    text-align: left;
 }
 
 #PrintTemplate .companyInfo-panel .Remarks-panel .RemarksVal-pamnel {
-	font-weight: 600;
+    font-weight: 600;
 }
 
 #PrintTemplate .companyInfo-panel .Address-telephone-fax-panel {
-	width: 100%;
-	height: 40px;
+    width: 100%;
+    height: 40px;
 }
 
-#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel
-	{
-	width: 33%;
-	height: 40px;
-	text-align: center;
-	float: left;
+#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel {
+    width: 33%;
+    height: 40px;
+    text-align: center;
+    float: left;
 }
 
-#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel span
-	{
-	line-height: 40px;
+#PrintTemplate .companyInfo-panel .Address-telephone-fax-panel .item-panel span {
+    line-height: 40px;
 }
-#ProductionOrderList{
-	color:black;
-	font-size: 17px;
+
+#ProductionOrderList {
+    color: black;
+    font-size: 17px;
 }
+
 #ProductionOrderList tr {
-	border: solid 2px black;
+    border: solid 2px black;
 }
 
 #ProductionOrderList tbody tr td {
-	font-size: 17px;
-	color: black;
-	font-weight: 600;
+    font-size: 17px;
+    color: black;
+    font-weight: 600;
 }
 
 #ProductionOrderList td {
-	border: solid 2px black;
+    border: solid 2px black;
 }
 
 #ProductionOrderList th {
-	border: solid 2px black;
+    border: solid 2px black;
 }

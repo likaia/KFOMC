@@ -18,4 +18,6 @@ public interface FittingInfoMapper
 		public int add(FittingInfo row);
 		// 根据操作人查询表内 所有配件名称/配件图片
 		public List<FittingInfo> getProductNameImgUrl(FittingInfo row);
+		//根据操作人查询表内 配件字段
+		public List<FittingInfo> getTotalAmount(FittingInfo row);
 }

@@ -9,13 +9,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="clientName" column="clientName" />
 		<result property="dateOfShipment" column="dateOfShipment" />
 		<result property="specificationModel" column="specificationModel" />
+		<result property="unfinishedArr" column="unfinishedArr" />
 		<result property="numberShipments" column="numberShipments" />
 		<result property="shipArea" column="shipArea" />
+		<result property="theTotalAmount" column="theTotalAmount" />
 		<result property="theRemainingAmount" column="theRemainingAmount" />
 		<result property="remainingArea" column="remainingArea" />
-		<result property="amountOfPayment" column="amountOfPayment" />
 		<result property="paymentDetails" column="paymentDetails" />
 		<result property="transportationManager" column="transportationManager" />
+		<result property="freight" column="freight" />
 		<result property="operator" column="operator" />
 	</resultMap>
 	<!-- 分页查询数据开始: -->
@@ -27,14 +29,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		dateOfShipment,
 		specificationModel,
 		numberShipments,
+		unfinishedArr,
 		shipArea,
 		theRemainingAmount,
 		remainingArea,
-		amountOfPayment,
 		paymentDetails,
 		transportationManager,
-		operator
-		FROM t_shipment
+		theTotalAmount,
+		operator,
+		freight
+		FROM
+		t_shipment
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -50,14 +55,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		dateOfShipment,
 		specificationModel,
 		numberShipments,
+		unfinishedArr,
 		shipArea,
 		theRemainingAmount,
 		remainingArea,
-		amountOfPayment,
 		paymentDetails,
 		transportationManager,
-		operator
-		FROM t_shipment
+		operator,
+		theTotalAmount,
+		freight
+		FROM
+		t_shipment
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -74,15 +82,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 批量删除 -->
 	<delete id="del" parameterType="ShipmentInfo">
 		delete from t_shipment where (id) in
-		<foreach item="idItem" collection="ids" open="("
-			separator="," close=")">
+		<foreach item="idItem" collection="ids" open="(" separator=","
+			close=")">
 			#{idItem}
 		</foreach>
 	</delete>
-	
+
 	<!-- 新增数据开始 -->
-	<insert id="add" parameterType="FittingInfo">
-		insert into t_fitting_Info
+	<insert id="add" parameterType="ShipmentInfo">
+		insert into t_shipment
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="clientName != null">
 				clientName,
@@ -93,26 +101,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="specificationModel != null">
 				specificationModel,
 			</if>
+			<if test="unfinishedArr != null">
+				unfinishedArr,
+			</if>
 			<if test="numberShipments != null">
 				numberShipments,
 			</if>
 			<if test="shipArea != null">
 				shipArea,
 			</if>
-			<if test="theRemainingAmount != null">
+			<if test=" theTotalAmount != null">
+				theTotalAmount,
+			</if>
+			<if test=" theRemainingAmount != null">
 				theRemainingAmount,
 			</if>
-			<if test=" remainingArea != null">
+			<if test="remainingArea != null">
 				remainingArea,
 			</if>
-			<if test=" amountOfPayment != null">
-				amountOfPayment,
-			</if>
-			<if test=" paymentDetails != null">
+			<if test="paymentDetails != null">
 				paymentDetails,
 			</if>
 			<if test="transportationManager != null">
 				transportationManager,
+			</if>
+			<if test="freight != null">
+				freight,
 			</if>
 			<if test="operator != null">
 				operator,
@@ -128,11 +142,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="specificationModel != null">
 				#{specificationModel,jdbcType=VARCHAR},
 			</if>
+			<if test="unfinishedArr != null">
+				#{unfinishedArr,jdbcType=VARCHAR},
+			</if>
 			<if test="numberShipments != null">
 				#{numberShipments,jdbcType=VARCHAR},
 			</if>
 			<if test="shipArea != null">
 				#{shipArea,jdbcType=VARCHAR},
+			</if>
+			<if test="theTotalAmount != null">
+				#{theTotalAmount,jdbcType=VARCHAR},
 			</if>
 			<if test="theRemainingAmount != null">
 				#{theRemainingAmount,jdbcType=VARCHAR},
@@ -140,14 +160,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="remainingArea != null">
 				#{remainingArea,jdbcType=VARCHAR},
 			</if>
-			<if test="amountOfPayment != null">
-				#{amountOfPayment,jdbcType=VARCHAR},
-			</if>
 			<if test=" paymentDetails != null">
 				#{paymentDetails,jdbcType=VARCHAR},
 			</if>
 			<if test="transportationManager != null">
 				#{transportationManager,jdbcType=VARCHAR},
+			</if>
+			<if test="freight != null">
+				#{freight,jdbcType=VARCHAR},
 			</if>
 			<if test="operator != null">
 				#{operator,jdbcType=VARCHAR},

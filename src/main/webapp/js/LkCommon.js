@@ -122,7 +122,19 @@ Af.getJSONArray = function(resultJSONArray) {
 		    }*/
 	}
 	return data;
-}
+};
+
+/*删除二维数组元素*/
+Af.removeDyadicArray = function(rawData,rowLine,item){
+    rawData[rowLine].splice([item],1);
+    return rawData;
+};
+
+//获取select选中的文本内容
+Af.getSelectText = function(selectPanel){
+    var thisVal = $(selectPanel).find("option:selected").text();
+    return thisVal;
+};
 /*获取JSONArray长度*/
 Af.getJsonLength = function(jsonData) {
 	var jsonLength = 0;

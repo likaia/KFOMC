@@ -34,6 +34,7 @@ public class FittingInfoAPI extends AfRestfulApi
 		int errorCode = 0;
 		int code = 0;
 		JSONArray result = new JSONArray();
+		JSONArray  totalAmount = new JSONArray();
 		long count = 0; // --->数据库数据总记录数
 		String msg = "ok";
 		/* 安卓端返回数据 */
@@ -63,6 +64,9 @@ public class FittingInfoAPI extends AfRestfulApi
 				// 获取总记录数
 				count = pageInfo.getTotal();
 				result = new JSONArray(resultList);
+				//查询总金额
+				List<FittingInfo> TotalAmountList = fittingInfoMapper.getTotalAmount(row);
+				totalAmount = new JSONArray(TotalAmountList);
 				/* 使用转义字符给数据添加双引号 */
 				androidData = "\"" + result + "\"";
 				// 关闭链接
@@ -249,6 +253,19 @@ public class FittingInfoAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
+			//根据操作人查询表内所有配件采购总额:计算总成本
+			if(jsReq.has("getTotalAmount"))
+			{
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				FittingInfoMapper fittingInfoMapper = sqlSession.getMapper(FittingInfoMapper.class);
+				FittingInfo row = new FittingInfo();
+				row.setOperator(operator);
+				List<FittingInfo> resultList = fittingInfoMapper.getTotalAmount(row);
+				result = new JSONArray(resultList);
+				sqlSession.close();
+			}
 		} else
 		{
 			code = 1;
@@ -263,6 +280,7 @@ public class FittingInfoAPI extends AfRestfulApi
 		jsReply.put("msg", msg);
 		jsReply.put("data", result);
 		jsReply.put("androidData", androidData);
+		jsReply.put("totalAmount", totalAmount);
 		jsReply.put("operator", operator);
 		jsReply.put("count", count);
 		return jsReply.toString();

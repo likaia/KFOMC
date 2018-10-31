@@ -1331,6 +1331,24 @@ a {
 	height: 320px;
 	overflow: auto;
     margin-bottom: 10px;
+    position: relative;
+}
+#OrderModelTableSubmenu{
+    width: 100%;
+    height: 320px;
+    background: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    z-index: 999;
+    display: none;
+}
+#OrderModelTableSubmenu span{
+    line-height: 320px;
+    font-size: 22px;
+    color: white;
+    font-weight: 600;
 }
  #OrderModelList tbody .title{
 	 background: #5FB878;
@@ -1349,18 +1367,30 @@ a {
 	overflow: auto;
 }
 #shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel{
-	width: 19%;
-	height: 40px;
+	width:32%;
+	height: 80px;
 	margin-bottom: 1%;
 	margin-right: 1%;
 	float: left;
-	background: royalblue;
+	background: #003366;
 	text-align: center;
 	position: relative;
 }
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .specificationDetails-panel .ReadColorClass{
+    color: #E37D2B;
+    font-weight: 700;
+}
 #shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel span{
 	color: white;
-	line-height: 40px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel .specificationTitle-panel{
+    width: 100%;
+    height: 40px;
+}
+#shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel .specificationTitle-panel span{
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: 600;
 }
 #shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel .item-panel .close-panel{
 	width: 20px;
@@ -1369,4 +1399,30 @@ a {
 	cursor: pointer;
 	right: 0px;
 	top: 1px;
+}
+/* 运输负责人 付款明细 运费 弹层输入 */
+#invoiceTransport-panel{
+    width: 98%;
+    height: 240px;
+    margin: 0 auto;
+    display: none;
+}
+#invoiceTransport-panel .row-panel{
+    width: 100%;
+    height: 40px;
+    margin-top: 15px;
+}
+#invoiceTransport-panel .row-panel .itemLeft-panel{
+    width: 20%;
+    height: 40px;
+    float: left;
+}
+#invoiceTransport-panel .row-panel .itemLeft-panel span{
+    margin-left:25px;
+    line-height: 40px;
+}
+#invoiceTransport-panel .row-panel .itemRight-panel{
+    width: 80%;
+    height: 40px;
+    float: left;
 }

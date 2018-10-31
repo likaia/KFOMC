@@ -38,6 +38,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" href="layui/css/layui.css">
     <%-- 引入工具类--%>
     <script src="js/LkCommon.js"></script>
+
     <%--当前页面布局与交互文件 --%>
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
@@ -51,6 +52,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <meta name="baidu-site-verification" content="JwUB1mxjFy"/>
     <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
     <jsp:include page="islogin.jsp"></jsp:include>
+    <script src="js/underscore-min.js"></script>
     <%--获取当前用户信息 --%>
     <%
     //取得session对象
@@ -709,7 +711,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             </div>
                             <!--按钮-->
                             <div class="btn-panel">
-                                <button @click="shipmentQueryFun" class="layui-btn layui-btn-warm" v-bind:style="{background:BtnColor}">查询</button>
+                                <button @click="shipmentQueryFun" class="layui-btn layui-btn-warm"
+                                        v-bind:style="{background:BtnColor}">查询
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -718,10 +722,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <!--表格顶部按钮区域-->
                         <div class="tableTopBtn-panel">
                             <div class="btn-panel">
-                                <button class="layui-btn layui-btn-normal" @click="shipmentAddFun" v-bind:style="{background:BtnColor}">新增</button>
-                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">删除</button>
-                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">导出</button>
-                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">报表</button>
+                                <button class="layui-btn layui-btn-normal" @click="shipmentAddFun"
+                                        v-bind:style="{background:BtnColor}">新增
+                                </button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">删除
+                                </button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">导出
+                                </button>
+                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">报表
+                                </button>
                             </div>
                         </div>
                         <!--数据表格-->
@@ -1999,8 +2008,155 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     </div>
 
 
+    <!--出货管理[发货单]打印模板开始-->
+    <div id="invoicePrintTemplate">
+        <h1>陕西伯益中空玻璃有限公司</h1>
+        <h2>发货凭单</h2>
+        <!-- 发货单客户基本信息 -->
+        <div class="CustomerBasicInformatiofo-panel">
+            <div class="item-panel">
+                <div class="container-panel">
+                    <span>客户名称:</span>
+                </div>
+                <div class="value-panel">
+                    <span id="invoiceClientName">{{invoiceClientName}}</span>
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="container-panel">
+                    <span>工程名称:</span>
+                </div>
+                <div class="value-panel">
+                    <span id="invoiceProjectName">{{invoiceProjectName}}</span>
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="container-panel">
+                    <span>订单号:</span>
+                </div>
+                <div class="value-panel">
+                    <span id="invoiceOrderNumber">{{invoiceOrderNumber}}</span>
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="container-panel">
+                    <span>联系电话:</span>
+                </div>
+                <div class="value-panel">
+                    <span id="invoiceContactNumber">{{invoiceContactNumber}}</span>
+                </div>
+            </div>
+            <div class="addressTimeFoot-panel">
+                <div class="left-panel">
+                    <div class="itemLeft-panel">
+                        <span>送货地址:</span>
+                    </div>
+                    <div class="itemVal-panel">
+                        <span style="line-height: 30px" id="invoiceDeliveryAddress">{{invoiceDeliveryAddress}}</span>
+                    </div>
+                </div>
+                <div class="right-panel">
+                    <div class="item-panel">
+                        <div class="itemLeft-panel">
+                            <span>订单日期:</span>
+                        </div>
+                        <div class="itemVal-panel">
+                            <span style="line-height: 30px" id="invoiceOrderDate">{{invoiceOrderDate}}</span>
+                        </div>
+                    </div>
+                    <div class="item-panel">
+                        <div class="itemLeft-panel">
+                            <span>发货日期:</span>
+                        </div>
+                        <div class="itemVal-panel">
+                            <span style="line-height: 30px" id="invoiceDateOfShipment">{{invoiceDateOfShipment}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 表格渲染模块 -->
+        <table class="layui-table" id="invoicePrintList"
+               style="border:solid 2px black">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>长度</th>
+                <th>宽度</th>
+                <th>数量</th>
+                <th>标记</th>
+                <th>面积</th>
+                <th>单价</th>
+                <th>合计金额</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <!--表格总数据汇总-->
+        <div class="dataSummary-panel">
+            <div class="item-panel">
+                <span>总数量:</span> <span class="valPanel" id="invoiceTotalNumber">{{invoiceTotalNumber}}</span>
+            </div>
+            <div class="item-panel">
+                <span>总面积:</span> <span class="valPanel" id="invoiceTotalArea">{{invoiceTotalArea}}</span>
+            </div>
+            <div class="item-panel">
+                <span>总金额:</span> <span class="valPanel" id="invoiceTotalAmount">{{invoiceTotalAmount}}</span>
+            </div>
+            <div class="item-panel">
+                <span>未付款:</span> <span class="valPanel" id="invoiceUnpaid">{{invoiceUnpaid}}</span>
+            </div>
+        </div>
+        <!-- 公司信息提示信息区域 -->
+        <div class="companyInfo-panel">
+            <div class="row-panel">
+                <span>温馨提示:请认真核对玻璃尺寸型号和数量,签字后视为确认,玻璃尺寸允许国际误差范围值正负3mm,</span>
+            </div>
+            <div class="row-panel">
+                <span style="position: absolute;left: 70px">如玻璃有质量问题请在三个工作日提出,过后视为合格,有质量问题的玻璃我公司负责更换玻璃,不负责连带责任.</span>
+            </div>
+            <div class="row-panel">
+                <div class="address-panel">
+                    <div class="itemLeft-panel">
+                        <span>地址:</span>
+                    </div>
+                    <div class="itemVal-panel">
+                        <span>西安市未央区百花建材不锈钢市场南排44号</span>
+                    </div>
+                </div>
+                <div class="addressTelephone-panel">
+                    <div class="itemLeft-panel">
+                        <span>电话:</span>
+                    </div>
+                    <div class="itemVal-panel">
+                        <span>020-86207926</span>
+                    </div>
+                </div>
+                <div class="addressTelephone-panel">
+                    <div class="itemLeft-panel">
+                        <span>传真:</span>
+                    </div>
+                    <div class="itemVal-panel">
+                        <span>020-86207926</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-panel">
+                <div class="leftCon-panel">
+                    <span>打印时间:</span> <span id="printTime"></span>
+                </div>
+                <div class="rightCon-panel">
+                    <span>客户签字:</span> <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--出货管理[发货单]打印模板结束-->
     <!-- 打印模板开始 -->
-    <div id="PrintTemplate" style="display:none">
+    <div id="CustomerBasicInformatiofo-panel" style="display:none">
         <h1>陕西伯益中空玻璃有限公司</h1>
         <h2>生产单</h2>
         <!-- 生产单客户基本信息 -->
@@ -2237,13 +2393,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <div class="layui-collapse">
                     <div class="layui-colla-item">
                         <h2 class="layui-colla-title">自定义添加配件时请点击</h2>
-                        <div class="layui-colla-content"  v-bind:class="{'layui-show': newAccessoriesState }">
-                           <div class="productImagePanel" id="productUpIds">
-                               <div class="blackElasticLayer" v-bind:style="{display:productLayerStatus}">
+                        <div class="layui-colla-content" v-bind:class="{'layui-show': newAccessoriesState }">
+                            <div class="productImagePanel" id="productUpIds">
+                                <div class="blackElasticLayer" v-bind:style="{display:productLayerStatus}">
                                     <span>上传配件图片</span>
-                               </div>
-                               <img v-bind:src="productImageUrl" alt="">
-                           </div>
+                                </div>
+                                <img v-bind:src="productImageUrl" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2316,7 +2472,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
                 <div class="item-panel">
                     <input type="text" name="title" placeholder="左边没有?点击此处手动输入" title="如果有选择配件名称,此处不可输入!"
-                            class="layui-input" v-model="newAccessories" v-on:input ="newAccessoriesInputFun" @blur="newAccessoriesBlurFun" id="newAccessoriesInput">
+                           class="layui-input" v-model="newAccessories" v-on:input="newAccessoriesInputFun"
+                           @blur="newAccessoriesBlurFun" id="newAccessoriesInput">
                 </div>
             </div>
             <div class="row-panel">
@@ -2378,7 +2535,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户名称:</label>
                         <div class="layui-input-block">
-                            <select name="shippingCustomerNameSelectPanel" lay-search lay-filter="shippingCustomerNameSelectPanel">
+                            <select id="shippingCustomerNameSelectPanel" name="shippingCustomerNameSelectPanel"
+                                    lay-search lay-filter="shippingCustomerNameSelectPanel">
                                 <option value="">选择/输入客户名称</option>
                             </select>
                         </div>
@@ -2388,7 +2546,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-form-item">
                         <label class="layui-form-label">订单号:</label>
                         <div class="layui-input-block">
-                            <select name="shippingOrderNumberSelectPanel" lay-search lay-filter="shippingOrderNumberSelectPanel">
+                            <select name="shippingOrderNumberSelectPanel" lay-search
+                                    lay-filter="shippingOrderNumberSelectPanel">
                                 <option value="">选择/输入订单号</option>
                             </select>
                         </div>
@@ -2396,13 +2555,18 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
                 <div class="item-panel">
                     <div class="layui-form-item">
-                        <button @click="addShipmentFun" class="layui-btn" v-bind:style="{background:BtnColor}">添加发货</button>
+                        <button @click="addShipmentFun" class="layui-btn" v-bind:style="{background:BtnColor}">添加发货
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!--当前所查询订单型号详情-->
             <div class="OrderModel-panel">
+                <!--表格遮罩-->
+                <div id="OrderModelTableSubmenu">
+                    <span>禁止再次编辑,请完成本次发货后,再进行下一次发货!若规格型号选择有误,请关闭当前弹层,重新打开!</span>
+                </div>
                 <!-- 表格渲染模块 -->
                 <table class="layui-table" id="OrderModelList" lay-filter="OrderModelList">
                     <thead>
@@ -2421,9 +2585,18 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
             <!--用户勾选规格型号后渲染用户已选择的规格型号-->
             <div class="userHasSelectedModel-panel">
-                <div class="item-panel">
-                    <span>测试规格型号</span>
-                    <div class="close-panel">
+                <div class="item-panel" v-for="item in modelDetailsList">
+                    <div class="specificationTitle-panel">
+                        <span>{{ item.productName }}</span>
+                    </div>
+                    <div class="specificationDetails-panel">
+                        <span>长度:</span> <span class="ReadColorClass" id="specificationDetailsLengthVal">{{ item.glassLength }}</span>
+                        <span>宽度:</span> <span class="ReadColorClass" id="specificationDetailsWidthVal">{{ item.glassWidth }}</span>
+                        <span>数量:</span> <span class="ReadColorClass" id="specificationDetailsNumVal">{{ item.glassNum }}</span>
+                        <span>面积:</span> <span class="ReadColorClass"
+                                               id="specificationDetailsArea">{{ item.glassArea }}</span>
+                    </div>
+                    <div class="close-panel" @click='itemCloseFun(item.itemID)' :data-ids="item.itemID">
                         <i class="layui-icon layui-icon-close-fill" style="color: white;font-size: 20px"></i>
                     </div>
                 </div>
@@ -2431,8 +2604,36 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
         <div class="foot-panel">
             <div class="btn-panel">
-                <button class="layui-btn" v-bind:style="{background:BtnColor}">提交</button>
+                <button class="layui-btn" @click="addShipmentSubmitFun" v-bind:style="{background:BtnColor}">提交</button>
                 <button class="layui-btn" @click="shipmentAddCloseFun" v-bind:style="{background:BtnColor}">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!--出货管理{新增}提交数据时选择 运输负责人/运费/付款明细-->
+    <div id="invoiceTransport-panel" class="layui-form">
+        <div class="row-panel">
+            <div class="itemLeft-panel">
+                <span>运输负责人:</span>
+            </div>
+            <div class="itemRight-panel">
+                <input type="text" v-model="invoiceTransportationManager" placeholder="请输入" class="layui-input">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="itemLeft-panel">
+                <span>运费:</span>
+            </div>
+            <div class="itemRight-panel">
+                <input type="text" v-model="invoiceFreight" placeholder="请输入"  class="layui-input">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="itemLeft-panel">
+                <span>付款明细:</span>
+            </div>
+            <div class="itemRight-panel">
+                <textarea name="desc" v-model="invoicePaymentDetails" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
         </div>
     </div>
