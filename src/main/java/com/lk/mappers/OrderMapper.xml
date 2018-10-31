@@ -220,6 +220,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	
+	<!-- 精确查找:订单下总面积，总数量 -->
+	<select id="accurateFind" resultMap="OrderInfoResult"
+		parameterType="OrderInfo">
+		SELECT
+		glassNumber,totalArea
+		FROM t_order_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
+			</if>
+			<if test="clientName != null">
+				AND clientName like #{clientName}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+		</where>
+	</select>
 	<!-- 根据特定条件查询表内数据 -->
 	<select id="conditionalQuery" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">

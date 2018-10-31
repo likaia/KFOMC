@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{idItem}
 		</foreach>
 	</delete>
-
+	
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="ShipmentInfo">
 		insert into t_shipment

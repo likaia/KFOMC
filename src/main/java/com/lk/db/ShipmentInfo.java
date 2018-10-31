@@ -17,15 +17,7 @@ public class ShipmentInfo
 	private String remainingArea;
 	private String paymentDetails;
 	private String transportationManager;
-	private String dataRecord;
-	public String getDataRecord()
-	{
-		return dataRecord;
-	}
-	public void setDataRecord(String dataRecord)
-	{
-		this.dataRecord = dataRecord;
-	}
+
 	private String  freight;
 	public String getFreight()
 	{

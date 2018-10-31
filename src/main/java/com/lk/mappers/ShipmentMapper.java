@@ -15,6 +15,5 @@ public interface ShipmentMapper
 		public int del(ShipmentInfo row);
 		//新增数据
 		public int add(ShipmentInfo row);
-		//查询dataRecord字段
-		public List<ShipmentInfo> getDataRecord(ShipmentInfo row);
+	
 }

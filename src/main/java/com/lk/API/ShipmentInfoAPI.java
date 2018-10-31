@@ -103,25 +103,15 @@ public class ShipmentInfoAPI extends AfRestfulApi
 				String numberShipments = jsReq.getString("numberShipments");// --->发货数量
 				String shipArea = jsReq.getString("shipArea");// --->发货面积
 				String theTotalAmount = jsReq.getString("theTotalAmount");// --->发货金额
-				String theRemainingAmount = jsReq.getString("theRemainingAmount");// --->剩余数量
+				String theRemainingAmount = jsReq.getString("theRemainingAmount");// --->剩余数量 
 				String remainingArea = jsReq.getString("remainingArea");// --->剩余面积
 				String paymentDetails = jsReq.getString("paymentDetails");// --->付款明细
 				String transportationManager = jsReq.getString("transportationManager");// --->运输负责人
 				String freight = jsReq.getString("freight");// --->运费
-				/*产生JSONObject用于记录发货数量和发货面积*/
-				JSONObject customRecordObj = new JSONObject();
-				customRecordObj.put("operator", operator);
-				customRecordObj.put("clientName", clientName);
-				customRecordObj.put("clientId", clientId);
-				customRecordObj.put("numberShipments", numberShipments);
-				customRecordObj.put("shipArea", shipArea);
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
-				
-				/*查询dataRecord字段*/
-				
 				ShipmentInfo row = new ShipmentInfo(clientName, dateOfShipment, specificationModel.toString(),
 						unfinishedArr.toString(), theTotalAmount, numberShipments, shipArea,
 						theRemainingAmount , remainingArea, paymentDetails, transportationManager, freight,
@@ -170,10 +160,41 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						msg = "该订单状态异常(不存在)";
 						logger.error("出货管理[新增],查询订单信息状态异常!");
 					}
-					//赋值订单数据表余下字段
+					String totalGlassNumber = ""; //--->总数量
+					String totalArea = ""; //--->总面积
+					//根据(订单号 客户名称 id 操作人)查询 总数量 总面积
+					OrderInfo orderRowQuery = new OrderInfo();
+					orderRowQuery.setOperator(operator);
+					orderRowQuery.setClientName(clientName);
+					orderRowQuery.setId(id);
+					orderRowQuery.setOrderNumber(orderNumber);
+					List<OrderInfo> accurateList = orderMapper.accurateFind(orderRowQuery);
+					JSONArray accurate = new JSONArray(accurateList);
+					if(accurate.length()>0)
+					{
+						for(int i = 0;i<accurate.length();i++)
+						{
+							JSONObject accurateObj = accurate.getJSONObject(i);
+							totalGlassNumber = accurateObj.getString("glassNumber"); //--->总数量
+							totalArea = accurateObj.getString("totalArea"); //--->总面积
+						}
+					}
+					//赋值订单数据表余下字段  
 					OrderInfo Nowrows = new OrderInfo();
-					Nowrows.setNumberShipments(numberShipments+""); //---->已发货数量
-					Nowrows.setShipArea(shipArea+"");//---->已发货面积
+					//类型转换(String--->int)
+					int theRemainingAmountInt = Integer.valueOf(theRemainingAmount); //--->剩余数量
+					int remainingAreaInt =  Integer.valueOf(remainingArea);//--->剩余面积
+					System.out.println("剩余数量:"+theRemainingAmountInt);
+					System.out.println("剩余面积:"+remainingAreaInt);
+					int totalGlassNumberInt = Integer.valueOf(totalGlassNumber); //--->总数量
+					int totalAreaInt = Integer.valueOf(totalArea); //--->总面积
+					System.out.println("总数量:"+totalGlassNumberInt);
+					System.out.println("总面积"+totalAreaInt);
+					/*计算 已发货数量与已发货面积*/
+					int ShippedNumInt = totalGlassNumberInt - theRemainingAmountInt;
+					int ShippedAreaInt = totalAreaInt - remainingAreaInt;
+					Nowrows.setNumberShipments(String.valueOf(ShippedNumInt)); //---->已发货数量 = 总数量-剩余数量
+					Nowrows.setShipArea(String.valueOf(ShippedAreaInt));//---->已发货面积 = 总面积 - 剩余面积
 					Nowrows.setUnfinishedArr(unfinishedArr.toString());//--->未发货的规格型号数据
 					Nowrows.setOrderNumber(orderNumber);//--->根据订单号更新
 					int processResults = orderMapper.update(Nowrows);

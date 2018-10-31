@@ -21,6 +21,8 @@ public interface OrderMapper
 	public List<OrderInfo> queryNowOrderInfo(OrderInfo row);
 	//根据id查询当前订单下的所有规格
 	public List<OrderInfo> findModelById(OrderInfo row);
+	//根据 id,客户名称,操作人,订单号查询 当前订单下:总数量,总面积
+	public List<OrderInfo> accurateFind(OrderInfo row);
 	//更新数据
 	public int update(OrderInfo row);
 	//删除数据
