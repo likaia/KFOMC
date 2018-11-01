@@ -2546,7 +2546,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-form-item">
                         <label class="layui-form-label">订单号:</label>
                         <div class="layui-input-block">
-                            <select name="shippingOrderNumberSelectPanel" lay-search
+                            <select name="shippingOrderNumberSelectPanel" lay-search id="shippingOrderNumberSelectPanel"
                                     lay-filter="shippingOrderNumberSelectPanel">
                                 <option value="">选择/输入订单号</option>
                             </select>
@@ -2565,7 +2565,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="OrderModel-panel">
                 <!--表格遮罩-->
                 <div id="OrderModelTableSubmenu">
-                    <span>禁止再次编辑,请完成本次发货后,再进行下一次发货!若规格型号选择有误,请关闭当前弹层,重新打开!</span>
+                    <span>禁止再次编辑,请完成本次发货后,再进行下一次发货!若规格型号选择有误,请刷新页面!</span>
                 </div>
                 <!-- 表格渲染模块 -->
                 <table class="layui-table" id="OrderModelList" lay-filter="OrderModelList">
@@ -2580,6 +2580,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     </tr>
                     </thead>
                     <tbody>
+
                     </tbody>
                 </table>
             </div>

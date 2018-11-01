@@ -121,7 +121,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 				if (processResult > 0)
 				{
 					msg = "新增出货信息成功";
-					//查询订单表
+					/*查询订单表*/
 					// 配置映射器
 					OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
 					/*查询 工程名称/订单号/联系电话/送货地址/订单日期/未付款金额*/
@@ -181,18 +181,14 @@ public class ShipmentInfoAPI extends AfRestfulApi
 					}
 					//赋值订单数据表余下字段  
 					OrderInfo Nowrows = new OrderInfo();
-					//类型转换(String--->int)
-					int theRemainingAmountInt = Integer.valueOf(theRemainingAmount); //--->剩余数量
-					int remainingAreaInt =  Integer.valueOf(remainingArea);//--->剩余面积
-					System.out.println("剩余数量:"+theRemainingAmountInt);
-					System.out.println("剩余面积:"+remainingAreaInt);
-					int totalGlassNumberInt = Integer.valueOf(totalGlassNumber); //--->总数量
-					int totalAreaInt = Integer.valueOf(totalArea); //--->总面积
-					System.out.println("总数量:"+totalGlassNumberInt);
-					System.out.println("总面积"+totalAreaInt);
+					//类型转换(String--->float)
+					int theRemainingAmountInt = Integer.parseInt(theRemainingAmount); //--->剩余数量
+					float remainingAreaInt =  Float.parseFloat(remainingArea);//--->剩余面积
+					int totalGlassNumberInt = Integer.parseInt(totalGlassNumber); //--->总数量
+					float totalAreaInt = Float.parseFloat(totalArea); //--->总面积
 					/*计算 已发货数量与已发货面积*/
 					int ShippedNumInt = totalGlassNumberInt - theRemainingAmountInt;
-					int ShippedAreaInt = totalAreaInt - remainingAreaInt;
+					float ShippedAreaInt =  totalAreaInt - remainingAreaInt;
 					Nowrows.setNumberShipments(String.valueOf(ShippedNumInt)); //---->已发货数量 = 总数量-剩余数量
 					Nowrows.setShipArea(String.valueOf(ShippedAreaInt));//---->已发货面积 = 总面积 - 剩余面积
 					Nowrows.setUnfinishedArr(unfinishedArr.toString());//--->未发货的规格型号数据

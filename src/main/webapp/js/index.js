@@ -820,7 +820,7 @@ $(function () {
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#shipmentAddSubmenu"),
                     success: function () {
-                        var resultData = [];
+
 
                     },
                     end: function () { //弹层销毁出发回调
@@ -863,6 +863,12 @@ $(function () {
                             var rawData = vm.shippingCustomerValArr;//-->用户选择客户名称后后台返回的用户规格型号
                             //获取当前元素表格下 已选择的元素(用find查找.rowLineSelectStyle的元素产生一个集合)
                             var elementCollection = $("#OrderModelList tbody").find(".rowLineSelectStyle");
+                            //判断用户是否有勾选规格型号
+                            if(elementCollection.length==0)
+                            {
+                                MAIN.ErroAlert("请选择要发货的规格型号!");
+                                return;
+                            }
                             for (var i = 0; i < elementCollection.length; i++) {   /*遍历得到的集合,取出每一项的自定义属性 */
                                 var rowLine = elementCollection.eq(i).attr("data-rowLine");
                                 var item = elementCollection.eq(i).attr("data-item");
@@ -887,6 +893,12 @@ $(function () {
             },
             //出货管理[新增]悬浮层{提交}点击函数
             addShipmentSubmitFun: function () {
+                //--->判断用户是否有选择规格型号
+               if(vm.modelDetailsList.length==0)
+               {
+                   MAIN.ErroAlert("不能提交空数据!请勾选,想要发货的规格型号!");
+                   return;
+               }
                 //--->定义(发货总数量/发货总面积/发货总金额/剩余数量/剩余面积)
                 var theTotalNumber = 0;
                 var theTotalArea = 0;
@@ -973,6 +985,14 @@ $(function () {
                         $("#invoiceTotalArea").html(theTotalArea+"平方");
                         $("#invoiceTotalAmount").html(theTotalAmount+"元");
                         $("#printTime").html(data.invoiceDateOfShipment);
+                        /*清空当前用户输入的数据*/
+                        vm.shippingCustomerValArr = "";//--->后台返回的当前用户的未发货规格型号
+                        vm.modelDetailsList = [];  //已选择的规格型号小条目
+                        $("#OrderModelTableSubmenu").css({"display": "none"}); //--->禁止编辑遮罩曾隐藏
+                        $("#OrderModelList tbody").html("");//--->清空已经渲染的表格
+                        layer.closeAll();
+                        /*重载数据表格*/
+                        MAIN.originalFilmOutList($("#nickNameTextPanel").html());
                         /*开始打印*/
                         $("#invoicePrintTemplate").css({
                             "display": "block"
@@ -985,9 +1005,6 @@ $(function () {
                         $("#invoicePrintTemplate").jqprint({}); //---->打印函数
                     }
                 });
-
-
-
                 /*多维数组转一维数组函数*/
                 function fun(arr) {
                     for (var i = 0; i < arr.length; i++) {
@@ -1907,9 +1924,11 @@ $(function () {
                         Af.trace($(this).attr("elementposition"));
                     },1200);
                 });*/
+
+
         /*监听出货管理[新增发货]客户名称选择*/
         form.on('select(shippingCustomerNameSelectPanel)', function (data) {
-            var thisSelectVal = data.value;
+            var thisSelectVal = data.value;  //--->根据id查询规格型号
             //清空表格数据
             $("#OrderModelList  tbody").html("");
             if (!Af.nullstr(thisSelectVal)) {
@@ -1919,6 +1938,11 @@ $(function () {
                 req.findModelById = "findModelById";
                 Af.rest("orderInfonQueiry.api", req, function (ans) {
                     var dataArray = ans.data;
+                    if(dataArray.length==0)
+                    {
+                        MAIN.ErroAlert("所选用户,没有未发货的规格型号!");
+                        return;
+                    }
                     vm.shippingCustomerValArr = dataArray;
                     var num = 0;
                     for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
@@ -1967,11 +1991,66 @@ $(function () {
                 MAIN.ErroAlert("请选择订单号");
             }
         });
-        /*监听出货管理[新增发货]订单号选择*/
+        /*监听出货管理[新增发货]订单号客户名称选择*/
         form.on('select(shippingOrderNumberSelectPanel)', function (data) {
             var thisSelectVal = data.value;
+            //清空表格数据
+            $("#OrderModelList  tbody").html("");
             if (!Af.nullstr(thisSelectVal)) {
+                var req = {};  //--->根据id查询规格型号
+                req.orderId = thisSelectVal;
+                req.operator = $("#nickNameTextPanel").html();
+                req.findModelById = "findModelById";
+                Af.rest("orderInfonQueiry.api", req, function (ans) {
+                    var dataArray = ans.data;
+                    if(dataArray.length==0)
+                    {
+                        MAIN.ErroAlert("所选用户,没有未发货的规格型号!");
+                        return;
+                    }
+                    vm.shippingCustomerValArr = dataArray;
+                    var num = 0;
+                    for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
+                    {
+                        var trStart = "<tr>";
+                        var trEnd = "</tr>";
+                        var td,
+                            td1,
+                            td2,
+                            td3,
+                            td4,
+                            td5;
+                        var tdType = "<td colspan='7' class='title'>";
+                        var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
+                        if (dataArrayLength > 1) {
+                            num++;
+                            $("#OrderModelList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+                            for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                            {
+                                td = "<td>" + j + "</td>";
+                                td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
+                                td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
+                                td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
+                                td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+                                td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+                                $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 + trEnd); //---->追加到页面
+                            }
 
+                        } else {
+                            $("#OrderModelList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+                            for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                            {
+                                td = "<td>" + j + "</td>";
+                                td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
+                                td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
+                                td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
+                                td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+                                td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+                                $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 + trEnd); //---->追加到页面
+                            }
+                        }
+                    }
+                });
             }
             else {
                 MAIN.ErroAlert("请选择订单号");
