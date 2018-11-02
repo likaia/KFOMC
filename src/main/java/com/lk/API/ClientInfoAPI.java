@@ -36,6 +36,7 @@ public class ClientInfoAPI extends AfRestfulApi
 		/* 回传给前端的数据 */
 		int errorCode = 0;
 		int code = 0;
+		
 		JSONArray result = new JSONArray();
 		long count = 0; // --->数据库数据总记录数
 		String msg = "ok";
