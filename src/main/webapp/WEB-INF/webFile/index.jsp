@@ -133,17 +133,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 class="my-icon nav-icon iconfont icon-dingdandaifukuan"></i><span>订单管理</span><i
                                 class="my-icon nav-more iconfont icon-arrow-right"></i></a>
                             <ul>
-                                <li @click="OrderInfoFun"><a href="javascript:;"><span>订单信息管理</span></a></li>
-                                <li @click="OrderMonthlyFun"><a href="javascript:;"><span>订单月结管理</span></a></li>
+                                <li @click="OrderInfoFun"><a href="javascript:;"><span>所有订单</span></a></li>
+                                <li @click="OrderMonthlyFun"><a href="javascript:;"><span>已完成订单</span></a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="javascript:;"><i
-                                class="my-icon nav-icon iconfont icon-kehuguanli"></i><span>客户管理</span><i
-                                class="my-icon nav-more iconfont icon-arrow-right"></i></a>
-                            <ul>
-                                <li @click="CustomerInfoFun"><a href="javascript:;"><span>客户信息管理</span></a></li>
-                            </ul>
-                        </li>
+
                         <li class="nav-item"><a href="javascript:;"><i
                                 class="my-icon nav-icon iconfont icon-caiwuguanli"></i><span>财务管理</span><i
                                 class="my-icon nav-more iconfont icon-arrow-right"></i></a>
@@ -725,11 +719,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <button class="layui-btn layui-btn-normal" @click="shipmentAddFun"
                                         v-bind:style="{background:BtnColor}">新增
                                 </button>
-                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">删除
+                                <button @click="shipmentDelFun" class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">删除
                                 </button>
-                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">导出
-                                </button>
-                                <button class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">报表
+                                <button @click="shipmentExportFun" class="layui-btn layui-btn-normal" v-bind:style="{background:BtnColor}">导出
                                 </button>
                             </div>
                         </div>
@@ -842,7 +834,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="padding15-panel">
                 <div class="layui-row content-panel" id="OrderMonth-panel">
                     <div class="title-panel">
-                        <span>订单月结管理</span>
+                        <span>已完成订单</span>
                     </div>
                     <!--月结编号查询-->
                     <div class="layui-row onlyNumber-panel layui-form">
@@ -904,8 +896,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">客户姓名</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter=""
-                                                name="customerNameSelectPanel">
+                                        <select lay-search="" lay-filter="customerNameSelectPanel" id="customerNameSelectPanel" name="customerNameSelectPanel">
                                             <option value="">直接选择或输入客户姓名</option>
                                         </select>
                                     </div>
@@ -927,7 +918,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         </div>
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
-                                <button class="layui-btn layui-btn-normal"
+                                <button class="layui-btn layui-btn-normal" @click="ClientInfoQueryFun"
                                         v-bind:style="{background:BtnColor}">查询
                                 </button>
                             </div>
@@ -947,7 +938,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             </button>
                         </div>
                     </div>
-                    <!--数据表格区域-->
+                    <!--客户信息数据表格区域-->
                     <div class="layui-row CustomerInfoList-panel">
                         <table id="CustomerInfoList" lay-filter="CustomerInfoList"></table>
                     </div>
@@ -1712,7 +1703,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <label class="layui-form-label">总金额(元):</label>
                             <div class="layui-input-block">
                                 <input style="cursor:pointer" type="text"
-                                       id="billingtotalAmount" placeholder="请输入" autocomplete="off"
+                                       id="billingtotalAmount" placeholder="自动计算" readonly="readonly"
                                        class="layui-input">
                             </div>
                         </div>
@@ -2151,12 +2142,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <span>客户签字:</span> <span></span>
                 </div>
             </div>
+            <div class="row-panel">
+                <div class="leftCon-panel">
+                    <span>运输负责人:</span> <span id="transportationManager"></span>
+                </div>
+            </div>
         </div>
     </div>
-
     <!--出货管理[发货单]打印模板结束-->
-    <!-- 打印模板开始 -->
-    <div id="CustomerBasicInformatiofo-panel" style="display:none">
+
+    <!-- 开单打印模板开始 -->
+    <div id="PrintTemplate">
         <h1>陕西伯益中空玻璃有限公司</h1>
         <h2>生产单</h2>
         <!-- 生产单客户基本信息 -->

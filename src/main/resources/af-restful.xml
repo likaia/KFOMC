@@ -22,6 +22,8 @@
 	<api name="FittingPublic"  class="com.lk.API.FittingPublicAPI" />
 	<!-- 出货管理接口 -->
 	<api name="ShipmentInfo"  class="com.lk.API.ShipmentInfoAPI" />
+	<!-- 客户信息接口 -->
+	<api name="ClientInfo"  class="com.lk.API.ClientInfoAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
 </restful>

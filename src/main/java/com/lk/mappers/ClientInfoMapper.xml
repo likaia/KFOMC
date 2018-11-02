@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.ClientInfoMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="ClientInfo" id="ClientInfoResult">
+		<id property="id" column="id" />
+		<result property="customerType" column="customerType" />
+		<result property="clientName" column="clientName" />
+		<result property="companyName" column="companyName" />
+		<result property="taxNumber" column="taxNumber" />
+		<result property="address" column="address" />
+		<result property="phoneNumber" column="phoneNumber" />
+		<result property="weChat" column="weChat" />
+		<result property="email" column="email" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="bankCardNumber" column="bankCardNumber" />
+		<result property="joinTime" column="joinTime" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="ClientInfoResult"
+		parameterType="ClientInfo">
+		SELECT
+		id,
+		customerType,
+		clientName,
+		companyName,
+		taxNumber,
+		address,
+		phoneNumber,
+		weChat,
+		email,
+		bankAccount,
+		bankCardNumber,
+		joinTime,
+		operator
+		FROM t_client_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="ClientInfoResult"
+		parameterType="ClientInfo">
+		SELECT
+		id,
+		customerType,
+		clientName,
+		companyName,
+		taxNumber,
+		address,
+		phoneNumber,
+		weChat,
+		email,
+		bankAccount,
+		bankCardNumber,
+		joinTime,
+		operator
+		FROM t_client_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="clientName != null">
+				AND clientName like #{clientName}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND joinTime <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND joinTime <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="ClientInfo">
+		delete from t_client_Info where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="ClientInfo">
+		insert into t_client_Info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="customerType != null">
+				customerType,
+			</if>
+			<if test="clientName != null">
+				clientName,
+			</if>
+			<if test="companyName != null">
+				companyName,
+			</if>
+			<if test="taxNumber != null">
+				taxNumber,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="phoneNumber != null">
+				phoneNumber,
+			</if>
+			<if test=" weChat != null">
+				weChat,
+			</if>
+			<if test=" email != null">
+				email,
+			</if>
+			<if test=" bankAccount != null">
+				bankAccount,
+			</if>
+			<if test="bankCardNumber != null">
+				bankCardNumber,
+			</if>
+			<if test="joinTime != null">
+				joinTime,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="customerType != null">
+				#{customerType,jdbcType=VARCHAR},
+			</if>
+			<if test="clientName != null">
+				#{clientName,jdbcType=VARCHAR},
+			</if>
+			<if test="companyName != null">
+				#{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="taxNumber != null">
+				#{taxNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNumber != null">
+				#{phoneNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="weChat != null">
+				#{weChat,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test=" bankAccount != null">
+				#{bankAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCardNumber != null">
+				#{bankCardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="joinTime != null">
+				#{joinTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改客户信息 -->
+	<update id="update" parameterType="ClientInfo">
+		update t_client_Info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="customerType != null">
+				customerType = #{customerType},
+			</if>
+			<if test="clientName != null">
+				clientName = #{clientName},
+			</if>
+			<if test="companyName != null">
+				companyName = #{companyName},
+			</if>
+			<if test="taxNumber != null">
+				taxNumber = #{taxNumber},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test=" phoneNumber != null">
+				phoneNumber = #{phoneNumber},
+			</if>
+			<if test=" weChat != null">
+				weChat =#{weChat},
+			</if>
+			<if test=" email != null">
+				email = #{email},
+			</if>
+			<if test=" bankAccount != null">
+				bankAccount = #{bankAccount},
+			</if>
+			<if test=" joinTime != null">
+				joinTime = #{joinTime},
+			</if>
+			<if test="operator != null">
+				operator = #{operator},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+			<if test="clientName != null">
+				AND clientName like #{clientName}
+			</if>
+		</where>
+	</update>
+</mapper> 

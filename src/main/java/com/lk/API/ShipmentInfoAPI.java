@@ -133,7 +133,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 					rows.setOperator(operator);
 					int id = Integer.valueOf(clientId);
 					rows.setId(id);
-					rows.setClientName(clientName);  //根据 (id 客户名称 操作人 查询数据) 
+					rows.setClientName(clientName);  //根据 (id 客户名称 操作人) 查询数据 
 					List<OrderInfo> resultList = orderMapper.customQuery(rows);
 					JSONArray resultArr = new JSONArray(resultList);
 					/*取出Array中的数据,构造前端需要的数据*/
@@ -160,6 +160,9 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						msg = "该订单状态异常(不存在)";
 						logger.error("出货管理[新增],查询订单信息状态异常!");
 					}
+					/*新增发货记录结束*/
+					
+					/*更新订单信息表开始*/
 					String totalGlassNumber = ""; //--->总数量
 					String totalArea = ""; //--->总面积
 					//根据(订单号 客户名称 id 操作人)查询 总数量 总面积
@@ -201,6 +204,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						code =1;
 						errorCode =1;
 					}
+					/*更新订单信息表结束*/
 				} else
 				{
 					code = 1;
@@ -208,11 +212,12 @@ public class ShipmentInfoAPI extends AfRestfulApi
 					msg = "添加失败";
 				}
 				sqlSession.close();
+				/*添加发货接口结束*/
 			}
 			// 批量删除
 			if (jsReq.has("delOrders"))
 			{
-				JSONArray ids = jsReq.getJSONArray("ids");
+				JSONArray ids = jsReq.getJSONArray("ids"); 
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器

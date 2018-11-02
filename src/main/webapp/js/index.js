@@ -185,7 +185,11 @@ $(function () {
             invoiceUnpaid:"",            //--->发货单未付款
             invoicePaymentDetails:"", //付款明细
             invoiceTransportationManager:"", //运输负责人
-            invoiceFreight:""//运费
+            invoiceFreight:"", //运费
+            /*客户信息管理数据*/
+            clientInfoName:"",   //--->客户姓名
+            clientInfoStart:"", //--->开始时间
+            clientInfoEnd:"" //--->结束时间
         },
         methods: {
             materialFun: function () {
@@ -529,7 +533,6 @@ $(function () {
                             layer.msg(ans.msg);
                             if (ans.errorCode == 0) {
                                 //数据表格重载
-                                layer.msg("删除成功!");
                                 MAIN.OriginaFlilmList($("#nickNameTextPanel").html());
                             }
                         });
@@ -716,8 +719,8 @@ $(function () {
                         req.delOrders = "delOrders";
                         Af.rest("FittingInfo.api", req, function (ans) {
                             layer.close(index);
+                            layer.msg(ans.msg);
                             if (ans.errorCode == 0) {
-                                layer.msg("删除成功!");
                                 //数据表格重载
                                 MAIN.annexList($("#nickNameTextPanel").html());
                             }
@@ -819,10 +822,6 @@ $(function () {
                     area: ['1170px', '740px'],
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#shipmentAddSubmenu"),
-                    success: function () {
-
-
-                    },
                     end: function () { //弹层销毁出发回调
 
                     }
@@ -979,16 +978,65 @@ $(function () {
                         $("#invoiceDeliveryAddress").html(data.invoiceDeliveryAddress);
                         $("#invoiceOrderDate").html(data.invoiceOrderDate);
                         $("#invoiceDateOfShipment").html(data.invoiceDateOfShipment);
-                        $("#invoiceUnpaid").html(data.unpaid+"元");
-                        //总数量,总面积,总金额 打印时间
+                        $("#invoiceUnpaid").html(data.unpaid);
+                        //总数量,总面积,总金额 打印时间 运输负责人
                         $("#invoiceTotalNumber").html(theTotalNumber+"块");
                         $("#invoiceTotalArea").html(theTotalArea+"平方");
                         $("#invoiceTotalAmount").html(theTotalAmount+"元");
                         $("#printTime").html(data.invoiceDateOfShipment);
+                        $("#transportationManager").html(vm.invoiceTransportationManager);
+                        /*渲染打印模板表格区域*/
+                        var num = 0;
+                        for (var i = 0; i < shippedDataArr.length; i++) //--->渲染生产单表格区域
+                        {
+                            var trStart = "<tr>";
+                            var trEnd = "</tr>";
+                            var td,
+                                td1,
+                                td2,
+                                td3,
+                                td4,
+                                td5,
+                                td7,
+                                td8;
+                            var tdType = "<td colspan='7'>";
+                            var dataArrayLength = Af.getJsonLength(shippedDataArr[i]); //---->获取当前JSONArray下的数据长度
+                            if (dataArrayLength > 1) {
+                                num++;
+                                $("#invoicePrintList  tbody").append(trStart + tdType + "规格型号:" + shippedDataArr[i][0].productName + "</td>" + trEnd);
+                                for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                                {
+                                    td = "<td>" + j + "</td>";
+                                    td1 = "<td>" + shippedDataArr[i][j].glassLength + "</td>";
+                                    td2 = "<td>" + shippedDataArr[i][j].glassWidth + "</td>";
+                                    td3 = "<td>" + shippedDataArr[i][j].glassNum + "</td>";
+                                    td4 = "<td>" + "  " + "</td>";
+                                    td5 ="<td>" + shippedDataArr[i][j].glassArea + "</td>";
+                                    td7 = "<td>" + "  " + "</td>";
+                                    td8 = "<td>" + shippedDataArr[i][j].totalAmount + "</td>";
+                                    $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + td8 + trEnd); //---->追加到页面
+                                }
+
+                            } else {
+                                $("#invoicePrintList  tbody").append(trStart + tdType + "规格型号:" + shippedDataArr[i][0].productName + "</td>" + trEnd);
+                                for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                                {
+                                    td = "<td>" + j + "</td>";
+                                    td1 = "<td>" + shippedDataArr[i][j].glassLength + "</td>";
+                                    td2 = "<td>" + shippedDataArr[i][j].glassWidth + "</td>";
+                                    td3 = "<td>" + shippedDataArr[i][j].glassNum + "</td>";
+                                    td4 = "<td>" + "  " + "</td>";
+                                    td5 ="<td>" + shippedDataArr[i][j].glassArea + "</td>";
+                                    td7 = "<td>" + "  " + "</td>";
+                                    td8 = "<td>" + shippedDataArr[i][j].totalAmount + "</td>";
+                                    $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 +td8 + trEnd); //---->追加到页面
+                                }
+                            }
+                        }
                         /*清空当前用户输入的数据*/
                         vm.shippingCustomerValArr = "";//--->后台返回的当前用户的未发货规格型号
                         vm.modelDetailsList = [];  //已选择的规格型号小条目
-                        $("#OrderModelTableSubmenu").css({"display": "none"}); //--->禁止编辑遮罩曾隐藏
+                        $("#OrderModelTableSubmenu").css({"display": "none"}); //--->禁止编辑遮罩层隐藏
                         $("#OrderModelList tbody").html("");//--->清空已经渲染的表格
                         layer.closeAll();
                         /*重载数据表格*/
@@ -1003,6 +1051,7 @@ $(function () {
                             });
                         }, 400);
                         $("#invoicePrintTemplate").jqprint({}); //---->打印函数
+                        $("#invoicePrintList  tbody").html("");//--->清空渲染过的数据表格
                     }
                 });
                 /*多维数组转一维数组函数*/
@@ -1019,6 +1068,39 @@ $(function () {
             //出货管理[新增]悬浮层{取消}点击函数
             shipmentAddCloseFun: function () {
                 layer.closeAll();
+            },
+            //出货管理[删除]点击事件
+            shipmentDelFun: function () {
+                var req = {};
+                //取出当前选择项订单号
+                var idsArray = MAIN.getSelectId("originalFilmOutList");
+                if (Af.nullstr(idsArray)) {
+                    MAIN.ErroAlert("不能删除空数据,请勾选订单!");
+                } else {
+                    //提示用户删除
+                    layer.confirm('确定要删除吗?', function (index) {
+                        var idsStr = idsArray.toString();
+                        req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                        req.operator = $("#nickNameTextPanel").html();
+                        req.delOrders = "delOrders";
+                        Af.rest("ShipmentInfo.api", req, function (ans) {
+                            layer.close(index);
+                            layer.msg(ans.msg);
+                            if (ans.errorCode == 0) {
+                                //数据表格重载
+                                MAIN.originalFilmOutList($("#nickNameTextPanel").html());
+                            }
+                        });
+                    });
+                }
+            },
+            //出货管理[导出] 函数
+            shipmentExportFun:function(){
+                var tableTitle = ['序列号', '客户姓名', '发货日期', '发货数量', '发货面积', '剩余数量', '剩余面积','发货金额', '运输负责人', '运费'];
+                var selectDatas = MAIN.getShipmentDatas("originalFilmOutList");
+                if (!Af.nullstr(selectDatas)) {
+                    MAIN.exportFun(tableTitle, selectDatas);
+                }
             },
             //库存管理点击事件
             stockFun: function () {
@@ -1543,8 +1625,8 @@ $(function () {
             CustomerInfoFun: function () {
                 this.CustomerInfoStatus = "block";
                 setTimeout(function () {
-                    /*渲染订单月结管理数据表格*/
-                    MAIN.CustomerInfoList();
+                    /*渲染客户信息数据表格*/
+                    MAIN.CustomerInfoList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 收入管理 隐藏*/
                 this.stockStatus = "none";
@@ -1563,6 +1645,23 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+            },
+           /*客户信息管理:查询点击事件*/
+            ClientInfoQueryFun:function(){
+                var req = {};
+                //获取查询条件
+                req.operator = $("#nickNameTextPanel").html();
+                req.conditionalQuery = "conditionalQuery";
+                req.clientName = this.clientInfoName; //---->客户姓名
+                req.dStart = this.clientInfoStart; //--->开始时间
+                req.dEnd = this.clientInfoEnd;//--->结束时间
+                if (Af.nullstr(req.clientName || req.dStart || req.dEnd)) {
+                    MAIN.ErroAlert("请选择一个条件后,再点查询!");
+                } else {
+                    Af.rest("ClientInfo.api", req, function (ans) {
+                        MAIN.CustomerInfoDataList(ans.data);
+                    });
+                }
             },
             /*财务管理:收入管理点击事件*/
             revenueInfoFun: function () {
@@ -2253,6 +2352,17 @@ $(function () {
         MAIN.exportFun = function (tableTitle, tableDats) {
             table.exportFile(tableTitle, tableDats, 'xls'); //默认导出 csv，也可以为：xls
         };
+
+        //获取 出货管理,用户勾选的发货数据id
+        MAIN.getSelectId = function(tableId){
+            var checkStatus = table.checkStatus(tableId),
+                data = checkStatus.data;
+            var SelectIds = [];
+            for (var i = 0; i < data.length; i++) {
+                SelectIds.push(data[i].id);
+            }
+            return SelectIds;
+        };
         //获取当前数据表格选择项数据
         MAIN.getSelectOrder = function (tableId) {
             var checkStatus = table.checkStatus(tableId),
@@ -2303,7 +2413,41 @@ $(function () {
                 return datas;
             }
             return null;
-        }
+        };
+        /*出货管理:[导出]数据函数*/
+        MAIN.getShipmentDatas = function (tableId) {
+            var checkStatus = table.checkStatus(tableId),
+                data = checkStatus.data;
+            if (Af.nullstr(data)) {
+                MAIN.ErroAlert("不能导出空数据,请勾选要导出的数据!");
+            } else {
+                var datas = [];
+                for (var i = 0; i < data.length; i++) {
+                    var dataArr = [];
+                    dataArr[0] = data[i].id;
+                    dataArr[1] = data[i].clientName;
+                    dataArr[2] = data[i].dateOfShipment;
+                    dataArr[3] = data[i].numberShipments;
+                    dataArr[4] = data[i].shipArea;
+                    if (data[i].theTotalAmount) {
+                        dataArr[5] = data[i].theTotalAmount;
+                    } else {
+                        dataArr[5] = "空";
+                    }
+                    if (data[i].theRemainingAmount) {
+                        dataArr[6] = data[i].theRemainingAmount;
+                    } else {
+                        dataArr[6] = "空";
+                    }
+                    dataArr[7] = data[i].remainingArea;
+                    dataArr[8] = data[i].transportationManager;
+                    dataArr[9] = data[i].freight;
+                    datas.push(dataArr);
+                }
+                return datas;
+            }
+            return null;
+        };
         /*时间选择渲染*/
         laydate.render({
             elem: '#startTime' //财务报表:开始时间
@@ -2375,12 +2519,21 @@ $(function () {
                     vm.shipmentAddStart = date.year + "-" + date.month + "-" + date.date + " " + date.hours + ":" + date.minutes + ":" + date.seconds;
                     vm.shipmentAddStart = endDate.year + "-" + endDate.month + "-" + endDate.date + " " + endDate.hours + ":" + endDate.minutes + ":" + endDate.seconds;
                 }
-
             }
         });
         laydate.render({
             elem: '#customerInfoDateInput', //客户信息管理:日期区间选择
-            range: true
+            range: true,
+            done: function (value, date, endDate) {
+                if ($.isEmptyObject(date)) {
+                    vm.clientInfoStart = "";
+                    vm.clientInfoEnd = "";
+                }
+                else {
+                    vm.clientInfoStart = date.year + "-" + date.month + "-" + date.date + " " + date.hours + ":" + date.minutes + ":" + date.seconds;
+                    vm.clientInfoEnd = endDate.year + "-" + endDate.month + "-" + endDate.date + " " + endDate.hours + ":" + endDate.minutes + ":" + endDate.seconds;
+                }
+            }
         });
         laydate.render({
             elem: '#revenueInfoDateInput', //收入管理：日期区间选择
@@ -2474,7 +2627,171 @@ $(function () {
         form.on('select(FittingremarkSelectPanel)', function (data) {
             vm.FittingremarkSelectval = data.value;
         });
+        /*监听客户信息管理:客户姓名选择*/
+        form.on('select(customerNameSelectPanel)', function (data) {
+            vm.clientInfoName = data.value;
+        });
+        /*订单信息数据表格(作为传值调用)*/
+        MAIN.orderInfoCustomizeList = function(resultData){
+            table.render({
+                data:resultData,
+                elem: '#orderInfoList',
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'orderNumber',
+                            title: '订单号',
+                            align: "center"
+                        },
+                        {
+                            field: 'orderDate',
+                            title: '日期',
+                            align: "center"
+                        },
+                        {
+                            field: 'clientName',
+                            title: '客户名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'projectName',
+                            title: '工程名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'glassNumber',
+                            title: '玻璃总数量(块)',
+                            align: "center"
+                        },
+                        {
+                            field: 'totalArea',
+                            title: '总面积(㎡)',
+                            align: "center"
+                        },
+                        {
+                            field: 'numberShipments',
+                            title: '已发货数量(个)',
+                            align: "center"
+                        },
+                        {
+                            field: 'shipArea',
+                            title: '已发货面积(㎡)',
+                            align: "center"
+                        },
 
+                        {
+                            field: 'totalAmount',
+                            title: '总金额(元)',
+                            align: "center"
+                        },
+                        {
+                            field: 'alreadyPaid',
+                            title: '已付款(元)',
+                            align: "center"
+                        },
+                        {
+                            field: 'unpaid',
+                            title: '未付款(元)',
+                            align: "center"
+                        },
+                        {
+                            fixed: "right",
+                            field: 'preparedBy',
+                            title: '制单人',
+                            align: "center"
+                        }
+                    ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项
+                    $("#orderNumSelect option:gt(0)").remove();
+                    $("#orderClientName option:gt(0)").remove();
+                    $("#orderprojectNameSelectId option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    orderNumberSelectFun();
+                    clientNameSelectFun();
+                    projectNameSelectFun();
+
+                    /*渲染订单号选择框*/
+                    function orderNumberSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].orderNumber;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "orderFormSelectPanel");
+                    }
+
+                    /*渲染客户名称选择框*/
+                    function clientNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].clientName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "clientNameSelectPanel");
+                    }
+
+                    /*渲染工程名称选择框*/
+                    function projectNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].projectName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "projectNameSelectPanel");
+                    }
+
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
         /*订单信息数据表格*/
         function orderInfoList(userName) {
             table.render({
@@ -3442,6 +3759,11 @@ $(function () {
                             align: "center"
                         },
                         {
+                            field: 'id',
+                            title: '序列号',
+                            align: "center"
+                        },
+                        {
                             field: 'clientName',
                             title: '客户姓名',
                             align: "center"
@@ -3531,6 +3853,11 @@ $(function () {
                 limits: [10, 15, 20, 25],
                 cols: [
                     [
+                        {
+                            field: 'id',
+                            title: '序列号',
+                            align: "center"
+                        },
                         {
                             fixed: "left",
                             type: 'checkbox',
@@ -3759,18 +4086,17 @@ $(function () {
             });
         };
         /*客户信息管理:数据表格*/
-        MAIN.CustomerInfoList = function () {
+        MAIN.CustomerInfoList = function (userName) {
             table.render({
-                url: URL + "/CustomerInfoList",
-                // data:testData, //请求地址
+                url:"ClientInfo.api",
                 method: 'POST', //方式
                 elem: '#CustomerInfoList',
                 page: true,
-                limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
                 },
+                limits: [10, 15, 20, 25],
                 cols: [
                     [
                         {
@@ -3779,57 +4105,223 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'customerType',
                             title: '客户类型',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'clientName',
                             title: '客户名称',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
+                            field: 'companyName',
                             title: '公司名称',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'taxNumber',
                             title: '税号',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'address',
                             title: '地址',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'phoneNumber',
                             title: '手机',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'weChat',
                             title: '微信',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'email',
                             title: '邮箱',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'bankAccount',
                             title: '开户银行',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'bankCardNumber',
                             title: '银行卡号',
                             align: "center"
                         }
                     ]
-                ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项
+                    $("#customerNameSelectPanel option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    clientNameSelectFun();
+                    /*渲染订单号选择框*/
+                    function clientNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].clientName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "customerNameSelectPanel");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+       /*客户信息管理:传值调用*/
+        MAIN.CustomerInfoDataList = function(resultData){
+            table.render({
+                data:resultData,
+                elem: '#CustomerInfoList',
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'customerType',
+                            title: '客户类型',
+                            align: "center"
+                        },
+                        {
+                            field: 'clientName',
+                            title: '客户名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'companyName',
+                            title: '公司名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'taxNumber',
+                            title: '税号',
+                            align: "center"
+                        },
+                        {
+                            field: 'address',
+                            title: '地址',
+                            align: "center"
+                        },
+                        {
+                            field: 'phoneNumber',
+                            title: '手机',
+                            align: "center"
+                        },
+                        {
+                            field: 'weChat',
+                            title: '微信',
+                            align: "center"
+                        },
+                        {
+                            field: 'email',
+                            title: '邮箱',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankAccount',
+                            title: '开户银行',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankCardNumber',
+                            title: '银行卡号',
+                            align: "center"
+                        }
+                    ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项
+                    $("#customerNameSelectPanel option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    clientNameSelectFun();
+                    /*渲染订单号选择框*/
+                    function clientNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].clientName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "customerNameSelectPanel");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
             });
         };
         /*财务管理:收入管理 数据表格*/
@@ -4443,7 +4935,7 @@ $(function () {
                 wscript.SendKeys("{F11}");
             }
         }
-    }
+    };
 
     //打印方法
     MAIN.preview = function (printpage) {

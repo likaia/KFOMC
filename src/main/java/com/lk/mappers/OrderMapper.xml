@@ -215,7 +215,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="id != null">
 				AND id like #{id}
 			</if>
-			<if test="id != null">
+			<if test="clientName != null">
 				AND clientName like #{clientName}
 			</if>
 		</where>
@@ -281,7 +281,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				clientName = #{orderDate},
 			</if>
 			<if test="projectName != null">
-				projectName = #{projectName}
+				projectName = #{projectName},
 			</if>
 			<if test="glassNumber != null">
 				glassNumber = #{glassNumber},
@@ -292,22 +292,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" numberShipments!= null">
 				numberShipments = #{numberShipments},
 			</if>
-			<if test=" shipArea!= null">
+			<if test=" shipArea != null">
 				shipArea =#{shipArea},
 			</if>
-			<if test=" additionalFees!= null">
+			<if test=" additionalFees != null">
 				additionalFees = #{additionalFees},
 			</if>
-			<if test=" totalAmount!= null">
-				totalAmount,
+			<if test=" totalAmount != null">
+				totalAmount = #{totalAmount},
 			</if>
-			<if test=" alreadyPaid!= null">
+			<if test=" alreadyPaid != null">
 				alreadyPaid = #{alreadyPaid},
 			</if>
 			<if test="unpaid != null">
 				unpaid = #{unpaid},
 			</if>
-			<if test=" finishDelivery!= null">
+			<if test=" finishDelivery != null">
 				finishDelivery = #{finishDelivery},
 			</if>
 			<if test="preparedBy != null">
@@ -319,7 +319,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="contactNumber != null">
 				contactNumber = #{contactNumber},
 			</if>
-			<if test=" shippingMethod!= null">
+			<if test=" shippingMethod != null">
 				shippingMethod = #{shippingMethod},
 			</if>
 			<if test=" remarks!= null">
