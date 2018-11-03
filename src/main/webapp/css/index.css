@@ -1426,3 +1426,96 @@ a {
     height: 40px;
     float: left;
 }
+/*客户信息管理:新增客户悬浮层*/
+#addClientSubmenu{
+	width: 98%;  /*1060*/
+	height: 340px; /*530px*/
+	margin: 15px auto 0;
+	display: none;
+}
+#addClientSubmenu .row-panel{
+	width: 100%;
+	height: 40px;
+	margin-top: 15px;
+}
+#addClientSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#addClientSubmenu .row-panel .item-panel .left-panel{
+	width: 18%;
+	height: 40px;
+	float: left;
+	text-align: right;
+	margin-right: 2%;
+}
+#addClientSubmenu .row-panel .item-panel .left-panel span{
+	line-height: 40px;
+}
+#addClientSubmenu .row-panel .item-panel .val-panel{
+	width: 80%;
+	height: 40px;
+	float: left;
+}
+#addClientSubmenu .foot-panel{
+	width: 100%;
+	height: 60px;
+	text-align: center;
+}
+#addClientSubmenu .foot-panel span{
+	line-height: 60px;
+	color: #FF5722;
+	font-size: 18px;
+	font-weight: 600;
+}
+/*客户信息管理:编辑悬浮层*/
+#editClientSubmenu{
+	width: 98%;  /*1060*/
+	height: 340px; /*530px*/
+	margin: 15px auto 0;
+	display: none;
+}
+#editClientSubmenu .row-panel{
+	width: 100%;
+	height: 40px;
+	margin-top: 15px;
+}
+#editClientSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#editClientSubmenu .row-panel .item-panel .left-panel{
+	width: 18%;
+	height: 40px;
+	float: left;
+	text-align: right;
+	margin-right: 2%;
+}
+#editClientSubmenu .row-panel .item-panel .left-panel span{
+	line-height: 40px;
+}
+#editClientSubmenu .row-panel .item-panel .val-panel{
+	width: 80%;
+	height: 40px;
+	float: left;
+}
+#editClientSubmenu .foot-panel{
+	width: 100%;
+	height: 60px;
+	text-align: center;
+}
+#editClientSubmenu .foot-panel span{
+	line-height: 60px;
+	color: #FF5722;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+/*弹出层按钮颜色*/
+.btn-Color .layui-layer-btn a{
+	background-color: #003366;
+	border: solid 1px #003366;
+	color: white;
+}

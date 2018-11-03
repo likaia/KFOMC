@@ -927,13 +927,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <!--按钮区域-->
                     <div class="layui-row btnParent-panel">
                         <div class="btn-panel">
-                            <button class="layui-btn layui-btn-normal"
+                            <button class="layui-btn layui-btn-normal" @click="addClientFun"
                                     v-bind:style="{background:BtnColor}">新增客户
                             </button>
-                            <button class="layui-btn layui-btn-normal"
+                            <button class="layui-btn layui-btn-normal" @click="delClientFun"
                                     v-bind:style="{background:BtnColor}">删除客户
                             </button>
-                            <button class="layui-btn layui-btn-normal"
+                            <button class="layui-btn layui-btn-normal" @click="editClientFun"
                                     v-bind:style="{background:BtnColor}">客户编辑
                             </button>
                         </div>
@@ -2632,6 +2632,209 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="itemRight-panel">
                 <textarea name="desc" v-model="invoicePaymentDetails" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
+        </div>
+    </div>
+
+    <!--客户信息管理:新增客户悬浮层-->
+    <div id="addClientSubmenu" class="layui-form">
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>客户类型:</span>
+                </div>
+                <div class="val-panel">
+                    <select name="customerTypeSelectPanel" lay-filter="customerTypeSelectPanel" id="customerTypeSelectPanel">
+                        <option value=""></option>
+                        <option value="0" selected="">普通用户</option>
+                        <option value="1" >vip用户</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>客户名称:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="clientNameVal" class="layui-input" placeholder="2～5位汉字" maxlength="5">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>公司名称:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="companyNameVal" class="layui-input" placeholder="5~10位汉字" maxlength="10">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>发票税号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="invoiceTaxNumberVal" class="layui-input" placeholder="15～20位税号码" maxlength="20">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>联系地址:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="contactAddressVal" class="layui-input" placeholder="5~17位 汉字,数字,字母组合" maxlength="17">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>手 机 号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="phoneNumberVal" class="layui-input" placeholder="11位纯数字" maxlength="11">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>微 信 号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="weChatNumberVal" class="layui-input" placeholder="6~14位 英文,字母,数字组合" maxlength="14">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>电子邮箱:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="mailboxVal" class="layui-input" placeholder="12~21位 数字,符号,英文组合" maxlength="21">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>开户银行:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="bankAccountVal" class="layui-input" placeholder="4~9位纯汉字" maxlength="9">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>银行卡号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="bankCardNumberVal" class="layui-input" placeholder="16~19位纯数字" maxlength="19">
+                </div>
+            </div>
+        </div>
+        <div class="foot-panel">
+            <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
+            <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
+        </div>
+    </div>
+    <!--编辑客户悬浮层-->
+    <div id="editClientSubmenu" class="layui-form">
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>客户类型:</span>
+                </div>
+                <div class="val-panel">
+                    <select name="editCustomerTypeSelectPanel" lay-filter="editCustomerTypeSelectPanel" id="editCustomerTypeSelectPanel">
+                        <option value=""></option>
+                        <option value="0" selected="">普通用户</option>
+                        <option value="1" >vip用户</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>客户名称:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editClientNameVal" class="layui-input" placeholder="2～5位汉字" maxlength="5">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>公司名称:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editCompanyNameVal" class="layui-input" placeholder="5~10位汉字" maxlength="10">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>发票税号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editInvoiceTaxNumberVal" class="layui-input" placeholder="15～20位税号码" maxlength="20">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>联系地址:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editContactAddressVal" class="layui-input" placeholder="5~17位 汉字,数字,字母组合" maxlength="17">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>手 机 号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editPhoneNumberVal" class="layui-input" placeholder="11位纯数字" maxlength="11">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>微 信 号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editWeChatNumberVal" class="layui-input" placeholder="6~14位 英文,字母,数字组合" maxlength="14">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>电子邮箱:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editMailboxVal" class="layui-input" placeholder="12~21位 数字,符号,英文组合" maxlength="21">
+                </div>
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>开户银行:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editBankAccountVal" class="layui-input" placeholder="4~9位纯汉字" maxlength="9">
+                </div>
+            </div>
+            <div class="item-panel">
+                <div class="left-panel">
+                    <span>银行卡号:</span>
+                </div>
+                <div class="val-panel">
+                    <input type="text" v-model="editBankCardNumberVal" class="layui-input" placeholder="16~19位纯数字" maxlength="19">
+                </div>
+            </div>
+        </div>
+        <div class="foot-panel">
+            <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
+            <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
         </div>
     </div>
 </div>

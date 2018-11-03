@@ -172,24 +172,44 @@ $(function () {
             shipmentAddEnd: "",
             shippingCustomerValArr: "",   //--->出货管理[新增发货]悬浮层,选择订单号后当前订单下的所有规格型号
             modelDetailsList: [],   //--->规格型号小条目展示
-            invoiceClientName:"",    //--->发货单客户名称
-            invoiceProjectName:"",    //--->发货单工程名称
-            invoiceOrderNumber:"",    //--->发货单订单号
-            invoiceContactNumber:"",   //--->发货单联系电话
-            invoiceDeliveryAddress:"",  //--->发货单送货地址
-            invoiceOrderDate:"",        //--->发货单订单日期
-            invoiceDateOfShipment:"",    //--->发货单发货日期
-            invoiceTotalNumber:"",      //--->发货单总数量
-            invoiceTotalArea:"",        //--->发货单总面积
-            invoiceTotalAmount:"",      //--->发货单总金额
-            invoiceUnpaid:"",            //--->发货单未付款
-            invoicePaymentDetails:"", //付款明细
-            invoiceTransportationManager:"", //运输负责人
-            invoiceFreight:"", //运费
+            invoiceClientName: "",    //--->发货单客户名称
+            invoiceProjectName: "",    //--->发货单工程名称
+            invoiceOrderNumber: "",    //--->发货单订单号
+            invoiceContactNumber: "",   //--->发货单联系电话
+            invoiceDeliveryAddress: "",  //--->发货单送货地址
+            invoiceOrderDate: "",        //--->发货单订单日期
+            invoiceDateOfShipment: "",    //--->发货单发货日期
+            invoiceTotalNumber: "",      //--->发货单总数量
+            invoiceTotalArea: "",        //--->发货单总面积
+            invoiceTotalAmount: "",      //--->发货单总金额
+            invoiceUnpaid: "",            //--->发货单未付款
+            invoicePaymentDetails: "", //付款明细
+            invoiceTransportationManager: "", //运输负责人
+            invoiceFreight: "", //运费
             /*客户信息管理数据*/
-            clientInfoName:"",   //--->客户姓名
-            clientInfoStart:"", //--->开始时间
-            clientInfoEnd:"" //--->结束时间
+            clientInfoName: "",   //--->客户姓名
+            clientInfoStart: "", //--->开始时间
+            clientInfoEnd: "", //--->结束时间
+            clientNameVal: "",  //--->客户名称
+            companyNameVal: "", //--->公司名称
+            invoiceTaxNumberVal: "",  //--->发票税号
+            contactAddressVal: "", //--->联系地址
+            phoneNumberVal: "",   //--->手机号
+            weChatNumberVal: "", //--->微信号
+            mailboxVal: "", //--->邮箱
+            bankAccountVal: "", //--->开户银行
+            bankCardNumberVal: "", //银行卡号
+            //编辑客户数据
+            clientId:"", //--->客户id
+            editClientNameVal: "",  //--->客户名称
+            editCompanyNameVal: "", //--->公司名称
+            editInvoiceTaxNumberVal: "",  //--->发票税号
+            editContactAddressVal: "", //--->联系地址
+            editPhoneNumberVal: "",   //--->手机号
+            editWeChatNumberVal: "", //--->微信号
+            editMailboxVal: "", //--->邮箱
+            editBankAccountVal: "", //--->开户银行
+            editBankCardNumberVal: "", //银行卡号
         },
         methods: {
             materialFun: function () {
@@ -832,11 +852,9 @@ $(function () {
                     MAIN.ErroAlert("不能删除了");
                 }
                 else { //循环已发货数据找到相同itemID的元素并删除
-                    for(let i = 0;i<vm.modelDetailsList.length;i++)
-                    {
-                        if(index==vm.modelDetailsList[i].itemID)
-                        {
-                            vm.modelDetailsList.splice(i--,1);
+                    for (let i = 0; i < vm.modelDetailsList.length; i++) {
+                        if (index == vm.modelDetailsList[i].itemID) {
+                            vm.modelDetailsList.splice(i--, 1);
                         }
                     }
                 }
@@ -850,21 +868,19 @@ $(function () {
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#invoiceTransport-panel"),
                     anim: 1,//从上掉落
-                    shade:0, //关闭遮罩
+                    shade: 0, //关闭遮罩
                     btn: ['确定'],
-                    yes: function(index, layero){
-                        if(Af.nullstr(vm.invoiceTransportationManager))
-                        {
+                    yes: function (index, layero) {
+                        if (Af.nullstr(vm.invoiceTransportationManager)) {
                             MAIN.ErroAlert("请输入运输负责人");
                         }
-                        else{
+                        else {
                             layer.close(index);
                             var rawData = vm.shippingCustomerValArr;//-->用户选择客户名称后后台返回的用户规格型号
                             //获取当前元素表格下 已选择的元素(用find查找.rowLineSelectStyle的元素产生一个集合)
                             var elementCollection = $("#OrderModelList tbody").find(".rowLineSelectStyle");
                             //判断用户是否有勾选规格型号
-                            if(elementCollection.length==0)
-                            {
+                            if (elementCollection.length == 0) {
                                 MAIN.ErroAlert("请选择要发货的规格型号!");
                                 return;
                             }
@@ -893,17 +909,16 @@ $(function () {
             //出货管理[新增]悬浮层{提交}点击函数
             addShipmentSubmitFun: function () {
                 //--->判断用户是否有选择规格型号
-               if(vm.modelDetailsList.length==0)
-               {
-                   MAIN.ErroAlert("不能提交空数据!请勾选,想要发货的规格型号!");
-                   return;
-               }
+                if (vm.modelDetailsList.length == 0) {
+                    MAIN.ErroAlert("不能提交空数据!请勾选,想要发货的规格型号!");
+                    return;
+                }
                 //--->定义(发货总数量/发货总面积/发货总金额/剩余数量/剩余面积)
                 var theTotalNumber = 0;
                 var theTotalArea = 0;
                 var theTotalAmount = 0;
                 var theRemainingAmount = 0;
-                var remainingArea =0;
+                var remainingArea = 0;
                 var req = {};
                 var rawData = vm.shippingCustomerValArr;//-->用户选择客户名称后后台返回的用户规格型号
                 /*计算未发货的玻璃规格型号:取出已发货的数组和总数组,未发货的数组 = 总数组 - 已发货数组*/
@@ -911,33 +926,31 @@ $(function () {
                 fun(rawData);//--->将二维数组转成一维数组
                 //取出已发货数组里数据
                 var shippedDataList = vm.modelDetailsList;
-                for(let i = 0;i<shippedDataList.length;i++)
-                {
+                for (let i = 0; i < shippedDataList.length; i++) {
                     delete shippedDataList[i].itemID; //删除json中的itemID
                     //取出(玻璃数量/玻璃面积/金额/未付款)
                     let glassNum = shippedDataList[i].glassNum;
                     let glassArea = shippedDataList[i].glassArea;
                     let totalAmount = shippedDataList[i].totalAmount;
-                    theTotalNumber = Af.accAdd(theTotalNumber,glassNum);
-                    theTotalArea = Af.accAdd(theTotalArea,glassArea);
-                    theTotalAmount = Af.accAdd(theTotalAmount,totalAmount);
+                    theTotalNumber = Af.accAdd(theTotalNumber, glassNum);
+                    theTotalArea = Af.accAdd(theTotalArea, glassArea);
+                    theTotalAmount = Af.accAdd(theTotalAmount, totalAmount);
                 }
                 //比对全部数据和已发货数据,删除已发货数据,计算未发货数据
                 for (let i = 0; i < editRawData.length; i++) {
                     for (let j = 0; j < shippedDataList.length; j++) {
-                        if(_.isEqual(editRawData[i], shippedDataList[j])){//调用_.isEqual方法判断对象是否相等
+                        if (_.isEqual(editRawData[i], shippedDataList[j])) {//调用_.isEqual方法判断对象是否相等
                             //layer.msg("相同元素出现");
-                            editRawData.splice(i--,1);   //删除相同元素:得到未发货数据
+                            editRawData.splice(i--, 1);   //删除相同元素:得到未发货数据
                         }
                     }
                 }
                 //计算剩余数量 剩余面积
-                for(let i = 0;i<editRawData.length;i++)
-                {
+                for (let i = 0; i < editRawData.length; i++) {
                     let glassNum = editRawData[i].glassNum;
                     let glassArea = editRawData[i].glassArea;
-                    theRemainingAmount = Af.accAdd(theRemainingAmount,glassNum);
-                    remainingArea = Af.accAdd(remainingArea,glassArea);
+                    theRemainingAmount = Af.accAdd(theRemainingAmount, glassNum);
+                    remainingArea = Af.accAdd(remainingArea, glassArea);
                 }
                 var shippedDataArr = Af.getJSONArray(shippedDataList);//将即将发货的数据归类
                 var unfinishedArr = Af.getJSONArray(editRawData);//将未发货的数组进行归类
@@ -961,9 +974,8 @@ $(function () {
                 req.paymentDetails = vm.invoicePaymentDetails; //付款明细
                 req.transportationManager = vm.invoiceTransportationManager; //运输负责人
                 req.freight = vm.invoiceFreight;//运费
-                Af.rest("ShipmentInfo.api",req,function (ans) {
-                    if(ans.errorCode!=0)
-                    {
+                Af.rest("ShipmentInfo.api", req, function (ans) {
+                    if (ans.errorCode != 0) {
                         MAIN.ErroAlert(ans.msg);
                     }
                     else {
@@ -980,9 +992,9 @@ $(function () {
                         $("#invoiceDateOfShipment").html(data.invoiceDateOfShipment);
                         $("#invoiceUnpaid").html(data.unpaid);
                         //总数量,总面积,总金额 打印时间 运输负责人
-                        $("#invoiceTotalNumber").html(theTotalNumber+"块");
-                        $("#invoiceTotalArea").html(theTotalArea+"平方");
-                        $("#invoiceTotalAmount").html(theTotalAmount+"元");
+                        $("#invoiceTotalNumber").html(theTotalNumber + "块");
+                        $("#invoiceTotalArea").html(theTotalArea + "平方");
+                        $("#invoiceTotalAmount").html(theTotalAmount + "元");
                         $("#printTime").html(data.invoiceDateOfShipment);
                         $("#transportationManager").html(vm.invoiceTransportationManager);
                         /*渲染打印模板表格区域*/
@@ -1011,7 +1023,7 @@ $(function () {
                                     td2 = "<td>" + shippedDataArr[i][j].glassWidth + "</td>";
                                     td3 = "<td>" + shippedDataArr[i][j].glassNum + "</td>";
                                     td4 = "<td>" + "  " + "</td>";
-                                    td5 ="<td>" + shippedDataArr[i][j].glassArea + "</td>";
+                                    td5 = "<td>" + shippedDataArr[i][j].glassArea + "</td>";
                                     td7 = "<td>" + "  " + "</td>";
                                     td8 = "<td>" + shippedDataArr[i][j].totalAmount + "</td>";
                                     $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + td8 + trEnd); //---->追加到页面
@@ -1026,10 +1038,10 @@ $(function () {
                                     td2 = "<td>" + shippedDataArr[i][j].glassWidth + "</td>";
                                     td3 = "<td>" + shippedDataArr[i][j].glassNum + "</td>";
                                     td4 = "<td>" + "  " + "</td>";
-                                    td5 ="<td>" + shippedDataArr[i][j].glassArea + "</td>";
+                                    td5 = "<td>" + shippedDataArr[i][j].glassArea + "</td>";
                                     td7 = "<td>" + "  " + "</td>";
                                     td8 = "<td>" + shippedDataArr[i][j].totalAmount + "</td>";
-                                    $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 +td8 + trEnd); //---->追加到页面
+                                    $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + td8 + trEnd); //---->追加到页面
                                 }
                             }
                         }
@@ -1054,6 +1066,7 @@ $(function () {
                         $("#invoicePrintList  tbody").html("");//--->清空渲染过的数据表格
                     }
                 });
+
                 /*多维数组转一维数组函数*/
                 function fun(arr) {
                     for (var i = 0; i < arr.length; i++) {
@@ -1095,8 +1108,8 @@ $(function () {
                 }
             },
             //出货管理[导出] 函数
-            shipmentExportFun:function(){
-                var tableTitle = ['序列号', '客户姓名', '发货日期', '发货数量', '发货面积', '剩余数量', '剩余面积','发货金额', '运输负责人', '运费'];
+            shipmentExportFun: function () {
+                var tableTitle = ['序列号', '客户姓名', '发货日期', '发货数量', '发货面积', '剩余数量', '剩余面积', '发货金额', '运输负责人', '运费'];
                 var selectDatas = MAIN.getShipmentDatas("originalFilmOutList");
                 if (!Af.nullstr(selectDatas)) {
                     MAIN.exportFun(tableTitle, selectDatas);
@@ -1646,8 +1659,8 @@ $(function () {
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
             },
-           /*客户信息管理:查询点击事件*/
-            ClientInfoQueryFun:function(){
+            /*客户信息管理:查询点击事件*/
+            ClientInfoQueryFun: function () {
                 var req = {};
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
@@ -1662,6 +1675,212 @@ $(function () {
                         MAIN.CustomerInfoDataList(ans.data);
                     });
                 }
+            },
+            /*客户信息管理:新增客户点击事件*/
+            addClientFun: function () {
+                layer.open({
+                    title: "新增客户",
+                    type: 1,
+                    area: ['960px', '470px'],
+                    //shadeClose : true, //点击遮罩关闭
+                    content: $("#addClientSubmenu"),
+                    btn: ['提交', '取消'],
+                    skin: 'btn-Color',
+                    yes: function (index, layero) {
+                        /*判断用户输入的数据的合法性*/
+                        if (Af.nullstr(vm.clientNameVal) || Af.nullstr(vm.companyNameVal) || Af.nullstr(vm.contactAddressVal) || Af.nullstr(vm.phoneNumberVal) || Af.nullstr(vm.bankAccountVal) || Af.nullstr(vm.bankCardNumberVal)) {
+                            MAIN.ErroAlert("客户名称,公司名称,联系地址,手机号,开户银行,银行卡号为必填项!");
+                            return;
+                        }
+                        //用正则表达式判断用户输入的数据是否符合规范
+                        var regExpChinese = new RegExp("^[\u4e00-\u9fa5]{0,}$");
+                        var reqExpEmail = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+                        var regExpNum = new RegExp(/^\d{1,}$/);
+                        if (!regExpChinese.test(vm.clientNameVal)) {
+                            layer.msg("客户名称必须为纯中文!");
+                            return;
+                        }
+                        if (!regExpChinese.test(vm.companyNameVal)) {
+                            layer.msg("公司名称必须为纯中文!");
+                            return;
+                        }
+                        if (!regExpNum.test(vm.bankCardNumberVal)) {
+                            layer.msg("银行卡号格式不符合规范!");
+                            return;
+                        }
+                        if (!Af.nullstr(vm.mailboxVal)) {
+                            if (!reqExpEmail.test(vm.mailboxVal)) {
+                                layer.msg("邮箱格式不符合规范!");
+                                return;
+                            }
+                        }
+                        var req = {
+                            operator: $("#nickNameTextPanel").html(),
+                            addClient: "addClient",
+                            customerType: $("#customerTypeSelectPanel").find("option:selected").text(),
+                            clientName: vm.clientNameVal,
+                            companyName: vm.companyNameVal,
+                            taxNumber: vm.invoiceTaxNumberVal,
+                            address: vm.contactAddressVal,
+                            phoneNumber: vm.phoneNumberVal,
+                            weChat: vm.weChatNumberVal,
+                            email: vm.mailboxVal,
+                            bankAccount: vm.bankAccountVal,
+                            bankCardNumber: vm.bankCardNumberVal
+                        };
+                        Af.rest("ClientInfo.api", req, function (ans) {
+                            if (ans.errorCode == 0) {
+                                vm.clientNameVal = "";
+                                vm.companyNameVal = "";
+                                vm.invoiceTaxNumberVal = "";
+                                vm.contactAddressVal = "";
+                                vm.phoneNumberVal = "";
+                                vm.weChatNumberVal = "";
+                                vm.mailboxVal = "";
+                                vm.bankAccountVal = "";
+                                vm.bankCardNumberVal = "";
+                                layer.closeAll();
+                                MAIN.CustomerInfoList($("#nickNameTextPanel").html());
+                            }
+                            layer.msg(ans.msg);
+                        });
+
+                    },
+                    btn2: function (index, layero) {
+                        layer.close(index);
+                    },
+                    end: function () { //弹层销毁出发回调
+
+                    }
+                });
+            },
+            /*客户信息管理:删除客户点击事件*/
+            delClientFun: function () {
+                var req = {};
+                //取出当前选择项用户编号
+                var idsArray = MAIN.getSelectId("CustomerInfoList");
+                if (Af.nullstr(idsArray)) {
+                    MAIN.ErroAlert("不能删除空数据,请勾选要删除的用户!");
+                } else {
+                    //提示用户删除
+                    layer.confirm('确定要删除吗?', function (index) {
+                        var idsStr = idsArray.toString();
+                        req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                        req.operator = $("#nickNameTextPanel").html();
+                        req.delClients = "delClients";
+                        Af.rest("ClientInfo.api", req, function (ans) {
+                            layer.close(index);
+                            layer.msg(ans.msg);
+                            if (ans.errorCode == 0) {
+                                //数据表格重载
+                                MAIN.CustomerInfoList($("#nickNameTextPanel").html());
+                            }
+                        });
+                    });
+                }
+            },
+            /*客户信息管理:修改客户信息*/
+            editClientFun: function () {
+                //取出当前选择项的所有数据
+                var datasArray = MAIN.getSelectData("CustomerInfoList");
+                if (datasArray.length == 0) {
+                    MAIN.ErroAlert("不能修改空数据,请勾选一个客户!");
+                    return;
+                } else if (datasArray.length > 1) {
+                    MAIN.ErroAlert("不能修改大于一条的数据!");
+                    return;
+                }
+                layer.open({
+                    title: "编辑客户",
+                    type: 1,
+                    area: ['960px', '470px'],
+                    //shadeClose : true, //点击遮罩关闭
+                    content: $("#editClientSubmenu"),
+                    btn: ['提交', '取消'],
+                    skin: 'btn-Color',
+                    success:function(){
+                        for(let i = 0;i<datasArray.length;i++){
+                            vm.clientId = datasArray[i].id;
+                            /*给表单赋值*/
+                            vm.editClientNameVal = datasArray[i].clientName;  //--->客户名称
+                            vm.editCompanyNameVal = datasArray[i].companyName; //--->公司名称
+                            vm.editInvoiceTaxNumberVal = datasArray[i].taxNumber;  //--->发票税号
+                            vm.editContactAddressVal = datasArray[i].address; //--->联系地址
+                            vm.editPhoneNumberVal = datasArray[i].phoneNumber;    //--->手机号
+                            vm.editWeChatNumberVal = datasArray[i].weChat; //--->微信号
+                            vm.editMailboxVal = datasArray[i].email; //--->邮箱
+                            vm.editBankAccountVal = datasArray[i].bankAccount; //--->开户银行
+                            vm.editBankCardNumberVal = datasArray[i].bankCardNumber; //银行卡号
+                        }
+                    },
+                    yes: function (index, layero) {
+                        /*判断用户输入的数据的合法性*/
+                        if (Af.nullstr(vm.editClientNameVal) || Af.nullstr(vm.editCompanyNameVal) || Af.nullstr(vm.editContactAddressVal) || Af.nullstr(vm.editPhoneNumberVal) || Af.nullstr(vm.editBankAccountVal) || Af.nullstr(vm.editBankCardNumberVal)) {
+                            MAIN.ErroAlert("客户名称,公司名称,联系地址,手机号,开户银行,银行卡号为必填项!");
+                            return;
+                        }
+                        //用正则表达式判断用户输入的数据是否符合规范
+                        var regExpChinese = new RegExp("^[\u4e00-\u9fa5]{0,}$");
+                        var reqExpEmail = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+                        var regExpNum = new RegExp(/^\d{1,}$/);
+                        if (!regExpChinese.test(vm.editClientNameVal)) {
+                            layer.msg("客户名称必须为纯中文!");
+                            return;
+                        }
+                        if (!regExpChinese.test(vm.editCompanyNameVal)) {
+                            layer.msg("公司名称必须为纯中文!");
+                            return;
+                        }
+                        if (!regExpNum.test(vm.editBankCardNumberVal)) {
+                            layer.msg("银行卡号格式不符合规范!");
+                            return;
+                        }
+                        if (!Af.nullstr(vm.editMailboxVal)) {
+                            if (!reqExpEmail.test(vm.editMailboxVal)) {
+                                layer.msg("邮箱格式不符合规范!");
+                                return;
+                            }
+                        }
+                        var req = {
+                            operator: $("#nickNameTextPanel").html(),
+                            updateClient: "updateClient",
+                            customerType: $("#editCustomerTypeSelectPanel").find("option:selected").text(),
+                            clientName: vm.editClientNameVal,
+                            companyName: vm.editCompanyNameVal,
+                            taxNumber: vm.editInvoiceTaxNumberVal,
+                            address: vm.editContactAddressVal,
+                            phoneNumber: vm.editPhoneNumberVal,
+                            weChat: vm.editWeChatNumberVal,
+                            email: vm.editMailboxVal,
+                            bankAccount: vm.editBankAccountVal,
+                            bankCardNumber: vm.editBankCardNumberVal,
+                            clientId:vm.clientId
+                        };
+                        Af.rest("ClientInfo.api", req, function (ans) {
+                            if (ans.errorCode == 0) {
+                                vm.editClientNameVal = "";
+                                vm.editCompanyNameVal = "";
+                                vm.editInvoiceTaxNumberVal = "";
+                                vm.editContactAddressVal = "";
+                                vm.editPhoneNumberVal = "";
+                                vm.editWeChatNumberVal = "";
+                                vm.editMailboxVal = "";
+                                vm.editBankAccountVal = "";
+                                vm.editBankCardNumberVal = "";
+                                layer.closeAll();
+                                MAIN.CustomerInfoList($("#nickNameTextPanel").html());
+                            }
+                            layer.msg(ans.msg);
+                        });
+
+                    },
+                    btn2: function (index, layero) {
+                        layer.close(index);
+                    },
+                    end: function () { //弹层销毁出发回调
+
+                    }
+                });
             },
             /*财务管理:收入管理点击事件*/
             revenueInfoFun: function () {
@@ -2024,7 +2243,6 @@ $(function () {
                     },1200);
                 });*/
 
-
         /*监听出货管理[新增发货]客户名称选择*/
         form.on('select(shippingCustomerNameSelectPanel)', function (data) {
             var thisSelectVal = data.value;  //--->根据id查询规格型号
@@ -2037,8 +2255,7 @@ $(function () {
                 req.findModelById = "findModelById";
                 Af.rest("orderInfonQueiry.api", req, function (ans) {
                     var dataArray = ans.data;
-                    if(dataArray.length==0)
-                    {
+                    if (dataArray.length == 0) {
                         MAIN.ErroAlert("所选用户,没有未发货的规格型号!");
                         return;
                     }
@@ -2102,8 +2319,7 @@ $(function () {
                 req.findModelById = "findModelById";
                 Af.rest("orderInfonQueiry.api", req, function (ans) {
                     var dataArray = ans.data;
-                    if(dataArray.length==0)
-                    {
+                    if (dataArray.length == 0) {
                         MAIN.ErroAlert("所选用户,没有未发货的规格型号!");
                         return;
                     }
@@ -2354,7 +2570,7 @@ $(function () {
         };
 
         //获取 出货管理,用户勾选的发货数据id
-        MAIN.getSelectId = function(tableId){
+        MAIN.getSelectId = function (tableId) {
             var checkStatus = table.checkStatus(tableId),
                 data = checkStatus.data;
             var SelectIds = [];
@@ -2363,7 +2579,7 @@ $(function () {
             }
             return SelectIds;
         };
-        //获取当前数据表格选择项数据
+        //获取当前数据表格选择项数据(订单号)
         MAIN.getSelectOrder = function (tableId) {
             var checkStatus = table.checkStatus(tableId),
                 data = checkStatus.data;
@@ -2372,6 +2588,12 @@ $(function () {
                 orders.push(data[i].orderNumber);
             }
             return orders;
+        };
+        //获取当前数据表格选择项全部数据
+        MAIN.getSelectData = function (tableId) {
+            var checkStatus = table.checkStatus(tableId),
+                data = checkStatus.data;
+            return data;
         };
         MAIN.getSelectDatas = function (tableId) {
             var checkStatus = table.checkStatus(tableId),
@@ -2632,9 +2854,9 @@ $(function () {
             vm.clientInfoName = data.value;
         });
         /*订单信息数据表格(作为传值调用)*/
-        MAIN.orderInfoCustomizeList = function(resultData){
+        MAIN.orderInfoCustomizeList = function (resultData) {
             table.render({
-                data:resultData,
+                data: resultData,
                 elem: '#orderInfoList',
                 page: true,
                 limits: [10, 15, 20, 25],
@@ -2792,6 +3014,7 @@ $(function () {
                 }
             });
         };
+
         /*订单信息数据表格*/
         function orderInfoList(userName) {
             table.render({
@@ -4088,7 +4311,7 @@ $(function () {
         /*客户信息管理:数据表格*/
         MAIN.CustomerInfoList = function (userName) {
             table.render({
-                url:"ClientInfo.api",
+                url: "ClientInfo.api",
                 method: 'POST', //方式
                 elem: '#CustomerInfoList',
                 page: true,
@@ -4102,6 +4325,11 @@ $(function () {
                         {
                             fixed: "left",
                             type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'id',
+                            title: '序列号',
                             align: "center"
                         },
                         {
@@ -4163,6 +4391,7 @@ $(function () {
                     //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                     //console.log(res);
                     clientNameSelectFun();
+
                     /*渲染订单号选择框*/
                     function clientNameSelectFun() {
                         var data = res.data;
@@ -4175,6 +4404,7 @@ $(function () {
                         }
                         addSelectVal(nowData, "customerNameSelectPanel");
                     }
+
                     /*动态赋值select函数*/
                     function addSelectVal(data, container) {
                         var $html = "";
@@ -4207,10 +4437,10 @@ $(function () {
                 }
             });
         };
-       /*客户信息管理:传值调用*/
-        MAIN.CustomerInfoDataList = function(resultData){
+        /*客户信息管理:传值调用*/
+        MAIN.CustomerInfoDataList = function (resultData) {
             table.render({
-                data:resultData,
+                data: resultData,
                 elem: '#CustomerInfoList',
                 page: true,
                 limits: [10, 15, 20, 25],
@@ -4219,6 +4449,11 @@ $(function () {
                         {
                             fixed: "left",
                             type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'id',
+                            title: '序列号',
                             align: "center"
                         },
                         {
@@ -4280,6 +4515,7 @@ $(function () {
                     //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                     //console.log(res);
                     clientNameSelectFun();
+
                     /*渲染订单号选择框*/
                     function clientNameSelectFun() {
                         var data = res.data;
@@ -4292,6 +4528,7 @@ $(function () {
                         }
                         addSelectVal(nowData, "customerNameSelectPanel");
                     }
+
                     /*动态赋值select函数*/
                     function addSelectVal(data, container) {
                         var $html = "";

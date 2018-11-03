@@ -164,6 +164,7 @@ public class ClientInfoAPI extends AfRestfulApi
 			//更新客户信息
 			if(jsReq.has("updateClient"))
 			{
+				int id = jsReq.getInt("clientId");
 				String customerType = jsReq.getString("customerType");//--->客户类型
 				String clientName = jsReq.getString("clientName");//--->客户名称
 				String companyName = jsReq.getString("companyName");//--->公司名称
@@ -179,6 +180,7 @@ public class ClientInfoAPI extends AfRestfulApi
 				// 配置映射器
 				ClientInfoMapper clientInfoMapper = sqlSession.getMapper(ClientInfoMapper.class);
 				ClientInfo row  = new ClientInfo();
+				row.setId(id);
 				row.setCustomerType(customerType);
 				row.setClientName(clientName);
 				row.setCompanyName(companyName);
@@ -188,8 +190,10 @@ public class ClientInfoAPI extends AfRestfulApi
 				row.setWeChat(weChat);
 				row.setEmail(email);
 				row.setBankAccount(bankAccount);
+				row.setOperator(operator);
 				row.setBankCardNumber(bankCardNumber);
 				int processResult = clientInfoMapper.update(row);
+				sqlSession.commit();
 				if(processResult>0)
 				{
 					msg = "更新成功";
@@ -201,6 +205,7 @@ public class ClientInfoAPI extends AfRestfulApi
 					msg = "更新失败";
 					logger.error("客户信息:更新接口错误");
 				}
+				sqlSession.close();
 			}
 		}
 		else
@@ -208,7 +213,7 @@ public class ClientInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("出货管理接口异常:没有操作人");
+			logger.error("客户管理接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();

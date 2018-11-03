@@ -84,11 +84,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			close=")">
 			#{idsItem}
 		</foreach>
-		<where>
-			<if test="operator != null">
-				operator = #{operator}
-			</if>
-		</where>
 	</delete>
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="ClientInfo">
@@ -201,11 +196,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" bankAccount != null">
 				bankAccount = #{bankAccount},
 			</if>
-			<if test=" joinTime != null">
-				joinTime = #{joinTime},
-			</if>
-			<if test="operator != null">
-				operator = #{operator},
+			<if test=" bankCardNumber != null">
+				bankCardNumber = #{bankCardNumber},
 			</if>
 		</trim>
 		<where>
@@ -214,9 +206,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="operator != null">
 				AND operator like #{operator}
-			</if>
-			<if test="clientName != null">
-				AND clientName like #{clientName}
 			</if>
 		</where>
 	</update>
