@@ -25,6 +25,8 @@
 	<api name="productNameModelInquiry"  class="com.lk.API.ProductNameModelInquiry" />
 	<!-- 基础信息[配件信息]接口-->
 	<api name="FittingPublic"  class="com.lk.API.FittingPublicAPI" />
+	<!-- 员工管理[考勤管理]接口 -->
+	<api name="AttendanceInfo"  class="com.lk.API.AttendanceInfoAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
 </restful>

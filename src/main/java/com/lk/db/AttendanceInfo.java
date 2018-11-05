@@ -1,5 +1,7 @@
 package com.lk.db;
 
+import org.json.JSONArray;
+
 /*
   * 
   *  @author  李凯
@@ -22,6 +24,7 @@ public class AttendanceInfo
 	private String remark; 
 	private String addTime;
 	private String operator;
+	private JSONArray ids;
 	public Integer getId()
 	{
 		return id;
@@ -118,9 +121,35 @@ public class AttendanceInfo
 	{
 		this.operator = operator;
 	}
+	
+	public JSONArray getIds()
+	{
+		return ids;
+	}
+	public void setIds(JSONArray ids)
+	{
+		this.ids = ids;
+	}
 	public AttendanceInfo()
 	{
 		super();
+	}
+	public AttendanceInfo(String nameOfWorker, String jobNumber, String division, Integer daysToAttend,
+			Integer actualAttendanceDays, Integer askForLeaveDays, Integer leaveDays, Integer sickLeaveDays,
+			String remark, String addTime, String operator)
+	{
+		super();
+		this.nameOfWorker = nameOfWorker;
+		this.jobNumber = jobNumber;
+		this.division = division;
+		this.daysToAttend = daysToAttend;
+		this.actualAttendanceDays = actualAttendanceDays;
+		this.askForLeaveDays = askForLeaveDays;
+		this.leaveDays = leaveDays;
+		this.sickLeaveDays = sickLeaveDays;
+		this.remark = remark;
+		this.addTime = addTime;
+		this.operator = operator;
 	}
 	
 }
