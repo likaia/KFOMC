@@ -1,25 +1,25 @@
 package com.lk.db;
 
+import org.json.JSONArray;
+
 public class ProductListInfo
 {
 	private Integer id;
 	private String productName;
 	private String specification;
 	private String color;
-	private String Texture;
+	private String texture;
 	private String thickness;
-	private String unitPrice;
-	private String memberPrice;
-	private String WholesalePrice;
-	private String queryType;
-	public String getQueryType()
-	{
-		return queryType;
-	}
-	public void setQueryType(String queryType)
-	{
-		this.queryType = queryType;
-	}
+	private Integer unitPrice;
+	private Integer memberPrice;
+	private Integer wholesalePrice;
+	private JSONArray queryType; 
+	private String remarks;
+	private String addTime;
+	private String operator;
+	private String dStart;
+	private String dEnd;
+	private JSONArray ids;
 	public Integer getId()
 	{
 		return id;
@@ -54,11 +54,11 @@ public class ProductListInfo
 	}
 	public String getTexture()
 	{
-		return Texture;
+		return texture;
 	}
 	public void setTexture(String texture)
 	{
-		Texture = texture;
+		this.texture = texture;
 	}
 	public String getThickness()
 	{
@@ -68,46 +68,90 @@ public class ProductListInfo
 	{
 		this.thickness = thickness;
 	}
-	public String getUnitPrice()
+	public Integer getUnitPrice()
 	{
 		return unitPrice;
 	}
-	public void setUnitPrice(String unitPrice)
+	public void setUnitPrice(Integer unitPrice)
 	{
 		this.unitPrice = unitPrice;
 	}
-	public String getMemberPrice()
+	public Integer getMemberPrice()
 	{
 		return memberPrice;
 	}
-	public void setMemberPrice(String memberPrice)
+	public void setMemberPrice(Integer memberPrice)
 	{
 		this.memberPrice = memberPrice;
 	}
-	public String getWholesalePrice()
+	public Integer getWholesalePrice()
 	{
-		return WholesalePrice;
+		return wholesalePrice;
 	}
-	public void setWholesalePrice(String wholesalePrice)
+	public void setWholesalePrice(Integer wholesalePrice)
 	{
-		WholesalePrice = wholesalePrice;
+		this.wholesalePrice = wholesalePrice;
+	}
+	
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
+	}
+	public String getRemarks()
+	{
+		return remarks;
+	}
+	public void setRemarks(String remarks)
+	{
+		this.remarks = remarks;
+	}
+	public String getAddTime()
+	{
+		return addTime;
+	}
+	public void setAddTime(String addTime)
+	{
+		this.addTime = addTime;
+	}
+	public String getOperator()
+	{
+		return operator;
+	}
+	public void setOperator(String operator)
+	{
+		this.operator = operator;
 	}
 	public ProductListInfo()
 	{
 		super();
 	}
-	public ProductListInfo(String productName, String specification, String color, String texture, String thickness,
-			String unitPrice, String memberPrice, String wholesalePrice)
+	public String getdStart()
 	{
-		super();
-		this.productName = productName;
-		this.specification = specification;
-		this.color = color;
-		Texture = texture;
-		this.thickness = thickness;
-		this.unitPrice = unitPrice;
-		this.memberPrice = memberPrice;
-		WholesalePrice = wholesalePrice;
+		return dStart;
+	}
+	public void setdStart(String dStart)
+	{
+		this.dStart = dStart;
+	}
+	public String getdEnd()
+	{
+		return dEnd;
+	}
+	public void setdEnd(String dEnd)
+	{
+		this.dEnd = dEnd;
+	}
+	public JSONArray getIds()
+	{
+		return ids;
+	}
+	public void setIds(JSONArray ids)
+	{
+		this.ids = ids;
 	}
 	
 }

@@ -1,10 +1,14 @@
 package com.lk.db;
+
+import org.json.JSONArray;
+
 //配件公开表
 public class FittingPublic
 {
 	private Integer id;
 	private String fittingName;
 	private String fittingImgUrl;
+	private JSONArray ids;
 	public FittingPublic()
 	{
 		super();
@@ -34,6 +38,15 @@ public class FittingPublic
 	public void setFittingName(String fittingName)
 	{
 		this.fittingName = fittingName;
+	}
+	
+	public JSONArray getIds()
+	{
+		return ids;
+	}
+	public void setIds(JSONArray ids)
+	{
+		this.ids = ids;
 	}
 	public String getFittingImgUrl()
 	{

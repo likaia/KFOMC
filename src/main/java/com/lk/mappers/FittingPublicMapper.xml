@@ -11,12 +11,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="addTime" column="addTime" />
 		<result property="addAPerson" column="addAPerson" />
 	</resultMap>
+	<!-- 分页查询:查询表内所有数据 -->
+	<select id="findexpenditurePage" resultMap="FittingPublicResult"
+		parameterType="FittingPublic">
+		SELECT
+		id,
+		fittingName,
+		addTime,
+		addAPerson
+		FROM t_fitting_public
+	</select>
 	<!-- 查询表内所有产品名称/图片地址 -->
 	<select id="findFitting" resultMap="FittingPublicResult"
 		parameterType="FittingPublic">
 		SELECT
 		id,fittingName,fittingImgUrl
 		FROM t_fitting_public
+	</select>
+	<!-- 按条件查询 -->
+	<select id="conditionalQuery" resultMap="FittingPublicResult"
+		parameterType="FittingPublic">
+		SELECT
+		id,
+		fittingName,
+		addTime,
+		addAPerson
+		FROM t_fitting_public
+		<where>
+			<if test="fittingName != null">
+				fittingName = #{fittingName}
+			</if>
+		</where>
 	</select>
 	<!-- 根据id查询配件图片 -->
 	<select id="queryIdUrl" resultMap="FittingPublicResult"
@@ -33,8 +58,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 批量删除 -->
 	<delete id="del" parameterType="FittingPublic">
 		delete from t_fitting_public where (id) in
-		<foreach item="idItem" collection="ids" open="("
-			separator="," close=")">
+		<foreach item="idItem" collection="ids" open="(" separator=","
+			close=")">
 			#{idItem}
 		</foreach>
 	</delete>

@@ -9,15 +9,206 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="productName" column="productName" />
 		<result property="specification" column="specification" />
 		<result property="color" column="color" />
-		<result property="Texture" column="Texture" />
+		<result property="texture" column="texture" />
 		<result property="thickness" column="thickness" />
 		<result property="unitPrice" column="unitPrice" />
 		<result property="memberPrice" column="memberPrice" />
-		<result property="WholesalePrice" column="WholesalePrice" />
+		<result property="wholesalePrice" column="wholesalePrice" />
+		<result property="remarks" column="remarks" />
+		<result property="addTime" column="addTime" />
+		<result property="operator" column="operator" />
 	</resultMap>
-	<!-- 自定义查询表内数据 -->
+	<!-- 自定义字段查询 -->
 	<select id="customQuery" resultMap="ProductListInfoResult">
-		SELECT id,productName,unitPrice
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
 		FROM t_product_name_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
 	</select>
+	<!-- 分页查询 -->
+	<select id="findexpenditurePage" resultMap="ProductListInfoResult"
+		parameterType="ProductListInfo">
+		SELECT
+		id,
+		productName,
+		specification,
+		color,
+		texture,
+		thickness,
+		unitPrice,
+		memberPrice,
+		wholesalePrice,
+		remarks,
+		addTime,
+		operator
+		FROM t_product_name_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="ProductListInfoResult"
+		parameterType="ProductListInfo">
+		SELECT
+		id,
+		productName,
+		specification,
+		color,
+		texture,
+		thickness,
+		unitPrice,
+		memberPrice,
+		wholesalePrice,
+		remarks,
+		addTime,
+		operator
+		FROM t_product_name_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="productName != null">
+				AND productName like #{productName}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND joinTime <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND joinTime <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="ProductListInfo">
+		delete from t_product_name_Info where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="ProductListInfo">
+		insert into t_product_name_Info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productName != null">
+				productName,
+			</if>
+			<if test="specification != null">
+				specification,
+			</if>
+			<if test="color != null">
+				color,
+			</if>
+			<if test="texture != null">
+				texture,
+			</if>
+			<if test="thickness != null">
+				thickness,
+			</if>
+			<if test="unitPrice != null">
+				unitPrice,
+			</if>
+			<if test=" memberPrice != null">
+				memberPrice,
+			</if>
+			<if test=" wholesalePrice != null">
+				wholesalePrice,
+			</if>
+			<if test=" remarks != null">
+				remarks,
+			</if>
+			<if test="addTime != null">
+				addTime,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productName != null">
+				#{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="specification != null">
+				#{specification,jdbcType=VARCHAR},
+			</if>
+			<if test="color != null">
+				#{color,jdbcType=VARCHAR},
+			</if>
+			<if test="texture != null">
+				#{texture,jdbcType=VARCHAR},
+			</if>
+			<if test="thickness != null">
+				#{thickness,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null">
+				#{unitPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="memberPrice != null">
+				#{memberPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="wholesalePrice != null">
+				#{wholesalePrice,jdbcType=VARCHAR},
+			</if>
+			<if test=" remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改表内信息 -->
+	<update id="update" parameterType="ProductListInfo">
+		update t_product_name_Info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="productName != null">
+				productName = #{productName},
+			</if>
+			<if test="specification != null">
+				specification = #{specification},
+			</if>
+			<if test="color != null">
+				color = #{color},
+			</if>
+			<if test="texture != null">
+				texture = #{texture},
+			</if>
+			<if test="thickness != null">
+				thickness = #{thickness},
+			</if>
+			<if test=" unitPrice != null">
+				unitPrice = #{unitPrice},
+			</if>
+			<if test=" memberPrice != null">
+				memberPrice =#{memberPrice},
+			</if>
+			<if test=" wholesalePrice != null">
+				wholesalePrice = #{wholesalePrice},
+			</if>
+			<if test=" remarks != null">
+				remarks = #{remarks},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
 </mapper> 

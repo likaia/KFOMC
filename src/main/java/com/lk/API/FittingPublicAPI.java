@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lk.Utils.UUIDUtil;
 import com.lk.db.FittingPublic;
 import com.lk.dbutil.SqlSessionFactoryUtil;
@@ -29,14 +31,44 @@ public class FittingPublicAPI extends AfRestfulApi
 		/* 回传给前端的数据 */
 		int errorCode = 0;
 		int code = 0;
+		long count = 0;
 		JSONArray result = new JSONArray();
 		String msg = "ok";
 		/* 安卓端返回数据 */
 		String androidData = "";
+		// 获取当前服务器时间
+		String serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+		/* 定义分页需要的字段 */
+		int page = 0;
+		int limit = 0;
 		if (jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator"); // --->取出操作人
-			// 查询接口
+			/* 分页查询 */
+			if (jsReq.has("page") && jsReq.has("limit"))
+			{
+				page = jsReq.getInt("page");
+				limit = jsReq.getInt("limit");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				FittingPublicMapper fittingPublicMapper = sqlSession.getMapper(FittingPublicMapper.class);
+				// 使用pageHelper插件进行分页查询
+				PageHelper.startPage(page, limit); // 设置分页
+				FittingPublic row = new FittingPublic();
+				row.setAddAPerson(operator);
+				List<FittingPublic> resultList = fittingPublicMapper.findexpenditurePage(row);
+				// 获取表内所有的数据总记录数 :使用PageInfo方法
+				PageInfo<FittingPublic> pageInfo = new PageInfo<FittingPublic>(resultList);
+				// 获取总记录数
+				count = pageInfo.getTotal();
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
+			// 查询所有规格型号接口
 			if (jsReq.has("queryAll"))
 			{
 				// 打开连接
@@ -48,19 +80,55 @@ public class FittingPublicAPI extends AfRestfulApi
 				result = new JSONArray(resultList);
 				// 关闭连接
 				sqlSession.close();
-			} else
+			}
+			// 条件查询
+			if (jsReq.has("conditionalQuery"))
 			{
-				code = 1;
-				errorCode = 1;
-				msg = "字段丢失!请检查!";
+				String fittingName = jsReq.getString("fittingName");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				FittingPublicMapper fittingPublicMapper = sqlSession.getMapper(FittingPublicMapper.class);
+				FittingPublic row = new FittingPublic();
+				row.setFittingName(fittingName);
+				List<FittingPublic> resultList = fittingPublicMapper.conditionalQuery(row);
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
+			// 删除接口
+			if (jsReq.has("delFitting"))
+			{
+				JSONArray ids = jsReq.getJSONArray("ids");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				FittingPublicMapper fittingPublicMapper = sqlSession.getMapper(FittingPublicMapper.class);
+				FittingPublic row = new FittingPublic();
+				row.setIds(ids);
+				int processResult = fittingPublicMapper.del(row);
+				sqlSession.commit();
+				if (processResult > 0)
+				{
+					msg = "删除成功!";
+				} else
+				{
+					code = 1;
+					errorCode = 1;
+					msg = "删除失败,数据库错误";
+					logger.error("客户信息管理,删除接口出错!");
+				}
+				sqlSession.close();
 			}
 			// 新增接口
 			if (jsReq.has("addFitting"))
 			{
 				String fittingName = jsReq.getString("fittingName");
 				String fittingImgUrl = jsReq.getString("fittingImgUrl");
-				String addTime = jsReq.getString("addTime");
-				String addAPerson = jsReq.getString("addAPerson");
+				String addTime = serverTime;
+				String addAPerson = operator;
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
@@ -84,16 +152,16 @@ public class FittingPublicAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("进货管理接口异常:没有操作人");
+			logger.error("基础信息[配件信息]接口异常:没有操作人");
 		}
 		// 产生订单号:UUID（16位）
 		String orderNumber = UUIDUtil.getOrderIdByUUId();
-		// 获取当前服务器时间
-		String serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();
 		jsReply.put("errorCode", errorCode);
 		jsReply.put("code", code);
+		jsReply.put("count", count);
 		jsReply.put("msg", msg);
 		jsReply.put("data", result);
 		jsReply.put("orderNumber", orderNumber);

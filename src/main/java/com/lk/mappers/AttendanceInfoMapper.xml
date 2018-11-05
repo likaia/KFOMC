@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.xxx">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="AttendanceInfo" id="AttendanceInfoResult">
+		<id property="id" column="id" />
+		<result property="nameOfWorker" column="nameOfWorker" />
+		<result property="jobNumber" column="jobNumber" />
+		<result property="division" column="division" />
+		<result property="daysToAttend" column="daysToAttend" />
+		<result property="actualAttendanceDays" column="actualAttendanceDays" />
+		<result property="askForLeaveDays" column="askForLeaveDays" />
+		<result property="leaveDays" column="leaveDays" />
+		<result property="sickLeaveDays" column="sickLeaveDays" />
+		<result property="remark" column="remark" />
+		<result property="addTime" column="addTime" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="AttendanceInfoResult"
+		parameterType="AttendanceInfo">
+		SELECT
+		id,
+		nameOfWorker,
+		jobNumber,
+		division,
+		daysToAttend,
+		actualAttendanceDays,
+		askForLeaveDays,
+		leaveDays,
+		sickLeaveDays,
+		remark,
+		addTime,
+		operator
+		FROM t_attendance_info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="AttendanceInfoResult"
+		parameterType="AttendanceInfo">
+		SELECT
+		id,
+		nameOfWorker,
+		jobNumber,
+		division,
+		daysToAttend,
+		actualAttendanceDays,
+		askForLeaveDays,
+		leaveDays,
+		sickLeaveDays,
+		remark,
+		addTime,
+		operator
+		FROM t_attendance_info
+		<where>
+			<if test="division != null">
+				division = #{division}
+			</if>
+			<if test="nameOfWorker != null">
+				AND nameOfWorker like #{nameOfWorker}
+			</if>
+			<if test="jobNumber != null">
+				AND jobNumber like #{jobNumber}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="AttendanceInfo">
+		delete from t_attendance_info where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="AttendanceInfo">
+		insert into t_attendance_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="nameOfWorker != null">
+				nameOfWorker,
+			</if>
+			<if test="jobNumber != null">
+				jobNumber,
+			</if>
+			<if test="division != null">
+				division,
+			</if>
+			<if test="daysToAttend != null">
+				daysToAttend,
+			</if>
+			<if test="actualAttendanceDays != null">
+				actualAttendanceDays,
+			</if>
+			<if test="askForLeaveDays != null">
+				askForLeaveDays,
+			</if>
+			<if test=" leaveDays != null">
+				leaveDays,
+			</if>
+			<if test=" sickLeaveDays != null">
+				sickLeaveDays,
+			</if>
+			<if test=" remark != null">
+				remark,
+			</if>
+			<if test="addTime != null">
+				addTime,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="nameOfWorker != null">
+				#{nameOfWorker,jdbcType=VARCHAR},
+			</if>
+			<if test="jobNumber != null">
+				#{jobNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="division != null">
+				#{division,jdbcType=VARCHAR},
+			</if>
+			<if test="daysToAttend != null">
+				#{daysToAttend,jdbcType=INT},
+			</if>
+			<if test="actualAttendanceDays != null">
+				#{actualAttendanceDays,jdbcType=INT},
+			</if>
+			<if test="askForLeaveDays != null">
+				#{askForLeaveDays,jdbcType=INT},
+			</if>
+			<if test="leaveDays != null">
+				#{leaveDays,jdbcType=INT},
+			</if>
+			<if test="sickLeaveDays != null">
+				#{sickLeaveDays,jdbcType=INT},
+			</if>
+			<if test=" remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改信息 -->
+	<update id="update" parameterType="AttendanceInfo">
+		update t_attendance_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="nameOfWorker != null">
+				nameOfWorker = #{nameOfWorker},
+			</if>
+			<if test="jobNumber != null">
+				jobNumber = #{jobNumber},
+			</if>
+			<if test="division != null">
+				division = #{division},
+			</if>
+			<if test="daysToAttend != null">
+				daysToAttend = #{daysToAttend},
+			</if>
+			<if test="actualAttendanceDays != null">
+				actualAttendanceDays = #{actualAttendanceDays},
+			</if>
+			<if test=" askForLeaveDays != null">
+				askForLeaveDays = #{askForLeaveDays},
+			</if>
+			<if test=" leaveDays != null">
+				leaveDays =#{leaveDays},
+			</if>
+			<if test=" sickLeaveDays != null">
+				sickLeaveDays = #{sickLeaveDays},
+			</if>
+			<if test=" remark != null">
+				remark = #{remark},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
+</mapper>
