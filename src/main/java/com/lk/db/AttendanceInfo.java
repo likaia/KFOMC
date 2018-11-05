@@ -16,11 +16,11 @@ public class AttendanceInfo
 	private String nameOfWorker;
 	private String jobNumber;
 	private String division;
-	private Integer daysToAttend;
-	private Integer actualAttendanceDays;
-	private Integer askForLeaveDays;
-	private Integer leaveDays;
-	private Integer sickLeaveDays;
+	private Double daysToAttend;
+	private Double actualAttendanceDays;
+	private Double askForLeaveDays;
+	private Double leaveDays;
+	private Double sickLeaveDays;
 	private String remark; 
 	private String addTime;
 	private String operator;
@@ -57,43 +57,45 @@ public class AttendanceInfo
 	{
 		this.division = division;
 	}
-	public Integer getDaysToAttend()
+	
+	
+	public Double getDaysToAttend()
 	{
 		return daysToAttend;
 	}
-	public void setDaysToAttend(Integer daysToAttend)
+	public void setDaysToAttend(Double daysToAttend)
 	{
 		this.daysToAttend = daysToAttend;
 	}
-	public Integer getActualAttendanceDays()
+	public Double getActualAttendanceDays()
 	{
 		return actualAttendanceDays;
 	}
-	public void setActualAttendanceDays(Integer actualAttendanceDays)
+	public void setActualAttendanceDays(Double actualAttendanceDays)
 	{
 		this.actualAttendanceDays = actualAttendanceDays;
 	}
-	public Integer getAskForLeaveDays()
+	public Double getAskForLeaveDays()
 	{
 		return askForLeaveDays;
 	}
-	public void setAskForLeaveDays(Integer askForLeaveDays)
+	public void setAskForLeaveDays(Double askForLeaveDays)
 	{
 		this.askForLeaveDays = askForLeaveDays;
 	}
-	public Integer getLeaveDays()
+	public Double getLeaveDays()
 	{
 		return leaveDays;
 	}
-	public void setLeaveDays(Integer leaveDays)
+	public void setLeaveDays(Double leaveDays)
 	{
 		this.leaveDays = leaveDays;
 	}
-	public Integer getSickLeaveDays()
+	public Double getSickLeaveDays()
 	{
 		return sickLeaveDays;
 	}
-	public void setSickLeaveDays(Integer sickLeaveDays)
+	public void setSickLeaveDays(Double sickLeaveDays)
 	{
 		this.sickLeaveDays = sickLeaveDays;
 	}
@@ -134,9 +136,9 @@ public class AttendanceInfo
 	{
 		super();
 	}
-	public AttendanceInfo(String nameOfWorker, String jobNumber, String division, Integer daysToAttend,
-			Integer actualAttendanceDays, Integer askForLeaveDays, Integer leaveDays, Integer sickLeaveDays,
-			String remark, String addTime, String operator)
+	public AttendanceInfo(String nameOfWorker, String jobNumber, String division, Double daysToAttend,
+			Double actualAttendanceDays, Double askForLeaveDays, Double leaveDays, Double sickLeaveDays, String remark,
+			String addTime, String operator)
 	{
 		super();
 		this.nameOfWorker = nameOfWorker;
@@ -151,5 +153,6 @@ public class AttendanceInfo
 		this.addTime = addTime;
 		this.operator = operator;
 	}
+	
 	
 }

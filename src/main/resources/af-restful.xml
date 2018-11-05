@@ -28,7 +28,7 @@
 	<!-- 员工管理[考勤管理]接口 -->
 	<api name="AttendanceInfo"  class="com.lk.API.AttendanceInfoAPI" />
 	<!-- 员工管理[工资发放]接口 -->
-	
+	<api name="SalaryInfoAPI"  class="com.lk.API.SalaryInfoAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
 </restful>

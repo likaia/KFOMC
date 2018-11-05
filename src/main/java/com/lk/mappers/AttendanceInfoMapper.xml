@@ -130,19 +130,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{division,jdbcType=VARCHAR},
 			</if>
 			<if test="daysToAttend != null">
-				#{daysToAttend,jdbcType=INT},
+				#{daysToAttend,jdbcType=DOUBLE},
 			</if>
 			<if test="actualAttendanceDays != null">
-				#{actualAttendanceDays,jdbcType=INT},
+				#{actualAttendanceDays,jdbcType=DOUBLE},
 			</if>
 			<if test="askForLeaveDays != null">
-				#{askForLeaveDays,jdbcType=INT},
+				#{askForLeaveDays,jdbcType=DOUBLE},
 			</if>
 			<if test="leaveDays != null">
-				#{leaveDays,jdbcType=INT},
+				#{leaveDays,jdbcType=DOUBLE},
 			</if>
 			<if test="sickLeaveDays != null">
-				#{sickLeaveDays,jdbcType=INT},
+				#{sickLeaveDays,jdbcType=DOUBLE},
 			</if>
 			<if test=" remark != null">
 				#{remark,jdbcType=VARCHAR},
