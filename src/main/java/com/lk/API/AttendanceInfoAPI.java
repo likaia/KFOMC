@@ -26,7 +26,7 @@ import af.restful.AfRestfulApi;
 /*员工管理[考勤管理]接口*/
 public class AttendanceInfoAPI extends AfRestfulApi
 {
-	private static Logger logger = Logger.getLogger(ClientInfoAPI.class);
+	private static Logger logger = Logger.getLogger(AttendanceInfoAPI.class);
 
 	@Override
 	public String execute(String reqText) throws Exception
@@ -101,6 +101,7 @@ public class AttendanceInfoAPI extends AfRestfulApi
 				row.setDivision(division);
 				row.setNameOfWorker(nameOfWorker);
 				row.setJobNumber(jobNumber);
+				row.setOperator(operator);
 				List<AttendanceInfo> resultList = attendanceInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */
@@ -136,7 +137,7 @@ public class AttendanceInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "添加失败,数据库错误";
-					logger.error("客户信息管理接口错误,添加失败!");
+					logger.error("员工管理[考勤管理]接口错误,添加失败!");
 				}
 				sqlSession.close();
 			}
@@ -161,7 +162,7 @@ public class AttendanceInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "删除失败,数据库错误";
-					logger.error("员工管理[考勤管理] 删除接口出错!");
+					logger.error("员工管理[考勤管理]删除接口出错!");
 				}
 				sqlSession.close();
 			}
@@ -193,7 +194,7 @@ public class AttendanceInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "更新失败";
-					logger.error("客户信息:更新接口错误");
+					logger.error("员工管理[考勤管理]接口:更新错误");
 				}
 				sqlSession.close();
 			}
@@ -202,7 +203,7 @@ public class AttendanceInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("出货管理接口异常:没有操作人");
+			logger.error("员工管理[考勤管理]接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();

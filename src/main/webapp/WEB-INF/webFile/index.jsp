@@ -1155,7 +1155,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">部门</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
+                                            <select lay-search="" id="departmentSelectPanel" lay-filter="departmentSelectPanel"
                                                     name="departmentSelectPanel">
                                                 <option value="">直接选择或输入部门</option>
                                             </select>
@@ -1168,7 +1168,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">姓名</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
+                                            <select lay-search="" lay-filter="AttendanceNameSelectPanel" id="AttendanceNameSelectPanel"
                                                     name="AttendanceNameSelectPanel">
                                                 <option value="">直接选择或输入姓名</option>
                                             </select>
@@ -1181,7 +1181,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">工号</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
+                                            <select lay-search="" lay-filter="AttendanceJobNumberSelectPanel" id="AttendanceJobNumberSelectPanel"
                                                     name="AttendanceJobNumberSelectPanel">
                                                 <option value="">直接选择或手动输入工号</option>
                                             </select>
@@ -1192,7 +1192,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="layui-col-md3">
                                 <div class="item-panel layui-form">
                                     <div class="layui-form-item">
-                                        <button class="layui-btn layui-btn-normal"
+                                        <button class="layui-btn layui-btn-normal" @click="QueryAttendanceFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
                                     </div>
@@ -1225,10 +1225,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="layui-col-md3">
                                 <div class="item-panel layui-form">
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">部门</label>
+                                        <label class="layui-form-label">职位/岗位</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
-                                                    name="departmentSelectPanel">
+                                            <select lay-search="" lay-filter="SalaryInfoDivision"
+                                                    name="SalaryInfoDivision" id="SalaryInfoDivision">
                                                 <option value="">直接选择或输入部门</option>
                                             </select>
                                         </div>
@@ -1240,8 +1240,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">姓名</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
-                                                    name="AttendanceNameSelectPanel">
+                                            <select lay-search="" lay-filter="SalaryInfoName"
+                                                    name="SalaryInfoName" id="SalaryInfoName">
                                                 <option value="">直接选择或输入姓名</option>
                                             </select>
                                         </div>
@@ -1253,8 +1253,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">工号</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
-                                                    name="AttendanceJobNumberSelectPanel">
+                                            <select lay-search="" lay-filter="SalaryInfoJobNumber"
+                                                    name="SalaryInfoJobNumber" id="SalaryInfoJobNumber">
                                                 <option value="">直接选择或手动输入工号</option>
                                             </select>
                                         </div>
@@ -1264,7 +1264,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="layui-col-md3">
                                 <div class="item-panel layui-form">
                                     <div class="layui-form-item">
-                                        <button class="layui-btn layui-btn-normal"
+                                        <button class="layui-btn layui-btn-normal" @click="salaryQueryFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
                                     </div>
@@ -1299,8 +1299,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">部门</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
-                                                    name="departmentSelectPanel">
+                                            <select lay-search="" lay-filter="EmployeeDivision"
+                                                    name="EmployeeDivision" id="EmployeeDivision">
                                                 <option value="">直接选择或输入部门</option>
                                             </select>
                                         </div>
@@ -1312,8 +1312,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">姓名</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
-                                                    name="AttendanceNameSelectPanel">
+                                            <select lay-search="" lay-filter="EmployeeName"
+                                                    name="EmployeeName" id="EmployeeName">
                                                 <option value="">直接选择或输入姓名</option>
                                             </select>
                                         </div>
@@ -1325,8 +1325,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">工号</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter=""
-                                                    name="AttendanceJobNumberSelectPanel">
+                                            <select lay-search="" lay-filter="EmployeejobNumber"
+                                                    name="EmployeejobNumber" id="EmployeejobNumber">
                                                 <option value="">直接选择或手动输入工号</option>
                                             </select>
                                         </div>
@@ -1336,7 +1336,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="layui-col-md3">
                                 <div class="item-panel layui-form">
                                     <div class="layui-form-item">
-                                        <button class="layui-btn layui-btn-normal"
+                                        <button class="layui-btn layui-btn-normal" @click="employeeQueryFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
                                     </div>

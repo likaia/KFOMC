@@ -89,7 +89,7 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				{
 					nameOfWorker = null;
 				}
-				if (jobNumber.equals("jobNumber"))
+				if (jobNumber.equals(""))
 				{
 					jobNumber = null;
 				}
@@ -101,6 +101,7 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				row.setPosition(department);
 				row.setNameOfWorker(nameOfWorker);
 				row.setJobNumber(jobNumber);
+				row.setOperator(operator);
 				List<EmployeeInfo> resultList = employeeInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */

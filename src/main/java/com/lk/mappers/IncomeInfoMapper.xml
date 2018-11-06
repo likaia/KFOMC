@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.IncomeInfoMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="IncomeInfo" id="IncomeInfoResult">
+		<id property="id" column="id" />
+		<result property="orderNumber" column="orderNumber" />
+		<result property="incomeDate" column="incomeDate" />
+		<result property="clientName" column="clientName" />
+		<result property="paymentMethod" column="paymentMethod" />
+		<result property="paymentAmount" column="paymentAmount" />
+		<result property="payee" column="payee" />
+		<result property="remarks" column="remarks" />
+		<result property="operator" column="operator" />
+		<result property="addTime" column="addTime" />
+	</resultMap>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="IncomeInfoResult"
+		parameterType="IncomeInfo">
+		SELECT
+		id,
+		orderNumber,
+		incomeDate,
+		clientName,
+		paymentMethod,
+		paymentAmount,
+		payee,
+		remarks,
+		operator,
+		addTime
+		FROM t_incomeInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="IncomeInfoResult"
+		parameterType="IncomeInfo">
+		SELECT
+		id,
+		orderNumber,
+		incomeDate,
+		clientName,
+		paymentMethod,
+		paymentAmount,
+		payee,
+		remarks,
+		operator,
+		addTime
+		FROM t_incomeInfo
+		<where>
+			<if test="department != null">
+				department = #{department}
+			</if>
+			<if test="nameOfWorker != null">
+				AND nameOfWorker like #{nameOfWorker}
+			</if>
+			<if test="jobNumber != null">
+				AND jobNumber like #{jobNumber}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="IncomeInfo">
+		delete from t_incomeInfo where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="IncomeInfo">
+		insert into t_incomeInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNumber != null">
+				orderNumber,
+			</if>
+			<if test="incomeDate != null">
+				incomeDate,
+			</if>
+			<if test="clientName != null">
+				clientName,
+			</if>
+			<if test="paymentMethod != null">
+				paymentMethod,
+			</if>
+			<if test="paymentAmount != null">
+				paymentAmount,
+			</if>
+			<if test="payee != null">
+				payee,
+			</if>
+			<if test=" remarks != null">
+				remarks,
+			</if>
+			<if test=" operator != null">
+				operator,
+			</if>
+			<if test=" addTime != null">
+				addTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNumber != null">
+				#{orderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="incomeDate != null">
+				#{incomeDate,jdbcType=VARCHAR},
+			</if>
+			<if test="clientName != null">
+				#{clientName,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentMethod != null">
+				#{paymentMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentAmount != null">
+				#{paymentAmount,jdbcType=DOUBLE},
+			</if>
+			<if test="payee != null">
+				#{payee,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test=" operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test=" addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改信息 -->
+	<update id="update" parameterType="IncomeInfo">
+		update t_incomeInfo
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="orderNumber != null">
+				orderNumber = #{orderNumber},
+			</if>
+			<if test="incomeDate != null">
+				incomeDate = #{incomeDate},
+			</if>
+			<if test="clientName != null">
+				clientName = #{clientName},
+			</if>
+			<if test="paymentMethod != null">
+				paymentMethod = #{paymentMethod},
+			</if>
+			<if test="paymentAmount != null">
+				paymentAmount = #{paymentAmount},
+			</if>
+			<if test=" payee != null">
+				payee = #{payee},
+			</if>
+			<if test=" remarks != null">
+				remarks =#{remarks},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
+</mapper>

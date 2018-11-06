@@ -234,7 +234,19 @@ $(function () {
             editOriginalFilmRemarksVals:"",
             profuctId:"",
             OriginalInfoCommodityNameSelectVal:"",
-            productModelVal:""
+            productModelVal:"",
+            /*员工管理[考勤管理]数据*/
+            AttendanceDivision:"", //--->部门
+            AttendanceNameOfWorker:"", //--->姓名
+            AttendanceJobNumber:"",//---->工号
+            /*员工管理[工资发放]数据*/
+            SalaryInfoDivisionVal:"",//---->职位/岗位
+            SalaryInfoNameVal:"",  //--->姓名
+            SalaryInfoJobNumberVal:"", //--->工号
+            /*员工管理[员工信息]数据*/
+            EmployeeDivisionVal:"",
+            EmployeeNameVal:"",
+            EmployeejobNumberVal:""
         },
         methods: {
             materialFun: function () {
@@ -1983,12 +1995,12 @@ $(function () {
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
             },
-            /*考勤管理点击事件*/
+            /*员工管理[考勤管理]点击事件*/
             AttendanceInfoFun: function () {
                 this.AttendanceInfoStatus = "block";
                 setTimeout(function () {
                     /*渲染订单月结管理数据表格*/
-                    MAIN.AttendanceInfoList();
+                    MAIN.AttendanceInfoList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理  支出管理 客户对账 工资发放 隐藏*/
                 this.stockStatus = "none";
@@ -2008,12 +2020,37 @@ $(function () {
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
             },
-            /*工资发放点击事件*/
+            /*员工管理[考勤管理]查询事件*/
+            QueryAttendanceFun:function(){
+                if(Af.nullstr(this.AttendanceDivision))
+                {
+                    MAIN.ErroAlert("不能查询空数据,请选择一个条件!");
+                    return;
+                }
+                var req = {};
+                //获取查询条件
+                req.operator = $("#nickNameTextPanel").html();
+                req.conditionalQuery = "conditionalQuery";
+                req.division = this.originalInformationProductName;
+                req.nameOfWorker = this.AttendanceNameOfWorker;
+                req.jobNumber = this.AttendanceJobNumber;
+                Af.rest("AttendanceInfo.api",req,function(ans){
+                    if(ans.errorCode!=0)
+                    {
+                        layer.msg(ans.msg);
+                    }
+                    else
+                    {
+                        MAIN.AttendanceInfoDataList(ans.data);
+                    }
+                });
+            },
+            /*员工管理[工资发放]点击事件*/
             salaryGivingFun: function () {
                 this.salaryGivingStatus = "block";
                 setTimeout(function () {
                     /*渲染订单月结管理数据表格*/
-                    MAIN.salaryGivingList();
+                    MAIN.salaryGivingList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理 支出管理 客户对账 考勤管理  员工信息 隐藏*/
                 this.stockStatus = "none";
@@ -2033,11 +2070,36 @@ $(function () {
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
             },
-            /*员工信息点击事件*/
+            /*员工管理[工资发放]查询事件*/
+            salaryQueryFun:function(){
+                if(Af.nullstr(this.SalaryInfoDivisionVal))
+                {
+                    MAIN.ErroAlert("不能查询空数据,请选择一个条件!");
+                    return;
+                }
+                var req = {};
+                //获取查询条件
+                req.operator = $("#nickNameTextPanel").html();
+                req.conditionalQuery = "conditionalQuery";
+                req.position = this.SalaryInfoDivisionVal;
+                req.nameOfWorker = this.SalaryInfoNameVal;
+                req.jobNumber = this.SalaryInfoJobNumberVal;
+                Af.rest("AttendanceInfo.api",req,function(ans){
+                    if(ans.errorCode!=0)
+                    {
+                        layer.msg(ans.msg);
+                    }
+                    else
+                    {
+                        MAIN.salaryGivingDataList(ans.data);
+                    }
+                });
+            },
+            /*员工管理[员工信息]点击事件*/
             employeeInfoFun: function () {
                 this.employeeInfoStatus = "block";
                 setTimeout(function () {
-                    MAIN.employeeInfoList();
+                    MAIN.employeeInfoList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理 支出管理 客户对账 考勤管理 工资发放 原片信息 隐藏*/
                 this.stockStatus = "none";
@@ -2056,6 +2118,31 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+            },
+            /*员工管理[员工信息]查询点击事件*/
+            employeeQueryFun:function(){
+                if(Af.nullstr(this.EmployeeDivisionVal))
+                {
+                    MAIN.ErroAlert("不能查询空数据,请选择一个条件!");
+                    return;
+                }
+                var req = {};
+                //获取查询条件
+                req.operator = $("#nickNameTextPanel").html();
+                req.conditionalQuery = "conditionalQuery";
+                req.department = this.EmployeeDivisionVal;
+                req.nameOfWorker = this.EmployeeNameVal;
+                req.jobNumber = this.EmployeejobNumberVal;
+                Af.rest("EmployeeInfo.api",req,function(ans){
+                    if(ans.errorCode!=0)
+                    {
+                        layer.msg(ans.msg);
+                    }
+                    else
+                    {
+                        MAIN.employeeInfoDataList(ans.data);
+                    }
+                });
             },
             /*基础信息[原片信息]点击事件*/
             OriginalInfoFun: function () {
@@ -2641,7 +2728,7 @@ $(function () {
             else {
                 MAIN.ErroAlert("请选择订单号");
             }
-        });40
+        });
         /*监听出货管理[新增发货]订单号客户名称选择*/
         form.on('select(shippingOrderNumberSelectPanel)', function (data) {
             var thisSelectVal = data.value;
@@ -3229,6 +3316,36 @@ $(function () {
         /*监听基础信息:[配件信息]产品名称选择*/
         form.on('select(OriginalInfoCommodityNameSelectPanel)', function (data) {
             vm.OriginalInfoCommodityNameSelectVal = data.value;
+        });
+        /*监听员工管理[考勤管理] (部门 姓名 工号)选择*/
+        form.on('select(departmentSelectPanel)', function (data) {
+            vm.AttendanceDivision = data.value;
+        });
+        form.on('select(AttendanceNameSelectPanel)', function (data) {
+            vm.AttendanceNameOfWorker = data.value;
+        });
+        form.on('select(AttendanceJobNumberSelectPanel)', function (data) {
+            vm.AttendanceJobNumber = data.value;
+        });
+        /*监听员工管理[工资发放](职位/姓名/工号)*/
+        form.on('select(SalaryInfoDivision)', function (data) {
+            vm.SalaryInfoDivisionVal = data.value;
+        });
+        form.on('select(SalaryInfoName)', function (data) {
+            vm.SalaryInfoNameVal = data.value;
+        });
+        form.on('select(SalaryInfoJobNumber)', function (data) {
+            vm.SalaryInfoJobNumberVal = data.value;
+        });
+        /*监听 员工管理[员工信息](部门,姓名,工号)*/
+        form.on('select(EmployeeDivision)', function (data) {
+            vm.EmployeeDivisionVal = data.value;
+        });
+        form.on('select(EmployeeName)', function (data) {
+            vm.EmployeeNameVal = data.value;
+        });
+        form.on('select(EmployeejobNumber)', function (data) {
+            vm.EmployeejobNumberVal = data.value;
         });
         /*订单信息数据表格(作为传值调用)*/
         MAIN.orderInfoCustomizeList = function (resultData) {
@@ -5126,18 +5243,17 @@ $(function () {
                 ]
             });
         };
-        /*员工管理:考勤管理 数据表格*/
-        MAIN.AttendanceInfoList = function () {
+        /*员工管理[考勤管理] 数据表格*/
+        MAIN.AttendanceInfoList = function (userName) {
             table.render({
-                url: URL + "/AttendanceInfoList",
-                // data:testData, //请求地址
+                url: "AttendanceInfo.api",
                 method: 'POST', //方式
                 elem: '#AttendanceInfoList',
                 page: true,
                 limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
                 },
                 cols: [
                     [
@@ -5147,67 +5263,139 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
-                            title: '姓名',
+                            field: 'nameOfWorker',
+                            title: '员工姓名',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'jobNumber',
                             title: '工号',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
+                            field: 'division',
                             title: '部门',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'daysToAttend',
                             title: '应出勤天数',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'actualAttendanceDays',
                             title: '实际出勤天数',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'askForLeaveDays',
                             title: '请假天数(合计)',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'leaveDays',
                             title: '事假天数',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'sickLeaveDays',
                             title: '病假天数',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'remark',
                             title: '备注',
                             align: "center"
                         }
                     ]
-                ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项 渲染(部门,姓名,工号)
+                    $("#departmentSelectPanel option:gt(0)").remove();
+                    $("#AttendanceNameSelectPanel option:gt(0)").remove();
+                    $("#AttendanceJobNumberSelectPanel option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    departmentSelectFun();
+                    AttendanceNameSelectFun();
+                    AttendanceJobNumberSelectFun();
+                    /*渲染部门选择框*/
+                    function departmentSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].division;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "departmentSelectPanel");
+                    }
+                    /*渲染姓名*/
+                    function AttendanceNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].nameOfWorker;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "AttendanceNameSelectPanel");
+                    }
+                    /*渲染工号*/
+                    function AttendanceJobNumberSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].jobNumber;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "AttendanceJobNumberSelectPanel");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
             });
         };
-        /*员工管理：工资发放 数据表格*/
-        MAIN.salaryGivingList = function () {
+        /*员工管理[考勤管理] 数据表格(传值调用)*/
+        MAIN.AttendanceInfoDataList = function(resultData){
             table.render({
-                url: URL + "/salaryGivingList",
-                // data:testData, //请求地址
-                method: 'POST', //方式
-                elem: '#salaryGivingList',
+                data:resultData,
+                url: "AttendanceInfo.api",
+                elem: '#AttendanceInfoList',
                 page: true,
                 limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
-                },
                 cols: [
                     [
                         {
@@ -5216,121 +5404,550 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
-                            title: '姓名',
+                            field: 'nameOfWorker',
+                            title: '员工姓名',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'jobNumber',
                             title: '工号',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '职位/岗位',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '基本工资',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '岗位补贴',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '应发工资',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '考勤扣款',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '个人所得税',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '实发工资',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '签领时间',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '备注',
-                            align: "center"
-                        }
-                    ]
-                ]
-            });
-        };
-        /*员工管理:员工信息*/
-        MAIN.employeeInfoList = function () {
-            table.render({
-                url: URL + "/employeeInfoList",
-                // data:testData, //请求地址
-                method: 'POST', //方式
-                elem: '#employeeInfoList',
-                page: true,
-                limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
-                },
-                cols: [
-                    [
-                        {
-                            fixed: "left",
-                            type: 'checkbox',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '姓名',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '手机号',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '工号',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
+                            field: 'division',
                             title: '部门',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'daysToAttend',
+                            title: '应出勤天数',
+                            align: "center"
+                        },
+                        {
+                            field: 'actualAttendanceDays',
+                            title: '实际出勤天数',
+                            align: "center"
+                        },
+                        {
+                            field: 'askForLeaveDays',
+                            title: '请假天数(合计)',
+                            align: "center"
+                        },
+                        {
+                            field: 'leaveDays',
+                            title: '事假天数',
+                            align: "center"
+                        },
+                        {
+                            field: 'sickLeaveDays',
+                            title: '病假天数',
+                            align: "center"
+                        },
+                        {
+                            field: 'remark',
+                            title: '备注',
+                            align: "center"
+                        }
+                    ]
+                ]
+            });
+        };
+        /*员工管理[工资发放 ]数据表格*/
+        MAIN.salaryGivingList = function (userName) {
+            table.render({
+                url: "SalaryInfo.api",
+                method: 'POST', //方式
+                elem: '#salaryGivingList',
+                page: true,
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
+                },
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'nameOfWorker',
+                            title: '员工姓名',
+                            align: "center"
+                        },
+                        {
+                            field: 'jobNumber',
+                            title: '工号',
+                            align: "center"
+                        },
+                        {
+                            field: 'position',
+                            title: '职位/岗位',
+                            align: "center"
+                        },
+                        {
+                            field: 'basicWage',
+                            title: '基本工资',
+                            align: "center"
+                        },
+                        {
+                            field: 'jobSubsidy',
+                            title: '岗位补贴',
+                            align: "center"
+                        },
+                        {
+                            field: 'payable',
+                            title: '应发工资',
+                            align: "center"
+                        },
+                        {
+                            field: 'attendanceDeduction',
+                            title: '考勤扣款',
+                            align: "center"
+                        },
+                        {
+                            field: 'personalIncomeTax',
+                            title: '个人所得税',
+                            align: "center"
+                        },
+                        {
+                            field: 'realWage',
+                            title: '实发工资',
+                            align: "center"
+                        },
+                        {
+                            field: 'signingTime',
+                            title: '签领时间',
+                            align: "center"
+                        },
+                        {
+                            field: 'remarks',
+                            title: '备注',
+                            align: "center"
+                        }
+                    ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项 渲染(部门,姓名,工号)
+                    $("#SalaryInfoDivision option:gt(0)").remove();
+                    $("#SalaryInfoName option:gt(0)").remove();
+                    $("#SalaryInfoJobNumber option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    departmentSelectFun();
+                    AttendanceNameSelectFun();
+                    AttendanceJobNumberSelectFun();
+                    /*渲染职位/岗位选择框*/
+                    function departmentSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].position;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SalaryInfoDivision");
+                    }
+                    /*渲染姓名*/
+                    function AttendanceNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].nameOfWorker;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SalaryInfoName");
+                    }
+                    /*渲染工号*/
+                    function AttendanceJobNumberSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].jobNumber;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SalaryInfoJobNumber");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+        /*员工管理[工资发放] 数据表格(传值调用)*/
+        MAIN.salaryGivingDataList = function (resultData) {
+            table.render({
+                data:resultData,
+                elem: '#salaryGivingList',
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'nameOfWorker',
+                            title: '员工姓名',
+                            align: "center"
+                        },
+                        {
+                            field: 'jobNumber',
+                            title: '工号',
+                            align: "center"
+                        },
+                        {
+                            field: 'position',
+                            title: '职位/岗位',
+                            align: "center"
+                        },
+                        {
+                            field: 'basicWage',
+                            title: '基本工资',
+                            align: "center"
+                        },
+                        {
+                            field: 'jobSubsidy',
+                            title: '岗位补贴',
+                            align: "center"
+                        },
+                        {
+                            field: 'payable',
+                            title: '应发工资',
+                            align: "center"
+                        },
+                        {
+                            field: 'attendanceDeduction',
+                            title: '考勤扣款',
+                            align: "center"
+                        },
+                        {
+                            field: 'personalIncomeTax',
+                            title: '个人所得税',
+                            align: "center"
+                        },
+                        {
+                            field: 'realWage',
+                            title: '实发工资',
+                            align: "center"
+                        },
+                        {
+                            field: 'signingTime',
+                            title: '签领时间',
+                            align: "center"
+                        },
+                        {
+                            field: 'remarks',
+                            title: '备注',
+                            align: "center"
+                        }
+                    ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项 渲染(部门,姓名,工号)
+                    $("#SalaryInfoDivision option:gt(0)").remove();
+                    $("#SalaryInfoName option:gt(0)").remove();
+                    $("#SalaryInfoJobNumber option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    departmentSelectFun();
+                    AttendanceNameSelectFun();
+                    AttendanceJobNumberSelectFun();
+                    /*渲染职位/岗位选择框*/
+                    function departmentSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].position;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SalaryInfoDivision");
+                    }
+                    /*渲染姓名*/
+                    function AttendanceNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].nameOfWorker;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SalaryInfoName");
+                    }
+                    /*渲染工号*/
+                    function AttendanceJobNumberSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].jobNumber;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SalaryInfoJobNumber");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+        /*员工管理[员工信息]数据表格*/
+        MAIN.employeeInfoList = function (userName) {
+            table.render({
+                url: "EmployeeInfo.api",
+                method: 'POST', //方式
+                elem: '#employeeInfoList',
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
+                },
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'nameOfWorker',
+                            title: '员工姓名',
+                            align: "center"
+                        },
+                        {
+                            field: 'phoneNumber',
+                            title: '手机号',
+                            align: "center"
+                        },
+                        {
+                            field: 'jobNumber',
+                            title: '工号',
+                            align: "center"
+                        },
+                        {
+                            field: 'department',
+                            title: '部门',
+                            align: "center"
+                        },
+                        {
+                            field: 'position',
                             title: '职务',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'dateOfBirth',
                             title: '出生年月',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'dateOfEntry',
                             title: '入职日期',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'remarks',
+                            title: '备注',
+                            align: "center"
+                        }
+                    ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项 渲染(部门,姓名,工号)
+                    $("#EmployeeDivision option:gt(0)").remove();
+                    $("#EmployeeName option:gt(0)").remove();
+                    $("#EmployeejobNumber option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    departmentSelectFun();
+                    AttendanceNameSelectFun();
+                    AttendanceJobNumberSelectFun();
+                    /*渲染部门*/
+                    function departmentSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].department;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "EmployeeDivision");
+                    }
+                    /*渲染姓名*/
+                    function AttendanceNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].nameOfWorker;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "EmployeeName");
+                    }
+                    /*渲染工号*/
+                    function AttendanceJobNumberSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].jobNumber;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "EmployeejobNumber");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+        /*员工管理[员工信息]数据表格(传值调用)*/
+        MAIN.employeeInfoDataList = function (resultData) {
+            table.render({
+                data:resultData,
+                elem: '#employeeInfoList',
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'nameOfWorker',
+                            title: '员工姓名',
+                            align: "center"
+                        },
+                        {
+                            field: 'phoneNumber',
+                            title: '手机号',
+                            align: "center"
+                        },
+                        {
+                            field: 'jobNumber',
+                            title: '工号',
+                            align: "center"
+                        },
+                        {
+                            field: 'department',
+                            title: '部门',
+                            align: "center"
+                        },
+                        {
+                            field: 'position',
+                            title: '职务',
+                            align: "center"
+                        },
+                        {
+                            field: 'dateOfBirth',
+                            title: '出生年月',
+                            align: "center"
+                        },
+                        {
+                            field: 'dateOfEntry',
+                            title: '入职日期',
+                            align: "center"
+                        },
+                        {
+                            field: 'remarks',
                             title: '备注',
                             align: "center"
                         }

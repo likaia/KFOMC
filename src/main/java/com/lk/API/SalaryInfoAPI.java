@@ -99,6 +99,7 @@ public class SalaryInfoAPI extends AfRestfulApi
 				row.setPosition(position);
 				row.setNameOfWorker(nameOfWorker);
 				row.setJobNumber(jobNumber);
+				row.setOperator(operator);
 				List<SalaryInfo> resultList = salaryInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */

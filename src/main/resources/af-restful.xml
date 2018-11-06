@@ -12,7 +12,7 @@
 	<!-- 安卓端使用post请求下载文件 -->
 	<api name="adnroidPostExportAPI"  class="com.lk.API.AdnroidPostExportAPI" />
 	<!-- 进销存管理[进货管理]{原片采购}接口 -->
-	<api name="PurchaseInfo"  class="com.lk.API.PurchaseInfoAPI" />
+	<api name="PurchaseInfo"  class="co.m.lk.API.PurchaseInfoAPI" />
 	<!-- 进销存管理[进货管理]{配件采购} 接口-->
 	<api name="FittingInfo"  class="com.lk.API.FittingInfoAPI" />
 	<!-- 进销存管理[出货管理]接口 -->
