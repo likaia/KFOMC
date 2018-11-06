@@ -53,14 +53,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		addTime
 		FROM t_incomeInfo
 		<where>
-			<if test="department != null">
-				department = #{department}
+			<if test="clientName != null">
+				clientName = #{clientName}
 			</if>
-			<if test="nameOfWorker != null">
-				AND nameOfWorker like #{nameOfWorker}
+			<if test="dStart != null and dStart != ''">
+				AND orderDate <![CDATA[>=]]>
+				#{dStart}
 			</if>
-			<if test="jobNumber != null">
-				AND jobNumber like #{jobNumber}
+			<if test="dEnd != null and dEnd != ''">
+				AND orderDate <![CDATA[<=]]>#{dEnd}
 			</if>
 			<if test="operator != null">
 				AND operator like #{operator}

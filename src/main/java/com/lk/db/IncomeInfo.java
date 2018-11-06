@@ -1,5 +1,7 @@
 package com.lk.db;
 
+import org.json.JSONArray;
+
 /*
   * 
   *  @author  李凯
@@ -15,11 +17,14 @@ public class IncomeInfo
 	private String incomeDate;
 	private String clientName;
 	private String paymentMethod;
-	private String paymentAmount;
+	private Double paymentAmount;
 	private String payee;
 	private String remarks;
 	private String operator;
 	private String addTime;
+	private String dStart;
+	private String dEnd;
+	private JSONArray ids;
 	public Integer getId()
 	{
 		return id;
@@ -60,17 +65,35 @@ public class IncomeInfo
 	{
 		this.paymentMethod = paymentMethod;
 	}
-	public String getPaymentAmount()
+	
+	public Double getPaymentAmount()
 	{
 		return paymentAmount;
 	}
-	public void setPaymentAmount(String paymentAmount)
+	public void setPaymentAmount(Double paymentAmount)
 	{
 		this.paymentAmount = paymentAmount;
 	}
 	public String getPayee()
 	{
 		return payee;
+	}
+	
+	public String getdStart()
+	{
+		return dStart;
+	}
+	public void setdStart(String dStart)
+	{
+		this.dStart = dStart;
+	}
+	public String getdEnd()
+	{
+		return dEnd;
+	}
+	public void setdEnd(String dEnd)
+	{
+		this.dEnd = dEnd;
 	}
 	public void setPayee(String payee)
 	{
@@ -79,6 +102,15 @@ public class IncomeInfo
 	public String getRemarks()
 	{
 		return remarks;
+	}
+	
+	public JSONArray getIds()
+	{
+		return ids;
+	}
+	public void setIds(JSONArray ids)
+	{
+		this.ids = ids;
 	}
 	public void setRemarks(String remarks)
 	{
@@ -106,7 +138,7 @@ public class IncomeInfo
 		super();
 	}
 	public IncomeInfo(String orderNumber, String incomeDate, String clientName, String paymentMethod,
-			String paymentAmount, String payee, String remarks, String operator, String addTime)
+			Double paymentAmount, String payee, String remarks, String operator, String addTime)
 	{
 		super();
 		this.orderNumber = orderNumber;

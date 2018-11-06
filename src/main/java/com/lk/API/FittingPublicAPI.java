@@ -18,6 +18,8 @@ import com.lk.mappers.FittingPublicMapper;
 
 import af.restful.AfRestfulApi;
 
+/*基础信息[配件信息]接口*/
+
 public class FittingPublicAPI extends AfRestfulApi
 {
 	private static Logger logger = Logger.getLogger(FittingPublicAPI.class);
@@ -118,7 +120,7 @@ public class FittingPublicAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "删除失败,数据库错误";
-					logger.error("客户信息管理,删除接口出错!");
+					logger.error("基础信息[配件信息]删除接口出错!");
 				}
 				sqlSession.close();
 			}

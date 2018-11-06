@@ -181,7 +181,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "删除失败,数据库错误";
-					logger.error("客户信息管理,删除接口出错!");
+					logger.error("基础信息[原片信息]删除接口出错!");
 				}
 				sqlSession.close();
 			}
@@ -226,7 +226,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "更新失败";
-					logger.error("客户信息:更新接口错误");
+					logger.error("基础信息[原片信息]更新接口错误");
 				}
 				sqlSession.close();
 			}
@@ -251,7 +251,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		{
 			errorCode = 1;
 			msg = "没有操作人!";
-			logger.error("查询品名型号API报错:缺少[operator]字段");
+			logger.error("基础信息[原片信息]报错:缺少[operator]字段");
 		}
 		JSONObject jsReply = new JSONObject();
 		//产生订单号:UUID（16位）

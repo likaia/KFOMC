@@ -19,7 +19,7 @@ import com.lk.mappers.ShipmentMapper;
 
 import af.restful.AfRestfulApi;
 
-/*出货管理*/
+/*进销存管理[出货管理]接口*/
 
 public class ShipmentInfoAPI extends AfRestfulApi
 {
@@ -158,7 +158,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						code =1;
 						errorCode =1;
 						msg = "该订单状态异常(不存在)";
-						logger.error("出货管理[新增],查询订单信息状态异常!");
+						logger.error("进销存管理[出货管理][新增],查询订单信息状态异常!");
 					}
 					/*新增发货记录结束*/
 					
@@ -240,7 +240,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("出货管理接口异常:没有操作人");
+			logger.error("进销存管理[出货管理]接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();

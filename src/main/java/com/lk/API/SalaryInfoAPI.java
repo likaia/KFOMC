@@ -26,7 +26,7 @@ import af.restful.AfRestfulApi;
 /*员工管理[工资发放]接口*/
 public class SalaryInfoAPI extends AfRestfulApi
 {
-	private static Logger logger = Logger.getLogger(ClientInfoAPI.class);
+	private static Logger logger = Logger.getLogger(SalaryInfoAPI.class);
 
 	@Override
 	public String execute(String reqText) throws Exception
@@ -135,7 +135,7 @@ public class SalaryInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "添加失败,数据库错误";
-					logger.error("客户信息管理接口错误,添加失败!");
+					logger.error("员工管理[工资发放]添加失败!");
 				}
 				sqlSession.close();
 			}
@@ -193,7 +193,7 @@ public class SalaryInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "更新失败";
-					logger.error("客户信息:更新接口错误");
+					logger.error("员工管理[工资发放]:更新接口错误");
 				}
 				sqlSession.close();
 			}
@@ -202,7 +202,7 @@ public class SalaryInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("出货管理接口异常:没有操作人");
+			logger.error("员工管理[工资发放]没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();

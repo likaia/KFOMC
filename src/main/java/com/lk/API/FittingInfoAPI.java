@@ -271,7 +271,7 @@ public class FittingInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("进货管理接口异常:没有操作人");
+			logger.error("进货信息管理[配件采购]:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();

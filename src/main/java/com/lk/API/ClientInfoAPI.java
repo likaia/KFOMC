@@ -23,7 +23,7 @@ import af.restful.AfRestfulApi;
   *  @version V-2018-11-01 16:47:24 root
   *  
 * */
-
+/*基础信息[客户信息]接口*/
 public class ClientInfoAPI extends AfRestfulApi
 {
 	private static Logger logger = Logger.getLogger(ClientInfoAPI.class);
@@ -131,7 +131,7 @@ public class ClientInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "添加失败,数据库错误";
-					logger.error("客户信息管理接口错误,添加失败!");
+					logger.error("基础信息[客户信息]接口错误,添加失败!");
 				}
 				sqlSession.close();
 			}
@@ -157,7 +157,7 @@ public class ClientInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "删除失败,数据库错误";
-					logger.error("客户信息管理,删除接口出错!");
+					logger.error("基础信息[客户信息]删除接口出错!");
 				}
 				sqlSession.close();
 			}
@@ -203,7 +203,7 @@ public class ClientInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "更新失败";
-					logger.error("客户信息:更新接口错误");
+					logger.error("基础信息[客户信息]更新接口错误");
 				}
 				sqlSession.close();
 			}
@@ -213,7 +213,7 @@ public class ClientInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("客户管理接口异常:没有操作人");
+			logger.error("基础信息[客户信息]接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();
