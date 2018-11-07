@@ -281,7 +281,21 @@ $(function () {
             },
             //财务报表点击函数
             financeReportFun: function () {
+                /*请求后台获取(当前总收入/当前总支出/当前总余额)*/
                 this.financeReportStatus = "block";
+                var req = {
+                    operator : $("#nickNameTextPanel").html(),
+                    getIndexData :"getIndexData"
+                };
+                Af.rest("FinancialState.api",req,function(ans){
+                    if(ans.errorCode==0)
+                    {
+                        Af.trace(ans);
+                        vm.totalRevenue= ans.TotalIncome;
+                        vm.totalExpenses= ans.TotalOutlay;
+                        vm.totalBalance = ans.TotalBalance;
+                    }
+                });
                 setTimeout(function () {
                     /*渲染List1数据表格*/
                     MAIN.List1Table();
@@ -1925,7 +1939,7 @@ $(function () {
                 this.revenueInfoStatus = "block";
                 setTimeout(function () {
                     /*渲染订单月结管理数据表格*/
-                    MAIN.revenueInfoList();
+                    MAIN.revenueInfoList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 支出管理 隐藏*/
                 this.stockStatus = "none";
@@ -1946,11 +1960,11 @@ $(function () {
                 this.contactUsStatus = "none";
             },
             /*财务管理：支出管理点击事件*/
-            expenditureInfoLFun: function () {
+            expenditureInfoLFun: function (){
                 this.expenditureInfoStatus = "block";
                 setTimeout(function () {
                     /*渲染订单月结管理数据表格*/
-                    MAIN.expenditureInfoList();
+                    MAIN.expenditureInfoList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理  客户对账 隐藏*/
                 this.stockStatus = "none";
@@ -4686,27 +4700,17 @@ $(function () {
                         },
                         {
                             field: 'CardID',
-                            title: '产品名称',
-                            align: "center"
-                        },
-                        {
-                            field: 'CardID',
-                            title: '规格',
+                            title: '原片名称',
                             align: "center"
                         },
                         {
                             field: 'CardName',
-                            title: '颜色',
+                            title: '原片颜色',
                             align: "center"
                         },
                         {
                             field: 'Point',
-                            title: '纹理',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '厚度',
+                            title: '原片厚度',
                             align: "center"
                         },
                         {
@@ -5055,19 +5059,18 @@ $(function () {
                 }
             });
         };
-        /*财务管理:收入管理 数据表格*/
-        MAIN.revenueInfoList = function () {
+        /*财务管理[收入管理] 数据表格*/
+        MAIN.revenueInfoList = function (userName) {
             table.render({
-                url: URL + "/revenueInfoList",
-                // data:testData, //请求地址
+                url: "IncomeInfo.api",
                 method: 'POST', //方式
                 elem: '#revenueInfoList',
                 page: true,
-                limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
                 },
+                limits: [10, 15, 20, 25],
                 cols: [
                     [
                         {
@@ -5076,37 +5079,37 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'orderNumber',
                             title: '订单号',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'incomeDate',
                             title: '日期',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
+                            field: 'clientName',
                             title: '客户名称',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'paymentMethod',
                             title: '付款方式',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'paymentAmount',
                             title: '付款金额',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'payee',
                             title: '收款人',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'remarks',
                             title: '备注',
                             align: "center"
                         }
@@ -5114,19 +5117,13 @@ $(function () {
                 ]
             });
         };
-        /*财务管理:支出管理 数据表格*/
-        MAIN.expenditureInfoList = function () {
+        /*财务管理[收入管理] 数据表格(传值调用)*/
+        MAIN.revenueInfoDataList = function (resultData) {
             table.render({
-                url: URL + "/expenditureInfoList",
-                // data:testData, //请求地址
-                method: 'POST', //方式
-                elem: '#expenditureInfoList',
+                data:resultData,
+                elem: '#revenueInfoList',
                 page: true,
                 limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
-                },
                 cols: [
                     [
                         {
@@ -5135,32 +5132,138 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'orderNumber',
                             title: '订单号',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'incomeDate',
                             title: '日期',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
-                            title: '支出类别',
+                            field: 'clientName',
+                            title: '客户名称',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'paymentMethod',
                             title: '付款方式',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'paymentAmount',
                             title: '付款金额',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'payee',
+                            title: '收款人',
+                            align: "center"
+                        },
+                        {
+                            field: 'remarks',
+                            title: '备注',
+                            align: "center"
+                        }
+                    ]
+                ]
+            });
+        };
+        /*财务管理[支出管理] 数据表格*/
+        MAIN.expenditureInfoList = function (userName) {
+            table.render({
+                url: "OutlayInfo.api",
+                method: 'POST', //方式
+                elem: '#expenditureInfoList',
+                page: true,
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
+                },
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'orderNumber',
+                            title: '订单号',
+                            align: "center"
+                        },
+                        {
+                            field: 'outlayDate',
+                            title: '日期',
+                            align: "center"
+                        },
+                        {
+                            field: 'outlayType',
+                            title: '支出类别',
+                            align: "center"
+                        },
+                        {
+                            field: 'paymentMethod',
+                            title: '付款方式',
+                            align: "center"
+                        },
+                        {
+                            field: 'paymentAmount',
+                            title: '付款金额',
+                            align: "center"
+                        },
+                        {
+                            field: 'remarks',
+                            title: '备注',
+                            align: "center"
+                        }
+                    ]
+                ]
+            });
+        };
+        /*财务管理[支出管理] 数据表格(传值调用)*/
+        MAIN.expenditureInfoDataList = function (resultData) {
+            table.render({
+                data:resultData,
+                elem: '#expenditureInfoList',
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'orderNumber',
+                            title: '订单号',
+                            align: "center"
+                        },
+                        {
+                            field: 'outlayDate',
+                            title: '日期',
+                            align: "center"
+                        },
+                        {
+                            field: 'outlayType',
+                            title: '支出类别',
+                            align: "center"
+                        },
+                        {
+                            field: 'paymentMethod',
+                            title: '付款方式',
+                            align: "center"
+                        },
+                        {
+                            field: 'paymentAmount',
+                            title: '付款金额',
+                            align: "center"
+                        },
+                        {
+                            field: 'remarks',
                             title: '备注',
                             align: "center"
                         }

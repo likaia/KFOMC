@@ -2,29 +2,28 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lk.mappers.IncomeInfoMapper">
+<mapper namespace="com.lk.mappers.OutlayInfoMapper">
 	<!--定义结果集:用于存储所有数据 -->
-	<resultMap type="IncomeInfo" id="IncomeInfoResult">
+	<resultMap type="OutlayInfo" id="OutlayInfoResult">
 		<id property="id" column="id" />
 		<result property="orderNumber" column="orderNumber" />
-		<result property="incomeDate" column="incomeDate" />
-		<result property="clientName" column="clientName" />
+		<result property="outlayDate" column="outlayDate" />
+		<result property="outlayType" column="outlayType" />
 		<result property="paymentMethod" column="paymentMethod" />
 		<result property="paymentAmount" column="paymentAmount" />
-		<result property="payee" column="payee" />
 		<result property="remarks" column="remarks" />
 		<result property="operator" column="operator" />
 		<result property="addTime" column="addTime" />
 	</resultMap>
 	<!-- 自定义查询表内数据 -->
-	<select id="customQuery" resultMap="IncomeInfoResult"
-		parameterType="IncomeInfo">
+	<select id="customQuery" resultMap="OutlayInfoResult"
+		parameterType="OutlayInfo">
 		SELECT id,
 		<foreach item="queryTypeItem" collection="queryType" open=""
 			separator="," close="">
 			${queryTypeItem}
 		</foreach>
-		FROM t_incomeInfo
+		FROM t_outlayInfo
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -32,20 +31,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	<!-- 分页查询数据开始: -->
-	<select id="findexpenditurePage" resultMap="IncomeInfoResult"
-		parameterType="IncomeInfo">
+	<select id="findexpenditurePage" resultMap="OutlayInfoResult"
+		parameterType="OutlayInfo">
 		SELECT
 		id,
 		orderNumber,
-		incomeDate,
-		clientName,
+		outlayDate,
+		outlayType,
 		paymentMethod,
 		paymentAmount,
-		payee,
 		remarks,
 		operator,
 		addTime
-		FROM t_incomeInfo
+		FROM t_outlayInfo
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -53,56 +51,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	<!-- 根据特定条件查询表内数据 -->
-	<select id="conditionalQuery" resultMap="IncomeInfoResult"
-		parameterType="IncomeInfo">
+	<select id="conditionalQuery" resultMap="OutlayInfoResult"
+		parameterType="OutlayInfo">
 		SELECT
 		id,
 		orderNumber,
-		incomeDate,
-		clientName,
+		outlayDate,
+		outlayType,
 		paymentMethod,
 		paymentAmount,
-		payee,
 		remarks,
 		operator,
 		addTime
-		FROM t_incomeInfo
+		FROM t_outlayInfo
 		<where>
-			<if test="clientName != null">
-				clientName = #{clientName}
+			<if test="operator != null">
+				operator = #{operator}
 			</if>
 			<if test="dStart != null and dStart != ''">
-				AND incomeDate <![CDATA[>=]]>
+				AND outlayDate <![CDATA[>=]]>
 				#{dStart}
 			</if>
 			<if test="dEnd != null and dEnd != ''">
-				AND incomeDate <![CDATA[<=]]>#{dEnd}
-			</if>
-			<if test="operator != null">
-				AND operator like #{operator}
+				AND outlayDate <![CDATA[<=]]>#{dEnd}
 			</if>
 		</where>
 	</select>
 	<!-- 批量删除 -->
-	<delete id="del" parameterType="IncomeInfo">
-		delete from t_incomeInfo where (id) in
+	<delete id="del" parameterType="OutlayInfo">
+		delete from t_outlayInfo where (id) in
 		<foreach item="idsItem" collection="ids" open="(" separator=","
 			close=")">
 			#{idsItem}
 		</foreach>
 	</delete>
 	<!-- 新增数据开始 -->
-	<insert id="add" parameterType="IncomeInfo">
-		insert into t_incomeInfo
+	<insert id="add" parameterType="OutlayInfo">
+		insert into t_outlayInfo
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="orderNumber != null">
 				orderNumber,
 			</if>
-			<if test="incomeDate != null">
-				incomeDate,
+			<if test="outlayDate != null">
+				outlayDate,
 			</if>
-			<if test="clientName != null">
-				clientName,
+			<if test="outlayType != null">
+				outlayType,
 			</if>
 			<if test="paymentMethod != null">
 				paymentMethod,
@@ -110,10 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="paymentAmount != null">
 				paymentAmount,
 			</if>
-			<if test="payee != null">
-				payee,
-			</if>
-			<if test=" remarks != null">
+			<if test="remarks != null">
 				remarks,
 			</if>
 			<if test=" operator != null">
@@ -127,20 +118,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="orderNumber != null">
 				#{orderNumber,jdbcType=VARCHAR},
 			</if>
-			<if test="incomeDate != null">
-				#{incomeDate,jdbcType=VARCHAR},
+			<if test="outlayDate != null">
+				#{outlayDate,jdbcType=VARCHAR},
 			</if>
-			<if test="clientName != null">
-				#{clientName,jdbcType=VARCHAR},
+			<if test="outlayType != null">
+				#{outlayType,jdbcType=VARCHAR},
 			</if>
 			<if test="paymentMethod != null">
 				#{paymentMethod,jdbcType=VARCHAR},
 			</if>
 			<if test="paymentAmount != null">
 				#{paymentAmount,jdbcType=DOUBLE},
-			</if>
-			<if test="payee != null">
-				#{payee,jdbcType=VARCHAR},
 			</if>
 			<if test="remarks != null">
 				#{remarks,jdbcType=VARCHAR},
@@ -154,26 +142,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 	</insert>
 	<!-- 修改信息 -->
-	<update id="update" parameterType="IncomeInfo">
-		update t_incomeInfo
+	<update id="update" parameterType="OutlayInfo">
+		update t_outlayInfo
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="orderNumber != null">
 				orderNumber = #{orderNumber},
 			</if>
-			<if test="incomeDate != null">
-				incomeDate = #{incomeDate},
+			<if test="outlayDate != null">
+				outlayDate = #{outlayDate},
 			</if>
-			<if test="clientName != null">
-				clientName = #{clientName},
+			<if test="outlayType != null">
+				outlayType = #{outlayType},
 			</if>
 			<if test="paymentMethod != null">
 				paymentMethod = #{paymentMethod},
 			</if>
 			<if test="paymentAmount != null">
 				paymentAmount = #{paymentAmount},
-			</if>
-			<if test=" payee != null">
-				payee = #{payee},
 			</if>
 			<if test=" remarks != null">
 				remarks =#{remarks},

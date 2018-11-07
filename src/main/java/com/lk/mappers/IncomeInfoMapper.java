@@ -19,6 +19,9 @@ public interface IncomeInfoMapper
 	// 自定义查询
 	public List<IncomeInfo> conditionalQuery(IncomeInfo row);
 
+	// 自定义查询表内数据
+	public List<IncomeInfo> customQuery(IncomeInfo row);
+
 	// 批量删除
 	public int del(IncomeInfo row);
 

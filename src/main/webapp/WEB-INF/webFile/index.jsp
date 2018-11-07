@@ -753,11 +753,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">产品名称</label>
+                                    <label class="layui-form-label">原片规格</label>
                                     <div class="layui-input-block">
                                         <select lay-search="" lay-filter=""
                                                 name="stockProductNameSelectPanel">
-                                            <option value="">直接选择或手动输入产品名称</option>
+                                            <option value="">直接选择或手动输入原片规格</option>
                                         </select>
                                     </div>
                                 </div>
@@ -766,39 +766,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">规格</label>
-                                    <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test"
-                                                name="stockspecificationSelectPanel">
-                                            <option value="">直接选择或手动输入规格</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-col-md3">
-                            <div class="item-panel layui-form">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">纹理查询</label>
-                                    <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test"
-                                                name="stockTextureSelectPanel">
-                                            <option value="">直接选择或手动输入纹理</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-col-md3">
-                            <div class="item-panel layui-form">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">厚度</label>
-                                    <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="test"
-                                                name="stockthicknessSelectPanel">
-                                            <option value="">直接选择或手动输入厚度</option>
-                                        </select>
-                                    </div>
+                                    <button v-bind:style="{background:BtnColor}" class="layui-btn layui-btn-normal">查询</button>
                                 </div>
                             </div>
                         </div>
@@ -808,10 +776,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <!--表格顶部按钮区域-->
                         <div class="tableTopBtn-panel">
                             <div class="btn-panel">
-                                <button class="layui-btn layui-btn-normal">新增</button>
-                                <button class="layui-btn layui-btn-normal">删除</button>
-                                <button class="layui-btn layui-btn-normal">导出</button>
-                                <button class="layui-btn layui-btn-normal">报表</button>
+                                <button v-bind:style="{background:BtnColor}" class="layui-btn layui-btn-normal">删除</button>
+                                <button v-bind:style="{background:BtnColor}" class="layui-btn layui-btn-normal">导出</button>
                             </div>
                         </div>
                         <!--数据表格-->

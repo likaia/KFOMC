@@ -24,6 +24,7 @@ public class IncomeInfo
 	private String addTime;
 	private String dStart;
 	private String dEnd;
+	private JSONArray queryType;
 	private JSONArray ids;
 	public Integer getId()
 	{
@@ -133,6 +134,14 @@ public class IncomeInfo
 		this.addTime = addTime;
 	}
 	
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
+	}
 	public IncomeInfo()
 	{
 		super();
