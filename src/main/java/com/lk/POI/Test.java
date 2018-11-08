@@ -24,6 +24,7 @@ public class Test
 		HashMap<String, Integer> hm = test.getJSONArrayNum(d); //--->三徒弟的JSON数组key重复次数
 		JSONObject JSONLength = new JSONObject(hm);//--->HashMap转为JSONObject
 		System.out.println(JSONLength);
+		
 //		System.out.println(test.getJSONArray(d));
 		/*
 		 * 创建带有Sheet页的Excel Workbook wb = new HSSFWorkbook();
