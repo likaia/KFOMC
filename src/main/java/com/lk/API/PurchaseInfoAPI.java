@@ -1,5 +1,7 @@
 package com.lk.API;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,9 +12,11 @@ import org.json.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lk.db.FittingInfo;
+import com.lk.db.InventoryInfo;
 import com.lk.db.PurchaseInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.FittingInfoMapper;
+import com.lk.mappers.InventoryInfoMapper;
 import com.lk.mappers.PurchaseMapper;
 
 import af.restful.AfRestfulApi;
@@ -39,6 +43,8 @@ public class PurchaseInfoAPI extends AfRestfulApi
 		/* 定义分页需要的字段 */
 		int page = 0;
 		int limit = 0;
+		// 获取当前服务器时间
+		String serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		if (jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator"); // --->取出操作人
@@ -134,6 +140,75 @@ public class PurchaseInfoAPI extends AfRestfulApi
 					code = 1;
 					errorCode = 1;
 					msg = "添加失败";
+				}
+				/*配置库存管理映射器:更新库存管理表*/
+				InventoryInfoMapper inventoryInfoMapper = sqlSession.getMapper(InventoryInfoMapper.class);
+				InventoryInfo InventoryRow = new InventoryInfo();
+				InventoryRow.setOperator(operator);
+				InventoryRow.setOriginalTitle(specificationModel); //--->根据当前新增的规格型号查询库存管理表
+				List<InventoryInfo> InventoryResultListArr = inventoryInfoMapper.conditionalQuery(InventoryRow); //查询表内数据
+				JSONArray InventoryResult = new JSONArray(InventoryResultListArr);
+				if(InventoryResult.length()>0)
+				{
+					//--->更新库存表内数据
+					for(int i = 0;i<InventoryResult.length();i++)
+					{
+						//--->取出库存表内的规格型号信息
+						JSONObject InventoryObj = new JSONObject();
+						InventoryObj = InventoryResult.getJSONObject(i);
+						//--->取出当前项的id
+						int inventoryId = InventoryObj.getInt("id");
+						//--->取出入库数量
+						int storageNum = InventoryObj.getInt("storageNum");
+						//--->取出出库数量
+						int numberOfOutbound = InventoryObj.getInt("numberOfOutbound");
+						//--->取出库存余量
+						int stockBalance = InventoryObj.getInt("stockBalance");
+						//--->声明新入库数量变量: 库存表内入库数量 + 当前新增的入库数量
+						int newStorageNum = storageNum +Integer.parseInt(quantity);
+						//--->声明新库存余量变量: 库存表内库存余量 + 当前新增的入库数量 - 出库数量
+						int newStockBalance = stockBalance + Integer.parseInt(quantity) -numberOfOutbound ;
+						//--->更新当前数据信息
+						InventoryInfo updateInventoryRow = new InventoryInfo();
+						updateInventoryRow.setId(inventoryId);//--->当前条目id
+						updateInventoryRow.setStorageNum(newStorageNum); //--->入库数量
+						updateInventoryRow.setStockBalance(newStockBalance); //--->库存余量
+						updateInventoryRow.setAddTime(serverTime); //--->本次记录更新时间
+						int updateResult = inventoryInfoMapper.update(updateInventoryRow);//--->调用更新接口
+						sqlSession.commit();
+						if(updateResult==0)
+						{
+							logger.error("进销存管理[进货管理]接口异常:更新库存表失败");
+						}
+					}
+				}
+				else
+				{
+					//--->库存表内没有当前规格型号,新增此条规格型号
+					String originalTitle =  specificationModel;       //--->原片名称
+					String originalColor = color; //--->原片颜色
+					String originalThickness = thickness; //--->原片厚度
+					int storageNum =Integer.parseInt(quantity); //--->原片数量
+					int numberOfOutbound = 0;//--->出库数量
+					int stockBalance =Integer.parseInt(quantity); //--->库存余量
+					String addTime = serverTime; //--->添加时间
+					//--->新增数据
+					InventoryInfo addInventoryRow = new InventoryInfo();
+					addInventoryRow.setOriginalTitle(originalTitle);
+					addInventoryRow.setOriginalColor(originalColor);
+					addInventoryRow.setOriginalThickness(originalThickness);
+					addInventoryRow.setStorageNum(storageNum);
+					addInventoryRow.setNumberOfOutbound(numberOfOutbound);
+					addInventoryRow.setStockBalance(stockBalance);
+					addInventoryRow.setSupplier(supplier);
+					addInventoryRow.setAddTime(addTime);
+					addInventoryRow.setOperator(operator);
+					int addResult = inventoryInfoMapper.add(addInventoryRow);
+					sqlSession.commit();
+					if(addResult==0)
+					{
+						logger.error("进销存管理[进货管理]接口异常:新增库存表记录失败");
+					}
 				}
 				sqlSession.close();
 			}

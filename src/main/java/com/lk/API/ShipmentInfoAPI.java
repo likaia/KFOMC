@@ -11,9 +11,11 @@ import org.json.JSONObject;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lk.db.InventoryInfo;
 import com.lk.db.OrderInfo;
 import com.lk.db.ShipmentInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.InventoryInfoMapper;
 import com.lk.mappers.OrderMapper;
 import com.lk.mappers.ShipmentMapper;
 
@@ -201,10 +203,16 @@ public class ShipmentInfoAPI extends AfRestfulApi
 					if(processResults==0)
 					{
 						msg = "更新订单数据表失败";
-						code =1;
-						errorCode =1;
+						logger.error("出货管理接口异常:更新订单数据表失败!");
 					}
 					/*更新订单信息表结束*/
+		
+					//更新库存管理表开始			
+					/*配置库存管理映射器:更新库存管理表*/
+					InventoryInfoMapper inventoryInfoMapper = sqlSession.getMapper(InventoryInfoMapper.class);
+					InventoryInfo InventoryRow = new InventoryInfo();
+					
+					//更新库存管理表结束
 				} else
 				{
 					code = 1;

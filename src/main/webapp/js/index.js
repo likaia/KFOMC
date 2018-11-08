@@ -1171,7 +1171,7 @@ $(function () {
                 this.stockStatus = "block";
                 setTimeout(function () {
                     /*渲染库存管理数据表格*/
-                    MAIN.stockList();
+                    MAIN.stockList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 订单信息管理 出货管理 隐藏*/
                 this.IncomingGoodsStatus = "none";
@@ -4679,18 +4679,17 @@ $(function () {
         /*出货管理数据表格结束*/
 
         /*库存管理数据表格*/
-        MAIN.stockList = function () {
+        MAIN.stockList = function (userName) {
             table.render({
-                url: URL + "/stockList",
-                // data:testData, //请求地址
-                method: 'POST', //方式
+                url: "inventoryInfo.api",
                 elem: '#stockList',
                 page: true,
-                limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
+                method: 'POST', //方式
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
                 },
+                limits: [10, 15, 20, 25],
                 cols: [
                     [
                         {
@@ -4699,38 +4698,38 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
+                            field: 'originalTitle',
                             title: '原片名称',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
+                            field: 'originalColor',
                             title: '原片颜色',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'originalThickness',
                             title: '原片厚度',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'storageNum',
                             title: '入库数量',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'numberOfOutbound',
                             title: '出库数量',
                             align: "center"
                         },
                         {
-                            field: 'Point',
+                            field: 'stockBalance',
                             title: '库存余量',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '库存面积',
+                            field: 'supplier',
+                            title: '供货商',
                             align: "center"
                         }
                     ]

@@ -18,7 +18,7 @@
 	<!-- 进销存管理[出货管理]接口 -->
 	<api name="ShipmentInfo"  class="com.lk.API.ShipmentInfoAPI" />
 	<!-- 进销存管理[库存管理]接口 -->
-	<api name="inventoryInfo"  class="com.lk.API.inventoryInfoAPI" />
+	<api name="inventoryInfo"  class="com.lk.API.InventoryInfoAPI" />
 	<!-- 财务管理[收入管理]接口 -->
 	<api name="IncomeInfo"  class="com.lk.API.IncomeInfoAPI" />
 	<!-- 财务管理[支出管理]接口 -->

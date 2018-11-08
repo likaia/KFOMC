@@ -10,7 +10,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <html>
 <head>
     <base href="<%=basePath%>">
-    <title>首页</title>
+    <title>凯枫网络</title>
     <%--引入jQuery --%>
     <script src="jquery/jquery-3.3.1.min.js"></script>
     <%--头像裁减 --%>

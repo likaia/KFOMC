@@ -67,6 +67,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{orderItem}
 		</foreach>
 	</delete>
+	
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="PurchaseInfoResult"
+		parameterType="PurchaseInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_order_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	
 	<!-- 根据订单号查询表内数据 -->
 		<select id="queryByOrderNumber" resultMap="PurchaseInfoResult"
 		parameterType="PurchaseInfo">

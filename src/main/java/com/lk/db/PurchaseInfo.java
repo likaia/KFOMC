@@ -20,6 +20,7 @@ public class PurchaseInfo
 	private String dStart;
 	private String dEnd;
 	private JSONArray orders;
+	private JSONArray queryType;
 	public JSONArray getOrders()
 	{
 		return orders;
@@ -151,6 +152,15 @@ public class PurchaseInfo
 	public PurchaseInfo()
 	{
 		super();
+	}
+	
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
 	}
 	public PurchaseInfo(String orderNumber, String purchaseDate, String supplier, String specificationModel,
 			String thickness, String color, String quantity, String unitPrice, String totalPurchase, String shippingFee,
