@@ -26,6 +26,7 @@ public class IncomeInfo
 	private String dEnd;
 	private JSONArray queryType;
 	private JSONArray ids;
+	private String bankImg;
 	public Integer getId()
 	{
 		return id;
@@ -145,6 +146,15 @@ public class IncomeInfo
 	public IncomeInfo()
 	{
 		super();
+	}
+	
+	public String getBankImg()
+	{
+		return bankImg;
+	}
+	public void setBankImg(String bankImg)
+	{
+		this.bankImg = bankImg;
 	}
 	public IncomeInfo(String orderNumber, String incomeDate, String clientName, String paymentMethod,
 			Double paymentAmount, String payee, String remarks, String operator, String addTime)

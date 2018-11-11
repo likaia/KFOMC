@@ -206,7 +206,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						logger.error("出货管理接口异常:更新订单数据表失败!");
 					}
 					/*更新订单信息表结束*/
-		
+					
 					//更新库存管理表开始			
 					/*配置库存管理映射器:更新库存管理表*/
 					InventoryInfoMapper inventoryInfoMapper = sqlSession.getMapper(InventoryInfoMapper.class);
