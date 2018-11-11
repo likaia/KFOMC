@@ -52,7 +52,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <meta name="baidu-site-verification" content="JwUB1mxjFy"/>
     <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
     <jsp:include page="islogin.jsp"></jsp:include>
-    <script src="js/underscore-min.js"></script>
+    <script src="js/underscore-min.js"></script> <%--扩展函数库 --%>>
     <%--获取当前用户信息 --%>
     <%
     //取得session对象

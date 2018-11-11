@@ -41,4 +41,6 @@
 	<api name="EmployeeInfo"  class="com.lk.API.EmployeeInfoAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
+	<!-- 测试接口 -->
+	<api name="AndroidDataTest"  class="com.lk.TestAPI.AndroidDataTestAPI" />
 </restful>
