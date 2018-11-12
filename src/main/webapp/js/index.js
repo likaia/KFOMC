@@ -65,8 +65,20 @@ function getUserSelect(index) {
         }
     });
 }
-
+window.onbeforeunload = function(event) {
+	//页面刷新时执行
+	 NProgress.start();
+};
 $(function () {
+    /*页面加载时,启动*/
+    NProgress.start();
+    //监听加载状态改变
+    document.onreadystatechange = completeLoading;
+    function completeLoading() {
+        if (document.readyState == "complete") {
+            /*页面加载完成,*/
+        }
+    }
     var URL = "https://www.kaisir.cn/";
     var MAIN = {};
     var globalVar = 1; //
@@ -3527,7 +3539,6 @@ $(function () {
         function orderInfoList(userName) {
             table.render({
                 url: "orderInfonQueiry.api",
-                //                data:testData, //请求地址
                 method: 'POST', //方式
                 elem: '#orderInfoList',
                 page: true,
@@ -3607,7 +3618,7 @@ $(function () {
                         }
                     ]
                 ],
-                done: function (res, curr, count) {
+                done: function (res, curr, count) {	
                     //清空select中除第一个以外的选项
                     $("#orderNumSelect option:gt(0)").remove();
                     $("#orderClientName option:gt(0)").remove();
@@ -3618,7 +3629,8 @@ $(function () {
                     orderNumberSelectFun();
                     clientNameSelectFun();
                     projectNameSelectFun();
-
+              /*页面已加载完成，数据表格也渲染完成:结束进度条*/
+                    NProgress.done();
                     /*渲染订单号选择框*/
                     function orderNumberSelectFun() {
                         var data = res.data;

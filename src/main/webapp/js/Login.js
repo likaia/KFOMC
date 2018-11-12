@@ -1,4 +1,14 @@
 $(function() {
+    /*页面加载时,启动*/
+    NProgress.start();
+    //监听加载状态改变
+    document.onreadystatechange = completeLoading;
+    function completeLoading() {
+        if (document.readyState == "complete") {
+            /*页面加载完成,进度条结束*/
+            NProgress.done();
+        }
+    }
 	var MAIN = {};
 	var URL = "https://www.kaisir.cn/";
 	/*用户名输入失去焦点*/
@@ -33,6 +43,7 @@ $(function() {
 {
 		//判断用户名或者密码是否为空
 			if (userName == "" ||passWord == "" || !loginVerification) {
+				 NProgress.done();
 				if (!userName) {
 					$('#userNameInputPanel').css({"border-color":"red"});
 					$('#userNameInput').attr('placeholder',"用户名不能为空");
@@ -51,6 +62,7 @@ $(function() {
 					ErroAlert("请完成滑块验证!");
 				}
 			} else {
+				 NProgress.start();//---->显示进度条
 				//密码框 用户名框颜色变白
 				$('#userNameInputPanel').css({"border-color":"white"});
 				$('#passWordInput').css({"border-color":"white"});
@@ -63,8 +75,10 @@ $(function() {
 				Af.rest("KFOMC/loginApi.api", req, function(ans) {
 					if (ans.errorCode != 0) {
 						ErroAlert(ans.msg);
+						NProgress.done();
 					} else {
 						//登录成功
+						 NProgress.done();
 						layer.msg("登录成功");
 						setTimeout(function() {
 							window.location.reload();

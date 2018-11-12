@@ -38,7 +38,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" href="layui/css/layui.css">
     <%-- 引入工具类--%>
     <script src="js/LkCommon.js"></script>
-
+<%--网页加载进度条插件 --%>
+<link rel="stylesheet" href="nprogress/nprogress.css">
+<script src="nprogress/nprogress.js"></script>
     <%--当前页面布局与交互文件 --%>
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
@@ -52,7 +54,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <meta name="baidu-site-verification" content="JwUB1mxjFy"/>
     <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
     <jsp:include page="islogin.jsp"></jsp:include>
-    <script src="js/underscore-min.js"></script> <%--扩展函数库 --%>>
+    <script src="js/underscore-min.js"></script> <%--扩展函数库 --%>
     <%--获取当前用户信息 --%>
     <%
     //取得session对象
