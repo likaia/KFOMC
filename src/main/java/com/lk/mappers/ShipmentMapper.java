@@ -11,6 +11,8 @@ public interface ShipmentMapper
 		public List<ShipmentInfo> findexpenditurePage(ShipmentInfo row);
 		//根据条件查询
 		public List<ShipmentInfo> conditionalQuery(ShipmentInfo row);
+		//自定义查询
+		public List<ShipmentInfo> customQuery(ShipmentInfo row);
 		//删除数据
 		public int del(ShipmentInfo row);
 		//新增数据

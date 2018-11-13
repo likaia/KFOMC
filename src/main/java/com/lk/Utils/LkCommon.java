@@ -1,5 +1,6 @@
 package com.lk.Utils;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import org.json.JSONObject;
 public class LkCommon
 {
 
-	/*白天json数组统计*/
+	/* 白天json数组统计 */
 	public JSONObject getJSONArrayLengths(JSONArray oldData)
 	{
 		int num = 0;// 计数
@@ -52,11 +53,21 @@ public class LkCommon
 		return new JSONObject(map);
 	}
 
-	/*百分比运算*/
-	public String txPercentage(int a,int b) {
-	    DecimalFormat df=new DecimalFormat("0.00");//设置保留位数
-	    return df.format((float)a/b); 
+	/* 百分比运算 */
+	public String txPercentage(int a, int b)
+	{
+		DecimalFormat df = new DecimalFormat("0.00");// 设置保留位数
+		return df.format((float) a / b);
 	}
+
+	public BigDecimal subtract(String a, String b)
+	{
+		BigDecimal parameterOne = new BigDecimal(a);
+		BigDecimal parameterTwo = new BigDecimal(b);
+		BigDecimal result = parameterOne.subtract(parameterTwo);
+		return result;
+	}
+
 	/* 三徒弟 JSON数组统计 */
 	public HashMap<String, Integer> getJSONArrayNum(JSONArray rawData)
 	{
@@ -65,7 +76,7 @@ public class LkCommon
 		for (int i = 0; i < data.length(); i++)
 		{
 			JSONObject json = data.getJSONObject(i);
-			if(json.length()>0)
+			if (json.length() > 0)
 			{
 				String key = json.getString("name");
 				if (hm.get(key) != null)
@@ -78,19 +89,15 @@ public class LkCommon
 			}
 		}
 		return hm;
-		//调用方法
+		// 调用方法
 		/*
-		 * 1.LkCommon test = new LkCommon(); //--->实例化
-		 * 2.HashMap<String, Integer> length = test.getJSONArrayNum(一个JSONArray);//--->调用当前方法
+		 * 1.LkCommon test = new LkCommon(); //--->实例化 2.HashMap<String,
+		 * Integer> length = test.getJSONArrayNum(一个JSONArray);//--->调用当前方法
 		 * 3.Set<String> mapSet = length.keySet();//获取所有的key值 为set的集合
-		 * Iterator<String> itor = mapSet.iterator();// 获取key的Iterator遍历
-		 * while (itor.hasNext())
-		 * {// 存在下一个值
-		 * 		String key = itor.next();// 当前key值
-		 * 		int val = length.get(key);
-		 * 		System.out.println(key+":"+val);
-		 * 	}
-		 * */
+		 * Iterator<String> itor = mapSet.iterator();// 获取key的Iterator遍历 while
+		 * (itor.hasNext()) {// 存在下一个值 String key = itor.next();// 当前key值 int
+		 * val = length.get(key); System.out.println(key+":"+val); }
+		 */
 	}
 
 	/* 大大JSONArray归类 */

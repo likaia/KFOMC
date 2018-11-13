@@ -17,7 +17,7 @@ public class ShipmentInfo
 	private String remainingArea;
 	private String paymentDetails;
 	private String transportationManager;
-
+	private JSONArray queryType;
 	private String  freight;
 	public String getFreight()
 	{
@@ -78,6 +78,15 @@ public class ShipmentInfo
 	public void setDateOfShipment(String dateOfShipment)
 	{
 		this.dateOfShipment = dateOfShipment;
+	}
+	
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
 	}
 	public String getSpecificationModel()
 	{

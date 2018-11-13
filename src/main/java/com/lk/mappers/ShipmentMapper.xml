@@ -79,6 +79,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	<!-- 自定义查询 -->
+	<select id="customQuery" resultMap="ShipmentInfoResult"
+		parameterType="ShipmentInfo">
+		SELECT id,shipArea
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_shipment
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND dateOfShipment <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND dateOfShipment <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="del" parameterType="ShipmentInfo">
 		delete from t_shipment where (id) in
@@ -87,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{idItem}
 		</foreach>
 	</delete>
-	
+
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="ShipmentInfo">
 		insert into t_shipment

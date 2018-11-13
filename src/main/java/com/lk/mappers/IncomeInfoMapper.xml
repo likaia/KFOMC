@@ -30,6 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				operator = #{operator}
 			</if>
+			<if test="dStart != null and dStart != ''">
+				AND incomeDate <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND incomeDate <![CDATA[<=]]>#{dEnd}
+			</if>
 		</where>
 	</select>
 	<!-- 分页查询数据开始: -->
