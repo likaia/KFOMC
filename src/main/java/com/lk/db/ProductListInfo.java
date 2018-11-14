@@ -6,20 +6,20 @@ public class ProductListInfo
 {
 	private Integer id;
 	private String productName;
-	private String specification;
 	private String color;
-	private String texture;
 	private String thickness;
 	private Integer unitPrice;
-	private Integer memberPrice;
 	private Integer wholesalePrice;
-	private JSONArray queryType; 
+	private JSONArray queryType;
+	private Double area;
 	private String remarks;
 	private String addTime;
 	private String operator;
 	private String dStart;
 	private String dEnd;
 	private JSONArray ids;
+	private Integer length;
+	private Integer width;
 	public Integer getId()
 	{
 		return id;
@@ -36,14 +36,7 @@ public class ProductListInfo
 	{
 		this.productName = productName;
 	}
-	public String getSpecification()
-	{
-		return specification;
-	}
-	public void setSpecification(String specification)
-	{
-		this.specification = specification;
-	}
+
 	public String getColor()
 	{
 		return color;
@@ -52,13 +45,15 @@ public class ProductListInfo
 	{
 		this.color = color;
 	}
-	public String getTexture()
+
+	
+	public Double getArea()
 	{
-		return texture;
+		return area;
 	}
-	public void setTexture(String texture)
+	public void setArea(Double area)
 	{
-		this.texture = texture;
+		this.area = area;
 	}
 	public String getThickness()
 	{
@@ -76,14 +71,6 @@ public class ProductListInfo
 	{
 		this.unitPrice = unitPrice;
 	}
-	public Integer getMemberPrice()
-	{
-		return memberPrice;
-	}
-	public void setMemberPrice(Integer memberPrice)
-	{
-		this.memberPrice = memberPrice;
-	}
 	public Integer getWholesalePrice()
 	{
 		return wholesalePrice;
@@ -92,7 +79,8 @@ public class ProductListInfo
 	{
 		this.wholesalePrice = wholesalePrice;
 	}
-	
+
+
 	public JSONArray getQueryType()
 	{
 		return queryType;
@@ -108,6 +96,23 @@ public class ProductListInfo
 	public void setRemarks(String remarks)
 	{
 		this.remarks = remarks;
+	}
+	
+	public Integer getLength()
+	{
+		return length;
+	}
+	public void setLength(Integer length)
+	{
+		this.length = length;
+	}
+	public Integer getWidth()
+	{
+		return width;
+	}
+	public void setWidth(Integer width)
+	{
+		this.width = width;
 	}
 	public String getAddTime()
 	{

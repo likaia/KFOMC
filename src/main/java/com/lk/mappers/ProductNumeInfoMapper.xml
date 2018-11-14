@@ -7,12 +7,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="ProductListInfo" id="ProductListInfoResult">
 		<id property="id" column="id" />
 		<result property="productName" column="productName" />
-		<result property="specification" column="specification" />
 		<result property="color" column="color" />
-		<result property="texture" column="texture" />
 		<result property="thickness" column="thickness" />
 		<result property="unitPrice" column="unitPrice" />
-		<result property="memberPrice" column="memberPrice" />
+		<result property="length" column="length" />
+		<result property="width" column="width" />
+		<result property="area" column="area" />
 		<result property="wholesalePrice" column="wholesalePrice" />
 		<result property="remarks" column="remarks" />
 		<result property="addTime" column="addTime" />
@@ -38,12 +38,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 		id,
 		productName,
-		specification,
+		width,
 		color,
-		texture,
+		length,
 		thickness,
 		unitPrice,
-		memberPrice,
+		area,
 		wholesalePrice,
 		remarks,
 		addTime,
@@ -61,12 +61,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 		id,
 		productName,
-		specification,
+		width,
 		color,
-		texture,
+		length,
 		thickness,
 		unitPrice,
-		memberPrice,
+		area,
 		wholesalePrice,
 		remarks,
 		addTime,
@@ -103,14 +103,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="productName != null">
 				productName,
 			</if>
-			<if test="specification != null">
-				specification,
+			<if test="width != null">
+				width,
 			</if>
 			<if test="color != null">
 				color,
 			</if>
-			<if test="texture != null">
-				texture,
+			<if test="length != null">
+				length,
 			</if>
 			<if test="thickness != null">
 				thickness,
@@ -118,10 +118,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="unitPrice != null">
 				unitPrice,
 			</if>
-			<if test=" memberPrice != null">
-				memberPrice,
-			</if>
 			<if test=" wholesalePrice != null">
+				wholesalePrice,
+			</if>
+			<if test=" “area != null">
 				wholesalePrice,
 			</if>
 			<if test=" remarks != null">
@@ -138,14 +138,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="productName != null">
 				#{productName,jdbcType=VARCHAR},
 			</if>
-			<if test="specification != null">
-				#{specification,jdbcType=VARCHAR},
+			<if test="width != null">
+				#{width,jdbcType=INT},
 			</if>
 			<if test="color != null">
 				#{color,jdbcType=VARCHAR},
 			</if>
-			<if test="texture != null">
-				#{texture,jdbcType=VARCHAR},
+			<if test="length != null">
+				#{length,jdbcType=INT},
 			</if>
 			<if test="thickness != null">
 				#{thickness,jdbcType=VARCHAR},
@@ -153,8 +153,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="unitPrice != null">
 				#{unitPrice,jdbcType=VARCHAR},
 			</if>
-			<if test="memberPrice != null">
-				#{memberPrice,jdbcType=VARCHAR},
+			<if test="area != null">
+				#{area,jdbcType=DOUBLE},
 			</if>
 			<if test="wholesalePrice != null">
 				#{wholesalePrice,jdbcType=VARCHAR},
@@ -177,14 +177,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="productName != null">
 				productName = #{productName},
 			</if>
-			<if test="specification != null">
-				specification = #{specification},
+			<if test="length != null">
+				length = #{length},
 			</if>
 			<if test="color != null">
 				color = #{color},
 			</if>
-			<if test="texture != null">
-				texture = #{texture},
+			<if test="width != null">
+				width = #{width},
 			</if>
 			<if test="thickness != null">
 				thickness = #{thickness},
@@ -192,8 +192,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" unitPrice != null">
 				unitPrice = #{unitPrice},
 			</if>
-			<if test=" memberPrice != null">
-				memberPrice =#{memberPrice},
+			<if test=" area != null">
+				area =#{area},
 			</if>
 			<if test=" wholesalePrice != null">
 				wholesalePrice = #{wholesalePrice},

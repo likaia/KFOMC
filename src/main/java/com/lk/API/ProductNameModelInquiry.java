@@ -44,7 +44,6 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		/* 定义分页需要的字段 */
 		int page = 0;
 		int limit = 0;
-
 		if(jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator");
@@ -110,14 +109,14 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			// 新增数据
 			if (jsReq.has("addProduct"))
 			{
-				String productName = jsReq.getString("productName");
-				String specification = jsReq.getString("specification");
+				String productName = jsReq.getString("productName"); //原片名称
 				String color  = jsReq.getString("color");
-				String texture = jsReq.getString("texture");
 				String thickness = jsReq.getString("thickness");
-				int  unitPrice = jsReq.getInt("unitPrice");
-				int memberPrice = jsReq.getInt("memberPrice");
-				int wholesalePrice = jsReq.getInt("wholesalePrice");
+				int  unitPrice = jsReq.getInt("unitPrice");//单价
+				int wholesalePrice = jsReq.getInt("wholesalePrice"); //批发价
+				int length = jsReq.getInt("length");
+				int width = jsReq.getInt("width");
+				double area =  (length * width)/1000000; //计算面积
 				String remarks = jsReq.getString("remarks");
 				String addTime = nowTime;
 				// 打开连接
@@ -125,22 +124,13 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				// 配置映射器
 				ProductNumeInfoMapper productNumeInfoMapper = sqlSession.getMapper(ProductNumeInfoMapper.class);
 				ProductListInfo row = new ProductListInfo();
-				row.setProductName(productName);row.setProductName(productName);
-				row.setSpecification(specification);
+				row.setProductName(productName);
+				row.setLength(length);
 				row.setColor(color);
-				row.setTexture(texture);
+				row.setWidth(width);
 				row.setThickness(thickness);
 				row.setUnitPrice(unitPrice);
-				row.setMemberPrice(memberPrice);
-				row.setWholesalePrice(wholesalePrice);
-				row.setRemarks(remarks);
-				row.setAddTime(addTime);
-				row.setSpecification(specification);
-				row.setColor(color);
-				row.setTexture(texture);
-				row.setThickness(thickness);
-				row.setUnitPrice(unitPrice);
-				row.setMemberPrice(memberPrice);
+				row.setArea(area);
 				row.setWholesalePrice(wholesalePrice);
 				row.setRemarks(remarks);
 				row.setAddTime(addTime);
@@ -188,16 +178,16 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			//更新客户信息
 			if(jsReq.has("updateProduct"))
 			{
-				String productName = jsReq.getString("productName");
-				String specification = jsReq.getString("specification");
+				String productName = jsReq.getString("productName"); //原片名称
+				int id = jsReq.getInt("id");
 				String color  = jsReq.getString("color");
-				String texture = jsReq.getString("texture");
 				String thickness = jsReq.getString("thickness");
-				int  unitPrice = jsReq.getInt("unitPrice");
-				int memberPrice = jsReq.getInt("memberPrice");
-				int wholesalePrice = jsReq.getInt("wholesalePrice");
+				int  unitPrice = jsReq.getInt("unitPrice");//单价
+				int wholesalePrice = jsReq.getInt("wholesalePrice"); //批发价
+				int length = jsReq.getInt("length");
+				int width = jsReq.getInt("width");
+				double area =  (length * width)/1000000; //计算面积
 				String remarks = jsReq.getString("remarks");
-				int id = jsReq.getInt("profuctId");
 				String addTime = nowTime;
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
@@ -205,12 +195,12 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				ProductNumeInfoMapper productNumeInfoMapper = sqlSession.getMapper(ProductNumeInfoMapper.class);
 				ProductListInfo row = new ProductListInfo();
 				row.setProductName(productName);
-				row.setSpecification(specification);
+				row.setLength(length);
 				row.setColor(color);
-				row.setTexture(texture);
+				row.setWidth(width);
 				row.setThickness(thickness);
 				row.setUnitPrice(unitPrice);
-				row.setMemberPrice(memberPrice);
+				row.setArea(area);
 				row.setWholesalePrice(wholesalePrice);
 				row.setRemarks(remarks);
 				row.setId(id);
