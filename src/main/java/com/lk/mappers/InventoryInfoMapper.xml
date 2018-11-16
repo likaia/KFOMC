@@ -30,6 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				operator = #{operator}
 			</if>
+			<if test="originalTitle != null">
+				AND originalTitle like #{originalTitle}
+			</if>
 		</where>
 	</select>
 	<!-- 分页查询数据开始-->

@@ -1,5 +1,6 @@
 package com.lk.API;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -116,7 +117,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				int wholesalePrice = jsReq.getInt("wholesalePrice"); //批发价
 				int length = jsReq.getInt("length");
 				int width = jsReq.getInt("width");
-				double area =  (length * width)/1000000; //计算面积
+				Double area =  jsReq.getDouble("area");
 				String remarks = jsReq.getString("remarks");
 				String addTime = nowTime;
 				// 打开连接
@@ -175,18 +176,18 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
-			//更新客户信息
+			//更新原片信息
 			if(jsReq.has("updateProduct"))
 			{
 				String productName = jsReq.getString("productName"); //原片名称
-				int id = jsReq.getInt("id");
+				int id = jsReq.getInt("profuctId");
 				String color  = jsReq.getString("color");
 				String thickness = jsReq.getString("thickness");
 				int  unitPrice = jsReq.getInt("unitPrice");//单价
 				int wholesalePrice = jsReq.getInt("wholesalePrice"); //批发价
 				int length = jsReq.getInt("length");
 				int width = jsReq.getInt("width");
-				double area =  (length * width)/1000000; //计算面积
+				Double area = jsReq.getDouble("area"); //计算面积
 				String remarks = jsReq.getString("remarks");
 				String addTime = nowTime;
 				// 打开连接

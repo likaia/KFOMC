@@ -59,7 +59,15 @@ public class LkCommon
 		DecimalFormat df = new DecimalFormat("0.00");// 设置保留位数
 		return df.format((float) a / b);
 	}
-
+	/*小数加法运算*/
+	public BigDecimal addDouble(String a, String b)
+	{
+		BigDecimal parameterOne = new BigDecimal(a);
+		BigDecimal parameterTwo = new BigDecimal(b);
+		BigDecimal result = parameterOne.add(parameterTwo);
+		return result;
+	}
+	/*小数减法运算*/
 	public BigDecimal subtract(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -67,7 +75,22 @@ public class LkCommon
 		BigDecimal result = parameterOne.subtract(parameterTwo);
 		return result;
 	}
-
+	/*小数乘法运算*/
+	public BigDecimal multiply(String a, String b)
+	{
+		BigDecimal parameterOne = new BigDecimal(a);
+		BigDecimal parameterTwo = new BigDecimal(b);
+		BigDecimal result = parameterOne.multiply(parameterTwo);
+		return result;
+	}
+	/*小数除法运算*/
+	public BigDecimal divide(String a, String b)
+	{
+		BigDecimal parameterOne = new BigDecimal(a);
+		BigDecimal parameterTwo = new BigDecimal(b);
+		BigDecimal result = parameterOne.divide(parameterTwo,2); //要设置保留几位小数
+		return result;
+	}
 	/* 三徒弟 JSON数组统计 */
 	public HashMap<String, Integer> getJSONArrayNum(JSONArray rawData)
 	{

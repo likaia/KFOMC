@@ -755,11 +755,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">原片规格</label>
+                                    <label class="layui-form-label">原片名称</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter=""
+                                        <select lay-search="" lay-filter="stockProductNameSelectPanel" id="stockProductNameSelectPanel"
                                                 name="stockProductNameSelectPanel">
-                                            <option value="">直接选择或手动输入原片规格</option>
+                                            <option value="">直接选择或手动输入原片名称</option>
                                         </select>
                                     </div>
                                 </div>
@@ -768,7 +768,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <button v-bind:style="{background:BtnColor}" class="layui-btn layui-btn-normal">查询</button>
+                                    <button v-bind:style="{background:BtnColor}" @click="inventoryInquiryFun" class="layui-btn layui-btn-normal">查询</button>
                                 </div>
                             </div>
                         </div>
@@ -778,8 +778,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <!--表格顶部按钮区域-->
                         <div class="tableTopBtn-panel">
                             <div class="btn-panel">
-                                <button v-bind:style="{background:BtnColor}" class="layui-btn layui-btn-normal">删除</button>
-                                <button v-bind:style="{background:BtnColor}" class="layui-btn layui-btn-normal">导出</button>
+                                <button v-bind:style="{background:BtnColor}" @click="stockDelFun" class="layui-btn layui-btn-normal">删除</button>
+                                <button v-bind:style="{background:BtnColor}" @click="stockExportFun" class="layui-btn layui-btn-normal">导出</button>
                             </div>
                         </div>
                         <!--数据表格-->
@@ -2833,7 +2833,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="row-panel">
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>产品名称:</span>
+                        <span>原片名称:</span>
                     </div>
                     <div class="val-panel">
                         <input type="text" v-model="productNameVal" class="layui-input" placeholder="5～13位汉字字母数字组合"
@@ -2842,10 +2842,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>规 格:</span>
+                        <span>颜色:</span>
                     </div>
                     <div class="val-panel">
-                        <input type="text" v-model="specificationVal" class="layui-input" placeholder="2～5位汉字"
+                        <input type="text" v-model="productColor" class="layui-input" placeholder="2～5位汉字"
                                maxlength="5">
                     </div>
                 </div>
@@ -2853,19 +2853,19 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="row-panel">
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>颜 色:</span>
+                        <span>长度:</span>
                     </div>
                     <div class="val-panel">
-                        <div id="originalFilmColorSelect"></div>
-                        <span style="line-height: 40px;font-size: 18px;color:#FF5722;font-weight: 600">点击左边挑选颜色</span>
+                        <input type="text" v-model="productLength" class="layui-input" placeholder="2～5位数字"
+                               maxlength="5">
                     </div>
                 </div>
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>纹 理:</span>
+                        <span>宽度:</span>
                     </div>
                     <div class="val-panel">
-                        <input type="text" v-model="originalFilmGrainVal" class="layui-input" placeholder="5～10位文字"
+                        <input type="text" v-model="productWidth" class="layui-input" placeholder="2~5位数字"
                                maxlength="20">
                     </div>
                 </div>
@@ -2893,15 +2893,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="row-panel">
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>会 员 价:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="originalFilmMemberPriceVal" class="layui-input" placeholder="元"
-                               maxlength="9">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
                         <span>批 发 价:</span>
                     </div>
                     <div class="val-panel">
@@ -2924,13 +2915,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
         </form>
     </div>
+
     <!--基础信息[原片信息]编辑悬浮层-->
     <div id="editProductSubmenu">
         <form class="layui-form layui-form-pane" action="">
             <div class="row-panel">
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>产品名称:</span>
+                        <span>原片名称:</span>
                     </div>
                     <div class="val-panel">
                         <input type="text" v-model="editProductNameVal" class="layui-input" placeholder="5～13位汉字字母数字组合"
@@ -2939,10 +2931,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>规 格:</span>
+                        <span>颜色:</span>
                     </div>
                     <div class="val-panel">
-                        <input type="text" v-model="editSpecificationVal" class="layui-input" placeholder="2～5位汉字"
+                        <input type="text" v-model="editProductColor" class="layui-input" placeholder="2～5位汉字"
                                maxlength="5">
                     </div>
                 </div>
@@ -2950,19 +2942,19 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="row-panel">
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>颜 色:</span>
+                        <span>长度:</span>
                     </div>
                     <div class="val-panel">
-                        <div id="editOriginalFilmColorSelect"></div>
-                        <span style="line-height: 40px;font-size: 18px;color:#FF5722;font-weight: 600">点击左边挑选颜色</span>
+                        <input type="text" v-model="editProductLength" class="layui-input" placeholder="2～5位数字"
+                               maxlength="5">
                     </div>
                 </div>
                 <div class="item-panel">
                     <div class="left-panel">
-                        <span>纹 理:</span>
+                        <span>宽度:</span>
                     </div>
                     <div class="val-panel">
-                        <input type="text" v-model="editOriginalFilmGrainVal" class="layui-input" placeholder="5～10位文字"
+                        <input type="text" v-model="editProductWidth" class="layui-input" placeholder="2～5位数字"
                                maxlength="20">
                     </div>
                 </div>
@@ -2988,15 +2980,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
             </div>
             <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>会 员 价:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editOriginalFilmMemberPriceVal" class="layui-input" placeholder="元"
-                               maxlength="9">
-                    </div>
-                </div>
                 <div class="item-panel">
                     <div class="left-panel">
                         <span>批 发 价:</span>

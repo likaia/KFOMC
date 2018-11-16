@@ -226,25 +226,24 @@ $(function () {
             originalInformationProductName:"",  //--->产品名称选择
             //原片信息新增数据
             productNameVal:"",   // 产品名称
-            specificationVal:"",  // 规 格
-            originalFilmColorVal:"",   // 颜 色
-            originalFilmGrainVal:"",   // 纹 理
+            productColor:"",   // 颜 色
+            productLength:"", //长度
+            productWidth:"",   // 宽度
             originalFilmThicknessVal:"",  // 厚 度
-            originalFilmUnitPriceVal:0, //  单 价
-            originalFilmMemberPriceVal:0, //会 员 价
+            originalFilmUnitPriceVal:"", //  单 价
             originalFilmWholesalePriceVal:0, //批 发 价
             originalFilmRemarksVals:"",  //--->备注
             /*编辑*/
-            editProductNameVal:"",
-            editSpecificationVal:"",
-            editOriginalFilmColorVal:"",
-            editOriginalFilmGrainVal:"",
-            editOriginalFilmThicknessVal:"",
-            editOriginalFilmUnitPriceVal:"",
-            editOriginalFilmMemberPriceVal:"",
-            editOriginalFilmWholesalePriceVal:"",
-            editOriginalFilmRemarksVals:"",
-            profuctId:"",
+            editProductNameVal:"", //原片名称
+            editProductColor:"", //颜色
+            editProductLength:"", //长度
+            editProductWidth:"", //宽度
+            editOriginalFilmThicknessVal:"",//厚度
+            editOriginalFilmUnitPriceVal:"",//单价
+            editOriginalFilmWholesalePriceVal:"",//批发价
+            editOriginalFilmRemarksVals:"", //-->备注
+            profuctId:"", //id
+            //--->配件信息
             OriginalInfoCommodityNameSelectVal:"",
             productModelVal:"",
             /*员工管理[考勤管理]数据*/
@@ -258,7 +257,9 @@ $(function () {
             /*员工管理[员工信息]数据*/
             EmployeeDivisionVal:"",
             EmployeeNameVal:"",
-            EmployeejobNumberVal:""
+            EmployeejobNumberVal:"",
+            /*进销存管理[库存管理]*/
+            originalTitleName:"",
         },
         methods: {
             materialFun: function () {
@@ -1040,6 +1041,13 @@ $(function () {
                 Af.rest("ShipmentInfo.api", req, function (ans) {
                     if (ans.errorCode != 0) {
                         MAIN.ErroAlert(ans.msg);
+                        var InventoryArr = [];
+                        var InventoryShortage = ans.InventoryShortage;
+                        for(var i= 0 ; i <InventoryShortage.length;i++)
+                        {
+                            InventoryArr.push(InventoryShortage[i].productName)
+                        }
+                        layer.alert(InventoryArr+"库存不足10片,无法发货");
                     }
                     else {
                         var data = ans.orderInfo;
@@ -1178,7 +1186,7 @@ $(function () {
                     MAIN.exportFun(tableTitle, selectDatas);
                 }
             },
-            //库存管理点击事件
+            //进销存管理[库存管理]点击事件
             stockFun: function () {
                 this.stockStatus = "block";
                 setTimeout(function () {
@@ -1202,6 +1210,36 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+            },
+            //进销存管理[库存管理]查询函数
+            inventoryInquiryFun:function() {
+                //获取原片名称
+                if (Af.trace(this.originalTitleName))
+                {
+                    MAIN.ErroAlert("请选择一个原片名称后在点查询");
+                    return;
+                }
+                var req = {};
+                req.operator = $("#nickNameTextPanel").html();
+                req.conditionalQuery = "conditionalQuery";
+                req.originalTitle = this.originalTitleName;
+                Af.rest("inventoryInfo.api",req,function(ans){
+                    if(ans.errorCode==0)
+                    {
+                        MAIN.stockDataList(ans.data);
+                    }
+                    else {
+                        layer.msg(ans.msg);
+                    }
+                });
+            },
+            //进销存管理[库存管理]删除函数
+            stockDelFun:function(){
+
+            },
+            //进销存管理[库存管理]导出函数
+            stockExportFun:function(){
+
             },
             //订单信息管理点击事件
             OrderInfoFun: function () {
@@ -2230,8 +2268,8 @@ $(function () {
                     skin: 'btn-Color',
                     yes: function (index, layero) {
                         /*判断用户输入的数据的合法性*/
-                        if (Af.nullstr(vm.productNameVal) || Af.nullstr(vm.originalFilmUnitPriceVal)) {
-                            MAIN.ErroAlert("产品名称,单价为必填项!");
+                        if (Af.nullstr(vm.productNameVal) || Af.nullstr(vm.originalFilmUnitPriceVal)||Af.nullstr(vm.productLength)||Af.nullstr(vm.productWidth)) {
+                            MAIN.ErroAlert("产品名称,单价,长度,宽度为必填项!");
                             return;
                         }
                         //用正则表达式判断用户输入的数据是否符合规范
@@ -2239,12 +2277,6 @@ $(function () {
                         if (!regExpNum.test(vm.originalFilmUnitPriceVal)) {
                             layer.msg("单价必须为纯数字!");
                             return;
-                        }
-                        if (!Af.nullstr(vm.originalFilmMemberPriceVal)) {
-                            if (!regExpNum.test(vm.originalFilmMemberPriceVal)) {
-                                layer.msg("会员价必须位为纯数字!");
-                                return;
-                            }
                         }
                         if (!Af.nullstr(vm.originalFilmWholesalePriceVal)) {
                             if (!regExpNum.test(vm.originalFilmWholesalePriceVal)) {
@@ -2256,25 +2288,24 @@ $(function () {
                             operator: $("#nickNameTextPanel").html(),
                             addProduct: "addProduct",
                             productName: vm.productNameVal,
-                            specification: vm.specificationVal,
-                            color: vm.originalFilmColorVal,
-                            texture: vm.originalFilmGrainVal,
+                            color: vm.productColor,
                             thickness: vm.originalFilmThicknessVal,
                             unitPrice: parseInt(vm.originalFilmUnitPriceVal),
-                            memberPrice: parseInt(vm.originalFilmMemberPriceVal),
                             wholesalePrice: parseInt(vm.originalFilmWholesalePriceVal),
+                            length:vm.productLength,
+                            width:vm.productWidth,
+                            area:(vm.productLength*vm.productWidth)/1000000,
                             remarks: vm.originalFilmRemarksVals
                         };
                         Af.rest("productNameModelInquiry.api", req, function (ans) {
                             if (ans.errorCode == 0) {
                                 vm.productNameVal = "";
-                                vm.specificationVal = "";
                                 vm.originalFilmColorVal = "";
-                                vm.originalFilmGrainVal = "";
                                 vm.originalFilmThicknessVal = "";
                                 vm.originalFilmUnitPriceVal = "";
-                                vm.originalFilmMemberPriceVal = "";
                                 vm.originalFilmWholesalePriceVal = "";
+                                vm.productLength = "";
+                                vm.productWidth = "";
                                 vm.originalFilmRemarksVals = "";
                                 layer.closeAll();
                                 MAIN.OriginalInfoList($("#nickNameTextPanel").html());
@@ -2339,19 +2370,19 @@ $(function () {
                             vm.profuctId = datasArray[i].id;
                             /*给表单赋值*/
                             vm.editProductNameVal = datasArray[i].productName;  //--->产品名称
-                            vm.editSpecificationVal = datasArray[i].specification; //--->规格
-                            vm.editOriginalFilmGrainVal = datasArray[i].texture;  //--->纹理
-                            vm.editOriginalFilmThicknessVal = datasArray[i].thickness; //--->厚度
-                            vm.editOriginalFilmUnitPriceVal = datasArray[i].unitPrice;    //--->单价
-                            vm.editOriginalFilmMemberPriceVal = datasArray[i].memberPrice; //--->会员价
+                            vm.editProductColor = datasArray[i].color; //--->颜色
+                            vm.editProductLength = datasArray[i].length;  //--->长度
+                            vm.editProductWidth = datasArray[i].width; //--->宽度
+                            vm.editOriginalFilmThicknessVal = datasArray[i].thickness;//--->厚度
+                            vm.editOriginalFilmUnitPriceVal = datasArray[i].unitPrice; //--->单价
                             vm.editOriginalFilmWholesalePriceVal = datasArray[i].wholesalePrice; //--->批发价
                             vm.editOriginalFilmRemarksVals = datasArray[i].remarks; //--->备注
                         }
                     },
                     yes: function (index, layero) {
                         /*判断用户输入的数据的合法性*/
-                        if (Af.nullstr(vm.editProductNameVal) || Af.nullstr(vm.editOriginalFilmUnitPriceVal)) {
-                            MAIN.ErroAlert("产品名称,单价为必填项!");
+                        if (Af.nullstr(vm.editProductNameVal) || Af.nullstr(vm.editProductLength) || Af.nullstr(vm.editProductWidth) || Af.nullstr(vm.editOriginalFilmUnitPriceVal)) {
+                            MAIN.ErroAlert("产品名称,单价,长度,宽度为必填项!");
                             return;
                         }
                         //用正则表达式判断用户输入的数据是否符合规范
@@ -2359,12 +2390,6 @@ $(function () {
                         if (!regExpNum.test(vm.editOriginalFilmUnitPriceVal)) {
                             layer.msg("单价必须为纯数字!");
                             return;
-                        }
-                        if (!Af.nullstr(vm.editOriginalFilmMemberPriceVal)) {
-                            if (!regExpNum.test(vm.editOriginalFilmMemberPriceVal)) {
-                                layer.msg("会员价必须位为纯数字!");
-                                return;
-                            }
                         }
                         if (!Af.nullstr(vm.editOriginalFilmWholesalePriceVal)) {
                             if (!regExpNum.test(vm.editOriginalFilmWholesalePriceVal)) {
@@ -2375,27 +2400,28 @@ $(function () {
                         var req = {
                             operator: $("#nickNameTextPanel").html(),
                             updateProduct:"updateProduct",
-                            productName: vm.editProductNameVal,
-                            specification: vm.editSpecificationVal,
-                            color: vm.editOriginalFilmColorVal,
-                            texture: vm.editOriginalFilmGrainVal,
-                            thickness: vm.editOriginalFilmThicknessVal,
-                            unitPrice: parseInt(vm.editOriginalFilmUnitPriceVal),
-                            memberPrice: parseInt(vm.editOriginalFilmMemberPriceVal),
-                            wholesalePrice: parseInt(vm.editOriginalFilmWholesalePriceVal),
-                            remarks: vm.editOriginalFilmRemarksVals,
-                            profuctId:vm.profuctId
+                            productName: vm.editProductNameVal, //--->原片名称
+                            profuctId:vm.profuctId,//id
+                            color: vm.editProductColor,//--->颜色
+                            thickness: vm.editOriginalFilmThicknessVal, //--->厚度
+                            unitPrice: parseInt(vm.editOriginalFilmUnitPriceVal), //单价
+                            wholesalePrice: parseInt(vm.editOriginalFilmWholesalePriceVal),//批发价
+                            length:vm.editProductLength, //--->长度
+                            width:vm.editProductWidth,//--->宽度
+                            area:(vm.editProductLength*vm.editProductWidth)/1000000,//面积
+                            remarks: vm.editOriginalFilmRemarksVals//备注
+
                         };
                         Af.rest("productNameModelInquiry.api", req, function (ans) {
                             if (ans.errorCode == 0) {
                                 vm.editProductNameVal = "";
-                                vm.editSpecificationVal = "";
-                                vm.editOriginalFilmColorVal = "";
-                                vm.editOriginalFilmGrainVal = "";
+                                vm.profuctId = "";
+                                vm.editProductColor = "";
                                 vm.editOriginalFilmThicknessVal = "";
                                 vm.editOriginalFilmUnitPriceVal = "";
-                                vm.editOriginalFilmMemberPriceVal = "";
                                 vm.editOriginalFilmWholesalePriceVal = "";
+                                vm.editProductLength = "";
+                                vm.editProductWidth = "";
                                 vm.editOriginalFilmRemarksVals = "";
                                 layer.closeAll();
                                 MAIN.OriginalInfoList($("#nickNameTextPanel").html());
@@ -3372,6 +3398,10 @@ $(function () {
         });
         form.on('select(EmployeejobNumber)', function (data) {
             vm.EmployeejobNumberVal = data.value;
+        });
+        /*监听进销存管理[库存管理]:原片名称选择*/
+        form.on('select(originalTitleName)', function (data) {
+            vm.originalTitleName = data.value;
         });
         /*订单信息数据表格(作为传值调用)*/
         MAIN.orderInfoCustomizeList = function (resultData) {
@@ -4745,9 +4775,112 @@ $(function () {
                             align: "center"
                         }
                     ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项
+                    $("#stockProductNameSelectPanel option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    stockSelectFun();
+                    /*渲染订单号选择框*/
+                    function stockSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].originalTitle;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "stockProductNameSelectPanel");
+                    }
+
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+        MAIN.stockDataList = function (resultData) {
+            table.render({
+                data:resultData,
+                elem: '#stockList',
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'originalTitle',
+                            title: '原片名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'originalColor',
+                            title: '原片颜色',
+                            align: "center"
+                        },
+                        {
+                            field: 'originalThickness',
+                            title: '原片厚度',
+                            align: "center"
+                        },
+                        {
+                            field: 'storageNum',
+                            title: '入库数量',
+                            align: "center"
+                        },
+                        {
+                            field: 'numberOfOutbound',
+                            title: '出库数量',
+                            align: "center"
+                        },
+                        {
+                            field: 'stockBalance',
+                            title: '库存余量',
+                            align: "center"
+                        },
+                        {
+                            field: 'supplier',
+                            title: '供货商',
+                            align: "center"
+                        }
+                    ]
                 ]
             });
         };
+
         /*订单管理:订单月结管理*/
         MAIN.OrderMonthList = function () {
             table.render({
@@ -6099,18 +6232,23 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'specification',
-                            title: '规格',
-                            align: "center"
-                        },
-                        {
                             field: 'color',
                             title: '颜色',
                             align: "center"
                         },
                         {
-                            field: 'texture',
-                            title: '纹理',
+                            field: 'length',
+                            title: '长度',
+                            align: "length"
+                        },
+                        {
+                            field: 'width',
+                            title: '宽度',
+                            align: "center"
+                        },
+                        {
+                            field: 'area',
+                            title: '面积',
                             align: "center"
                         },
                         {
@@ -6121,11 +6259,6 @@ $(function () {
                         {
                             field: 'unitPrice',
                             title: '单价',
-                            align: "center"
-                        },
-                        {
-                            field: 'memberPrice',
-                            title: '会员价',
                             align: "center"
                         },
                         {

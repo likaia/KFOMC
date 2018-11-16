@@ -103,14 +103,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="productName != null">
 				productName,
 			</if>
-			<if test="width != null">
-				width,
-			</if>
 			<if test="color != null">
 				color,
-			</if>
-			<if test="length != null">
-				length,
 			</if>
 			<if test="thickness != null">
 				thickness,
@@ -118,11 +112,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="unitPrice != null">
 				unitPrice,
 			</if>
-			<if test=" wholesalePrice != null">
+			<if test="wholesalePrice != null">
 				wholesalePrice,
 			</if>
-			<if test=" “area != null">
-				wholesalePrice,
+			<if test="length != null">
+				length,
+			</if>
+			<if test=" width != null">
+				width,
+			</if>
+			<if test=" area != null">
+				area,
 			</if>
 			<if test=" remarks != null">
 				remarks,
@@ -138,26 +138,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="productName != null">
 				#{productName,jdbcType=VARCHAR},
 			</if>
-			<if test="width != null">
-				#{width,jdbcType=INT},
-			</if>
 			<if test="color != null">
 				#{color,jdbcType=VARCHAR},
-			</if>
-			<if test="length != null">
-				#{length,jdbcType=INT},
 			</if>
 			<if test="thickness != null">
 				#{thickness,jdbcType=VARCHAR},
 			</if>
 			<if test="unitPrice != null">
-				#{unitPrice,jdbcType=VARCHAR},
+				#{unitPrice,jdbcType=INTEGER},
+			</if>
+			<if test="wholesalePrice != null">
+				#{wholesalePrice,jdbcType=INTEGER},
+			</if>
+			<if test="length != null">
+				#{length,jdbcType=INTEGER},
+			</if>
+			<if test="width != null">
+				#{width,jdbcType=INTEGER},
 			</if>
 			<if test="area != null">
 				#{area,jdbcType=DOUBLE},
-			</if>
-			<if test="wholesalePrice != null">
-				#{wholesalePrice,jdbcType=VARCHAR},
 			</if>
 			<if test=" remarks != null">
 				#{remarks,jdbcType=VARCHAR},
@@ -177,26 +177,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="productName != null">
 				productName = #{productName},
 			</if>
-			<if test="length != null">
-				length = #{length},
-			</if>
 			<if test="color != null">
 				color = #{color},
-			</if>
-			<if test="width != null">
-				width = #{width},
 			</if>
 			<if test="thickness != null">
 				thickness = #{thickness},
 			</if>
-			<if test=" unitPrice != null">
+			<if test="unitPrice != null">
 				unitPrice = #{unitPrice},
 			</if>
-			<if test=" area != null">
-				area =#{area},
-			</if>
-			<if test=" wholesalePrice != null">
+			<if test="wholesalePrice != null">
 				wholesalePrice = #{wholesalePrice},
+			</if>
+			<if test=" length != null">
+				length = #{length},
+			</if>
+			<if test=" width != null">
+				width =#{width},
+			</if>
+			<if test=" area != null">
+				area = #{area},
 			</if>
 			<if test=" remarks != null">
 				remarks = #{remarks},

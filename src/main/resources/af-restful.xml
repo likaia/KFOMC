@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <restful>
-	<!-- example:
-	<api name="hello" class="my.HelloApi" /> 
-	-->
+	<!-- example: <api name="hello" class="my.HelloApi" /> -->
 	<!-- 登陆接口 -->
-	<api name="loginApi"  class="com.lk.API.LoginAPI" /> 
+	<api name="loginApi" class="com.lk.API.LoginAPI" />
 	<!-- 注册接口 -->
-	<api name="RegisteredApi"  class="com.lk.API.RegisteredAPI" /> 
+	<api name="RegisteredApi" class="com.lk.API.RegisteredAPI" />
 	<!-- 头像查询 接口 -->
-	<api name="AvatarQueryApi"  class="com.lk.API.AvatarQueryAPI" /> 
+	<api name="AvatarQueryApi" class="com.lk.API.AvatarQueryAPI" />
 	<!-- 安卓端使用post请求下载文件 -->
-	<api name="adnroidPostExportAPI"  class="com.lk.API.AdnroidPostExportAPI" />
+	<api name="adnroidPostExportAPI" class="com.lk.API.AdnroidPostExportAPI" />
 	<!-- 进销存管理[进货管理]{原片采购}接口 -->
-	<api name="PurchaseInfo"  class="com.lk.API.PurchaseInfoAPI" />
-	<!-- 进销存管理[进货管理]{配件采购} 接口-->
-	<api name="FittingInfo"  class="com.lk.API.FittingInfoAPI" />
+	<api name="PurchaseInfo" class="com.lk.API.PurchaseInfoAPI" />
+	<!-- 进销存管理[进货管理]{配件采购} 接口 -->
+	<api name="FittingInfo" class="com.lk.API.FittingInfoAPI" />
 	<!-- 进销存管理[出货管理]接口 -->
-	<api name="ShipmentInfo"  class="com.lk.API.ShipmentInfoAPI" />
+	<api name="ShipmentInfo" class="com.lk.API.ShipmentInfoAPI" />
 	<!-- 进销存管理[库存管理]接口 -->
-	<api name="inventoryInfo"  class="com.lk.API.InventoryInfoAPI" />
+	<api name="inventoryInfo" class="com.lk.API.InventoryInfoAPI" />
 	<!-- 财务管理[收入管理]接口 -->
-	<api name="IncomeInfo"  class="com.lk.API.IncomeInfoAPI" />
+	<api name="IncomeInfo" class="com.lk.API.IncomeInfoAPI" />
 	<!-- 财务管理[支出管理]接口 -->
-	<api name="OutlayInfo"  class="com.lk.API.OutlayInfoAPI" />
+	<api name="OutlayInfo" class="com.lk.API.OutlayInfoAPI" />
 	<!-- 财务管理[财务报表]接口 -->
-	<api name="FinancialState"  class="com.lk.API.FinancialStateAPI" />
-	<!--  订单管理[所有订单]接口-->
-	<api name="orderInfonQueiry"  class="com.lk.API.OrderInfonQueiry" />
+	<api name="FinancialState" class="com.lk.API.FinancialStateAPI" />
+	<!-- 订单管理[所有订单]接口 -->
+	<api name="orderInfonQueiry" class="com.lk.API.OrderInfonQueiry" />
 	<!-- 基础信息[客户信息]接口 -->
-	<api name="ClientInfo"  class="com.lk.API.ClientInfoAPI" />
+	<api name="ClientInfo" class="com.lk.API.ClientInfoAPI" />
 	<!-- 基础信息[原片信息]接口 -->
-	<api name="productNameModelInquiry"  class="com.lk.API.ProductNameModelInquiry" />
-	<!-- 基础信息[配件信息]接口-->
-	<api name="FittingPublic"  class="com.lk.API.FittingPublicAPI" />
+	<api name="productNameModelInquiry" class="com.lk.API.ProductNameModelInquiry" />
+	<!-- 基础信息[配件信息]接口 -->
+	<api name="FittingPublic" class="com.lk.API.FittingPublicAPI" />
 	<!-- 员工管理[考勤管理]接口 -->
-	<api name="AttendanceInfo"  class="com.lk.API.AttendanceInfoAPI" />
+	<api name="AttendanceInfo" class="com.lk.API.AttendanceInfoAPI" />
 	<!-- 员工管理[工资发放]接口 -->
-	<api name="SalaryInfo"  class="com.lk.API.SalaryInfoAPI" />
+	<api name="SalaryInfo" class="com.lk.API.SalaryInfoAPI" />
 	<!-- 员工管理[员工信息]接口 -->
-	<api name="EmployeeInfo"  class="com.lk.API.EmployeeInfoAPI" />
+	<api name="EmployeeInfo" class="com.lk.API.EmployeeInfoAPI" />
 	<!-- 获取订单号接口 -->
-	<api name="getOrderNumber"  class="com.lk.API.GetOrderNumberAPI" />
+	<api name="getOrderNumber" class="com.lk.API.GetOrderNumberAPI" />
 	<!-- 测试接口 -->
-	<api name="AndroidDataTest"  class="com.lk.TestAPI.AndroidDataTestAPI" />
+	<api name="AndroidDataTest" class="com.lk.TestAPI.AndroidDataTestAPI" />
 </restful>
