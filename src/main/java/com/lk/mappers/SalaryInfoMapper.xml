@@ -12,8 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="basicWage" column="basicWage" />
 		<result property="jobSubsidy" column="jobSubsidy" />
 		<result property="payable" column="payable" />
+		<result property="releaseType" column="releaseType" />
 		<result property="attendanceDeduction" column="attendanceDeduction" />
 		<result property="personalIncomeTax" column="personalIncomeTax" />
+		<result property="hasBeenPaidInAdvance" column="hasBeenPaidInAdvance" />
 		<result property="realWage" column="realWage" />
 		<result property="signingTime" column="signingTime" />
 		<result property="remarks" column="remarks" />
@@ -30,8 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		basicWage,
 		jobSubsidy,
 		payable,
+		releaseType,
 		attendanceDeduction,
 		personalIncomeTax,
+		hasBeenPaidInAdvance,
 		realWage,
 		signingTime,
 		remarks,
@@ -40,6 +44,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
+			</if>
+			<if test="nameOfWorker != null">
+				AND nameOfWorker like #{nameOfWorker}
 			</if>
 		</where>
 	</select>
@@ -54,8 +61,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		basicWage,
 		jobSubsidy,
 		payable,
+		releaseType,
 		attendanceDeduction,
 		personalIncomeTax,
+		hasBeenPaidInAdvance,
 		realWage,
 		signingTime,
 		remarks,
@@ -73,6 +82,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="operator != null">
 				AND operator like #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 自定义字段查询 -->
+	<select id="customQuery" resultMap="SalaryInfoResult">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_salary_info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="productName != null">
+				AND nameOfWorker like #{nameOfWorker}
 			</if>
 		</where>
 	</select>
@@ -106,11 +132,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="payable != null">
 				payable,
 			</if>
+			<if test="releaseType != null">
+				releaseType,
+			</if>
+			
 			<if test=" attendanceDeduction != null">
 				attendanceDeduction,
 			</if>
 			<if test=" personalIncomeTax != null">
 				personalIncomeTax,
+			</if>
+			<if test=" hasBeenPaidInAdvance != null">
+				hasBeenPaidInAdvance,
 			</if>
 			<if test=" realWage != null">
 				realWage,
@@ -144,11 +177,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="payable != null">
 				#{payable,jdbcType=DOUBLE},
 			</if>
+			<if test="releaseType != null">
+				#{releaseType,jdbcType=VARCHAR},
+			</if>
 			<if test="attendanceDeduction != null">
 				#{attendanceDeduction,jdbcType=DOUBLE},
 			</if>
 			<if test="personalIncomeTax != null">
 				#{personalIncomeTax,jdbcType=DOUBLE},
+			</if>
+			<if test="hasBeenPaidInAdvance != null">
+				#{hasBeenPaidInAdvance,jdbcType=DOUBLE},
 			</if>
 			<if test=" realWage != null">
 				#{realWage,jdbcType=VARCHAR},
@@ -185,6 +224,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test=" payable != null">
 				payable = #{payable},
+			</if>
+			<if test=" releaseType != null">
+				releaseType = #{payable},
 			</if>
 			<if test=" attendanceDeduction != null">
 				attendanceDeduction =#{attendanceDeduction},

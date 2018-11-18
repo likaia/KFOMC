@@ -19,6 +19,9 @@ public interface SalaryInfoMapper
 	// 自定义查询
 	public List<SalaryInfo> conditionalQuery(SalaryInfo row);
 
+	//自定义字段查询
+	public List<SalaryInfo> customQuery(SalaryInfo row);
+	
 	// 批量删除
 	public int del(SalaryInfo row);
 

@@ -11,7 +11,8 @@ function focusNextInput(thisInput) {
         }
     }
 }
-
+var globalData = [];
+var currentSelection = null;  //--->开单悬浮层,用户是否有选择规格型号
 //单击延时触发 (解决同时绑定单击和双击单击事件多次触发bug)
 var clickTimeId;
 
@@ -38,32 +39,68 @@ function ModelItemOneFun(item, rowLine) {
     }, 250);
 }
 
+/*开单悬浮层,规格型号删除函数*/
+function delModelFun(){
+    if(Af.nullstr(currentSelection))
+    {
+        layer.msg("请在要删除的选项中,单击标记框,然后再点击删除！");
+    }
+    else {
+        /*提示用户删除*/
+        layer.confirm("你确定要删除第"+currentSelection+"行数据吗?", function (index) {
+            $("#submenu .table-panel .content-panel .row_"+currentSelection+"").remove();
+            layer.close(index);
+            layer.msg("删除成功");
+        });
+    }
+}
+/*开单悬浮层,用户输入行点击函数*/
 function getUserSelect(index) {
-    var req = {};
-    req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
-    var selectData = []; //品名型号下拉列表数据
-    Af.rest("productNameModelInquiry.api", req, function (ans) {
-        if (ans.errorCode == 0) {
-            var resultArray = ans.data; //--->JSONArray
-            for (var i = 0; i < resultArray.length; i++) {
-                var resultOBJ = {};
-                resultOBJ['id'] = resultArray[i].id;
-                resultOBJ['name'] = resultArray[i].productName;
-                resultOBJ['unitPrice'] = resultArray[i].unitPrice;
-                selectData.push(resultOBJ);
+    currentSelection = index;  //--->赋值用户选择的第几个选项
+    /*自定义查询原片信息表所需的数据*/
+    if(globalData.length==0) {  //判断globalData中是否有数据(是否为第一次请求后台)
+        var req = {};
+        req.queryType = ["productName","unitPrice"];
+        req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
+        Af.rest("productNameModelInquiry.api", req, function (ans) {
+            if (ans.errorCode == 0) {
+                var resultArray = ans.data; //--->JSONArray
+                for (var i = 0; i < resultArray.length; i++) {
+                    var resultOBJ = {};
+                    resultOBJ['id'] = resultArray[i].id;
+                    resultOBJ['name'] = resultArray[i].productName;
+                    resultOBJ['unitPrice'] = resultArray[i].unitPrice;
+                    globalData.push(resultOBJ);
+                }
             }
-            var parent_panel = "#submenu";
-            var containerPanel = ".table-panel .content-panel"; //---->动态div之前的容器
-            var row_line = " .row_"; //--->动态div名称
-            var foot_panel = " .item-panel"; //---->每一个item
-            var pricePanel = $(parent_panel + " " + containerPanel + row_line + index + foot_panel + " .unitPrice");
-            var selectIds = $("select[name='customize" + index + "']").val();
-            if (!Af.nullstr(selectIds)) {
-                //给单价赋值
-                pricePanel.val(selectData[selectIds - 1].unitPrice);
+        });
+    }
+    if(globalData.length!=0)
+    {
+        /*渲染单价数据*/
+        var parent_panel = "#submenu";
+        var containerPanel = ".table-panel .content-panel"; //---->动态div之前的容器
+        var row_line = " .row_"; //--->动态div名称
+        var foot_panel = " .item-panel"; //---->每一个item
+        var pricePanel = $(parent_panel + " " + containerPanel + row_line + index + foot_panel + " .unitPrice");//--->玻璃单价容器
+        var totalAmountPanel = $(parent_panel + " " + containerPanel + row_line + index + foot_panel + " .totalAmount"); //--->总金额容器
+        var glassNumPanel = $(parent_panel + " " + containerPanel + row_line + index + foot_panel + " .glassNum");//--->玻璃数量容器
+        var selectIds = $("select[name='customize" + index + "']").val(); //--->当前选中的select选项
+        if (!Af.nullstr(selectIds)) {
+            var nowPrice = pricePanel.val(); //--->当前新输入的单价
+            var nowGlassNum = glassNumPanel.val(); //--->当前玻璃数量
+            if(nowPrice==globalData[selectIds - 1].unitPrice) //--->判断用户是否修改单价
+            {
+                pricePanel.val(globalData[selectIds - 1].unitPrice); //--->单价赋值(数据相等赋值新数据)
+            }
+           else{
+                pricePanel.val(nowPrice); //--->单价赋值(数值不等,赋值用户输入的新数据,用新数据*玻璃总数量得出总金额,渲染总金额)
+                let total_amount = nowPrice*nowGlassNum; //--->计算总金额(用户新输入的单价*当前玻璃总数量)
+                totalAmountPanel.val(total_amount); //--->总金额赋值
             }
         }
-    });
+    }
+
 }
 window.onbeforeunload = function(event) {
 	//页面刷新时执行
@@ -86,12 +123,13 @@ $(function () {
     var parent_panel = "#submenu";
     var containerPanel = ".table-panel .content-panel"; //---->动态div之前的容器
     var row_line = " .row_"; //--->动态div名称
-    var foot_panel = " .item-panel"; //---->每一个item
+    var foot_panel = " .item-panel"; //--->每一个item
     var ansSelectData = [];
     var globalGlassNum = 0; //全局玻璃数量
     var timer;
     var globalArea = 0; //全局面积
     var globalPrice = 0; //全局单价
+    var printClicks = 0; //--->全局打印点击次数
     var selectedModelArr = [];
     //实例化vue
     var vm = new Vue({
@@ -167,6 +205,7 @@ $(function () {
             originalFilmRemarksVal: "", //---->备注用户选择数据
             originalFilmdStart: "", //开始时间
             originalFilmEnd: "", //结束时间
+            purchaseProductName:"", //新增配件下拉选择框
             /*进货管理:配件采购*/
             FittingNumberSelectval: "", //-->订单号用户选择数据
             FittingsupplierSelectval: "", //供货商用户选择数据
@@ -356,10 +395,53 @@ $(function () {
             },
             /*进货管理:原片采购[采购登记点击事件]*/
             purchaseRegistrationFun: function () {
-                //请求后台获取订单号
-                Af.rest("getOrderNumber.api", {}, function (ans) {
+                //请求后台获取 订单号/服务器时间/原片信息表所有原片名称
+                var req = {};
+                req.queryType = ["productName"];
+                req.operator = $("#nickNameTextPanel").html();
+                Af.rest("productNameModelInquiry.api", req, function (ans) {
+                    /*移除除第一个以外的选项*/
+                    $("#OriginalFilmspecificationModel option:gt(0)").remove();
+                    /*赋值订单号 日期*/
                     $("#OriginalFilmorderNumber").val(ans.orderNumber);
-                    $("#OriginalFilmDateSelect").val(ans.serverTime);
+                    $("#OriginalFilmDateSelect").val(ans.nowTime);
+                    productNameSelectFun();
+                    /*渲染进货管理:原片采购[规格型号]选择框*/
+                    function productNameSelectFun() {
+                        var data = ans.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].productName;
+                            nowData.push(temporaryData);
+                        }
+                        MAIN.addSelectVal(nowData, "OriginalFilmspecificationModel");
+                        function addSelectVal(data, container) {
+                            var $html = "";
+                            if (data != null) {
+                                $.each(data, function (index, item) {
+                                    if (item.proType) {
+                                        $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                    } else {
+                                        $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                    }
+                                });
+                                $("select[name='" + container + "']").append($html);
+                                //反选
+                                //$("select[name='"+container+"']").val($("#???").val());
+                                //append后必须从新渲染
+                                form.render('select');
+                            } else {
+                                $html += "<option value='0'>没有任何数据</option>";
+                                $("select[name='" + container + "']").append($html);
+                                //append后必须从新渲染
+                                form.render('select');
+                            }
+
+                        }
+                    }
+
                 });
                 layer.open({
                     title: "原片采购",
@@ -389,7 +471,7 @@ $(function () {
                 req.orderNumber = $("#OriginalFilmorderNumber").val();
                 req.purchaseDate = $("#OriginalFilmDateSelect").val();
                 req.supplier = $("#OriginalFilmsupplier").val();
-                req.specificationModel = $("#OriginalFilmspecificationModel").val();
+                req.specificationModel =  vm.purchaseProductName;
                 req.thickness = $("#OriginalFilmthickness").val();
                 req.color = $("#OriginalFilmcolor").val();
                 req.quantity = $("#OriginalFilmquantity").val();
@@ -897,8 +979,8 @@ $(function () {
                         orderNumberSelectData.push(orderNumberObj);
                     }
                     //渲染 客户名称 订单号
-                    MAIN.addSelectVal(clientNameSelectData, "shippingCustomerNameSelectPanel");
-                    MAIN.addSelectVal(orderNumberSelectData, "shippingOrderNumberSelectPanel");
+                    MAIN.addSelectOrderVal(clientNameSelectData, "shippingCustomerNameSelectPanel");
+                    MAIN.addSelectOrderVal(orderNumberSelectData, "shippingOrderNumberSelectPanel");
                 });
                 layer.open({
                     title: "新增发货",
@@ -959,6 +1041,9 @@ $(function () {
                                 modelDetailsObj["glassWidth"] = rawData[rowLine][item].glassWidth;//--->宽度
                                 modelDetailsObj["glassNum"] = rawData[rowLine][item].glassNum; //--->数量
                                 modelDetailsObj["glassArea"] = rawData[rowLine][item].glassArea;//--->面积
+                                if(!Af.nullstr(rawData[rowLine][item].unitPrice)) {
+                                    modelDetailsObj["glassArea"] = rawData[rowLine][item].unitPrice; //--->单价
+                                }
                                 modelDetailsObj["totalAmount"] = rawData[rowLine][item].totalAmount;//--->总金额
                                 modelDetailsObj["glassMark"] = rawData[rowLine][item].glassMark;//--->标记
                                 vm.modelDetailsList.push(modelDetailsObj);//--->渲染型号详情蓝色小条目
@@ -986,8 +1071,8 @@ $(function () {
                 var req = {};
                 var rawData = vm.shippingCustomerValArr;//-->用户选择客户名称后后台返回的用户规格型号
                 /*计算未发货的玻璃规格型号:取出已发货的数组和总数组,未发货的数组 = 总数组 - 已发货数组*/
-                var editRawData = [];
-                fun(rawData);//--->将二维数组转成一维数组
+                var editRawData = []; //--->下方arrayConversion方法将二维数组转一维数组时使用了递归，会自动push数据
+                arrayConversion(rawData);//--->将二维数组转成一维数组
                 //取出已发货数组里数据
                 var shippedDataList = vm.modelDetailsList;
                 for (let i = 0; i < shippedDataList.length; i++) {
@@ -1006,6 +1091,11 @@ $(function () {
                         if (_.isEqual(editRawData[i], shippedDataList[j])) {//调用_.isEqual方法判断对象是否相等
                             //layer.msg("相同元素出现");
                             editRawData.splice(i--, 1);   //删除相同元素:得到未发货数据
+                            /*
+                            * 这里可能出错:
+                            *   开单时,保存规格型号新增单价字段,可能出现判断失误
+                            *
+                            * */
                         }
                     }
                 }
@@ -1082,7 +1172,7 @@ $(function () {
                                 td5,
                                 td7,
                                 td8;
-                            var tdType = "<td colspan='7'>";
+                            var tdType = "<td colspan='8'>";
                             var dataArrayLength = Af.getJsonLength(shippedDataArr[i]); //---->获取当前JSONArray下的数据长度
                             if (dataArrayLength > 1) {
                                 num++;
@@ -1139,7 +1229,7 @@ $(function () {
                 });
 
                 /*多维数组转一维数组函数*/
-                function fun(arr) {
+                function arrayConversion(arr) {
                     for (var i = 0; i < arr.length; i++) {
                         if (Array.isArray(arr[i])) {
                             fun(arr[i]);
@@ -1214,7 +1304,7 @@ $(function () {
             //进销存管理[库存管理]查询函数
             inventoryInquiryFun:function() {
                 //获取原片名称
-                if (Af.trace(this.originalTitleName))
+                if (Af.nullstr(this.originalTitleName))
                 {
                     MAIN.ErroAlert("请选择一个原片名称后在点查询");
                     return;
@@ -1222,7 +1312,7 @@ $(function () {
                 var req = {};
                 req.operator = $("#nickNameTextPanel").html();
                 req.conditionalQuery = "conditionalQuery";
-                req.originalTitle = this.originalTitleName;
+                req.originalTitle = vm.originalTitleName;
                 Af.rest("inventoryInfo.api",req,function(ans){
                     if(ans.errorCode==0)
                     {
@@ -1235,11 +1325,36 @@ $(function () {
             },
             //进销存管理[库存管理]删除函数
             stockDelFun:function(){
-
+                var req = {};
+                //取出当前选择项订单号
+                var idsArray = MAIN.getSelectId("stockList");
+                if (Af.nullstr(idsArray)) {
+                    MAIN.ErroAlert("不能删除空数据,请勾选订单!");
+                } else {
+                    //提示用户删除
+                    layer.confirm('确定要删除吗?', function (index) {
+                        var idsStr = idsArray.toString();
+                        req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                        req.operator = $("#nickNameTextPanel").html();
+                        req.delSalary = "delSalary";
+                        Af.rest("inventoryInfo.api", req, function (ans) {
+                            layer.close(index);
+                            layer.msg(ans.msg);
+                            if (ans.errorCode == 0) {
+                                //数据表格重载
+                                MAIN.stockList($("#nickNameTextPanel").html());
+                            }
+                        });
+                    });
+                }
             },
             //进销存管理[库存管理]导出函数
             stockExportFun:function(){
-
+                var tableTitle = ['库存编号', '原片名称', '原片颜色', '原片厚度', '入库数量', '出库数量', '库存余量', '供货商'];
+                var selectDatas = MAIN.getStockDatas("stockList");
+                if (!Af.nullstr(selectDatas)) {
+                    MAIN.exportFun(tableTitle, selectDatas);
+                }
             },
             //订单信息管理点击事件
             OrderInfoFun: function () {
@@ -1315,7 +1430,7 @@ $(function () {
                             ansSelectData.push(resultOBJ);
                         }
                         //渲染品名型号下拉选择
-                        MAIN.addSelectVal(selectData, "customize1");
+                        MAIN.addSelectOrderVal(selectData, "customize1");
                         //获取订单号并赋值
                         $("#billingOrderNumber").val(ans.serverTime);
                         MAIN.billingorderNumber = ans.serverTime;
@@ -1323,7 +1438,7 @@ $(function () {
                         $("#billingDatePanel").val(ans.nowTime);
                     }
                 });
-                var selectId; //用户选择slect下拉框的id(打开弹出层时,设置一个定时器!用于监听用户是否选择下拉框)
+                var selectId = 0; //用户选择slect下拉框的id(打开弹出层时,设置一个定时器!用于监听用户是否选择下拉框)
                 timer = setInterval(function () {
                     selectId = $("select[name='customize1']").val();
                     if (!Af.nullstr(selectId)) {
@@ -1334,9 +1449,8 @@ $(function () {
             },
             /*订单信息管理:开单悬浮层[新增] 数据交互*/
             billingaddFun: function () {
-            },
-            /*订单信息管理:开单悬浮层[删除] 数据交互*/
-            billingDelFun: function () {
+                var status = 1;
+                vm.addProductFun(status);
             },
             /*订单信息管理:开单悬浮层[打印]*/
             billingPrintFun: function () {
@@ -1346,23 +1460,25 @@ $(function () {
                 for (var i = 1; i <= 300; i++) {
                     var userInputOBJ = {};
                     //获取容器
-                    var lengthVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .glassLength");
-                    var widthVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .glassWidth");
-                    var numVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .glassNum");
-                    var marksVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .marks");
-                    var areaVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .area");
-                    var totalAmountVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .totalAmount");
-                    var userSelectData = $("#submenu .table-panel .content-panel .row_" + i + " .specificationModel select").find("option:selected").text();
+                    let lengthVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .glassLength");
+                    let widthVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .glassWidth");
+                    let numVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .glassNum");
+                    let marksVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .marks");
+                    let areaVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .area");
+                    let unitPricePanel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .unitPrice");
+                    let totalAmountVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .totalAmount");
+                    let userSelectData = $("#submenu .table-panel .content-panel .row_" + i + " .specificationModel select").find("option:selected").text();
                     if (Af.nullstr(userSelectData) || Af.nullstr(lengthVessel.val())) {
                         //退出循环
                         break;
                     }
-                    var glassLength = lengthVessel.val();
-                    var glassWidth = widthVessel.val();
-                    var glassNum = numVessel.val();
-                    var markval = marksVessel.val();
-                    var areaVal = areaVessel.val();
-                    var totalAmount = totalAmountVessel.val();
+                    let glassLength = lengthVessel.val();
+                    let glassWidth = widthVessel.val();
+                    let glassNum = numVessel.val();
+                    let markval = marksVessel.val();
+                    let unitPrice = unitPricePanel.val();
+                    let areaVal = areaVessel.val();
+                    let totalAmount = totalAmountVessel.val();
                     /*生成JSONArray*/
                     userInputOBJ['id'] = i;
                     userInputOBJ['productName'] = userSelectData; //-->型号
@@ -1371,6 +1487,7 @@ $(function () {
                     userInputOBJ['glassNum'] = glassNum; //-->数量
                     userInputOBJ['glassMark'] = markval; //-->标记
                     userInputOBJ['glassArea'] = areaVal; //-->面积
+                    userInputOBJ['unitPrice'] = unitPrice;//--->单价
                     userInputOBJ['totalAmount'] = totalAmount; //-->总金额
                     globalArea = Af.accAdd(areaVal, globalArea);
                     globalPrice = Af.accAdd(totalAmount, globalPrice);
@@ -1395,6 +1512,18 @@ $(function () {
                 var billingOtherCostVal = $("#billingOtherCost").val();
                 if (Af.nullstr(billingOtherCostVal)) {
                     var billingOtherCostVal = $("#billingOtherCost").val(0);
+                }
+                //判断用户是否有输入规格型号
+                if(userInputDatas.length<1)
+                {
+                    MAIN.ErroAlert("检测到你还没有输入规格型号,请输入规格型号!");
+                    return;
+                }
+                if(printClicks==0)
+                {
+                    layer.alert("总金额,总面积,已经计算,请检查数据的准确性!确保无误后再次点打印,开始打印生产单!")
+                    printClicks = 1;
+                    return;
                 }
                 //JSONArray归类(相同的归为一类) :发送给后台
                 userInputArray = Af.getJSONArray(userInputDatas);
@@ -1579,8 +1708,13 @@ $(function () {
                     globalGlassNum = 0;
                     globalArea = 0;
                     globalPrice = 0;
+                    printClicks = 0;
 
                 }
+
+            },
+            /*精确合并*/
+            billingPreciseMergerFun:function(){
 
             },
             /*订单信息管理:删除订单交互函数*/
@@ -2258,7 +2392,7 @@ $(function () {
                 });
             },
             /*基础信息[原片信息]新增事件*/
-            addProductFun:function(){
+            addProductFun:function(status){
                 layer.open({
                     title: "新增原片信息",
                     type: 1,
@@ -2307,8 +2441,38 @@ $(function () {
                                 vm.productLength = "";
                                 vm.productWidth = "";
                                 vm.originalFilmRemarksVals = "";
-                                layer.closeAll();
+                                layer.close(index);
                                 MAIN.OriginalInfoList($("#nickNameTextPanel").html());
+                                /*更新开单处产品名称选择*/
+                                if(status==1) //判断是否外部调用(订单调用)
+                                {
+                                    var reqs = {};
+                                    reqs.operator = $("#nickNameTextPanel").html(); //--->获取用户名
+                                    reqs.queryType = ["productName", "unitPrice"];
+                                    var selectData = []; //品名型号下拉列表数据
+                                    Af.rest("productNameModelInquiry.api", reqs, function (ans) { //查询原片信息表
+                                        if (ans.errorCode == 0) {
+                                            var resultArray = ans.data; //--->JSONArray
+                                            for (var i = 0; i < resultArray.length; i++) {
+                                                var resultOBJ = {};
+                                                resultOBJ['id'] = resultArray[i].id;
+                                                resultOBJ['name'] = resultArray[i].productName;
+                                                resultOBJ['unitPrice'] = resultArray[i].unitPrice;
+                                                selectData.push(resultOBJ);
+                                                ansSelectData.push(resultOBJ);
+                                            }
+                                            /*清空除第一个以外的所有选项*/
+                                            $("#customize1 option:gt(0)").remove();
+                                            //渲染品名型号下拉选择
+                                            MAIN.addSelectVal(selectData, "customize1");
+                                            //获取订单号并赋值
+                                            $("#billingOrderNumber").val(ans.serverTime);
+                                            MAIN.billingorderNumber = ans.serverTime;
+                                            //获取服务器时间并赋值
+                                            $("#billingDatePanel").val(ans.nowTime);
+                                        }
+                                    });
+                                }
                             }
                             layer.msg(ans.msg);
                         });
@@ -2980,7 +3144,7 @@ $(function () {
             var inputNum = "<input maxlength=\"5\" type=\"text\" rowLine='\"+globalVar+\"'  placeholder=\"片\" class=\"layui-input addRow glassNum\" >"; //---->数量标签
             var inputMark = "<input maxlength=\"5\" type=\"text\" placeholder=\"请输入\" class=\"layui-input marks\">"; //---->标记标签
             var inputArea = "<input type=\"text\" placeholder=\"自动计算\" class=\"layui-input not_allowed area\" readonly=\"readonly\">"; //---->面积标签
-            var inputunitPrice = "<input type=\"text\" placeholder=\"自动读取\" class=\"layui-input unitPrice not_allowed\" readonly=\"readonly\">"; //--->单价标签
+            var inputunitPrice = "<input type=\"text\" placeholder=\"自动读取\" class=\"layui-input unitPrice\">"; //--->单价标签
             var inputtotalAmount = "<input type=\"text\" placeholder=\"自动计算\" class=\"layui-input not_allowed totalAmount\" readonly=\"readonly\">"; //---->合计金额标签
             var endDiv = "</div>";
             /*数据拼凑*/
@@ -2988,7 +3152,7 @@ $(function () {
             //将拼凑的数据追加到 网页中
             $(elementDiv).append(rowData);
             //渲染select
-            MAIN.addSelectVal(ansSelectData, "customize" + globalVar);
+            MAIN.addSelectOrderVal(ansSelectData, "customize" + globalVar);
             //给新行设置定时器动态获取单价
             timer = setInterval(function () {
                 var selectIds;
@@ -3002,8 +3166,7 @@ $(function () {
         };
 
 
-        /*动态赋值select函数*/
-        MAIN.addSelectVal = function (data, container) {
+        MAIN.addSelectOrderVal = function (data, container) {
             var $html = "";
             if (data != null) {
                 $.each(data, function (index, item) {
@@ -3025,6 +3188,30 @@ $(function () {
                 form.render('select');
             }
 
+        };
+
+        /*动态赋值select函数*/
+        MAIN.addSelectVal = function (data, container) {
+            var $html = "";
+            if (data != null) {
+                $.each(data, function (index, item) {
+                    if (item.proType) {
+                        $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                    } else {
+                        $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                    }
+                });
+                $("select[name='" + container + "']").append($html);
+                //反选
+                //$("select[name='"+container+"']").val($("#???").val());
+                //append后必须从新渲染
+                form.render('select');
+            } else {
+                $html += "<option value='0'>没有任何数据</option>";
+                $("select[name='" + container + "']").append($html);
+                //append后必须从新渲染
+                form.render('select');
+            }
         };
         /*监听进货管理tab选项卡切换:原片采购&配件采购*/
         element.on('tab(IncomingGoodsTab)', function (data) {
@@ -3172,6 +3359,38 @@ $(function () {
                     dataArr[7] = data[i].remainingArea;
                     dataArr[8] = data[i].transportationManager;
                     dataArr[9] = data[i].freight;
+                    datas.push(dataArr);
+                }
+                return datas;
+            }
+            return null;
+        };
+        /*库存管理:[导出]数据函数*/
+        MAIN.getStockDatas = function(tableId){
+            var checkStatus = table.checkStatus(tableId),
+                data = checkStatus.data;
+            if (Af.nullstr(data)) {
+                MAIN.ErroAlert("不能导出空数据,请勾选要导出的数据!");
+            } else {
+                var datas = [];
+                for (var i = 0; i < data.length; i++) {
+                    var dataArr = [];
+                    dataArr[0] = data[i].id;
+                    dataArr[1] = data[i].originalTitle;
+                    dataArr[2] = data[i].originalColor;
+                    dataArr[3] = data[i].originalThickness;
+                    dataArr[4] = data[i].storageNum;
+                    if (data[i].numberOfOutbound) {
+                        dataArr[5] = data[i].numberOfOutbound;
+                    } else {
+                        dataArr[5] = "空";
+                    }
+                    if (data[i].stockBalance) {
+                        dataArr[6] = data[i].stockBalance;
+                    } else {
+                        dataArr[6] = "空";
+                    }
+                    dataArr[7] = data[i].supplier;
                     datas.push(dataArr);
                 }
                 return datas;
@@ -3400,8 +3619,26 @@ $(function () {
             vm.EmployeejobNumberVal = data.value;
         });
         /*监听进销存管理[库存管理]:原片名称选择*/
-        form.on('select(originalTitleName)', function (data) {
+        form.on('select(stockProductNameSelectPanel)', function (data) {
             vm.originalTitleName = data.value;
+        });
+        /*监听原片采购[原片名称]选择*/
+        form.on('select(OriginalFilmspecificationModel)', function (data) {
+            vm.purchaseProductName = data.value;
+            //查询 厚度,颜色,单价
+            var req = {};
+            req.queryType = ["thickness","color","unitPrice"];
+            req.operator = $("#nickNameTextPanel").html();
+            req.productName = vm.purchaseProductName;
+            Af.rest("productNameModelInquiry.api", req, function (ans){
+                if(ans.errorCode==0)
+                {
+                    let data = ans.data;
+                    $("#OriginalFilmthickness").val(data[0].thickness);
+                    $("#OriginalFilmcolor").val(data[0].color);
+                    $("#OriginalFilmunitPrice").val(data[0].unitPrice);
+                }
+            });
         });
         /*订单信息数据表格(作为传值调用)*/
         MAIN.orderInfoCustomizeList = function (resultData) {
@@ -4740,6 +4977,12 @@ $(function () {
                             align: "center"
                         },
                         {
+                            field: 'id',
+                            title: '库存编号',
+                            align: "center",
+                            width:100
+                        },
+                        {
                             field: 'originalTitle',
                             title: '原片名称',
                             align: "center"
@@ -4840,6 +5083,12 @@ $(function () {
                             fixed: "left",
                             type: 'checkbox',
                             align: "center"
+                        },
+                        {
+                            field: 'id',
+                            title: '库存编号',
+                            align: "center",
+                            width:100
                         },
                         {
                             field: 'originalTitle',
@@ -6608,6 +6857,15 @@ $(function () {
             MAIN.ErroAlert("请输入总金额和已付款金额");
         } else {
             $("#billingUnpaid").val(totalAmount + "元");
+        }
+    });
+    //发货管理:原片采购[数量] 失去焦点事件
+    $("#OriginalFilmquantity").blur(function () {
+        var totalAmount = Number($("#OriginalFilmquantity").val()) * Number($("#OriginalFilmunitPrice").val());
+        if (isNaN(totalAmount)) {
+            MAIN.ErroAlert("请输入数量和单价");
+        } else {
+            $("#OriginalFilmtotalPurchase").val(totalAmount + "元");
         }
     });
     //发货管理:原片采购[单价] 失去焦点事件

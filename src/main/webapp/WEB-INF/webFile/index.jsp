@@ -1720,13 +1720,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         @click="billingaddFun">
                     <i class="layui-icon">&#xe608;</i> 新增
                 </button>
-                <button @click="billingDelFun" class="layui-btn"
+                <button onclick="delModelFun()" class="layui-btn"
                         style="background:#FF5722">
                     <i class="layui-icon">&#xe640;</i> 删除
                 </button>
                 <button @click="billingPrintFun" class="layui-btn"
                         style="background: #2F4056">
                     <i class="layui-icon"> &#xe641;</i> 打印
+                </button>
+                <button @click="billingPreciseMergerFun" class="layui-btn"
+                        style="background: #2F4056">
+                    <i class="layui-icon"> &#xe857;</i> 精确合并
                 </button>
             </div>
             <div class="billingContentPanel">
@@ -1767,7 +1771,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <span>1</span>
                                 </div>
                                 <div class="specificationModel">
-                                    <select name="customize1" lay-filter="customize1">
+                                    <select name="customize1" lay-filter="customize1" id="customize1">
                                         <option value="">点击选择规格型号</option>
                                     </select>
                                 </div>
@@ -1795,7 +1799,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 </div>
                                 <div class="item-panel">
                                     <input type="text" placeholder="自动读取"
-                                           class="layui-input unitPrice not_allowed" readonly="readonly">
+                                           class="layui-input unitPrice">
                                 </div>
                                 <div class="item-panel">
                                     <input type="text" placeholder="自动计算"
@@ -2261,10 +2265,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="row-panel">
                 <div class="item-panel">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">规格型号:</label>
+                        <label class="layui-form-label">原片名称:</label>
                         <div class="layui-input-block">
-                            <input type="text" placeholder="请输入规格型号"
-                                   id="OriginalFilmspecificationModel" class="layui-input">
+                            <select lay-search="" lay-filter="OriginalFilmspecificationModel"
+                                    id="OriginalFilmspecificationModel" name="OriginalFilmspecificationModel">
+                                <option value="">点击选择原片名称</option>
+                            </select>
+
                         </div>
                     </div>
                 </div>

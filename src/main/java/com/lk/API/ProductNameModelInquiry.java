@@ -35,6 +35,8 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		/* 回传给前端的数据 */
 		int errorCode = 0;
 		int code = 0;
+		// 产生订单号:UUID（16位）
+		String orderNumber = UUIDUtil.getOrderIdByUUId();
 		// 获取当前服务器时间
 		String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		JSONArray result = new JSONArray();
@@ -226,6 +228,11 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			{
 				JSONArray queryType = jsReq.getJSONArray("queryType");
 				ProductListInfo row = new ProductListInfo();
+				if(jsReq.has("productName"))
+				{
+					String productName = jsReq.getString("productName");
+					row.setProductName(productName);
+				}
 				row.setOperator(operator);
 				row.setQueryType(queryType);
 				// 打开连接
@@ -251,6 +258,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		jsReply.put("errorCode",errorCode);
 		jsReply.put("msg",msg );
 		jsReply.put("count", count);
+		jsReply.put("orderNumber", orderNumber);
 		jsReply.put("nowTime",nowTime );
 		jsReply.put("androidData", androidData);
 		jsReply.put("serverTime", serverTime);

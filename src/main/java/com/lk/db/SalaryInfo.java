@@ -18,12 +18,15 @@ public class SalaryInfo
 	private Double basicWage;
 	private Double jobSubsidy;
 	private Double payable;
+	private String releaseType;  //发放类型
 	private Double attendanceDeduction;
 	private Double personalIncomeTax;
+	private Double hasBeenPaidInAdvance; //以预支工资
 	private Double realWage;
 	private String signingTime;
 	private String remarks;
 	private String operator;
+	private JSONArray queryType;
 	JSONArray ids;
 	public Integer getId()
 	{
@@ -98,9 +101,34 @@ public class SalaryInfo
 		this.personalIncomeTax = personalIncomeTax;
 	}
 
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
+	}
 	public Double getRealWage()
 	{
 		return realWage;
+	}
+	
+	public String getReleaseType()
+	{
+		return releaseType;
+	}
+	public void setReleaseType(String releaseType)
+	{
+		this.releaseType = releaseType;
+	}
+	public Double getHasBeenPaidInAdvance()
+	{
+		return hasBeenPaidInAdvance;
+	}
+	public void setHasBeenPaidInAdvance(Double hasBeenPaidInAdvance)
+	{
+		this.hasBeenPaidInAdvance = hasBeenPaidInAdvance;
 	}
 	public void setRealWage(Double realWage)
 	{

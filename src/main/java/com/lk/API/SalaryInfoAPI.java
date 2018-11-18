@@ -62,11 +62,35 @@ public class SalaryInfoAPI extends AfRestfulApi
 				PageHelper.startPage(page, limit); // 设置分页
 				SalaryInfo row = new SalaryInfo();
 				row.setOperator(operator);
+				if(jsReq.has("nameOfWorker"))
+				{
+					String nameOfWorker = jsReq.getString("nameOfWorker");
+					row.setNameOfWorker(nameOfWorker);
+				}
 				List<SalaryInfo> resultList = salaryInfoMapper.findexpenditurePage(row);
 				// 获取表内所有的数据总记录数 :使用PageInfo方法
 				PageInfo<SalaryInfo> pageInfo = new PageInfo<SalaryInfo>(resultList);
 				// 获取总记录数
 				count = pageInfo.getTotal();
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
+			/*自定义查询：操作人/员工姓名*/
+			if(jsReq.has("queryType"))
+			{
+				JSONArray queryType = jsReq.getJSONArray("queryType");
+				String nameOfWorker = jsReq.getString("nameOfWorker");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				SalaryInfo row = new SalaryInfo();
+				row.setOperator(operator);
+				row.setNameOfWorker(nameOfWorker);
+				row.setQueryType(queryType);
+				SalaryInfoMapper salaryInfoMapper = sqlSession.getMapper(SalaryInfoMapper.class);
+				List<SalaryInfo> resultList = salaryInfoMapper.customQuery(row);
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */
 				androidData = "\"" + result + "\"";
