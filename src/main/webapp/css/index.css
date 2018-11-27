@@ -2,7 +2,104 @@
 	margin: 0;
 	padding: 0;
 }
+/*加载动画开始*/
+#loading{
+	display: none;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 9999999999;
+	margin-top: 0px;
+	top: 0px;
+}
+#loading-center{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#loading-center-absolute {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 150px;
+	width: 150px;
+	margin-top: -75px;
+	margin-left: -75px;
+}
+.object{
+	width: 20px;
+	height: 20px;
+	background-color: #2F3F56;
+	float: left;
+	margin-right: 20px;
+	margin-top: 65px;
+	-moz-border-radius: 50% 50% 50% 50%;
+	-webkit-border-radius: 50% 50% 50% 50%;
+	border-radius: 50% 50% 50% 50%;
+}
 
+#object_one {
+	-webkit-animation: object_one 1.0s infinite;
+	animation: object_one 1.0s infinite;
+}
+#object_two {
+	-webkit-animation: object_two 1.0s infinite;
+	animation: object_two 1.0s infinite;
+	-webkit-animation-delay: 0.25s;
+	animation-delay: 0.25s;
+}
+#object_three {
+	-webkit-animation: object_three 1.0s infinite;
+	animation: object_three 1.0s infinite;
+	-webkit-animation-delay: 0.5s;
+	animation-delay: 0.5s;
+
+}
+
+@-webkit-keyframes object_one {
+	75% { -webkit-transform: scale(0); }
+}
+
+@keyframes object_one {
+
+	75% {
+		transform: scale(0);
+		-webkit-transform: scale(0);
+	}
+
+}
+
+@-webkit-keyframes object_two {
+
+
+	75% { -webkit-transform: scale(0); }
+
+
+}
+
+@keyframes object_two {
+	75% {
+		transform: scale(0);
+		-webkit-transform:  scale(0);
+	}
+
+}
+
+@-webkit-keyframes object_three {
+
+	75% { -webkit-transform: scale(0); }
+
+}
+
+@keyframes object_three {
+
+	75% {
+		transform: scale(0);
+		-webkit-transform: scale(0);
+	}
+
+}
+/*加载动画结束*/
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 }
@@ -500,7 +597,7 @@ a {
 }
 
 #orderInformationDataList .title-BtnPanel .btn-panel {
-	width: 435px;
+	width: 555px;
 	height: 40px;
 	position: absolute;
 	right: 0px;
@@ -1665,4 +1762,24 @@ a {
 	background-color: #003366;
 	border: solid 1px #003366;
 	color: white;
+}
+/*标签打印悬浮层*/
+#labelPrintingSubmenu .row-panel{
+	width: 80%;
+	height: 140px;
+	margin:15px auto 0;
+}
+#labelPrintingSubmenu .row-panel .left-panel{
+	width: 30%;
+	height: 140px;
+	float: left;
+}
+#labelPrintingSubmenu .row-panel .left-panel span{
+	line-height: 40px;
+	font-size: 18px;
+}
+#labelPrintingSubmenu .row-panel .right-panel{
+	width: 70%;
+	height: 140px;
+	float: left;
 }

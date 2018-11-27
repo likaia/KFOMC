@@ -55,6 +55,186 @@ Af.nullstr = function(v) {
 	return v == null || v.length == 0;
 };
 
+/*JSON数据精确合并:*/
+Af.preciseMerger = function(arr){
+    var objs = [];
+    var flag = true;
+    for(let i = 0; i < arr.length;i++){
+        let area = parseInt(arr[i].glassLength) * parseInt(arr[i].glassWidth);
+        for(let j=0;j<objs.length;j++){
+            let objsArea =  parseInt(objs[j].glassLength) * parseInt(objs[j].glassWidth);
+            if(area == objsArea){
+                objs[j].glassNum = parseInt(objs[j].glassNum) + parseInt(arr[i].glassNum); //--->玻璃总数量相加
+                objs[j].glassArea = parseFloat(objs[j].glassArea) + parseFloat(arr[i].glassArea); //--->玻璃总面积相加
+                objs[j].glassArea = objs[j].glassArea.toFixed(2); //--->保留2位小数
+                objs[j].totalAmount = parseInt(objs[j].totalAmount) + parseInt(arr[i].totalAmount); //--->总金额相加
+                flag = false;
+                break;
+            }
+            else{
+                flag = true;
+            }
+        }
+        if(flag){
+            objs.push(arr[i]);
+        }
+    }
+    return objs;
+};
+/*JSON数据模糊合并*/
+Af.fuzzyMerger = function (arr) {
+    function sortLength(a, b) {
+        return a.glassLength - b.glassLength;
+    }
+
+    function sortWidth(a, b) {
+        return parseInt(a.glassWidth) - parseInt(b.glassWidth);
+    }
+
+    function averageLength(x) {
+        var value = 0;
+        for (var i = 0; i < x.length; i++) {
+            value += parseInt(x[i].glassLength);
+        }
+        return Math.round(value / x.length);
+    }
+
+    function averageWidth(x) {
+        var value = 0;
+        for (var i = 0; i < x.length; i++) {
+            value += parseInt(x[i].glassWidth);
+        }
+        return Math.round(value / x.length);
+    }
+    var objs = [];
+    var obj = {}; //单个json对象
+    var somes = []; //保存长度符合的数组
+    var somesNum = 0; //记录的glassNum数量
+    var somesArea = 0.0;
+
+    var exclude_objs = [];
+    var exclude_obj_num = 0;
+    var exclude_obj_area = 0.0;
+    var id = 0;
+    //按照长度进行排序
+    arr.sort(sortLength);
+    while (arr.length > 0) {
+
+        var arr_obj = arr.shift(); //每次取出都是第一个数据
+
+        if (somes.length == 0) {
+            somes.push(arr_obj);
+            somesNum = parseInt(arr_obj.glassNum);
+            somesArea = parseFloat(arr_obj.glassArea);
+        } else if (somes.length > 0 && arr_obj.productName == somes[0].productName && parseInt(arr_obj.glassLength) - parseInt(somes[0].glassLength) <= 6) { //先把符合宽度的数据放进来
+            somes.push(arr_obj);
+            somesNum += parseInt(arr_obj.glassNum);
+            somesArea += parseFloat(arr_obj.glassArea);
+        } else {
+            //当所有符合宽度和名称的要求判断完毕后，再把不符合宽度要求的数取出来
+            somes = somes.sort(sortWidth); //对宽度进行排序，每次判断最后一个宽度和第一个宽度是不是相差6
+            while (parseInt(somes[somes.length - 1].glassWidth) - parseInt(somes[0].glassWidth) > 6) {
+                var exclude_obj = somes.pop(); //弹出最后面不符合要求的数据
+                somesNum -= parseInt(exclude_obj.glassNum);
+                somesArea -= parseFloat(exclude_obj.glassArea);
+                arr.push(exclude_obj);
+            }
+
+            arr.push(arr_obj); //前面判断长度或者产品名称数据没通过，再把取出来的数据放进去，然后进行排序
+            arr.sort(sortLength);
+
+            var averLength = averageLength(somes).toString();
+            var averWidth = averageWidth(somes).toString();
+
+            obj.id = id;
+            obj.productName = somes[0].productName;
+            obj.glassLength = averLength;
+            obj.glassWidth = averWidth;
+            obj.glassNum = somesNum;
+            obj.glassMark = "#0";
+            obj.glassArea = Math.floor(somesArea * 100) / 100;
+            obj.unitPrice = "#0";
+            obj.totalAmount = "#0";
+            objs.push(obj);
+
+            somes = [];
+            somesNum = 0;
+            somesArea = 0.0;
+            obj = {};
+            id++;
+        }
+
+    }
+
+    //上面处理后，筛选出来的数据就是长度和产品名称相同的，但是宽度不一定相同的数据
+    somes.sort(sortWidth);
+    while (somes.length > 0) {
+        var some_obj = somes.shift();
+        if (exclude_objs.length == 0) {
+            exclude_objs.push(some_obj);
+            exclude_obj_num = parseInt(some_obj.glassNum);
+            exclude_obj_area = parseFloat(some_obj.glassArea);
+        } else if (exclude_objs.length > 0 && parseInt(some_obj.glassWidth) - parseInt(exclude_objs[0].glassWidth) <= 6) {
+            exclude_objs.push(some_obj);
+            exclude_obj_num += parseInt(some_obj.glassNum);
+            exclude_obj_area += parseFloat(some_obj.glassArea);
+        } else {
+
+            somes.push(some_obj);
+            somes.sort(sortWidth);
+
+            var averLength = averageLength(exclude_objs).toString();
+            var averWidth = averageWidth(exclude_objs).toString();
+
+            obj.id = id;
+            obj.productName = exclude_objs[0].productName;
+            obj.glassLength = averLength;
+            obj.glassWidth = averWidth;
+            obj.glassNum = exclude_obj_num;
+            obj.glassMark = "#0";
+            obj.glassArea = Math.floor(exclude_obj_area * 100) / 100;
+            obj.unitPrice = "#0";
+            obj.totalAmount = "#0";
+            objs.push(obj);
+
+            exclude_objs = [];
+            exclude_obj_num = 0;
+            exclude_obj_area = 0.0;
+            obj = {};
+            id++;
+        }
+    }
+
+    //经过上一步的处理，最后还剩的数据就是长度，宽度，名称都相同的，直接算
+    if (exclude_objs.length != 0) {
+        var averLength = averageLength(exclude_objs).toString();
+        var averWidth = averageWidth(exclude_objs).toString();
+
+        obj.id = id;
+        obj.productName = exclude_objs[0].productName;
+        obj.glassLength = averLength;
+        obj.glassWidth = averWidth;
+        obj.glassNum = exclude_obj_num;
+        obj.glassMark = "#0";
+        obj.glassArea = Math.floor(exclude_obj_area * 100) / 100;
+        obj.unitPrice = "#0";
+        obj.totalAmount = "#0";
+        objs.push(obj);
+    }
+    return objs;
+};
+/*多维数组转一维数组函数*/
+Af.arrayConversion = function (arr) {
+    let editRawData = [];
+    for (var i = 0; i < arr.length; i++) {
+        if (Array.isArray(arr[i])) {
+            Af.arrayConversion(arr[i]);
+        } else {
+            editRawData.push(arr[i]);
+        }
+    }
+    return editRawData;
+};
 /*小数加法函数*/
 /**
  ** 加法函数，用来得到精确的加法结果

@@ -5,10 +5,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,9 +26,11 @@ public class LkCommon
 {
 
 	/* 白天json数组统计 */
+	@SuppressWarnings("unchecked")
 	public JSONObject getJSONArrayLengths(JSONArray oldData)
 	{
 		int num = 0;// 计数
+		@SuppressWarnings("rawtypes")
 		Map map = new HashMap();
 
 		for (int i = 0; i < oldData.length(); i++)
@@ -59,15 +63,17 @@ public class LkCommon
 		DecimalFormat df = new DecimalFormat("0.00");// 设置保留位数
 		return df.format((float) a / b);
 	}
-	/*小数加法运算*/
-	public BigDecimal addDouble(String a, String b)
+
+	/* 小数加法运算 */
+	public static BigDecimal addDouble(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
 		BigDecimal parameterTwo = new BigDecimal(b);
 		BigDecimal result = parameterOne.add(parameterTwo);
 		return result;
 	}
-	/*小数减法运算*/
+
+	/* 小数减法运算 */
 	public BigDecimal subtract(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -75,7 +81,8 @@ public class LkCommon
 		BigDecimal result = parameterOne.subtract(parameterTwo);
 		return result;
 	}
-	/*小数乘法运算*/
+
+	/* 小数乘法运算 */
 	public BigDecimal multiply(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -83,14 +90,101 @@ public class LkCommon
 		BigDecimal result = parameterOne.multiply(parameterTwo);
 		return result;
 	}
-	/*小数除法运算*/
+
+	/* 小数除法运算 */
 	public BigDecimal divide(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
 		BigDecimal parameterTwo = new BigDecimal(b);
-		BigDecimal result = parameterOne.divide(parameterTwo,2); //要设置保留几位小数
+		BigDecimal result = parameterOne.divide(parameterTwo, 2); // 要设置保留几位小数
 		return result;
 	}
+
+	/* 正则表达式去掉字符串的中文 */
+	public String removeChinese(String str)
+	{
+		String reg = "[\u4e00-\u9fa5]";
+		Pattern pat = Pattern.compile(reg);
+		Matcher mat = pat.matcher(str);
+		String repickStr = mat.replaceAll("");
+		return repickStr;
+	}
+
+	/* JSONArray根据name去重,并计算amount(三徒弟) */
+	public JSONArray removeDuplicate(JSONArray rawData)
+	{
+		/*
+		 * 难点:
+		 * 		使用ConcurrentHashMap,相比HashMap优点高并发下不会出错
+		 * */
+		ConcurrentHashMap<String, Double> hs = new ConcurrentHashMap<>();
+		for (int i = 0; i < rawData.length(); i++)
+		{
+			JSONObject data = rawData.getJSONObject(i);
+			String name = data.getString("name");
+			double amount = data.getDouble("amount");
+			if (hs.containsKey(name))  //--->判断name是否重复
+			{
+				hs.put(name, hs.get(name) + amount); //--->当前项的amount+hs中的amount
+			} else
+			{
+				hs.put(name, amount); //--->不重复的数据
+			}
+		}
+		rawData = new JSONArray();
+		for (String k : hs.keySet())
+		{
+			JSONObject json = new JSONObject();
+			json.put("name", k);
+			json.put("amount", hs.get(k));
+			rawData.put(json);
+		}
+		return rawData;
+	}
+
+	/* JSONArray根据name去重,并计算Amount */
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
+	public static JSONArray lkRemoveDuplicate(JSONArray rawData)
+	{
+		/*
+		 * 难点:去重 实现思路:
+		 * 使用List的contains方法比对每一项obj的name字段是否相同,如果相同就给List中add,得到重复的字段后,遍历原数据,
+		 * 根据重复的字段去比对原数据的每一项的name,如果相同取出amount,并计算
+		 * 
+		 */
+		JSONArray finalData = new JSONArray(); // --->定义最终算好的数据
+		List listTemp = new ArrayList(); // --->用于存放重复的数据
+		for (int i = 0; i < rawData.length(); i++)
+		{
+			JSONObject listObj = rawData.getJSONObject(i); // --->取出array中的每一个obj
+			if (!listTemp.contains(listObj.getString("name"))) // --->判断list中是否包含当前项的name
+			{
+				String name = listObj.getString("name"); // --->取出当前重复项的name
+				BigDecimal amount = new BigDecimal(0.00); // --->定义总金额
+				JSONObject finalObj = new JSONObject(); // --->定义最终数据对象
+				for (int j = 0; j < rawData.length(); j++)
+				{ // --->遍历原数据,根据当前重复的name去寻找相同的数据,取出amount,然后++
+					JSONObject nowListObj = rawData.getJSONObject(j);
+					if (name.equals(nowListObj.getString("name")))
+					{
+						Double nowAmount = nowListObj.getDouble("amount"); // --->取出amount
+						amount = addDouble(amount.toString(), nowAmount.toString()); // --->调用小数加法运算,参数转为String
+					}
+				}
+				listTemp.add(name); // --->给arrayList赋值
+				finalObj.put("name", name);
+				finalObj.put("amount", amount.doubleValue());
+				if(listObj.has("bankImg"))
+				{
+					finalObj.put("bankImg",listObj.getString("bankImg"));
+				}
+				finalData.put(finalObj);// --->最终数据赋值
+			}
+		}
+		return finalData;
+	}
+
 	/* 三徒弟 JSON数组统计 */
 	public HashMap<String, Integer> getJSONArrayNum(JSONArray rawData)
 	{
@@ -124,6 +218,7 @@ public class LkCommon
 	}
 
 	/* 大大JSONArray归类 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public JSONArray getJSONArray(JSONArray jsonArray)
 	{
 		/*

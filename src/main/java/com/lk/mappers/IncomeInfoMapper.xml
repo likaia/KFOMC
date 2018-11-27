@@ -91,6 +91,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				AND operator like #{operator}
 			</if>
+			<if test="paymentMethod != null">
+				AND paymentMethod like #{paymentMethod}
+			</if>
 		</where>
 	</select>
 	<!-- 批量删除 -->

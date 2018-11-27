@@ -3,17 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ProductNameModelInquiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ProductNameModelInquiry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/SalaryInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/SalaryInfoAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/IncomeInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/IncomeInfoAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/POI/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/POI/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/SalaryInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/SalaryInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ProductNumeInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ProductNumeInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/SalaryInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/SalaryInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/IncomeInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/IncomeInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/SalaryInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/SalaryInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/Preview.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/Preview.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/test.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,20 +37,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="1726" column="47" selection-start-line="1726" selection-start-column="32" selection-end-line="1726" selection-end-column="47" />
+            <state relative-caret-position="330">
+              <caret line="2001" column="24" selection-start-line="2001" selection-start-column="13" selection-end-line="2001" selection-end-column="24" />
               <folding>
+                <element signature="n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#style#0;n#button#3;n#div#1;n#div#20;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#4;n#div#1;n#div#20;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1495">
-              <caret line="1072" column="33" lean-forward="true" selection-start-line="1072" selection-start-column="33" selection-end-line="1072" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -53,17 +56,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25225">
-              <caret line="1009" column="34" selection-start-line="1009" selection-start-column="34" selection-end-line="1009" selection-end-column="34" />
+            <state relative-caret-position="250">
+              <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="64" selection-start-line="64" selection-end-line="64" />
+            <state relative-caret-position="600">
+              <caret line="2053" column="101" selection-start-line="2053" selection-start-column="101" selection-end-line="2053" selection-end-column="101" />
             </state>
           </provider>
         </entry>
@@ -74,41 +77,42 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>单价定时器</find>
-      <find>customize1</find>
-      <find>给单价赋值</find>
-      <find>timer</find>
-      <find>layer.msg(&quot;aa&quot;)</find>
-      <find>焦点</find>
-      <find>unitPrice</find>
-      <find>customize2</find>
-      <find>customize</find>
-      <find>getUserSelect</find>
-      <find>billingDelFun</find>
-      <find>删除</find>
-      <find>.on</find>
-      <find>打印</find>
-      <find>globalArea</find>
-      <find>printClicks</find>
-      <find>submenu</find>
-      <find>btn-panel</find>
-      <find>#billingManageSubmenu .btn-panel</find>
-      <find>globalPrice</find>
-      <find>shippingCustomerNameSelectPanel</find>
-      <find>billingPreciseMergerFun</find>
-      <find>billingPrintFun</find>
+      <find>/*多维数组转一维数组函数*/</find>
+      <find>二维数组转一维数组</find>
       <find>发货</find>
-      <find>fun</find>
-      <find>取出已发货数组</find>
-      <find>shippedDataList</find>
-      <find>shippingCustomerValArr</find>
-      <find>取出已发货</find>
-      <find>modelDetailsList</find>
+      <find>归类</find>
+      <find>v-for</find>
+      <find>orderDetailsFun</find>
+      <find>订单详情</find>
+      <find>title-BtnPanel</find>
+      <find>labelList</find>
+      <find>xxx</find>
+      <find>#labelPrintingSubmenu .label-panel</find>
+      <find>btn</find>
+      <find>打印</find>
+      <find>Jcrop</find>
+      <find>slider</find>
+      <find>开始打印</find>
+      <find>labelPrintingSubmenu</find>
+      <find>layui.use</find>
+      <find>labelRadio</find>
+      <find>二维数组转一位</find>
+      <find>editRawData</find>
+      <find>多维</find>
+      <find>/*多维数组转一维数组函数</find>
+      <find>多维数组转一维数组</find>
+      <find>多维数组转一维数组函数</find>
+      <find>arrayConversion</find>
+      <find>print-pan</find>
+      <find>finalData</find>
+      <find>append</find>
+      <find>标签打印</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -120,11 +124,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/css/Preview.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/test.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/Login.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/css/Preview.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/css/tagPrint.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
@@ -132,16 +137,16 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="512" />
-    <option name="y" value="198" />
-    <option name="width" value="1370" />
-    <option name="height" value="777" />
+    <option name="y" value="27" />
+    <option name="width" value="960" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -181,19 +186,44 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="jquery" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webFile" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -211,12 +241,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.index.js">
     <configuration name="index.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/KFOMC/src/main/webapp/WEB-INF/webFile/index.jsp">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/main/webapp/js/index.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.index.js" />
         <item itemvalue="JavaScript Debug.index.jsp" />
       </list>
     </recent_temporary>
@@ -303,12 +337,30 @@
       <workItem from="1542425043769" duration="238000" />
       <workItem from="1542425299513" duration="18626000" />
       <workItem from="1542446329673" duration="5425000" />
-      <workItem from="1542504620995" duration="8334000" />
+      <workItem from="1542504620995" duration="25254000" />
+      <workItem from="1542587954151" duration="13621000" />
+      <workItem from="1542608603390" duration="10690000" />
+      <workItem from="1542632734411" duration="7035000" />
+      <workItem from="1542683075025" duration="12984000" />
+      <workItem from="1542767823317" duration="599000" />
+      <workItem from="1542771310565" duration="16005000" />
+      <workItem from="1542852735444" duration="11923000" />
+      <workItem from="1542880584841" duration="599000" />
+      <workItem from="1542940466766" duration="3858000" />
+      <workItem from="1542951636325" duration="14836000" />
+      <workItem from="1542977740173" duration="7516000" />
+      <workItem from="1543024834857" duration="1168000" />
+      <workItem from="1543028730538" duration="3000" />
+      <workItem from="1543029075042" duration="72000" />
+      <workItem from="1543029182448" duration="219000" />
+      <workItem from="1543029462195" duration="2619000" />
+      <workItem from="1543111140462" duration="3264000" />
+      <workItem from="1543136265320" duration="37729000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="449641000" />
+    <option name="totallyTimeSpent" value="611301000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
@@ -326,7 +378,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32975295" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32903227" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -384,24 +436,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/Preview.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1437">
-          <caret line="116" column="18" lean-forward="true" selection-start-line="116" selection-start-column="18" selection-end-line="116" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/nprogress/nprogress.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
           <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/Login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="1" selection-start-line="1" selection-end-line="10" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -426,34 +464,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/jquery/jquery.slider.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25225">
-          <caret line="1009" column="34" selection-start-line="1009" selection-start-column="34" selection-end-line="1009" selection-end-column="34" />
+        <state relative-caret-position="425">
+          <caret column="2562" selection-start-column="2562" selection-end-column="2562" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="228" column="25" lean-forward="true" selection-start-line="228" selection-start-column="25" selection-end-line="228" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
+        <state relative-caret-position="234">
+          <caret line="225" selection-start-line="225" selection-end-line="225" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/Preview.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1253">
+          <caret line="315" selection-start-line="315" selection-end-line="315" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/tagPrint.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3100">
+          <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="1726" column="47" selection-start-line="1726" selection-start-column="32" selection-end-line="1726" selection-end-column="47" />
+        <state relative-caret-position="330">
+          <caret line="2001" column="24" selection-start-line="2001" selection-start-column="13" selection-end-line="2001" selection-end-column="24" />
           <folding>
+            <element signature="n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#style#0;n#button#3;n#div#1;n#div#20;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#4;n#div#1;n#div#20;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1495">
-          <caret line="1072" column="33" lean-forward="true" selection-start-line="1072" selection-start-column="33" selection-end-line="1072" selection-end-column="33" />
+        <state relative-caret-position="600">
+          <caret line="2053" column="101" selection-start-line="2053" selection-start-column="101" selection-end-line="2053" selection-end-column="101" />
         </state>
       </provider>
     </entry>

@@ -16,12 +16,13 @@ public class SalaryInfo
 	private String jobNumber;
 	private String position;
 	private Double basicWage;
+	private Double shippingCommission; //--->寄件提成
 	private Double jobSubsidy;
 	private Double payable;
-	private String releaseType;  //发放类型
+	private String releaseType;  //--->发放类型
 	private Double attendanceDeduction;
 	private Double personalIncomeTax;
-	private Double hasBeenPaidInAdvance; //以预支工资
+	private Double hasBeenPaidInAdvance; //--->已预支工资
 	private Double realWage;
 	private String signingTime;
 	private String remarks;
@@ -63,6 +64,15 @@ public class SalaryInfo
 	public Double getBasicWage()
 	{
 		return basicWage;
+	}
+	
+	public Double getShippingCommission()
+	{
+		return shippingCommission;
+	}
+	public void setShippingCommission(Double shippingCommission)
+	{
+		this.shippingCommission = shippingCommission;
 	}
 	public void setBasicWage(Double basicWage)
 	{

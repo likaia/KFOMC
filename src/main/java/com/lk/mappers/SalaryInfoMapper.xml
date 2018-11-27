@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobNumber" column="jobNumber" />
 		<result property="position" column="position" />
 		<result property="basicWage" column="basicWage" />
+		<result property="shippingCommission" column="shippingCommission" />
 		<result property="jobSubsidy" column="jobSubsidy" />
 		<result property="payable" column="payable" />
 		<result property="releaseType" column="releaseType" />
@@ -30,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		jobNumber,
 		position,
 		basicWage,
+		shippingCommission,
 		jobSubsidy,
 		payable,
 		releaseType,
@@ -59,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		jobNumber,
 		position,
 		basicWage,
+		shippingCommission,
 		jobSubsidy,
 		payable,
 		releaseType,
@@ -126,6 +129,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="basicWage != null">
 				basicWage,
 			</if>
+			<if test="shippingCommission != null">
+				shippingCommission,
+			</if>
 			<if test="jobSubsidy != null">
 				jobSubsidy,
 			</if>
@@ -170,6 +176,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="basicWage != null">
 				#{basicWage,jdbcType=DOUBLE},
+			</if>
+			<if test="shippingCommission != null">
+				#{shippingCommission,jdbcType=DOUBLE},
 			</if>
 			<if test="jobSubsidy != null">
 				#{jobSubsidy,jdbcType=DOUBLE},
@@ -218,6 +227,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="basicWage != null">
 				basicWage = #{basicWage},
+			</if>
+			<if test="shippingCommission != null">
+				shippingCommission = #{shippingCommission},
 			</if>
 			<if test="jobSubsidy != null">
 				jobSubsidy = #{jobSubsidy},

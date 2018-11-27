@@ -3,8 +3,11 @@ package com.lk.API;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -31,7 +34,9 @@ import af.restful.AfRestfulApi;
 public class ShipmentInfoAPI extends AfRestfulApi
 {
 	private static Logger logger = Logger.getLogger(ShipmentInfoAPI.class);
-
+	/*用于抑制编译器产生警告信息
+	 * @SuppressWarnings("null") 
+	 * */
 	@Override
 	public String execute(String reqText) throws Exception
 	{
@@ -52,7 +57,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 		int limit = 0;
 		DecimalFormat df = new DecimalFormat("0.00");
 		LkCommon lkCommon = new LkCommon();
-		JSONArray InventoryShortage = new JSONArray(); //--->库存余量不足,统计不足的库存名称
+		JSONArray InventoryShortage = new JSONArray(); // --->库存余量不足,统计不足的库存名称
 		if (jsReq.has("operator"))
 		{
 			// 获取当前服务器时间
@@ -117,95 +122,159 @@ public class ShipmentInfoAPI extends AfRestfulApi
 				String remainingArea = jsReq.getString("remainingArea");// --->剩余面积
 				String paymentDetails = jsReq.getString("paymentDetails");// --->付款明细
 				String transportationManager = jsReq.getString("transportationManager");// --->运输负责人
-				String freight = jsReq.getString("freight");// --->运费				
+				String freight = jsReq.getString("freight");// --->运费
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-				/*检查库存余量是否充足:查询库存表所有数据,计总当前每种规格型号需要消耗的库存数量*/
+				/* 检查库存余量是否充足:查询库存表所有数据,计总当前每种规格型号需要消耗的库存数量 */
 				InventoryInfoMapper inventoryInfoOneMapper = sqlSession.getMapper(InventoryInfoMapper.class);
-				String[] InventoryQueryOneTypeArr = {"stockBalance","originalTitle"};//--->构造查询条件(库存余量,原片名称)
+				String[] InventoryQueryOneTypeArr =
+				{ "stockBalance", "originalTitle" };// --->构造查询条件(库存余量,原片名称)
 				JSONArray InventoryOneQueryType = new JSONArray(InventoryQueryOneTypeArr);
-				/*查询库存表数据:自定义查询:原片名称/库存余量*/
+				/* 查询库存表数据:自定义查询:原片名称/库存余量 */
 				InventoryInfo InventoryQueryOneRow = new InventoryInfo();
 				InventoryQueryOneRow.setOperator(operator);
 				InventoryQueryOneRow.setQueryType(InventoryOneQueryType);
-				List<InventoryInfo> InventoryInfoOneList  = inventoryInfoOneMapper.customQuery(InventoryQueryOneRow);
+				List<InventoryInfo> InventoryInfoOneList = inventoryInfoOneMapper.customQuery(InventoryQueryOneRow);
 				JSONArray InventoryInfoOneResult = new JSONArray(InventoryInfoOneList);
-				Boolean inventoryStatus = true; //--->库存信息状态
-				/*遍历已发货数据*/
-				for(int i = 0; i <specificationModel.length();i++)
+				Boolean inventoryStatus = true; // --->库存信息状态
+				ArrayList<String>stockNameVal = new ArrayList<String>(); //--->库存表原片名称总数组
+				/* 遍历已发货数据 */
+				for (int i = 0; i < specificationModel.length(); i++)
 				{
-					JSONArray specificationOneModel = new JSONArray(); //--->第一层数据
-					if(specificationOneModel.length()>1)
+					JSONArray specificationOneModel = specificationModel.getJSONArray(i); // --->第一层数据
+					if (specificationOneModel.length() > 1)
 					{
-						String productName = ""; //规格型号名称
-						int inventoryNum = 0;  //所对应的库存余量
-						for(int j = 0 ; j<specificationOneModel.length();j++)
-						{
+						String productName = ""; // 规格型号名称
+						int inventoryNum = 0; // 所对应的库存余量
+						for (int j = 0; j < specificationOneModel.length(); j++)
+						{ //--->给原片库存数组赋值数据
 							JSONObject specificationObj = specificationOneModel.getJSONObject(j);
 							productName = specificationObj.getString("productName");
-							if(!productName.equals(""))
+							for(int c = 0;c<InventoryInfoOneResult.length();c++)
 							{
-								break;
-							}
-						}
-						for(int k = 0 ;k <InventoryInfoOneResult.length();k++)
-						{
-							JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(k);
-							String originalTitle = InventoryInfoOneObj.getString("InventoryInfoOneObj"); //--->原片名称
-							if(productName.equals(originalTitle))
-							{
-								inventoryNum =  InventoryInfoOneObj.getInt("stockBalance"); //库存余量
-								if(inventoryNum<10) //--->库存余量小于10禁止下单
+								if(stockNameVal.size()!=InventoryInfoOneResult.length() )
 								{
-									JSONObject InventoryShortageObj = new JSONObject();
-									InventoryShortageObj.put("productName", productName);
-									msg = "";
-									code = 1;
-									errorCode = 1;
-									inventoryStatus = false;
-									InventoryShortage.put(InventoryShortageObj);
+									JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(c);
+									String originalTitle = InventoryInfoOneObj.getString("originalTitle"); // --->原片名称
+									stockNameVal.add(originalTitle);
+								}else
+								{
 									break;
 								}
 							}
+							for(int k = 0; k < InventoryInfoOneResult.length(); k++)
+							{ //--->遍历原片库存List,比对当前出货List项
+								JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(k);
+								String originalTitle = InventoryInfoOneObj.getString("originalTitle"); // --->原片名称
+								/*判断遍历到的规格型号中是否存在于库存表里的原片名称中*/
+								boolean stockFlag = Arrays.asList(stockNameVal).contains(productName);
+								if(stockFlag)
+								{ //--->如果存在判断找到当前规格型号表所对应的库存,判断库存余量
+									if (productName.equals(originalTitle))
+									{
+										inventoryNum = InventoryInfoOneObj.getInt("stockBalance"); // 库存余量
+										if (inventoryNum < 10) // --->库存余量小于10禁止下单
+										{
+											sqlSession.close();
+											JSONObject InventoryShortageObj = new JSONObject();
+											InventoryShortageObj.put("productName", productName);
+											msg = "";
+											code = 1;
+											errorCode = 1;
+											inventoryStatus = false;
+											InventoryShortage.put(InventoryShortageObj);
+											JSONObject jsReply = new JSONObject();
+											jsReply.put("errorCode", errorCode);
+											jsReply.put("InventoryShortage", InventoryShortage);
+											jsReply.put("code", code);
+											jsReply.put("msg", msg);
+											return jsReply.toString();
+										}
+									}
+								}else
+								{
+									sqlSession.close();
+									inventoryStatus = false;
+									errorCode = 1;
+									code =1;
+									msg = "库存不存在:"+productName;
+									JSONObject jsReply = new JSONObject();
+									jsReply.put("errorCode", errorCode);
+									jsReply.put("code", code);
+									jsReply.put("msg", msg);
+									return jsReply.toString();
+								}
+							}
 						}
-					}
-					else
+					} else
 					{
 						//未重复数据
-						String productName = ""; //规格型号名称
-						int inventoryNum = 0;  //所对应的库存余量
-						for(int j = 0 ; j<specificationOneModel.length();j++)
+						String productName = ""; // 规格型号名称
+						int inventoryNum = 0; // 所对应的库存余量
+						for (int j = 0; j < specificationOneModel.length()-1; j++)
 						{
 							JSONObject specificationObj = specificationOneModel.getJSONObject(j);
 							productName = specificationObj.getString("productName");
-							if(!productName.equals(""))
+							for(int c = 0;c<InventoryInfoOneResult.length();c++)
 							{
-								break;
-							}
-						}
-						for(int k = 0 ;k <InventoryInfoOneResult.length();k++)
-						{
-							JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(k);
-							String originalTitle = InventoryInfoOneObj.getString("originalTitle"); //--->原片名称
-							if(productName.equals(originalTitle))
-							{
-								inventoryNum =  InventoryInfoOneObj.getInt("stockBalance"); //库存余量
-								if(inventoryNum<10) //--->库存余量小于10禁止下单
+								if(stockNameVal.size()!=InventoryInfoOneResult.length() )
 								{
-									JSONObject InventoryShortageObj = new JSONObject();
-									InventoryShortageObj.put("productName", productName);
-									msg = "库存余量不足";
-									code = 1;
-									errorCode = 1;
-									inventoryStatus = false;
-									InventoryShortage.put(InventoryShortageObj);
+									JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(c);
+									String originalTitle = InventoryInfoOneObj.getString("originalTitle"); // --->原片名称
+									stockNameVal.add(originalTitle);
+								}else
+								{
 									break;
+								}
+							}
+							for(int k = 0; k < j+1; k++)
+							{
+								JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(k);
+								String originalTitle = InventoryInfoOneObj.getString("originalTitle"); // --->原片名称
+								/*判断遍历到的规格型号中是否存在于库存表里的原片名称中*/
+								boolean stockFlag = Arrays.asList(stockNameVal).contains(productName);
+								if(stockFlag)
+								{ //--->如果存在判断找到当前规格型号表所对应的库存,判断库存余量
+									if (productName.equals(originalTitle))
+									{
+										inventoryNum = InventoryInfoOneObj.getInt("stockBalance"); // 库存余量
+										if (inventoryNum < 10) // --->库存余量小于10禁止下单
+										{
+											sqlSession.close();
+											JSONObject InventoryShortageObj = new JSONObject();
+											InventoryShortageObj.put("productName", productName);
+											msg = "";
+											code = 1;
+											errorCode = 1;
+											inventoryStatus = false;
+											InventoryShortage.put(InventoryShortageObj);
+											JSONObject jsReply = new JSONObject();
+											jsReply.put("errorCode", errorCode);
+											jsReply.put("InventoryShortage", InventoryShortage);
+											jsReply.put("code", code);
+											jsReply.put("msg", msg);
+											return jsReply.toString();
+										}
+									}
+								}else
+								{
+									sqlSession.close();
+									inventoryStatus = false;
+									errorCode = 1;
+									code =1;
+									msg = "库存不存在:"+productName;
+									JSONObject jsReply = new JSONObject();
+									jsReply.put("errorCode", errorCode);
+									jsReply.put("code", code);
+									jsReply.put("msg", msg);
+									return jsReply.toString();
 								}
 							}
 						}
 					}
 				}
-				if(inventoryStatus) //--->如果库存余量充足时执行
+				
+				if (inventoryStatus) // --->如果库存余量充足(存在)时执行
 				{
 					// 配置映射器
 					ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
@@ -292,7 +361,8 @@ public class ShipmentInfoAPI extends AfRestfulApi
 																					// =
 																					// 总数量-剩余数量
 						Nowrows.setShipArea(String.valueOf(ShippedAreaInt));// ---->已发货面积
-																			// = 总面积
+																			// =
+																			// 总面积
 																			// -
 																			// 剩余面积
 						Nowrows.setUnfinishedArr(unfinishedArr.toString());// --->未发货的规格型号数据
@@ -312,7 +382,8 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						// 配置映射器
 						ProductNumeInfoMapper productNumeInfoMapper = sqlSession.getMapper(ProductNumeInfoMapper.class);
 						// 构造查询条件
-						String[] productQueryArr = { "productName", "area" };
+						String[] productQueryArr =
+						{ "productName", "area" };
 						JSONArray productQueryType = new JSONArray(productQueryArr);
 						ProductListInfo ProductListRow = new ProductListInfo();
 						ProductListRow.setOperator(operator);
@@ -327,151 +398,169 @@ public class ShipmentInfoAPI extends AfRestfulApi
 								JSONArray levelOneArrList = specificationModel.getJSONArray(i);// --->第一层数组的数据
 								if (levelOneArrList.length() > 1)
 								{
-									BigDecimal outboundNum = new BigDecimal("0.00");//--->出库数量
-									BigDecimal specificationTotalArea= new BigDecimal("0.00"); //--->当前已发货的规格型号的总面积
-									String nowArea = df.format(0.00); //--->一块原片的面积
-									String productName = ""; //--->已发货数据的规格型号名称
-									for(int j= 0;j<levelOneArrList.length();j++)  //--->计算已发货数据的规格型号总面积,得出已发货规格型号名称
+									BigDecimal outboundNum = new BigDecimal("0.00");// --->出库数量
+									BigDecimal specificationTotalArea = new BigDecimal("0.00"); // --->当前已发货的规格型号的总面积
+									String nowArea = df.format(0.00); // --->一块原片的面积
+									String productName = ""; // --->已发货数据的规格型号名称
+									for (int j = 0; j < levelOneArrList.length(); j++) // --->计算已发货数据的规格型号总面积,得出已发货规格型号名称
 									{
 										// 取出当前重复数据的规格型号名称 面积
 										JSONObject levelOneArrObj = levelOneArrList.getJSONObject(j);
 										productName = levelOneArrObj.getString("productName");
 										String itemArea = df.format(levelOneArrObj.getDouble("glassArea"));
-										specificationTotalArea = lkCommon.addDouble(itemArea, specificationTotalArea.toString()); //计算相同规格型号的总面积
+										specificationTotalArea = lkCommon.addDouble(itemArea,
+												specificationTotalArea.toString()); // 计算相同规格型号的总面积
 									}
-									for (int k = 0; k < productResult.length(); k++) //--->找出已发货的规格型号所对应的原片面积
+									for (int k = 0; k < productResult.length(); k++) // --->找出已发货的规格型号所对应的原片面积
 									{
 										JSONObject productObj = productResult.getJSONObject(k);
 										String originalProductName = productObj.getString("productName");
 										if (productName.equals(originalProductName))
 										{
-											nowArea = df.format(productObj.getDouble("area")); //一块原片的面积
+											nowArea = df.format(productObj.getDouble("area")); // 一块原片的面积
 											break;
 										}
 									}
-									//出库原片数量= 当前总规格型号的面积/一张原片的面积
-									 outboundNum = lkCommon.divide(specificationTotalArea.toString(),nowArea);
-									 int outboundIntNum = 0;
-									 if(outboundNum.intValue()-outboundNum.doubleValue()==0) //--->判断需要的原片数量是否为小数:取整计算出货数量
-									 {
-										 outboundIntNum = outboundNum.intValue();
-									 }
-									 else
-									 {
-										 outboundIntNum = outboundNum.intValue()+1;
-									 }
-									 /*开始更新库存表:先查询到当前规格型号所对应的库存信息表的数据，然后在根据id更新*/
+									// 出库原片数量= 当前总规格型号的面积/一张原片的面积
+									outboundNum = lkCommon.divide(specificationTotalArea.toString(), nowArea);
+									int outboundIntNum = 0;
+									if (outboundNum.intValue() - outboundNum.doubleValue() == 0) // --->判断需要的原片数量是否为小数:取整计算出货数量
+									{
+										outboundIntNum = outboundNum.intValue();
+									} else
+									{
+										outboundIntNum = outboundNum.intValue() + 1;
+									}
+									/*
+									 * 开始更新库存表:先查询到当前规格型号所对应的库存信息表的数据，然后在根据id更新
+									 */
 									// 配置映射器
-									InventoryInfoMapper inventoryInfoMapper = sqlSession.getMapper(InventoryInfoMapper.class);
-									String[] InventoryQueryTypeArr = {"storageNum","numberOfOutbound","stockArea"};//--->构造查询条件
+									InventoryInfoMapper inventoryInfoMapper = sqlSession
+											.getMapper(InventoryInfoMapper.class);
+									String[] InventoryQueryTypeArr =
+									{ "storageNum", "numberOfOutbound", "stockArea" };// --->构造查询条件
 									JSONArray InventoryQueryType = new JSONArray(InventoryQueryTypeArr);
-									/*查询库存表数据:自定义查询:原片名称/入库数量/出库数量/库存余量/库存面积*/
+									/* 查询库存表数据:自定义查询:原片名称/入库数量/出库数量/库存余量/库存面积 */
 									InventoryInfo InventoryQueryRow = new InventoryInfo();
 									InventoryQueryRow.setOperator(operator);
 									InventoryQueryRow.setQueryType(InventoryQueryType);
 									InventoryQueryRow.setOriginalTitle(productName);
-									List<InventoryInfo> InventoryInfoList  = inventoryInfoMapper.customQuery(InventoryQueryRow);
+									List<InventoryInfo> InventoryInfoList = inventoryInfoMapper
+											.customQuery(InventoryQueryRow);
 									JSONArray InventoryInfoResult = new JSONArray(InventoryInfoList);
-									if(InventoryInfoResult.length()>0)
+									if (InventoryInfoResult.length() > 0)
 									{
 										JSONObject InventoryInfoObj = InventoryInfoResult.getJSONObject(0);
-										int storageNum = InventoryInfoObj.getInt("storageNum"); //--->入库数量
-										int numberOfOutbound = InventoryInfoObj.getInt("numberOfOutbound"); //--->出库数量
+										int storageNum = InventoryInfoObj.getInt("storageNum"); // --->入库数量
+										int numberOfOutbound = InventoryInfoObj.getInt("numberOfOutbound"); // --->出库数量
 										int originalId = InventoryInfoObj.getInt("id");
-										int newNumberOfOutbound = numberOfOutbound+outboundIntNum;  //--->新的出库数量=原出库数量+当前出库数量
-										int newStockBalance = storageNum - newNumberOfOutbound;//--->新的库存余量=入库数量-新的出库数量
-										//根据id更新库存表
+										int newNumberOfOutbound = numberOfOutbound + outboundIntNum; // --->新的出库数量=原出库数量+当前出库数量
+										int newStockBalance = storageNum - newNumberOfOutbound;// --->新的库存余量=入库数量-新的出库数量
+										// 根据id更新库存表
 										InventoryInfo InventoryRow = new InventoryInfo();
 										InventoryRow.setId(originalId);
-										InventoryRow.setNumberOfOutbound(newNumberOfOutbound); //--->新的出库数量
-										InventoryRow.setStockBalance(newStockBalance); //--->新的库存余量
+										InventoryRow.setNumberOfOutbound(newNumberOfOutbound); // --->新的出库数量
+										InventoryRow.setStockBalance(newStockBalance); // --->新的库存余量
 										int InventoryResult = inventoryInfoMapper.update(InventoryRow);
 										sqlSession.commit();
-										if(InventoryResult<=0)
+										if (InventoryResult <= 0)
 										{
 											logger.error("出货管理:更新库存表失败");
 										}
-										/*更新库存表结束*/
-									}
-									else
+										/* 更新库存表结束 */
+									} else
 									{
 										logger.error("出货管理查询[库存表]:没有数据");
+										errorCode = 1;
+										code = 1;
+										msg = "库存不足";
+										JSONObject jsReply = new JSONObject();
+										jsReply.put("errorCode", errorCode);
+										jsReply.put("code", code);
+										jsReply.put("msg", msg);
+										return jsReply.toString();
 									}
 								} else
 								{
-									BigDecimal outboundNum = new BigDecimal("0.00");//--->出库数量
-									BigDecimal specificationTotalArea= new BigDecimal("0.00"); //当前已发货的规格型号的总面积
-									String nowArea = df.format(0.00); //数据库查询到的原片表所对应的规格型号面积(一块)
-									String productName = ""; //已发货数据的规格型号名称
+									BigDecimal outboundNum = new BigDecimal("0.00");// --->出库数量
+									BigDecimal specificationTotalArea = new BigDecimal("0.00"); // 当前已发货的规格型号的总面积
+									String nowArea = df.format(0.00); // 数据库查询到的原片表所对应的规格型号面积(一块)
+									String productName = ""; // 已发货数据的规格型号名称
 									// 取出当前未重复数据的规格型号名称
-									for(int j= 0;j<levelOneArrList.length();j++)  //--->计算已发货数据的规格型号总面积,得出已发货规格型号名称
+									for (int j = 0; j < levelOneArrList.length(); j++) // --->计算已发货数据的规格型号总面积,得出已发货规格型号名称
 									{
 										// 取出当前重复数据的规格型号名称 面积
 										JSONObject levelOneArrObj = levelOneArrList.getJSONObject(j);
 										productName = levelOneArrObj.getString("productName");
 										String itemArea = df.format(levelOneArrObj.getDouble("glassArea"));
-										specificationTotalArea = lkCommon.addDouble(itemArea, specificationTotalArea.toString()); //计算相同规格型号的总面积
+										specificationTotalArea = lkCommon.addDouble(itemArea,
+												specificationTotalArea.toString()); // 计算相同规格型号的总面积
 									}
-				
-									for (int k = 0; k < productResult.length(); k++) //--->找出已发货的规格型号所对应的原片面积
+
+									for (int k = 0; k < productResult.length(); k++) // --->找出已发货的规格型号所对应的原片面积
 									{
 										JSONObject productObj = productResult.getJSONObject(k);
 										String originalProductName = productObj.getString("productName");
 										if (productName.equals(originalProductName))
 										{
-											nowArea = df.format(productObj.getDouble("area")); //一块原片的面积
-											//System.out.println("当前重复的规格型号名称:" + productName + ",当前规格型号所对应的原片面积:" + nowArea);
+											nowArea = df.format(productObj.getDouble("area")); // 一块原片的面积
+											// System.out.println("当前重复的规格型号名称:"
+											// + productName +
+											// ",当前规格型号所对应的原片面积:" + nowArea);
 											break;
 										}
 									}
-									//出库原片数量= 当前总规格型号的面积/一张原片的面积
-									 outboundNum = lkCommon.divide(specificationTotalArea.toString(),nowArea);
-									 int outboundIntNum = 0;
-									 if(outboundNum.intValue()-outboundNum.doubleValue()==0) //--->判断需要的原片数量是否为小数
-									 {
-										 outboundIntNum = outboundNum.intValue();
-									 }
-									 else
-									 {
-										 outboundIntNum = outboundNum.intValue()+1;
-									 }
-									 /*开始更新库存表:先查询到当前规格型号所对应的库存信息表的数据，然后在根据id更新*/
-										// 配置映射器
-										InventoryInfoMapper inventoryInfoMapper = sqlSession.getMapper(InventoryInfoMapper.class);
-										String[] InventoryQueryTypeArr = {"storageNum","numberOfOutbound","stockArea"};//--->构造查询条件
-										JSONArray InventoryQueryType = new JSONArray(InventoryQueryTypeArr);
-										/*查询库存表数据:自定义查询:原片名称/入库数量/出库数量/库存余量/库存面积*/
-										InventoryInfo InventoryQueryRow = new InventoryInfo();
-										InventoryQueryRow.setOperator(operator);
-										InventoryQueryRow.setQueryType(InventoryQueryType);
-										InventoryQueryRow.setOriginalTitle(productName);
-										List<InventoryInfo> InventoryInfoList  = inventoryInfoMapper.customQuery(InventoryQueryRow);
-										JSONArray InventoryInfoResult = new JSONArray(InventoryInfoList);
-										if(InventoryInfoResult.length()>0)
+									// 出库原片数量= 当前总规格型号的面积/一张原片的面积
+									outboundNum = lkCommon.divide(specificationTotalArea.toString(), nowArea);
+									int outboundIntNum = 0;
+									if (outboundNum.intValue() - outboundNum.doubleValue() == 0) // --->判断需要的原片数量是否为小数
+									{
+										outboundIntNum = outboundNum.intValue();
+									} else
+									{
+										outboundIntNum = outboundNum.intValue() + 1;
+									}
+									/*
+									 * 开始更新库存表:先查询到当前规格型号所对应的库存信息表的数据，然后在根据id更新
+									 */
+									// 配置映射器
+									InventoryInfoMapper inventoryInfoMapper = sqlSession
+											.getMapper(InventoryInfoMapper.class);
+									String[] InventoryQueryTypeArr =
+									{ "storageNum", "numberOfOutbound", "stockArea" };// --->构造查询条件
+									JSONArray InventoryQueryType = new JSONArray(InventoryQueryTypeArr);
+									/* 查询库存表数据:自定义查询:原片名称/入库数量/出库数量/库存余量/库存面积 */
+									InventoryInfo InventoryQueryRow = new InventoryInfo();
+									InventoryQueryRow.setOperator(operator);
+									InventoryQueryRow.setQueryType(InventoryQueryType);
+									InventoryQueryRow.setOriginalTitle(productName);
+									List<InventoryInfo> InventoryInfoList = inventoryInfoMapper
+											.customQuery(InventoryQueryRow);
+									JSONArray InventoryInfoResult = new JSONArray(InventoryInfoList);
+									if (InventoryInfoResult.length() > 0)
+									{
+										JSONObject InventoryInfoObj = InventoryInfoResult.getJSONObject(0);
+										int storageNum = InventoryInfoObj.getInt("storageNum"); // --->入库数量
+										int numberOfOutbound = InventoryInfoObj.getInt("numberOfOutbound"); // --->出库数量
+										int originalId = InventoryInfoObj.getInt("id");
+										int newNumberOfOutbound = numberOfOutbound + outboundIntNum; // --->新的出库数量=原出库数量+当前出库数量
+										int newStockBalance = storageNum - newNumberOfOutbound;// --->新的库存余量=入库数量-新的出库数量
+										// 根据id更新库存表
+										InventoryInfo InventoryRow = new InventoryInfo();
+										InventoryRow.setId(originalId);
+										InventoryRow.setNumberOfOutbound(newNumberOfOutbound); // --->新的出库数量
+										InventoryRow.setStockBalance(newStockBalance); // --->新的库存余量
+										int InventoryResult = inventoryInfoMapper.update(InventoryRow);
+										sqlSession.commit();
+										if (InventoryResult <= 0)
 										{
-											JSONObject InventoryInfoObj = InventoryInfoResult.getJSONObject(0);
-											int storageNum = InventoryInfoObj.getInt("storageNum"); //--->入库数量
-											int numberOfOutbound = InventoryInfoObj.getInt("numberOfOutbound"); //--->出库数量
-											int originalId = InventoryInfoObj.getInt("id");
-											int newNumberOfOutbound = numberOfOutbound+outboundIntNum;  //--->新的出库数量=原出库数量+当前出库数量
-											int newStockBalance = storageNum - newNumberOfOutbound;//--->新的库存余量=入库数量-新的出库数量
-											//根据id更新库存表
-											InventoryInfo InventoryRow = new InventoryInfo();
-											InventoryRow.setId(originalId);
-											InventoryRow.setNumberOfOutbound(newNumberOfOutbound); //--->新的出库数量
-											InventoryRow.setStockBalance(newStockBalance); //--->新的库存余量
-											int InventoryResult = inventoryInfoMapper.update(InventoryRow);
-											sqlSession.commit();
-											if(InventoryResult<=0)
-											{
-												logger.error("出货管理:更新库存表失败");
-											}
-											/*更新库存表结束*/
+											logger.error("出货管理:更新库存表失败");
 										}
-										else
-										{
-											logger.error("出货管理查询[库存表]:没有数据");
-										}
+										/* 更新库存表结束 */
+									} else
+									{
+										logger.error("出货管理查询[库存表]:没有数据");
+									}
 								}
 							}
 						}

@@ -218,6 +218,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="clientName != null">
 				AND clientName like #{clientName}
 			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
+			</if>
 		</where>
 	</select>
 	

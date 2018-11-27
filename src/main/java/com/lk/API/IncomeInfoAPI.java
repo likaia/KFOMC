@@ -98,6 +98,11 @@ public class IncomeInfoAPI extends AfRestfulApi
 				IncomeInfoMapper incomeInfoMapper = sqlSession.getMapper(IncomeInfoMapper.class);
 				IncomeInfo row = new IncomeInfo();
 				row.setOperator(operator);
+				if(jsReq.has("paymentMethod"))
+				{
+					String paymentMethod = jsReq.getString("paymentMethod");
+					row.setPaymentMethod(paymentMethod);
+				}
 				row.setdStart(dStart);
 				row.setdEnd(dEnd);
 				row.setClientName(clientName);

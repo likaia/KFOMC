@@ -18,6 +18,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <script src="jquery/jquery.Jcrop.js"></script>
     <%--引入Vue --%>
     <script src="vue/vue.min.js"></script>
+
     <%--引入jquery打印插件 --%>
     <script type="text/javascript" src="jquery/jquery.jqprint-0.3.js"></script>
     <script>
@@ -54,7 +55,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <meta name="baidu-site-verification" content="JwUB1mxjFy"/>
     <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
     <jsp:include page="islogin.jsp"></jsp:include>
-    <script src="js/underscore-min.js"></script> <%--扩展函数库 --%>
+    <script src="js/underscore-min.js"></script>
+    <!--标签打印样式-->
+    <link rel="stylesheet" href="css/tagPrint.css">
+    <%--扩展函数库 --%>
     <%--获取当前用户信息 --%>
     <%
     //取得session对象
@@ -472,6 +476,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     </button>
                                     <button class="layui-btn layui-btn-normal"
                                             @click="orderDetailsFun" v-bind:style="{background:BtnColor}">订单详情
+                                    </button>
+                                    <button class="layui-btn layui-btn-normal"
+                                            @click="labelPrintingFun" v-bind:style="{background:BtnColor}">标签打印
                                     </button>
                                 </div>
                             </div>
@@ -1732,6 +1739,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         style="background: #2F4056">
                     <i class="layui-icon"> &#xe857;</i> 精确合并
                 </button>
+                <button @click="billingfuzzyMergerFun" class="layui-btn"
+                        style="background: #2F4056">
+                    <i class="layui-icon"> &#xe674;</i> 模糊合并
+                </button>
             </div>
             <div class="billingContentPanel">
                 <div id="submenu">
@@ -1973,8 +1984,22 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
         </div>
     </div>
-
-
+    <!--标签打印悬浮层-->
+    <div id="labelPrintingSubmenu" style="display: none" class="layui-form">
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>标签纸规格:</span>
+            </div>
+            <div class="right-panel">
+                <input type="radio" name="sex" value="1" title="5x13标签纸" checked>
+                <input type="radio" name="sex" value="2" title="4x11标签纸">
+            </div>
+        </div>
+    </div>
+    <!--标签规格模板:5*13-->
+    <div id="print-panel" style="display: none"></div>
+    <!--标签规格模板:4*11-->
+    <div id="secondPrint-panel" style="display: none"></div>
     <!--出货管理[发货单]打印模板开始-->
     <div id="invoicePrintTemplate">
         <h1>陕西伯益中空玻璃有限公司</h1>
@@ -3024,6 +3049,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         <div class="row-panel">
             <div class="vessel-panel">
                 <input type="text" class="layui-input" v-model="productModelVal" placeholder="输入规格型号">
+            </div>
+        </div>
+    </div>
+    <!--加载动画-->
+    <div id="loading">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="object" id="object_one"></div>
+                <div class="object" id="object_two"></div>
+                <div class="object" id="object_three"></div>
             </div>
         </div>
     </div>

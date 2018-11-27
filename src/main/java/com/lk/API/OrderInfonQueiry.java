@@ -73,6 +73,16 @@ public class OrderInfonQueiry extends AfRestfulApi
 				OrderInfo row = new OrderInfo();
 				row.setQueryType(queryType);
 				row.setOperator(operator);
+				if(jsReq.has("clientName"))
+				{
+					String clientName = jsReq.getString("clientName");
+					row.setClientName(clientName);
+				}
+				if(jsReq.has("orderNumber"))
+				{
+					String orderNumber = jsReq.getString("orderNumber");
+					row.setOrderNumber(orderNumber);
+				}
 				List<OrderInfo> resultList = orderMapper.customQuery(row);
 				result = new JSONArray(resultList);
 				// 关闭链接

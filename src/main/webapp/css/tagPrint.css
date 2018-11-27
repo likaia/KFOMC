@@ -1,0 +1,140 @@
+@page  {
+    size: A4 portrait; /*页面方向:landscape(横向排列),portrait(纵向排列)*/
+    margin: 1cm;
+}
+
+/*(5x13样式)设置边距:左右边距各为10mm*/
+#print-panel .item-panel{
+    width: 19%;
+    height: 7.20%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-top: 0.69%;
+    float: left;
+}
+/*第一行 序号/标记/二维码 容器*/
+#print-panel .item-panel .row-panel{
+    width: 100%;
+    height: 40%;
+    text-align: center;
+}
+/*序号*/
+#print-panel .item-panel .row-panel .serialNumber-panel{
+    width: 20%;
+    height: 40%;
+    float: left;
+    text-align: right;
+}
+#print-panel .item-panel .row-panel .serialNumber-panel span{
+    line-height: 130%;  /*序号行高*/
+    font-size: 26px;
+    font-weight: 700;
+}
+/*标记*/
+#print-panel .item-panel .row-panel .mark-panel{
+    width: 80%;
+    height: 40%;
+    float: left;
+    text-align: center;
+}
+#print-panel .item-panel .row-panel .mark-panel span{
+    line-height: 230%; /*标记行高*/
+}
+/*二维码容器*/
+/*#print-panel .item-panel .row-panel .qrCode-panel{
+    width: 20%;
+    height: 80%;
+    float: left;
+}
+!*二维码图片*!
+#print-panel .item-panel .row-panel .qrCode-panel img{
+    width: 100%;
+    height: 100%;
+}*/
+/*规格型号*/
+#print-panel .item-panel .productName-panel{
+    width: 100%;
+    height: 30%;
+    text-align: center;
+}
+#print-panel .item-panel .productName-panel span{
+    line-height: 140%; /*规格型号行高*/
+    font-weight: 400;
+}
+/*底部尺寸数量*/
+#print-panel .item-panel .sizeQuantity-panel{
+    width: 100%;
+    height: 30%;
+    text-align: center;
+}
+#print-panel .item-panel .sizeQuantity-panel span{
+    line-height: 100%;   /*尺寸数量行高*/
+    font-weight: 700;
+}
+/*(5*13)样式结束*/
+
+
+/*(4*11)样式*/
+#secondPrint-panel .item-panel{
+    width: 24%;
+    height: 8.58%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-top: 0.69%;
+    float: left;
+}
+#secondPrint-panel .item-panel .row-panel{
+    width: 100%;
+    height: 40%;
+}
+#secondPrint-panel .item-panel .row-panel .serialNumber-panel{
+    width: 10%;
+    height: 100%;
+    float: left;
+    text-align: right;
+}
+#secondPrint-panel .item-panel .row-panel .serialNumber-panel span{
+    line-height: 130%;
+    font-size: 28px;
+    font-weight: 700;
+}
+#secondPrint-panel .item-panel .row-panel .mark-panel{
+    width: 70%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+#secondPrint-panel .item-panel .row-panel .mark-panel span{
+    line-height: 230%;
+    font-size: 16px;
+}
+#secondPrint-panel .item-panel .row-panel .qrCode-panel{
+    width: 20%;
+    height: 100%;
+    overflow: hidden;
+    float: left;
+}
+#secondPrint-panel .item-panel .row-panel .qrCode-panel img{
+    width: 100%;
+    height: 100%;
+}
+#secondPrint-panel .item-panel .productName-panel{
+    width: 100%;
+    height: 30%;
+    text-align: center;
+}
+#secondPrint-panel .item-panel .productName-panel span{
+    line-height: 140%; /*规格型号行高*/
+    font-weight: 400;
+    font-size: 16px;
+}
+#secondPrint-panel .item-panel .sizeQuantity-panel{
+    width: 100%;
+    height: 30%;
+    text-align: center;
+}
+#secondPrint-panel .item-panel .sizeQuantity-panel span{
+    line-height: 100%;
+    font-weight: 700;
+}
+/*4*11样式结束*/

@@ -83,23 +83,23 @@
 		<!-- md5 -->
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.8</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8</version>
 		</dependency>
 		<!-- 伪静态省略jsp等后缀 -->
-			<dependency>
-			    <groupId>org.tuckey</groupId>
-			    <artifactId>urlrewritefilter</artifactId>
-			    <version>4.0.4</version>
-			</dependency>
-			<!-- 导出Excel支持 -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi</artifactId>
-    <version>4.0.0</version>
-</dependency>
-			
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+		<!-- 导出Excel支持 -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 		<!-- 项目默认添加 -->
 		<dependency>
 			<groupId>javax</groupId>
