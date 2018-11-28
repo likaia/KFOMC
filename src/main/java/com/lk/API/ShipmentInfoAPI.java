@@ -357,14 +357,8 @@ public class ShipmentInfoAPI extends AfRestfulApi
 						/* 计算 已发货数量与已发货面积 */
 						int ShippedNumInt = totalGlassNumberInt - theRemainingAmountInt;
 						float ShippedAreaInt = totalAreaInt - remainingAreaInt;
-						Nowrows.setNumberShipments(String.valueOf(ShippedNumInt)); // ---->已发货数量
-																					// =
-																					// 总数量-剩余数量
-						Nowrows.setShipArea(String.valueOf(ShippedAreaInt));// ---->已发货面积
-																			// =
-																			// 总面积
-																			// -
-																			// 剩余面积
+						Nowrows.setNumberShipments(String.valueOf(ShippedNumInt)); // ---->已发货数量=总数量-剩余数量
+						Nowrows.setShipArea(String.valueOf(ShippedAreaInt));// ---->已发货面积 = 总面积 - 剩余面积
 						Nowrows.setUnfinishedArr(unfinishedArr.toString());// --->未发货的规格型号数据
 						Nowrows.setOrderNumber(orderNumber);// --->根据订单号更新
 						int processResults = orderMapper.update(Nowrows);
@@ -408,7 +402,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 										JSONObject levelOneArrObj = levelOneArrList.getJSONObject(j);
 										productName = levelOneArrObj.getString("productName");
 										String itemArea = df.format(levelOneArrObj.getDouble("glassArea"));
-										specificationTotalArea = lkCommon.addDouble(itemArea,
+										specificationTotalArea = LkCommon.addDouble(itemArea,
 												specificationTotalArea.toString()); // 计算相同规格型号的总面积
 									}
 									for (int k = 0; k < productResult.length(); k++) // --->找出已发货的规格型号所对应的原片面积
@@ -493,7 +487,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 										JSONObject levelOneArrObj = levelOneArrList.getJSONObject(j);
 										productName = levelOneArrObj.getString("productName");
 										String itemArea = df.format(levelOneArrObj.getDouble("glassArea"));
-										specificationTotalArea = lkCommon.addDouble(itemArea,
+										specificationTotalArea = LkCommon.addDouble(itemArea,
 												specificationTotalArea.toString()); // 计算相同规格型号的总面积
 									}
 

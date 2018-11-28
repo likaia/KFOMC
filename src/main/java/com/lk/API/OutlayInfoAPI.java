@@ -78,7 +78,7 @@ public class OutlayInfoAPI extends AfRestfulApi
 			if (jsReq.has("conditionalQuery"))
 			{
 				String dStart = jsReq.getString("dStart");
-				String dEnd = jsReq.getString("jobNumber");
+				String dEnd = jsReq.getString("dEnd");
 				if (dStart.equals(""))
 				{
 					dStart = null;

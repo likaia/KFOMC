@@ -4,7 +4,6 @@
 }
 /*加载动画开始*/
 #loading{
-	display: none;
 	height: 100%;
 	width: 100%;
 	position: fixed;
@@ -751,7 +750,7 @@ a {
 }
 
 #OrderMonth-panel .OrderMonthListBtn-panel .btn-panel {
-	min-width: 290px;
+	min-width: 140px;
 	height: 40px;
 	position: absolute;
 	right: 0;

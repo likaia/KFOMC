@@ -61,6 +61,31 @@ public class OrderInfonQueiry extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
+			// 查询已完成订单
+			if (jsReq.has("orderCompleted"))
+			{
+				Boolean orderCompleted = jsReq.getBoolean("orderCompleted");
+				if (orderCompleted)
+				{
+					String[] queryTypeArr =
+					{ "orderNumber", "orderDate", "clientName", "projectName", "glassNumber", "totalArea",
+							"totalAmount", "alreadyPaid", "unpaid", "preparedBy", "operator" };
+					JSONArray queryType = new JSONArray(queryTypeArr);
+					JSONArray unfinishedArr = new JSONArray();
+					// 打开连接
+					SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+					// 配置映射器
+					OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+					OrderInfo row = new OrderInfo();
+					row.setOperator(operator);
+					row.setQueryType(queryType);
+					row.setUnfinishedArr(unfinishedArr.toString());
+					List<OrderInfo> resultList = orderMapper.customQuery(row);
+					result = new JSONArray(resultList);
+					// 关闭链接
+					sqlSession.close();
+				}
+			}
 			// 自定义查询
 			if (jsReq.has("queryType"))
 			{
@@ -73,12 +98,12 @@ public class OrderInfonQueiry extends AfRestfulApi
 				OrderInfo row = new OrderInfo();
 				row.setQueryType(queryType);
 				row.setOperator(operator);
-				if(jsReq.has("clientName"))
+				if (jsReq.has("clientName"))
 				{
 					String clientName = jsReq.getString("clientName");
 					row.setClientName(clientName);
 				}
-				if(jsReq.has("orderNumber"))
+				if (jsReq.has("orderNumber"))
 				{
 					String orderNumber = jsReq.getString("orderNumber");
 					row.setOrderNumber(orderNumber);
@@ -147,16 +172,15 @@ public class OrderInfonQueiry extends AfRestfulApi
 				List<OrderInfo> resultList = orderMapper.findModelById(row);
 				/* 查询规格型号后处理成JSONArray */
 				JSONArray modelDetails = new JSONArray(resultList);// ---->从List转换成JSONArray
-				if(modelDetails.length()>0)
+				if (modelDetails.length() > 0)
 				{
 					JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
 					String modelDetailsArr = modelDetailsOBJ.getString("unfinishedArr"); // ---->从JSONObject中取出String型Array数据
 					result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
-				}
-				else
+				} else
 				{
 					code = 1;
-					errorCode =1;
+					errorCode = 1;
 					msg = "数据为空";
 				}
 				/* 查询规格型号后处理成JSONArray结束 */
@@ -203,7 +227,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 				row.setAlreadyPaid(alreadyPaid + "元");
 				row.setUnpaid(unpaid + "元");
 				row.setModelDetails(modelDetails.toString());
-				row.setUnfinishedArr(modelDetails.toString()); //未发货规格型号
+				row.setUnfinishedArr(modelDetails.toString()); // 未发货规格型号
 				int processResult = orderMapper.add(row);
 				sqlSession.commit();
 				sqlSession.close();

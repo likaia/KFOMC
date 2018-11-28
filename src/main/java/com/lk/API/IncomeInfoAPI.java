@@ -79,7 +79,7 @@ public class IncomeInfoAPI extends AfRestfulApi
 			{
 				String clientName = jsReq.getString("clientName");
 				String dStart = jsReq.getString("dStart");
-				String dEnd = jsReq.getString("jobNumber");
+				String dEnd = jsReq.getString("dEnd");
 				if (clientName.equals(""))
 				{
 					clientName = null;

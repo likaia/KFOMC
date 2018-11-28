@@ -213,6 +213,10 @@ $(function () {
             allSpecificationModel:"",
             preciseMergerVal:"", //--->精确合并后的数据
             preciseMergerFlag:false, //--->精确合并状态
+            /*订单管理[已完成订单]需要的数据*/
+            orderCompletedRawData:"",  //--->后台返回的已完成订单数据
+            orderCompletedSelectData:"", //--->监听下拉框选择
+            loadingStatus:'none',  //--->加载层状态
             //精确/模糊(合并)点击状态
             fuzzyState:false, //--->模糊状态
             preciseState:false, //--->精确状态
@@ -394,6 +398,7 @@ $(function () {
             },
             //进货管理点击函数
             IncomingGoodsFun: function () {
+                vm.loadingStatus = "block";
                 this.IncomingGoodsStatus = "block";
                 setTimeout(function () {
                     /*渲染原片采购数据表格*/
@@ -415,10 +420,12 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                vm.loadingStatus = "none";
             },
             /*进货管理:原片采购[采购登记点击事件]*/
             purchaseRegistrationFun: function () {
                 //请求后台获取 订单号/服务器时间/原片信息表所有原片名称
+                vm.loadingStatus = "block";
                 var req = {};
                 req.queryType = ["productName"];
                 req.operator = $("#nickNameTextPanel").html();
@@ -464,7 +471,6 @@ $(function () {
 
                         }
                     }
-
                 });
                 layer.open({
                     title: "原片采购",
@@ -472,6 +478,9 @@ $(function () {
                     area: ['970px', '640px'],
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#PurchaseRegistrationSubmenu"),
+                    success:function(){
+                        vm.loadingStatus = "none";
+                    },
                     end: function () { //弹层销毁出发回调
                         $("#OriginalFilmorderNumber").val("");
                         $("#OriginalFilmDateSelect").val("");
@@ -489,6 +498,7 @@ $(function () {
             },
             /*进货管理:原片采购[采购登记{提交}点击事件]*/
             purchaseRegistrationSubmitFun: function () {
+                vm.loadingStatus = "block";
                 /*获取用户输入的数据*/
                 var req = {};
                 req.orderNumber = $("#OriginalFilmorderNumber").val();
@@ -505,7 +515,8 @@ $(function () {
                 req.operator = $("#nickNameTextPanel").html();
                 req.addOrderData = "addOrderData";
                 if (Af.nullstr(req.purchaseDate) || Af.nullstr(req.supplier) || Af.nullstr(req.specificationModel) || Af.nullstr(req.thickness) || Af.nullstr(req.color) || Af.nullstr(req.quantity) || Af.nullstr(req.unitPrice) || Af.nullstr(req.totalPurchase) || Af.nullstr(req.shippingFee) || Af.nullstr(req.remarks)) {
-                    MAIN.ErroAlert("请检查红色必填项!")
+                    MAIN.ErroAlert("请检查红色必填项!");
+                    vm.loadingStatus= "none";
                     if (Af.nullstr(req.purchaseDate)) {
                         $("#OriginalFilmDateSelect").css({
                             "border-color": "red"
@@ -623,6 +634,7 @@ $(function () {
                             $("#OriginalFilmremarks").val("");
                             //清空select中除第一个以外的选项
                             $("#fittingSpecificationModel option:gt(0)").remove();
+                            vm.loadingStatus = "none";
                             layer.msg("添加成功!");
                         } else {
                             layer.msg(ans.msg);
@@ -686,6 +698,7 @@ $(function () {
             },
             /*进货管理:原片采购[查询]点击事件*/
             PurchaseregistrationQueryFun: function () {
+                vm.loadingStatus = "block";
                 var req = {};
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
@@ -702,6 +715,7 @@ $(function () {
                         MAIN.OriginaFlilmDataList(ans.data);
                     });
                 }
+                vm.loadingStatus = "none";
             },
             /*进货管理:原片采购[删除]点击事件*/
             PurchaseregistrationDelFun: function () {
@@ -730,6 +744,7 @@ $(function () {
             },
             /*进货管理:[配件采购]新增点击事件*/
             fittingAddFun: function () {
+                vm.loadingStatus = "block";
                 var req = {};
                 req.operator = $("#nickNameTextPanel").html();
                 req.queryAll = "queryAll";
@@ -755,6 +770,9 @@ $(function () {
                     area: ['970px', '640px'],
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#fittingAddSubmenu"),
+                    success:function(){
+                      vm.loadingStatus = "none";
+                    },
                     end: function () { //弹层销毁出发回调
                         $("#fittingOrderNumberPanel").val("");
                         $("#fittingOrderNumberDate").val("");
@@ -772,6 +790,7 @@ $(function () {
             },
             /*进货管理:[配件采购{新增提交交互}]*/
             fittingSubmitFun: function () {
+                vm.loadingStatus = "block";
                 /*获取用户输入的数据*/
                 var req = {};
                 req.orderNumber = $("#fittingOrderNumberPanel").val();
@@ -791,6 +810,7 @@ $(function () {
                 req.fittingImgUrl = vm.productImageUrl;
                 if (Af.nullstr(req.orderNumber) || Af.nullstr(req.fittingDate) || Af.nullstr(req.supplier) || Af.nullstr(req.purchaseQuantity) || Af.nullstr(req.totalPurchase)) {
                     MAIN.ErroAlert("请检查红色必填项!");
+                    vm.loadingStatus= "none";
                     if (Af.nullstr(req.fittingDate)) {
                         $("#fittingOrderNumberDate").css({
                             "border-color": "red"
@@ -845,6 +865,7 @@ $(function () {
                             MAIN.annexList($("#nickNameTextPanel").html());
                             layer.closeAll();
                             layer.msg("添加成功!");
+                            vm.loadingStatus = "none";
                         } else {
                             layer.msg(ans.msg);
                         }
@@ -919,6 +940,7 @@ $(function () {
             },
             /*进货管理[配件采购]查询交互*/
             fittingQueryFun: function () {
+                vm.loadingStatus = "block";
                 var req = {};
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
@@ -935,13 +957,16 @@ $(function () {
                         MAIN.annexDataList(ans.data);
                     });
                 }
+                vm.loadingStatus = "none";
             },
             //出货管理点击函数
             shipmentFun: function () {
+                vm.loadingStatus = "block";
                 this.shipmentStatus = "block";
                 setTimeout(function () {
                     /*渲染出货管理数据表格*/
                     MAIN.originalFilmOutList($("#nickNameTextPanel").html());
+                    vm.loadingStatus= "none";
                 }, 100);
                 /*进货管理 财务报表 订单信息管理 库存管理 隐藏*/
                 this.IncomingGoodsStatus = "none";
@@ -963,6 +988,7 @@ $(function () {
             },
             //出货管理根据日期[查询]点击函数
             shipmentQueryFun: function () {
+                vm.loadingStatus= "block";
                 var req = {};
                 req.dStart = this.ShipmentdStart;
                 req.dEnd = this.ShipmentdEnd;
@@ -970,10 +996,12 @@ $(function () {
                 req.operator = $("#nickNameTextPanel").html();
                 if (Af.nullstr(req.dStart) || Af.nullstr(req.dEnd) || Af.nullstr(req.operator)) {
                     MAIN.ErroAlert("请选择查询条件");
+                    vm.loadingStatus= "none";
                 }
                 else {
                     Af.rest("ShipmentInfo.api", req, function (ans) {
                         MAIN.originalFilmOutDataList(ans.data);
+                        vm.loadingStatus= "none";
                     })
                 }
             },
@@ -1065,7 +1093,7 @@ $(function () {
                                 modelDetailsObj["glassNum"] = rawData[rowLine][item].glassNum; //--->数量
                                 modelDetailsObj["glassArea"] = rawData[rowLine][item].glassArea;//--->面积
                                 if(!Af.nullstr(rawData[rowLine][item].unitPrice)) {
-                                    modelDetailsObj["glassArea"] = rawData[rowLine][item].unitPrice; //--->单价
+                                    modelDetailsObj["unitPrice"] = rawData[rowLine][item].unitPrice; //--->单价
                                 }
                                 modelDetailsObj["totalAmount"] = rawData[rowLine][item].totalAmount;//--->总金额
                                 modelDetailsObj["glassMark"] = rawData[rowLine][item].glassMark;//--->标记
@@ -1131,10 +1159,10 @@ $(function () {
                 }
                 var shippedDataArr = Af.getJSONArray(shippedDataList);//将即将发货的数据归类
                 var unfinishedArr = Af.getJSONArray(editRawData);//将未发货的数组进行归类
-                /*Af.trace("将要发货的数据:");
+                Af.trace("将要发货的数据:");
                 Af.trace(shippedDataArr);
                 Af.trace("剩余未发货的数据:");
-                Af.trace(unfinishedArr);*/
+                Af.trace(unfinishedArr);
                 /*计算未发货的玻璃规格型号结束*/
                 /*请求后台发送:已发货,剩余发货数据*/
                 req.addOrderData = "addOrderData"; //--->新增发货字段
@@ -1416,10 +1444,12 @@ $(function () {
             //订单信息管理点击事件
             OrderInfoFun: function () {
                 this.orderManagementStatus = "block";
+                vm.loadingStatus = "block";
                 setTimeout(function () {
                     /*渲染订单信息管理数据表格*/
                     var userName = $("#nickNameTextPanel").html();
                     MAIN.orderInfoList(userName);
+                    vm.loadingStatus = "none";
                 }, 100);
                 /*进货管理 财务报表 出货管理 隐藏*/
                 this.stockStatus = "none";
@@ -1441,6 +1471,7 @@ $(function () {
             },
             /*订单信息管理:查询按钮交互函数*/
             orderBtnQueryFun: function () {
+                vm.loadingStatus = "block";
                 var req = {};
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
@@ -1452,20 +1483,26 @@ $(function () {
                 req.dEnd = this.dEnd;
                 if (Af.nullstr(req.orderNumber || req.clientName || req.projectName || req.dStart || req.dEnd)) {
                     MAIN.ErroAlert("请选择一个条件后,再点查询!");
+                    vm.loadingStatus = "none";
                 } else {
                     Af.rest("orderInfonQueiry.api", req, function (ans) {
                         MAIN.orderInfoCustomizeList(ans.data);
+                        vm.loadingStatus = "none";
                     });
                 }
             },
             /*订单信息管理:开单按钮点击交互函数*/
             billingFun: function () {
+                vm.loadingStatus = "block";
                 layer.open({
                     title: "正在开单",
                     type: 1,
                     area: ['1270px', '840px'],
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#billingManageSubmenu"),
+                    success:function(){
+
+                    },
                     end: function () { //弹层销毁出发回调
 
                     }
@@ -1493,6 +1530,7 @@ $(function () {
                         MAIN.billingorderNumber = ans.serverTime;
                         //获取服务器时间并赋值
                         $("#billingDatePanel").val(ans.nowTime);
+                        vm.loadingStatus = "none";
                     }
                 });
                 var selectId = 0; //用户选择slect下拉框的id(打开弹出层时,设置一个定时器!用于监听用户是否选择下拉框)
@@ -2051,7 +2089,7 @@ $(function () {
                                 let serialNumber_panel = "<div class='serialNumber-panel'>";
                                 let mark_panel = "<div class='mark-panel'>";
                                 let qrCode_panel = "<div class='qrCode-panel'>";
-                                let img_panel = "<img src=\"https://www.kaisir.cn/webPic/qrCode/TestqrCode.png\" alt=\"\">";
+                                let img_panel = "<img src=\"https://www.kaisir.cn/webPic/qrCode/TestqrCode.jpg\" alt=\"\">";
                                 let span_start = "<span>";
                                 let productName_panel = "<div class='productName-panel'>";
                                 let sizeQuantity_panel = "<div class='sizeQuantity-panel'>";
@@ -2133,12 +2171,25 @@ $(function () {
                     });
                 }
             },
-            /*订单月结管理点击事件*/
+            /*已完成订单点击事件*/
             OrderMonthlyFun: function () {
                 this.OrderMonthStatus = "block";
                 setTimeout(function () {
-                    /*渲染订单月结管理数据表格*/
-                    MAIN.OrderMonthList();
+                    /*渲染已完成订单数据表格*/
+                    let req = {
+                        operator:$("#nickNameTextPanel").html(),
+                        orderCompleted:true,
+                    };
+                    Af.rest("orderInfonQueiry.api",req,function(ans){
+                        if(ans.errorCode==0)
+                        {
+                            MAIN.OrderMonthList(ans.data);
+                            vm.orderCompletedRawData = ans.data;
+                        }
+                        else{
+                            layer.msg(ans.msg);
+                        }
+                    });
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理  客户信息管理隐藏*/
                 this.stockStatus = "none";
@@ -2157,6 +2208,32 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+            },
+            /*已完成订单查询函数*/
+            orderCompletedQueryFun:function(){
+                vm.loadingStatus = "block";
+                let data = vm.orderCompletedSelectData;
+                let rawData = vm.orderCompletedRawData;
+                if(Af.nullstr(data))
+                {
+                    MAIN.OrderMonthList(rawData);
+                    vm.loadingStatus = "none";
+                }
+                else
+                {
+                    let finalData = [];
+                    for(let i = 0;i < rawData.length;i++)
+                    {
+                        let rawClientName = rawData[i].clientName;
+                        if(rawClientName==data)
+                        {
+                            finalData.push(rawData[i]);
+                        }
+                    }
+                    MAIN.OrderMonthList(finalData);
+                    vm.orderCompletedSelectData = "";
+                    vm.loadingStatus = "none";
+                }
             },
             /*基础信息[客户信息]管理点击事件*/
             CustomerInfoFun: function () {
@@ -2303,6 +2380,7 @@ $(function () {
                     });
                 }
             },
+
             /*基础信息[客户信息]管理:修改客户信息*/
             editClientFun: function () {
                 //取出当前选择项的所有数据
@@ -3003,6 +3081,10 @@ $(function () {
                     });
                 }
             },
+            /*基础信息[供应商信息]管理*/
+            SupplierFun:function(){
+
+            },
             /*基本设置 点击事件*/
             basicSettingsFun: function () {
                 this.basicSettingsStatus = "block";
@@ -3173,6 +3255,11 @@ $(function () {
         form.on('radio', function(data){
             //console.log(data.value); //被点击的radio的value值
             vm.labelRadio = data.value;
+        });
+
+        /*监听已完成订单客户名称选择*/
+        form.on('select(orderCompletedSelect)',function(data) {
+           vm.orderCompletedSelectData = data.value;
         });
         /*监听出货管理[新增发货]客户名称选择*/
         form.on('select(shippingCustomerNameSelectPanel)', function (data) {
@@ -3510,12 +3597,15 @@ $(function () {
         };
         /*监听进货管理tab选项卡切换:原片采购&配件采购*/
         element.on('tab(IncomingGoodsTab)', function (data) {
+            vm.loadingStatus = "block";
             if (data.index == 0) {
                 //原片采购数据表格渲染
                 MAIN.OriginaFlilmList($("#nickNameTextPanel").html());
+                vm.loadingStatus = "none";
             } else if (data.index == 1) {
                 //附件数据表格渲染
                 MAIN.annexList($("#nickNameTextPanel").html());
+                vm.loadingStatus = "none";
             }
             /*
 			* layer.msg("切换到了"+data.index+this.innerHTML);
@@ -5426,18 +5516,12 @@ $(function () {
         };
 
         /*订单管理:订单月结管理*/
-        MAIN.OrderMonthList = function () {
+        MAIN.OrderMonthList = function (rawData) {
             table.render({
-                url: URL + "/stockList",
-                // data:testData, //请求地址
-                method: 'POST', //方式
+                data:rawData,
                 elem: '#OrderMonthList',
                 page: true,
                 limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
-                },
                 cols: [
                     [
                         {
@@ -5446,52 +5530,106 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
-                            title: '月结编号',
+                            field: 'orderNumber',
+                            title: '订单号',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
-                            title: '订单数',
+                            field: 'orderDate',
+                            title: '日期',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
-                            title: '总面积',
+                            field: 'clientName',
+                            title: '客户名称',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '总金额',
+                            field: 'projectName',
+                            title: '工程名称',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '已付款',
+                            field: 'glassNumber',
+                            title: '玻璃总数量(块)',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '月结付款',
+                            field: 'totalArea',
+                            title: '总面积(㎡)',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '未付款',
+                            field: 'totalAmount',
+                            title: '总金额(元)',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '优惠金额',
+                            field: 'alreadyPaid',
+                            title: '已付款(元)',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '备注',
+                            field: 'unpaid',
+                            title: '未付款(元)',
                             align: "center"
-                        }
+                        },
+                        {
+                            field: 'preparedBy',
+                            title: '制单人',
+                            align: "center"
+                        },
                     ]
-                ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项
+                    $("#orderCompletedSelect option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    clientNameSelectFun();
+                    /*渲染客户名称选择框*/
+                    function clientNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].clientName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "orderCompletedSelect");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
             });
         };
         /*客户信息管理:数据表格*/

@@ -221,6 +221,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="orderNumber != null">
 				AND orderNumber like #{orderNumber}
 			</if>
+			<if test="unfinishedArr != null">
+				AND unfinishedArr like #{unfinishedArr}
+			</if>
 		</where>
 	</select>
 	

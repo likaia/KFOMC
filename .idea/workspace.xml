@@ -3,21 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/IncomeInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/IncomeInfoAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OutlayInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OutlayInfoAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/POI/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/POI/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/SalaryInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/SalaryInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/IncomeInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/IncomeInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/SalaryInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/SalaryInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/Preview.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/Preview.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/tagPrint.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/tagPrint.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -34,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="2001" column="24" selection-start-line="2001" selection-start-column="13" selection-end-line="2001" selection-end-column="24" />
+            <state relative-caret-position="455">
+              <caret line="182" column="29" selection-start-line="182" selection-start-column="29" selection-end-line="182" selection-end-column="29" />
               <folding>
                 <element signature="n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#style#0;n#button#3;n#div#1;n#div#20;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -56,17 +49,31 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+            <state relative-caret-position="150">
+              <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="2053" column="101" selection-start-line="2053" selection-start-column="101" selection-end-line="2053" selection-end-column="101" />
+            <state relative-caret-position="429">
+              <caret line="3085" selection-start-line="3085" selection-end-line="3085" />
+              <folding>
+                <element signature="e#71919#72008#0" />
+                <element signature="e#89058#89587#0" />
+                <element signature="e#89654#90172#0" />
+                <element signature="e#90246#91335#0" />
+                <element signature="e#91407#91760#0" />
+                <element signature="e#91833#97928#0" />
+                <element signature="e#97999#107174#0" />
+                <element signature="e#107243#108788#0" />
+                <element signature="e#145182#146296#0" />
+                <element signature="e#146363#148053#0" />
+                <element signature="e#148124#148929#0" />
+                <element signature="e#148998#150082#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,27 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>/*多维数组转一维数组函数*/</find>
-      <find>二维数组转一维数组</find>
-      <find>发货</find>
-      <find>归类</find>
-      <find>v-for</find>
-      <find>orderDetailsFun</find>
-      <find>订单详情</find>
-      <find>title-BtnPanel</find>
-      <find>labelList</find>
-      <find>xxx</find>
-      <find>#labelPrintingSubmenu .label-panel</find>
-      <find>btn</find>
-      <find>打印</find>
-      <find>Jcrop</find>
-      <find>slider</find>
-      <find>开始打印</find>
-      <find>labelPrintingSubmenu</find>
-      <find>layui.use</find>
-      <find>labelRadio</find>
-      <find>二维数组转一位</find>
-      <find>editRawData</find>
       <find>多维</find>
       <find>/*多维数组转一维数组函数</find>
       <find>多维数组转一维数组</find>
@@ -113,6 +99,27 @@
       <find>finalData</find>
       <find>append</find>
       <find>标签打印</find>
+      <find>#OrderMonth-panel .OrderMonthListBtn-panel .btn-panel</find>
+      <find>月结编号</find>
+      <find>OrderMonthSelectPanel</find>
+      <find>MAIN.OrderMonthList</find>
+      <find>ShipmentInfo</find>
+      <find>shippingCustomerValArr</find>
+      <find>订单</find>
+      <find>已完成订单</find>
+      <find>form.on</find>
+      <find>orderCompletedSelect</find>
+      <find>OrderMonthList</find>
+      <find>orderCompletedQueryFun</find>
+      <find>订单管理</find>
+      <find>orderinfo</find>
+      <find>tab</find>
+      <find>原片采购/</find>
+      <find>配件采购</find>
+      <find>基础信息</find>
+      <find>基本</find>
+      <find>客户信息</find>
+      <find>配件信息</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -131,15 +138,16 @@
         <option value="$PROJECT_DIR$/src/main/webapp/css/Preview.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/tagPrint.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="27" />
-    <option name="width" value="960" />
-    <option name="height" value="1053" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="228" />
+    <option name="y" value="88" />
+    <option name="width" value="1350" />
+    <option name="height" value="773" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -355,15 +363,16 @@
       <workItem from="1543029182448" duration="219000" />
       <workItem from="1543029462195" duration="2619000" />
       <workItem from="1543111140462" duration="3264000" />
-      <workItem from="1543136265320" duration="37729000" />
+      <workItem from="1543136265320" duration="50681000" />
+      <workItem from="1543368688918" duration="6721000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="611301000" />
+    <option name="totallyTimeSpent" value="630974000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <frame x="0" y="27" width="1920" height="1053" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15271196" />
@@ -501,22 +510,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/tagPrint.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3100">
-          <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+        <state relative-caret-position="625">
+          <caret line="64" column="10" lean-forward="true" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+        <state relative-caret-position="150">
+          <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="3085" selection-start-line="3085" selection-end-line="3085" />
+          <folding>
+            <element signature="e#71919#72008#0" />
+            <element signature="e#89058#89587#0" />
+            <element signature="e#89654#90172#0" />
+            <element signature="e#90246#91335#0" />
+            <element signature="e#91407#91760#0" />
+            <element signature="e#91833#97928#0" />
+            <element signature="e#97999#107174#0" />
+            <element signature="e#107243#108788#0" />
+            <element signature="e#145182#146296#0" />
+            <element signature="e#146363#148053#0" />
+            <element signature="e#148124#148929#0" />
+            <element signature="e#148998#150082#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="2001" column="24" selection-start-line="2001" selection-start-column="13" selection-end-line="2001" selection-end-column="24" />
+        <state relative-caret-position="455">
+          <caret line="182" column="29" selection-start-line="182" selection-start-column="29" selection-end-line="182" selection-end-column="29" />
           <folding>
             <element signature="n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#style#0;n#button#3;n#div#1;n#div#20;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -527,13 +557,6 @@
             <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="2053" column="101" selection-start-line="2053" selection-start-column="101" selection-end-line="2053" selection-end-column="101" />
         </state>
       </provider>
     </entry>

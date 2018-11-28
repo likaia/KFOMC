@@ -31,6 +31,8 @@
 	<api name="productNameModelInquiry" class="com.lk.API.ProductNameModelInquiry" />
 	<!-- 基础信息[配件信息]接口 -->
 	<api name="FittingPublic" class="com.lk.API.FittingPublicAPI" />
+	<!-- 基础信息[供应商信息]接口 -->
+	<api name="supplier" class="com.lk.API.SupplierInfoAPI" />
 	<!-- 员工管理[考勤管理]接口 -->
 	<api name="AttendanceInfo" class="com.lk.API.AttendanceInfoAPI" />
 	<!-- 员工管理[工资发放]接口 -->

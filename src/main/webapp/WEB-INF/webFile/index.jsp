@@ -178,6 +178,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <li @click="CustomerInfoFun"><a href="javascript:;"><span>客户信息</span></a></li>
                                 <li @click="OriginalInfoFun"><a href="javascript:;"><span>原片信息</span></a></li>
                                 <li @click="AttachmentInfoFun"><a href="javascript:;"><span>配件信息</span></a></li>
+                                <li @click="SupplierFun"><a href="javascript:;"><span>供应商信息</span></a></li>  
                             </ul>
                         </li>
                         <li class="nav-item"><a href="javascript:;"><i
@@ -805,7 +806,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <%=Version%>
             </div>
         </div>
-        <!--订单月结管理-->
+        <!--已完成订单管理-->
         <div class="layui-body" style="top: 80px;"
              v-bind:style="{display:OrderMonthStatus}">
             <div class="padding15-panel">
@@ -813,22 +814,22 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="title-panel">
                         <span>已完成订单</span>
                     </div>
-                    <!--月结编号查询-->
+                    <!--已完成订单根据客户名称查询查询-->
                     <div class="layui-row onlyNumber-panel layui-form">
                         <div class="condition-panel">
                             <div class="text-panel">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">月结编号</label>
+                                    <label class="layui-form-label">客户名称:</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter=""
-                                                name="OrderMonthSelectPanel">
-                                            <option value="">选择或输入月结编号</option>
+                                        <select lay-search="" lay-filter="orderCompletedSelect" id="orderCompletedSelect"
+                                                name="orderCompletedSelect">
+                                            <option value="">选择或输入客户名称</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="btn-panel">
-                                <button v-bind:style="{background:BtnColor}"
+                                <button v-bind:style="{background:BtnColor}" @click="orderCompletedQueryFun"
                                         class="layui-btn layui-btn-normal">查询
                                 </button>
                             </div>
@@ -838,13 +839,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-row OrderMonthListBtn-panel">
                         <div class="btn-panel">
                             <button class="layui-btn layui-btn-normal"
-                                    v-bind:style="{background:BtnColor}">收款登记
+                                    v-bind:style="{background:BtnColor}">删除
                             </button>
                             <button class="layui-btn layui-btn-normal"
-                                    v-bind:style="{background:BtnColor}">导出月单
-                            </button>
-                            <button class="layui-btn layui-btn-normal"
-                                    v-bind:style="{background:BtnColor}">报表
+                                    v-bind:style="{background:BtnColor}">导出
                             </button>
                         </div>
                     </div>
@@ -3053,7 +3051,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
     </div>
     <!--加载动画-->
-    <div id="loading">
+    <div id="loading" v-bind:style="{display:loadingStatus}">
         <div id="loading-center">
             <div id="loading-center-absolute">
                 <div class="object" id="object_one"></div>
