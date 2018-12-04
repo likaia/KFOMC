@@ -235,6 +235,58 @@ Af.arrayConversion = function (arr) {
     }
     return editRawData;
 };
+/*判断字符串长度*/
+Af.getStringLength = function(str) {
+    ///<summary>获得字符串实际长度，中文2，英文1</summary>
+    ///<param name="str">要获得长度的字符串</param>
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+    return realLength;
+};
+
+/*公用layer删除函数*/
+Af.layerDel = function(strArr,api){
+    layer.confirm("你确定要删除第所选择的数据吗?", function (index) {
+        let idsStr = strArr.toString();  //--->将选择的数组格式化为字符串
+    	var req = {
+        	"delSupplier":"delSupplier",
+			"ids":Af.strToIntArr(idsStr),//将String字符串转int数组
+			"operator":$("#nickNameTextPanel").html()
+		};
+    	Af.rest(api,req,function (ans) {
+			if(ans.errorCode==0)
+			{
+                layer.close(index);
+                layer.msg("删除成功");
+                return true;
+			}
+			else{
+				layer.msg(ans.msg);
+				return false;
+			}
+        });
+    });
+};
+/*公用layer悬浮层*/
+Af.openSubmenu = function(title,[width,height],status,container){
+    layer.open({
+        title: title,
+        type: 1,
+        area: [width, height],
+        shadeClose : status, //点击遮罩关闭
+        content: container,
+        success:function(){
+
+        },
+        end: function () { //弹层销毁出发回调
+
+        }
+    });
+};
 /*小数加法函数*/
 /**
  ** 加法函数，用来得到精确的加法结果

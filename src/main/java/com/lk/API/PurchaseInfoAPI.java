@@ -123,12 +123,13 @@ public class PurchaseInfoAPI extends AfRestfulApi
 				String unitPrice = jsReq.getString("unitPrice");
 				String totalPurchase = jsReq.getString("totalPurchase");
 				String shippingFee = jsReq.getString("shippingFee");
+				String unloadingFee = jsReq.getString("unloadingFee");
 				String remarks = jsReq.getString("remarks");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				PurchaseMapper purchaseMapper = sqlSession.getMapper(PurchaseMapper.class);
-				PurchaseInfo row = new PurchaseInfo(orderNumber, purchaseDate, supplier, specificationModel, thickness, color, quantity, unitPrice, totalPurchase, shippingFee, remarks, operator);
+				PurchaseInfo row = new PurchaseInfo(orderNumber, purchaseDate, supplier, specificationModel, thickness, color, quantity, unitPrice, totalPurchase, shippingFee, unloadingFee, remarks, operator);
 				int processResult = purchaseMapper.add(row);
 				sqlSession.commit();
 				if(processResult>0)

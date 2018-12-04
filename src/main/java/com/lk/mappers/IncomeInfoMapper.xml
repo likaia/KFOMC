@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="orderNumber" column="orderNumber" />
 		<result property="incomeDate" column="incomeDate" />
 		<result property="clientName" column="clientName" />
+		<result property="productName" column="productName" />
 		<result property="paymentMethod" column="paymentMethod" />
 		<result property="paymentAmount" column="paymentAmount" />
 		<result property="payee" column="payee" />
@@ -31,11 +32,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				operator = #{operator}
 			</if>
 			<if test="dStart != null and dStart != ''">
-				AND incomeDate <![CDATA[>=]]>
+				AND addTime <![CDATA[>=]]>
 				#{dStart}
 			</if>
 			<if test="dEnd != null and dEnd != ''">
-				AND incomeDate <![CDATA[<=]]>#{dEnd}
+				AND addTime <![CDATA[<=]]>#{dEnd}
 			</if>
 		</where>
 	</select>
@@ -47,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		orderNumber,
 		incomeDate,
 		clientName,
+		productName,
 		paymentMethod,
 		paymentAmount,
 		payee,
@@ -69,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		orderNumber,
 		incomeDate,
 		clientName,
+		productName,
 		paymentMethod,
 		paymentAmount,
 		payee,

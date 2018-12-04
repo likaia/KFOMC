@@ -1,6 +1,7 @@
 package com.lk.TestAPI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -22,26 +23,23 @@ import com.lk.mappers.ProductNumeInfoMapper;
   *  
 * */
 
+
 public class TestClass
 {
 	public static void main(String[] args)
 	{
-		String b = "[{\"name\":\"支付宝\",\"amount\":500.54},{\"name\":\"现金\",\"amount\":700.13},{\"name\":\"现金\",\"amount\":200.00},{\"name\":\"支付宝\",\"amount\":800.00},{\"name\":\"支付宝\",\"amount\":900.00}]";
-		JSONArray d = new JSONArray(b); // --->把JSONString传换为JSONArray
-		ArrayList<String> moneyArr = new ArrayList<String>();
-		for(int  i  = 0 ;i<d.length();i++)
+		String JSONStr = "[{\"originalTitle\":\"5+25+5双白双钢\",\"stockBalance\":1355,\"id\":3},{\"originalTitle\":\"5+9+5双白双钢\",\"stockBalance\":1940,\"id\":4},{\"originalTitle\":\"5+9+5双白普通\",\"stockBalance\":1668,\"id\":5},{\"originalTitle\":\"10mm钢化\",\"stockBalance\":720,\"id\":6},{\"originalTitle\":\"5mm单片钢化\",\"stockBalance\":3788,\"id\":7},{\"originalTitle\":\"5mmLOW-E单片普通\",\"stockBalance\":120,\"id\":12}]";
+		JSONArray JSONarr = new JSONArray(JSONStr);
+		ArrayList<String>stockNameVal = new ArrayList<String>(); //--->库存表原片名称总数组
+		System.out.println(JSONarr.length());
+		for(int i = 0;i<JSONarr.length();i++)
 		{
-			JSONObject aa = d.getJSONObject(i);
-			String oldName = aa.getString("name");
-			for(int j = 1;j<d.length();j++)
-			{
-				JSONObject bb =d.getJSONObject(j);
-				String nowName = bb.getString("name");
-				if(oldName.equals(nowName))
-				{
-					System.out.println("重复了"+oldName);
-				}
-			}
+				JSONObject InventoryInfoOneObj = JSONarr.getJSONObject(i);
+				String originalTitle = InventoryInfoOneObj.getString("originalTitle").trim(); // --->原片名称
+				stockNameVal.add(originalTitle);
 		}
+		String productName = "5+9+5双白双钢"; // --->原片名称
+		boolean stockFlag = stockNameVal.contains(productName);//--->判断库存中是否有当前原片名称
+		System.out.println(stockFlag);
 	}
 }

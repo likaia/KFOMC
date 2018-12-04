@@ -187,11 +187,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
-	<!-- 根据id查询规格详情 -->
+	<!-- 根据id查询规格详情  订单号-->
 	<select id="findModelById" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
 		SELECT
-		unfinishedArr
+		unfinishedArr,
+		orderNumber
 		FROM t_order_Info
 		<where>
 			<if test="id != null">
@@ -258,11 +259,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				operator = #{operator}
 			</if>
-			<if test="orderNumber != null">
-				AND orderNumber like #{orderNumber}
-			</if>
 			<if test="clientName != null">
 				AND clientName like #{clientName}
+			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
 			</if>
 			<if test="projectName != null">
 				AND projectName like #{projectName}

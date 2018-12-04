@@ -21,6 +21,8 @@ public class OutlayInfo
 	private String operator;
 	private String addTime;
 	private JSONArray ids;
+	private String beneficiary;
+	private String bankImg;
 	private JSONArray queryType;
 	private String dStart;
 	private String dEnd;
@@ -101,6 +103,23 @@ public class OutlayInfo
 	{
 		return addTime;
 	}
+	
+	public String getBeneficiary()
+	{
+		return beneficiary;
+	}
+	public void setBeneficiary(String beneficiary)
+	{
+		this.beneficiary = beneficiary;
+	}
+	public String getBankImg()
+	{
+		return bankImg;
+	}
+	public void setBankImg(String bankImg)
+	{
+		this.bankImg = bankImg;
+	}
 	public void setAddTime(String addTime)
 	{
 		this.addTime = addTime;
@@ -133,23 +152,8 @@ public class OutlayInfo
 	{
 		super();
 	}
-	
-
-	public OutlayInfo(Integer id, String orderNumber, String outlayDate, String outlayType, String paymentMethod,
-			Double paymentAmount, String remarks, String operator)
-	{
-		super();
-		this.id = id;
-		this.orderNumber = orderNumber;
-		this.outlayDate = outlayDate;
-		this.outlayType = outlayType;
-		this.paymentMethod = paymentMethod;
-		this.paymentAmount = paymentAmount;
-		this.remarks = remarks;
-		this.operator = operator;
-	}
 	public OutlayInfo(String orderNumber, String outlayDate, String outlayType, String paymentMethod,
-			Double paymentAmount, String remarks, String operator, String addTime)
+			Double paymentAmount, String remarks, String operator, String addTime, String beneficiary, String bankImg)
 	{
 		super();
 		this.orderNumber = orderNumber;
@@ -160,6 +164,28 @@ public class OutlayInfo
 		this.remarks = remarks;
 		this.operator = operator;
 		this.addTime = addTime;
+		this.beneficiary = beneficiary;
+		this.bankImg = bankImg;
 	}
+	public OutlayInfo(Integer id, String orderNumber, String outlayDate, String outlayType, String paymentMethod,
+			Double paymentAmount, String remarks, String operator, String beneficiary, String bankImg)
+	{
+		super();
+		this.id = id;
+		this.orderNumber = orderNumber;
+		this.outlayDate = outlayDate;
+		this.outlayType = outlayType;
+		this.paymentMethod = paymentMethod;
+		this.paymentAmount = paymentAmount;
+		this.remarks = remarks;
+		this.operator = operator;
+		this.beneficiary = beneficiary;
+		this.bankImg = bankImg;
+	}
+
+	
+
+	
+	
 	
 }

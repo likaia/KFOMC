@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -110,6 +109,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 			// 新增数据
 			if (jsReq.has("addOrderData"))
 			{
+				String itemOrderNumber = jsReq.getString("orderNumber");
 				String clientName = jsReq.getString("clientName");// --->客户名称
 				String clientId = jsReq.getString("clientId"); // --->客户id
 				String dateOfShipment = serverTime; // --->下单日期
@@ -167,7 +167,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 								JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(k);
 								String originalTitle = InventoryInfoOneObj.getString("originalTitle"); // --->原片名称
 								/*判断遍历到的规格型号中是否存在于库存表里的原片名称中*/
-								boolean stockFlag = Arrays.asList(stockNameVal).contains(productName);
+								boolean stockFlag = stockNameVal.contains(productName);
 								if(stockFlag)
 								{ //--->如果存在判断找到当前规格型号表所对应的库存,判断库存余量
 									if (productName.equals(originalTitle))
@@ -232,7 +232,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 								JSONObject InventoryInfoOneObj = InventoryInfoOneResult.getJSONObject(k);
 								String originalTitle = InventoryInfoOneObj.getString("originalTitle"); // --->原片名称
 								/*判断遍历到的规格型号中是否存在于库存表里的原片名称中*/
-								boolean stockFlag = Arrays.asList(stockNameVal).contains(productName);
+								boolean stockFlag = stockNameVal.contains(productName);
 								if(stockFlag)
 								{ //--->如果存在判断找到当前规格型号表所对应的库存,判断库存余量
 									if (productName.equals(originalTitle))
@@ -281,6 +281,7 @@ public class ShipmentInfoAPI extends AfRestfulApi
 					ShipmentInfo row = new ShipmentInfo(clientName, dateOfShipment, specificationModel.toString(),
 							unfinishedArr.toString(), theTotalAmount, numberShipments, shipArea, theRemainingAmount,
 							remainingArea, paymentDetails, transportationManager, freight, operator);
+					row.setOrderNumber(itemOrderNumber);
 					int processResult = shipmentMapper.add(row);
 					sqlSession.commit();
 					if (processResult > 0)

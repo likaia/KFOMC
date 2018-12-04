@@ -14,8 +14,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lk.Utils.UUIDUtil;
 import com.lk.db.ProductListInfo;
+import com.lk.db.SupplierInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.ProductNumeInfoMapper;
+import com.lk.mappers.SupplierInfoMapper;
 
 import af.restful.AfRestfulApi;
 
@@ -40,6 +42,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		// 获取当前服务器时间
 		String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		JSONArray result = new JSONArray();
+		JSONArray SupplierResult = new JSONArray();
 		long count = 0; // --->数据库数据总记录数
 		String msg = "ok";
 		/* 安卓端返回数据 */
@@ -240,8 +243,18 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				// 配置映射器
 				ProductNumeInfoMapper productNumeInfoMapper = sqlSession.getMapper(ProductNumeInfoMapper.class);
 				List<ProductListInfo> resultList = productNumeInfoMapper.customQuery(row);
-				sqlSession.close(); //-->关闭数据库连接
 				result = new JSONArray(resultList);
+				/*查询供应商表:所有供应商名称*/
+				String[] supplierArr = {"supplierName"};
+				JSONArray supplierQueryType = new JSONArray(supplierArr);
+				// 配置映射器
+				SupplierInfoMapper supplierInfoMapper = sqlSession.getMapper(SupplierInfoMapper.class);
+				SupplierInfo SupplierRow = new SupplierInfo();
+				SupplierRow.setOperator(operator);
+				SupplierRow.setQueryType(supplierQueryType);
+				List<SupplierInfo> SupplierResultList = supplierInfoMapper.conditionalQuery(SupplierRow);
+				SupplierResult = new JSONArray(SupplierResultList);
+				sqlSession.close(); //-->关闭数据库连接
 			}
 			/*查询表内 (规格型号,单价) 字段结束*/
 		}
@@ -264,6 +277,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 		jsReply.put("serverTime", serverTime);
 		jsReply.put("data", result);
 		jsReply.put("operator",operator );
+		jsReply.put("SupplierResult", SupplierResult);
 		return jsReply.toString();
 	}
 	

@@ -17,6 +17,7 @@ public class ShipmentInfo
 	private String remainingArea;
 	private String paymentDetails;
 	private String transportationManager;
+	private String orderNumber;
 	private JSONArray queryType;
 	private String  freight;
 	public String getFreight()
@@ -143,6 +144,15 @@ public class ShipmentInfo
 	public void setTransportationManager(String transportationManager)
 	{
 		this.transportationManager = transportationManager;
+	}
+	
+	public String getOrderNumber()
+	{
+		return orderNumber;
+	}
+	public void setOrderNumber(String orderNumber)
+	{
+		this.orderNumber = orderNumber;
 	}
 	public String getOperator()
 	{

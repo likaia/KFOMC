@@ -56,6 +56,99 @@ public class LkCommon
 
 		return new JSONObject(map);
 	}
+	  // ArrayList类型转成String类型
+    public String ArrayListToString(ArrayList<String> arrayList) {
+        String result = "";
+        if (arrayList != null && arrayList.size() > 0) {
+            for (String item : arrayList) {
+                // 把列表中的每条数据用逗号分割开来，然后拼接成字符串
+                result += item + ",";
+            }
+            // 去掉最后一个逗号
+            result = result.substring(0, result.length() - 1);
+        }
+        return result;
+    }
+	/*三徒弟:将日期为同一天的数据归类到一块*/
+	public String timeFormat(JSONArray rawData) {
+		ConcurrentHashMap<String, JSONArray> hs = new ConcurrentHashMap<>();
+		for(int i = 0;i < rawData.length();i++) {
+			JSONObject json = rawData.getJSONObject(i);
+			String date = json.getString("date").substring(0, 10);
+			JSONArray array;
+			if (hs.containsKey(date)) {
+				array = hs.get(date);
+			}else {
+				array = new JSONArray();
+			}
+			 
+			array.put(json);
+			hs.put(date, array);
+		}
+		
+		rawData = new JSONArray();
+		for(String k : hs.keySet()) {
+		rawData.put(hs.get(k));
+		}
+		
+		return rawData.toString();
+	}
+	/*将日期为同一天的数据归类到一块*/
+	public static JSONArray getSameDateJsonArray(JSONArray rawArray)
+	{
+		JSONArray array = new JSONArray();
+		for (int i = 0; i < rawArray.length(); i++)
+		{
+			JSONObject obj = rawArray.getJSONObject(i);
+			obj.put("flag", "no");
+		}
+		for (int i = 0; i < rawArray.length(); i++)
+		{
+			JSONObject obj = rawArray.getJSONObject(i);
+			
+			if (obj.get("flag").equals("no"))
+			{
+				JSONArray newArray = new JSONArray();
+				newArray.put(obj);
+				obj.put("flag", "ok");
+
+				for (int j = i + 1; j < rawArray.length(); j++)
+				{
+					JSONObject other = rawArray.getJSONObject(j);
+					if (other.get("flag").equals("no"))
+					{
+						String objTime = obj.getString("date").substring(0, 10);
+						String otherTime = other.getString("date").substring(0, 10);
+						if (objTime.equals(otherTime))
+						{
+							newArray.put(other);
+							other.put("flag", "ok");
+						}
+					}
+
+				}
+				array.put(newArray);
+			}
+		}
+		JSONArray finalData = new JSONArray();
+		for(int i=0;i<array.length();i++)
+		{
+			JSONArray arrOneArr = array.getJSONArray(i);
+			JSONArray finalOneArr = new JSONArray();
+			for(int j = 0;j<arrOneArr.length();j++)
+			{
+				JSONObject arrObj = arrOneArr.getJSONObject(j);
+				if(arrObj.has("flag"))
+				{
+					arrObj.remove("flag");
+					finalOneArr.put(arrObj);
+				}
+			}
+			finalData.put(finalOneArr);
+		}
+		array = finalData;
+		return array;
+	}
 
 	/* 百分比运算 */
 	public String txPercentage(int a, int b)
@@ -216,7 +309,33 @@ public class LkCommon
 		 * val = length.get(key); System.out.println(key+":"+val); }
 		 */
 	}
-
+	/*将数据按日期归类好后,根据订单号来比对当前时间段下的数据*/
+	public void orderSameDateArray( JSONArray sameDateArray,String orderNumber)
+	{
+		for(int i =0;i<sameDateArray.length();i++)
+		{
+			//取出当前遍历到的第一层Array
+			JSONArray sameDateOneArr = sameDateArray.getJSONArray(i);
+			for(int j = 0; j <sameDateOneArr.length();j++)
+			{
+				JSONObject nowObj = sameDateOneArr.getJSONObject(j); //--->当前第一层数据每一项的重复到的数据
+				String nowOrderNumber = ""; //--->当前项的订单号
+				if(nowObj.has("orderNumber"))
+				{
+					nowOrderNumber = nowObj.getString("orderNumber");
+				}
+				if(orderNumber.equals(nowOrderNumber))
+				{
+					System.out.println("当前点击项下的数据:");
+					for(int k = 0;k<sameDateOneArr.length();k++)
+					{
+						JSONObject itemClickData = sameDateOneArr.getJSONObject(k);
+						System.out.println(itemClickData);
+					}
+				}
+			}	
+		}
+	}
 	/* 大大JSONArray归类 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public JSONArray getJSONArray(JSONArray jsonArray)

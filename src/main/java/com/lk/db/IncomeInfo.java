@@ -16,6 +16,7 @@ public class IncomeInfo
 	private String orderNumber;
 	private String incomeDate;
 	private String clientName;
+	private String productName;
 	private String paymentMethod;
 	private Double paymentAmount;
 	private String payee;
@@ -62,6 +63,15 @@ public class IncomeInfo
 	public String getPaymentMethod()
 	{
 		return paymentMethod;
+	}
+	
+	public String getProductName()
+	{
+		return productName;
+	}
+	public void setProductName(String productName)
+	{
+		this.productName = productName;
 	}
 	public void setPaymentMethod(String paymentMethod)
 	{

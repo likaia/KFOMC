@@ -93,6 +93,11 @@ public class OutlayInfoAPI extends AfRestfulApi
 				OutlayInfoMapper outlayInfoMapper = sqlSession.getMapper(OutlayInfoMapper.class);
 				OutlayInfo row = new OutlayInfo();
 				row.setOperator(operator);
+				if(jsReq.has("outlayType"))
+				{
+					String outlayType = jsReq.getString("outlayType");
+					row.setOutlayType(outlayType);
+				}
 				row.setdStart(dStart);
 				row.setdEnd(dEnd);
 				List<OutlayInfo> resultList = outlayInfoMapper.conditionalQuery(row);
@@ -111,12 +116,14 @@ public class OutlayInfoAPI extends AfRestfulApi
 				String paymentMethod = jsReq.getString("paymentMethod");
 				Double paymentAmount = jsReq.getDouble("paymentAmount");
 				String remarks = jsReq.getString("remarks");
+				String beneficiary = jsReq.getString("beneficiary");
+				String bankImg = jsReq.getString("bankImg");
 				String addTime = serverTime;
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				OutlayInfoMapper outlayInfoMapper = sqlSession.getMapper(OutlayInfoMapper.class);
-				OutlayInfo row = new OutlayInfo(orderNumber, outlayDate, outlayType, paymentMethod, paymentAmount, remarks, operator, addTime);
+				OutlayInfo row = new OutlayInfo(orderNumber, outlayDate, outlayType, paymentMethod, paymentAmount, remarks, operator, addTime, beneficiary, bankImg);
 				int processResult = outlayInfoMapper.add(row);
 				sqlSession.commit();
 				if (processResult > 0)
@@ -166,7 +173,9 @@ public class OutlayInfoAPI extends AfRestfulApi
 				String paymentMethod = jsReq.getString("paymentMethod");
 				Double paymentAmount = jsReq.getDouble("paymentAmount");
 				String remarks = jsReq.getString("remarks");
-				OutlayInfo row = new OutlayInfo(id,orderNumber, outlayDate, outlayType, paymentMethod, paymentAmount, remarks, operator);
+				String beneficiary = jsReq.getString("beneficiary");
+				String bankImg = jsReq.getString("bankImg");
+				OutlayInfo row = new OutlayInfo(id, orderNumber, outlayDate, outlayType, paymentMethod, paymentAmount, remarks, operator, beneficiary, bankImg);
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器

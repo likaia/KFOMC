@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="unitPrice" column="unitPrice" />
 		<result property="totalPurchase" column="TotalPurchase" />
 		<result property="ShippingFee" column="ShippingFee" />
+		<result property="unloadingFee" column="unloadingFee" />
 		<result property="remarks" column="remarks" />
 		<result property="operator" column="operator" />
 	</resultMap>
@@ -23,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findexpenditurePage" resultMap="PurchaseInfoResult"
 		parameterType="PurchaseInfo">
 		SELECT
-		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
+		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,unloadingFee,remarks,operator
 		FROM t_purchaseInfo
 		<where>
 			<if test="operator != null">
@@ -35,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="conditionalQuery" resultMap="PurchaseInfoResult"
 		parameterType="PurchaseInfo">
 		SELECT
-		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
+		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,unloadingFee,remarks,operator
 		FROM t_purchaseInfo
 		<where>
 			<if test="operator != null">
@@ -88,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<select id="queryByOrderNumber" resultMap="PurchaseInfoResult"
 		parameterType="PurchaseInfo">
 		SELECT
-		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,remarks,operator
+		id,orderNumber,purchaseDate,supplier,specificationModel,thickness,color,quantity,unitPrice,totalPurchase,shippingFee,unloadingFee,remarks,operator
 		FROM t_purchaseInfo
 		<where>
 			<if test="operator != null">
@@ -133,6 +134,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" shippingFee != null">
 				shippingFee,
 			</if>
+			<if test=" unloadingFee != null">
+				unloadingFee,
+			</if>
 			<if test=" remarks != null">
 				remarks,
 			</if>
@@ -170,6 +174,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="shippingFee != null">
 				#{shippingFee,jdbcType=VARCHAR},
+			</if>
+			<if test="unloadingFee != null">
+				#{unloadingFee,jdbcType=VARCHAR},
 			</if>
 			<if test=" remarks != null">
 				#{remarks,jdbcType=VARCHAR},

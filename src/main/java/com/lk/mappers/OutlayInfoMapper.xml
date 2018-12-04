@@ -11,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="outlayType" column="outlayType" />
 		<result property="paymentMethod" column="paymentMethod" />
 		<result property="paymentAmount" column="paymentAmount" />
+		<result property="beneficiary" column="beneficiary" />
+		<result property="bankImg" column="bankImg" />
 		<result property="remarks" column="remarks" />
 		<result property="operator" column="operator" />
 		<result property="addTime" column="addTime" />
@@ -47,6 +49,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		outlayType,
 		paymentMethod,
 		paymentAmount,
+		beneficiary,
+		bankImg,
 		remarks,
 		operator,
 		addTime
@@ -67,6 +71,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		outlayType,
 		paymentMethod,
 		paymentAmount,
+		beneficiary,
+		bankImg,
 		remarks,
 		operator,
 		addTime
@@ -78,6 +84,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="dStart != null and dStart != ''">
 				AND outlayDate <![CDATA[>=]]>
 				#{dStart}
+			</if>
+			<if test="outlayType != null and outlayType != ''">
+				AND outlayType = #{outlayType}
 			</if>
 			<if test="dEnd != null and dEnd != ''">
 				AND outlayDate <![CDATA[<=]]>#{dEnd}
@@ -111,6 +120,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="paymentAmount != null">
 				paymentAmount,
 			</if>
+			<if test="beneficiary != null">
+				beneficiary,
+			</if>
+			<if test="bankImg != null">
+				bankImg,
+			</if>
 			<if test="remarks != null">
 				remarks,
 			</if>
@@ -136,6 +151,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="paymentAmount != null">
 				#{paymentAmount,jdbcType=DOUBLE},
+			</if>
+			<if test="beneficiary != null">
+				#{beneficiary,jdbcType=VARCHAR},
+			</if>
+			<if test="bankImg != null">
+				#{bankImg,jdbcType=VARCHAR},
 			</if>
 			<if test="remarks != null">
 				#{remarks,jdbcType=VARCHAR},

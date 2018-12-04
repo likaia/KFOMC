@@ -15,6 +15,7 @@ public class PurchaseInfo
 	private String unitPrice;
 	private String TotalPurchase;
 	private String ShippingFee ;
+	private String unloadingFee;
 	private String remarks;
 	private String operator;
 	private String dStart;
@@ -129,6 +130,15 @@ public class PurchaseInfo
 	{
 		ShippingFee = shippingFee;
 	}
+	
+	public String getUnloadingFee()
+	{
+		return unloadingFee;
+	}
+	public void setUnloadingFee(String unloadingFee)
+	{
+		this.unloadingFee = unloadingFee;
+	}
 	public String getRemarks()
 	{
 		return remarks;
@@ -164,7 +174,7 @@ public class PurchaseInfo
 	}
 	public PurchaseInfo(String orderNumber, String purchaseDate, String supplier, String specificationModel,
 			String thickness, String color, String quantity, String unitPrice, String totalPurchase, String shippingFee,
-			String remarks, String operator)
+			String unloadingFee, String remarks, String operator)
 	{
 		super();
 		this.orderNumber = orderNumber;
@@ -177,7 +187,9 @@ public class PurchaseInfo
 		this.unitPrice = unitPrice;
 		TotalPurchase = totalPurchase;
 		ShippingFee = shippingFee;
+		this.unloadingFee = unloadingFee;
 		this.remarks = remarks;
 		this.operator = operator;
 	}
+	
 }

@@ -39,9 +39,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" href="layui/css/layui.css">
     <%-- 引入工具类--%>
     <script src="js/LkCommon.js"></script>
-<%--网页加载进度条插件 --%>
-<link rel="stylesheet" href="nprogress/nprogress.css">
-<script src="nprogress/nprogress.js"></script>
+    <%--网页加载进度条插件 --%>
+    <link rel="stylesheet" href="nprogress/nprogress.css">
+    <script src="nprogress/nprogress.js"></script>
     <%--当前页面布局与交互文件 --%>
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
@@ -51,8 +51,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" href="css/Preview.css">
     <%--引入字体库 --%>
     <link rel="stylesheet" href="font/iconfont.css">
-    <!-- 百度验证 -->
-    <meta name="baidu-site-verification" content="JwUB1mxjFy"/>
+    <%--银行卡归属地查询 --%>
+    <script src="js/bankCardAttribution-min.js"></script>
     <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
     <jsp:include page="islogin.jsp"></jsp:include>
     <script src="js/underscore-min.js"></script>
@@ -178,7 +178,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <li @click="CustomerInfoFun"><a href="javascript:;"><span>客户信息</span></a></li>
                                 <li @click="OriginalInfoFun"><a href="javascript:;"><span>原片信息</span></a></li>
                                 <li @click="AttachmentInfoFun"><a href="javascript:;"><span>配件信息</span></a></li>
-                                <li @click="SupplierFun"><a href="javascript:;"><span>供应商信息</span></a></li>  
+                                <li @click="SupplierFun"><a href="javascript:;"><span>供应商信息</span></a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a href="javascript:;"><i
@@ -765,7 +765,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">原片名称</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="stockProductNameSelectPanel" id="stockProductNameSelectPanel"
+                                        <select lay-search="" lay-filter="stockProductNameSelectPanel"
+                                                id="stockProductNameSelectPanel"
                                                 name="stockProductNameSelectPanel">
                                             <option value="">直接选择或手动输入原片名称</option>
                                         </select>
@@ -776,7 +777,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
                                 <div class="layui-form-item">
-                                    <button v-bind:style="{background:BtnColor}" @click="inventoryInquiryFun" class="layui-btn layui-btn-normal">查询</button>
+                                    <button v-bind:style="{background:BtnColor}" @click="inventoryInquiryFun"
+                                            class="layui-btn layui-btn-normal">查询
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -786,8 +789,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <!--表格顶部按钮区域-->
                         <div class="tableTopBtn-panel">
                             <div class="btn-panel">
-                                <button v-bind:style="{background:BtnColor}" @click="stockDelFun" class="layui-btn layui-btn-normal">删除</button>
-                                <button v-bind:style="{background:BtnColor}" @click="stockExportFun" class="layui-btn layui-btn-normal">导出</button>
+                                <button v-bind:style="{background:BtnColor}" @click="stockDelFun"
+                                        class="layui-btn layui-btn-normal">删除
+                                </button>
+                                <button v-bind:style="{background:BtnColor}" @click="stockExportFun"
+                                        class="layui-btn layui-btn-normal">导出
+                                </button>
                             </div>
                         </div>
                         <!--数据表格-->
@@ -821,7 +828,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">客户名称:</label>
                                     <div class="layui-input-block">
-                                        <select lay-search="" lay-filter="orderCompletedSelect" id="orderCompletedSelect"
+                                        <select lay-search="" lay-filter="orderCompletedSelect"
+                                                id="orderCompletedSelect"
                                                 name="orderCompletedSelect">
                                             <option value="">选择或输入客户名称</option>
                                         </select>
@@ -1128,7 +1136,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">部门</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" id="departmentSelectPanel" lay-filter="departmentSelectPanel"
+                                            <select lay-search="" id="departmentSelectPanel"
+                                                    lay-filter="departmentSelectPanel"
                                                     name="departmentSelectPanel">
                                                 <option value="">直接选择或输入部门</option>
                                             </select>
@@ -1141,7 +1150,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">姓名</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter="AttendanceNameSelectPanel" id="AttendanceNameSelectPanel"
+                                            <select lay-search="" lay-filter="AttendanceNameSelectPanel"
+                                                    id="AttendanceNameSelectPanel"
                                                     name="AttendanceNameSelectPanel">
                                                 <option value="">直接选择或输入姓名</option>
                                             </select>
@@ -1154,7 +1164,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">工号</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="" lay-filter="AttendanceJobNumberSelectPanel" id="AttendanceJobNumberSelectPanel"
+                                            <select lay-search="" lay-filter="AttendanceJobNumberSelectPanel"
+                                                    id="AttendanceJobNumberSelectPanel"
                                                     name="AttendanceJobNumberSelectPanel">
                                                 <option value="">直接选择或手动输入工号</option>
                                             </select>
@@ -1369,8 +1380,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <div class="btn-panel">
                             <button class="layui-btn" @click="addProductFun" v-bind:style="{background:BtnColor}">新增
                             </button>
-                            <button class="layui-btn" @click="delProductFun" v-bind:style="{background:BtnColor}">删除</button>
-                            <button class="layui-btn" @click="editProductFun" v-bind:style="{background:BtnColor}">编辑</button>
+                            <button class="layui-btn" @click="delProductFun" v-bind:style="{background:BtnColor}">删除
+                            </button>
+                            <button class="layui-btn" @click="editProductFun" v-bind:style="{background:BtnColor}">编辑
+                            </button>
                         </div>
                     </div>
                     <!--数据表格区域-->
@@ -1400,7 +1413,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">商品名称</label>
                                         <div class="layui-input-block">
-                                            <select lay-search="OriginalInfoCommodityNameSelectPanel" lay-filter="OriginalInfoCommodityNameSelectPanel" id="OriginalInfoCommodityNameSelectPanel"
+                                            <select lay-search="OriginalInfoCommodityNameSelectPanel"
+                                                    lay-filter="OriginalInfoCommodityNameSelectPanel"
+                                                    id="OriginalInfoCommodityNameSelectPanel"
                                                     name="OriginalInfoCommodityNameSelectPanel">
                                                 <option value="">直接选择或输入商品名称</option>
                                             </select>
@@ -1422,8 +1437,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <!--按钮区域-->
                     <div class="btnParent-panel">
                         <div class="btn-panel">
-                            <button class="layui-btn" @click="addFittingFun" v-bind:style="{background:BtnColor}">新增配件</button>
-                            <button class="layui-btn" @click="delFittingFun" v-bind:style="{background:BtnColor}">删除配件</button>
+                            <button class="layui-btn" @click="addFittingFun" v-bind:style="{background:BtnColor}">新增配件
+                            </button>
+                            <button class="layui-btn" @click="delFittingFun" v-bind:style="{background:BtnColor}">删除配件
+                            </button>
                         </div>
                     </div>
                     <!--数据表格区域-->
@@ -1435,6 +1452,219 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <!-- 底部固定区域 -->
             <div class="layui-footer">
                 <%=Version%>
+            </div>
+        </div>
+        <!--供应商信息-->
+        <div class="layui-body" style="top: 80px;"
+             v-bind:style="{display:SupplierInfoStatus}">
+            <div class="padding15-panel">
+                <div class="layui-row content-panel" id="SupplierInfo-panel">
+                    <div class="title-panel">
+                        <span>供应商信息</span>
+                    </div>
+                    <!--条件筛选区域-->
+                    <div class="ConditionalScreening-panel">
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-md3">
+                                <div class="item-panel layui-form">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称</label>
+                                        <div class="layui-input-block">
+                                            <select lay-search="" lay-filter="SupplierInfoSelectPanel"
+                                                    id="SupplierInfoSelectPanel"
+                                                    name="SupplierInfoSelectPanel">
+                                                <option value="">直接选择或输入供应商名称</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="item-panel layui-form">
+                                    <div class="layui-form-item">
+                                        <button class="layui-btn layui-btn-normal" @click="querySupplierFun"
+                                                v-bind:style="{background:BtnColor}">查询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--按钮区域-->
+                    <div class="btnParent-panel">
+                        <div class="btn-panel">
+                            <button class="layui-btn" @click="addSupplierFun" v-bind:style="{background:BtnColor}">
+                                添加供应商
+                            </button>
+                            <button class="layui-btn" @click="delSupplierFun" v-bind:style="{background:BtnColor}">
+                                删除供应商
+                            </button>
+                            <button class="layui-btn" @click="editSupplierFun" v-bind:style="{background:BtnColor}">
+                                编辑供应商
+                            </button>
+                        </div>
+                    </div>
+                    <!--数据表格区域-->
+                    <div class="AttachmentInfo-panel">
+                        <table id="SupplierInfoList" lay-filter="AttachmentInfoList"></table>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部固定区域 -->
+            <div class="layui-footer">
+                <%=Version%>
+            </div>
+        </div>
+        <!--添加供应商悬浮层-->
+        <div id="addSupplierSubmenu">
+            <div class="contentArea">
+                <div class="imageRow-panel">
+                    <div class="img-panel" id="blackMask">
+                        <div class="blackMask" id="supplierBlackTip">
+                            <span>上传供应商logo</span>
+                        </div>
+                        <img v-bind:src="supplierLogoSrc" alt="">
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>供货商名称:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入供货商名称" v-model="supplierName">
+                        </div>
+                    </div>
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>首要联系人:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入联系人姓名" v-model="supplierContact">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>联系人电话:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入供货商电话" v-model="supplierPhone">
+                        </div>
+                    </div>
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>供应商地址:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入供货商地址" v-model="supplierAddress">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="bankNmae-panel">
+                        <span>银行卡号:</span>
+                    </div>
+                    <div class="bankVal-panel">
+                        <input v-on:input="BankCardRealTimeInput" type="text" placeholder="输入银行卡号" class="layui-input" maxlength="19" v-model="supplierBankCardNumber">
+                    </div>
+                    <div class="bankTip-panel">
+                        <span id="supplierBankSpan">{{supplierBankPrompt}}</span>
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>联系人微信:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入微信号" v-model="supplierWechat">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btnArea">
+                <div class="btn-panel">
+                    <button class="layui-btn" @click="addSupplierSubmitFun" v-bind:style="{background:BtnColor}">提交</button>
+                    <button class="layui-btn" @click="addSupplierCancelFun" v-bind:style="{background:BtnColor}">取消</button>
+                </div>
+            </div>
+        </div>
+        <!--编辑供应商悬浮层-->
+        <div id="editSupplierSubmenu">
+            <div class="contentArea">
+                <div class="imageRow-panel">
+                    <div class="img-panel" id="editBlackMask">
+                        <div class="blackMask">
+                            <span>修改供应商logo</span>
+                        </div>
+                        <img v-bind:src="editSupplierLogoSrc" alt="">
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>供货商名称:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入供货商名称" v-model="editSupplierName">
+                        </div>
+                    </div>
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>首要联系人:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入联系人姓名" v-model="editSupplierContact">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>联系人电话:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入供货商电话" v-model="editSupplierPhone">
+                        </div>
+                    </div>
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>供应商地址:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入供货商地址" v-model="editSupplierAddress">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="bankNmae-panel">
+                        <span>银行卡号:</span>
+                    </div>
+                    <div class="bankVal-panel">
+                        <input v-on:input="editBankCardRealTimeInput" type="text" placeholder="输入银行卡号" class="layui-input" maxlength="19" v-model="editSupplierBankCardNumber">
+                    </div>
+                    <div class="bankTip-panel">
+                        <span id="editSupplierBankSpan">{{editSupplierBankPrompt}}</span>
+                    </div>
+                </div>
+                <div class="row-panel">
+                    <div class="item-panel">
+                        <div class="left-panel">
+                            <span>联系人微信:</span>
+                        </div>
+                        <div class="right-panel">
+                            <input type="text" class="layui-input" placeholder="输入微信号" v-model="editSupplierWechat">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btnArea">
+                <div class="btn-panel">
+                    <button class="layui-btn" @click="editSupplierSubmitFun" v-bind:style="{background:BtnColor}">提交</button>
+                    <button class="layui-btn" @click="editSupplierCancelFun" v-bind:style="{background:BtnColor}">取消</button>
+                </div>
             </div>
         </div>
         <!--基本设置-->
@@ -2279,8 +2509,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-form-item">
                         <label class="layui-form-label">供货商:</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="请输入供货商"
-                                   id="OriginalFilmsupplier" class="layui-input">
+                            <select lay-search="" lay-filter="OriginalFilmsupplier"
+                                    id="OriginalFilmsupplier" name="OriginalFilmsupplier">
+                                <option value="">点击选择供货商择名称</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -2358,6 +2590,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <input type="text" name="title" placeholder="￥"
                                        id="OriginalFilmshippingFee" class="layui-input">
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-panel">
+                <div class="item-panel">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">卸货费:</label>
+                        <div class="layui-input-block">
+                            <input type="text" placeholder="￥"
+                                   id="OriginalunloadingFee" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -2449,8 +2692,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-form-item">
                         <label class="layui-form-label">供货商:</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="请输入供货商"
-                                   id="fittingSupplier" class="layui-input">
+                            <select lay-search="" lay-filter="fittingSupplier"
+                                    id="fittingSupplier" name="fittingSupplier">
+                                <option value="">点击选择供货商择名称</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -2935,7 +3180,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" v-model="originalFilmRemarksVals" class="layui-textarea"></textarea>
+                        <textarea placeholder="请输入内容" v-model="originalFilmRemarksVals"
+                                  class="layui-textarea"></textarea>
                     </div>
                 </div>
             </div>
@@ -3015,7 +3261,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <span>批 发 价:</span>
                     </div>
                     <div class="val-panel">
-                        <input type="text" v-model="editOriginalFilmWholesalePriceVal" class="layui-input" placeholder="元"
+                        <input type="text" v-model="editOriginalFilmWholesalePriceVal" class="layui-input"
+                               placeholder="元"
                                maxlength="9">
                     </div>
                 </div>
@@ -3024,7 +3271,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" v-model="editOriginalFilmRemarksVals" class="layui-textarea"></textarea>
+                        <textarea placeholder="请输入内容" v-model="editOriginalFilmRemarksVals"
+                                  class="layui-textarea"></textarea>
                     </div>
                 </div>
             </div>

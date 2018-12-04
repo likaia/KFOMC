@@ -1012,6 +1012,244 @@ a {
 #AttachmentInfo-panel .AttachmentInfo-panel {
 	min-height: 270px;
 }
+/*供应商信息*/
+#SupplierInfo-panel .title-panel {
+    min-height: 40px;
+}
+
+#SupplierInfo-panel .title-panel span {
+    color: orangered;
+    line-height: 40px;
+    font-size: 18px;
+}
+
+#SupplierInfo-panel .ConditionalScreening-panel {
+    min-height: 40px;
+}
+
+#SupplierInfo-panel .btnParent-panel {
+    min-height: 40px;
+    position: relative;
+}
+
+#SupplierInfo-panel .btnParent-panel .btn-panel {
+    min-width: 240px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+}
+
+#SupplierInfo-panel .AttachmentInfo-panel {
+    min-height: 270px;
+}
+/*供应商信息[新增]悬浮层样式*/
+#addSupplierSubmenu{
+    display: none;
+}
+#addSupplierSubmenu .contentArea{
+    width: 98%;
+    height: 370px;
+    margin: 10px auto 0;
+}
+#addSupplierSubmenu .contentArea .imageRow-panel{
+    width: 100%;
+    height: 140px;
+}
+#addSupplierSubmenu .contentArea .row-panel{
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+}
+#addSupplierSubmenu .contentArea .row-panel .item-panel{
+    width: 50%;
+    height: 40px;
+    float: left;
+}
+#addSupplierSubmenu .contentArea .row-panel .item-panel .left-panel{
+    width: 30%;
+    height: 40px;
+    float: left;
+    text-align: center;
+}
+#addSupplierSubmenu .contentArea .row-panel .item-panel .left-panel span{
+    line-height: 40px;
+}
+#addSupplierSubmenu .contentArea .row-panel .item-panel .right-panel{
+    width: 70%;
+    height: 40px;
+    float: left;
+}
+/*银行卡独立样式*/
+#addSupplierSubmenu .contentArea .row-panel .bankNmae-panel{
+    width: 15%;
+    height: 40px;
+    float: left;
+    text-align: center;
+}
+#addSupplierSubmenu .contentArea .row-panel .bankNmae-panel span{
+    line-height: 40px;
+}
+#addSupplierSubmenu .contentArea .row-panel .bankVal-panel{
+    width: 35%;
+    height: 40px;
+    float: left;
+}
+#addSupplierSubmenu .contentArea .row-panel .bankTip-panel{
+    width: 25%;
+    height: 40px;
+    float: left;
+    text-align: center;
+}
+#addSupplierSubmenu .contentArea .row-panel .bankTip-panel span{
+    line-height: 40px;
+    color: #5FB878;
+    font-weight: 600;
+}
+/*银行卡独立样式结束*/
+#addSupplierSubmenu .contentArea .imageRow-panel .img-panel{
+    width: 120px;
+    height: 120px;
+    margin: 10px auto 0;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#addSupplierSubmenu .contentArea .imageRow-panel .img-panel .blackMask{
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    background: rgba(0,0,0,0.7);
+    top: 0px;
+    left: 0px;
+    text-align: center;
+}
+#addSupplierSubmenu .contentArea .imageRow-panel .img-panel .blackMask span{
+    line-height: 120px;
+    color: white;
+    font-weight: 500;
+}
+#addSupplierSubmenu .contentArea .imageRow-panel .img-panel img{
+    width: 120px;
+    height: 120px;
+}
+
+#addSupplierSubmenu .btnArea{
+    width: 98%;
+    height: 40px;
+    margin: 10px auto 0;
+    position: relative;
+}
+#addSupplierSubmenu .btnArea .btn-panel{
+    position: absolute;
+    right: 0px;
+}
+/*添加供应商结束*/
+
+/*编辑供应商开始*/
+#editSupplierSubmenu{
+    display: none;
+}
+#editSupplierSubmenu .contentArea{
+    width: 98%;
+    height: 370px;
+    margin: 10px auto 0;
+}
+#editSupplierSubmenu .contentArea .imageRow-panel{
+    width: 100%;
+    height: 140px;
+}
+#editSupplierSubmenu .contentArea .row-panel{
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+}
+#editSupplierSubmenu .contentArea .row-panel .item-panel{
+    width: 50%;
+    height: 40px;
+    float: left;
+}
+#editSupplierSubmenu .contentArea .row-panel .item-panel .left-panel{
+    width: 30%;
+    height: 40px;
+    float: left;
+    text-align: center;
+}
+#editSupplierSubmenu .contentArea .row-panel .item-panel .left-panel span{
+    line-height: 40px;
+}
+#editSupplierSubmenu .contentArea .row-panel .item-panel .right-panel{
+    width: 70%;
+    height: 40px;
+    float: left;
+}
+/*银行卡独立样式*/
+#editSupplierSubmenu .contentArea .row-panel .bankNmae-panel{
+    width: 15%;
+    height: 40px;
+    float: left;
+    text-align: center;
+}
+#editSupplierSubmenu .contentArea .row-panel .bankNmae-panel span{
+    line-height: 40px;
+}
+#editSupplierSubmenu .contentArea .row-panel .bankVal-panel{
+    width: 35%;
+    height: 40px;
+    float: left;
+}
+#editSupplierSubmenu .contentArea .row-panel .bankTip-panel{
+    width: 25%;
+    height: 40px;
+    float: left;
+    text-align: center;
+}
+#editSupplierSubmenu .contentArea .row-panel .bankTip-panel span{
+    line-height: 40px;
+    color: #5FB878;
+    font-weight: 600;
+}
+/*银行卡独立样式结束*/
+#editSupplierSubmenu .contentArea .imageRow-panel .img-panel{
+    width: 120px;
+    height: 120px;
+    margin: 10px auto 0;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#editSupplierSubmenu .contentArea .imageRow-panel .img-panel .blackMask{
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    background: rgba(0,0,0,0.7);
+    top: 0px;
+    left: 0px;
+    text-align: center;
+}
+#editSupplierSubmenu .contentArea .imageRow-panel .img-panel .blackMask span{
+    line-height: 120px;
+    color: white;
+    font-weight: 500;
+}
+#editSupplierSubmenu .contentArea .imageRow-panel .img-panel img{
+    width: 120px;
+    height: 120px;
+}
+
+#editSupplierSubmenu .btnArea{
+    width: 98%;
+    height: 40px;
+    margin: 10px auto 0;
+    position: relative;
+}
+#editSupplierSubmenu .btnArea .btn-panel{
+    position: absolute;
+    right: 0px;
+}
+/*编辑供应商结束*/
+
 /*基本设置*/
 #basicSettings-panel .title-panel {
 	min-height: 40px;

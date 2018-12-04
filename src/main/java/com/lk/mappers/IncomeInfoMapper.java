@@ -16,10 +16,9 @@ public interface IncomeInfoMapper
 	// 查询表内所有数据
 	public List<IncomeInfo> findexpenditurePage(IncomeInfo row);
 
-	// 自定义查询
+	// 自定义查询(查询特定字段)
 	public List<IncomeInfo> conditionalQuery(IncomeInfo row);
-
-	// 自定义查询表内数据
+	// 自定义查询表内数据(根据特定条件)
 	public List<IncomeInfo> customQuery(IncomeInfo row);
 
 	// 批量删除

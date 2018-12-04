@@ -13,8 +13,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lk.Utils.UUIDUtil;
 import com.lk.db.FittingPublic;
+import com.lk.db.SupplierInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.FittingPublicMapper;
+import com.lk.mappers.SupplierInfoMapper;
 
 import af.restful.AfRestfulApi;
 
@@ -35,6 +37,7 @@ public class FittingPublicAPI extends AfRestfulApi
 		int code = 0;
 		long count = 0;
 		JSONArray result = new JSONArray();
+		JSONArray SupplierResult = new JSONArray();
 		String msg = "ok";
 		/* 安卓端返回数据 */
 		String androidData = "";
@@ -80,8 +83,17 @@ public class FittingPublicAPI extends AfRestfulApi
 				FittingPublic row = new FittingPublic();
 				List<FittingPublic> resultList = fittingPublicMapper.findFitting(row);
 				result = new JSONArray(resultList);
-				// 关闭连接
-				sqlSession.close();
+				/*查询供应商表:所有供应商名称*/
+				String[] supplierArr = {"supplierName"};
+				JSONArray supplierQueryType = new JSONArray(supplierArr);
+				// 配置映射器
+				SupplierInfoMapper supplierInfoMapper = sqlSession.getMapper(SupplierInfoMapper.class);
+				SupplierInfo SupplierRow = new SupplierInfo();
+				SupplierRow.setOperator(operator);
+				SupplierRow.setQueryType(supplierQueryType);
+				List<SupplierInfo> SupplierResultList = supplierInfoMapper.conditionalQuery(SupplierRow);
+				SupplierResult = new JSONArray(SupplierResultList);
+				sqlSession.close(); //-->关闭数据库连接
 			}
 			// 条件查询
 			if (jsReq.has("conditionalQuery"))
@@ -168,6 +180,7 @@ public class FittingPublicAPI extends AfRestfulApi
 		jsReply.put("data", result);
 		jsReply.put("orderNumber", orderNumber);
 		jsReply.put("serverTime", serverTime);
+		jsReply.put("SupplierResult",SupplierResult);
 		jsReply.put("androidData", androidData);
 		jsReply.put("operator", operator);
 		return jsReply.toString();

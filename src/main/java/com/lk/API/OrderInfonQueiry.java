@@ -9,8 +9,10 @@ import org.json.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lk.db.OrderInfo;
+import com.lk.db.ShipmentInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.OrderMapper;
+import com.lk.mappers.ShipmentMapper;
 
 import af.restful.AfRestfulApi;
 
@@ -33,6 +35,8 @@ public class OrderInfonQueiry extends AfRestfulApi
 		long count = 0;
 		JSONArray result = new JSONArray();
 		JSONArray nowOrderInfo = new JSONArray();
+		JSONArray ShipResult = new JSONArray(); //--->根据订单号查询时所返回的出货信息
+		String DataOrderNumber = ""; //--->根据id查询数据时,被查询数据所对应的订单号
 		String androidData = "";
 		if (jsReq.has("operator"))
 		{
@@ -176,6 +180,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 				{
 					JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
 					String modelDetailsArr = modelDetailsOBJ.getString("unfinishedArr"); // ---->从JSONObject中取出String型Array数据
+					DataOrderNumber = modelDetailsOBJ.getString("orderNumber");
 					result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
 				} else
 				{
@@ -281,6 +286,14 @@ public class OrderInfonQueiry extends AfRestfulApi
 				JSONObject modelDetailsOBJ = modelDetails.getJSONObject(0); // --->从JSONArray中取出JSONObject型数据
 				String modelDetailsArr = modelDetailsOBJ.getString("modelDetails"); // ---->从JSONObject中取出String型Array数据
 				result = new JSONArray(modelDetailsArr); // ---->转化为JSONArray
+				/*根据订单号查询出货表内特定数据*/
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				ShipmentInfo ShipRow = new ShipmentInfo();
+				ShipRow.setdStart("2018-11-07 17:01:26.0");
+				ShipRow.setdEnd("2018-11-14 14:25:36.0");
+				ShipRow.setOperator(operator);
+				List<ShipmentInfo> ShipresultList = shipmentMapper.conditionalQuery(ShipRow);
+				ShipResult = new JSONArray(ShipresultList);
 				sqlSession.close();
 			}
 		} else
@@ -297,6 +310,8 @@ public class OrderInfonQueiry extends AfRestfulApi
 		jsReply.put("data", result);
 		jsReply.put("nowOrderInfo", nowOrderInfo);
 		jsReply.put("androidData", androidData);
+		jsReply.put("DataOrderNumber", DataOrderNumber);
+		jsReply.put("ShipResult", ShipResult);
 		jsReply.put("count", count);
 		jsReply.put("operator", operator);
 		return jsReply.toString();

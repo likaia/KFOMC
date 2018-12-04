@@ -196,6 +196,8 @@ $(function () {
             OriginalInfoStatus: "none",
             /*配件信息状态*/
             AttachmentInfoStatus: "none",
+            /*供应商信息状态*/
+            SupplierInfoStatus:"none",
             /*基本设置状态*/
             basicSettingsStatus: "none",
             /*联系我们状态*/
@@ -233,6 +235,7 @@ $(function () {
             originalFilmdStart: "", //开始时间
             originalFilmEnd: "", //结束时间
             purchaseProductName:"", //新增配件下拉选择框
+            originalFilmSupplierSelectVal:"", //原片采购供货商选择
             /*进货管理:配件采购*/
             FittingNumberSelectval: "", //-->订单号用户选择数据
             FittingsupplierSelectval: "", //供货商用户选择数据
@@ -243,6 +246,7 @@ $(function () {
             newAccessories: "",//--->新增配件时实现数据双向绑定
             newAccessoriesState: false, //--->新增配件时配件图片折叠显隐状态
             productLayerStatus: "block",  //-->配件采购图片上传黑色遮罩显示状态
+            replacementFittingSupplierSelectVal:"",
             /*出货管理*/
             ShipmentdStart: "",
             ShipmentdEnd: "",
@@ -263,6 +267,7 @@ $(function () {
             invoiceUnpaid: "",            //--->发货单未付款
             invoicePaymentDetails: "", //付款明细
             invoiceTransportationManager: "", //运输负责人
+            DataOrderNumber:"", //--->根据id查询数据时,被查询数据所对应的订单号
             invoiceFreight: "", //运费
             /*客户信息管理数据*/
             clientInfoName: "",   //--->客户姓名
@@ -326,6 +331,25 @@ $(function () {
             EmployeejobNumberVal:"",
             /*进销存管理[库存管理]*/
             originalTitleName:"",
+            /*供应商所需要的数据*/
+            SupplierInfoSelectData:"",
+            supplierLogoSrc:'img/update.png',
+            supplierName:'', //--->供应商名称
+            supplierContact:'', //--->供应商联系人
+            supplierPhone:'', //--->供应商联系电话
+            supplierAddress:'', //---->供应商地址
+            supplierBankCardNumber:'', //--->供应商银行卡号
+            supplierBankPrompt:'', //--->所属银行提示
+            supplierWechat:'', //--->供应商联系人微信
+            /*供应商编辑弹层需要的数据*/
+            editSupplierLogoSrc:'img/update.png',
+            editSupplierName:'', //--->供应商名称
+            editSupplierContact:'', //--->供应商联系人
+            editSupplierPhone:'', //--->供应商联系电话
+            editSupplierAddress:'', //---->供应商地址
+            editSupplierBankCardNumber:'', //--->供应商银行卡号
+            editSupplierBankPrompt:'', //--->所属银行提示
+            editSupplierWechat:'', //--->供应商联系人微信
         },
         methods: {
             materialFun: function () {
@@ -395,6 +419,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             //进货管理点击函数
             IncomingGoodsFun: function () {
@@ -420,11 +445,12 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
                 vm.loadingStatus = "none";
             },
             /*进货管理:原片采购[采购登记点击事件]*/
             purchaseRegistrationFun: function () {
-                //请求后台获取 订单号/服务器时间/原片信息表所有原片名称
+                //请求后台获取 订单号/服务器时间/原片信息表所有原片名称/供货商信息表所有供货商名称
                 vm.loadingStatus = "block";
                 var req = {};
                 req.queryType = ["productName"];
@@ -432,6 +458,7 @@ $(function () {
                 Af.rest("productNameModelInquiry.api", req, function (ans) {
                     /*移除除第一个以外的选项*/
                     $("#OriginalFilmspecificationModel option:gt(0)").remove();
+                    $("#OriginalFilmsupplier option:gt(0)").remove();
                     /*赋值订单号 日期*/
                     $("#OriginalFilmorderNumber").val(ans.orderNumber);
                     $("#OriginalFilmDateSelect").val(ans.nowTime);
@@ -447,29 +474,16 @@ $(function () {
                             nowData.push(temporaryData);
                         }
                         MAIN.addSelectVal(nowData, "OriginalFilmspecificationModel");
-                        function addSelectVal(data, container) {
-                            var $html = "";
-                            if (data != null) {
-                                $.each(data, function (index, item) {
-                                    if (item.proType) {
-                                        $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
-                                    } else {
-                                        $html += "<option value='" + item.name + "'>" + item.name + "</option>";
-                                    }
-                                });
-                                $("select[name='" + container + "']").append($html);
-                                //反选
-                                //$("select[name='"+container+"']").val($("#???").val());
-                                //append后必须从新渲染
-                                form.render('select');
-                            } else {
-                                $html += "<option value='0'>没有任何数据</option>";
-                                $("select[name='" + container + "']").append($html);
-                                //append后必须从新渲染
-                                form.render('select');
-                            }
-
+                        /*渲染供应商选择框*/
+                        let SupplierResult = ans.SupplierResult;
+                        var SupplierData = [];
+                        for (var i = 0; i < SupplierResult.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = SupplierResult[i].id;
+                            temporaryData.name = SupplierResult[i].supplierName;
+                            SupplierData.push(temporaryData);
                         }
+                        MAIN.addSelectVal(SupplierData,"OriginalFilmsupplier");
                     }
                 });
                 layer.open({
@@ -503,7 +517,7 @@ $(function () {
                 var req = {};
                 req.orderNumber = $("#OriginalFilmorderNumber").val();
                 req.purchaseDate = $("#OriginalFilmDateSelect").val();
-                req.supplier = $("#OriginalFilmsupplier").val();
+                req.supplier = vm.originalFilmSupplierSelectVal;
                 req.specificationModel =  vm.purchaseProductName;
                 req.thickness = $("#OriginalFilmthickness").val();
                 req.color = $("#OriginalFilmcolor").val();
@@ -511,6 +525,7 @@ $(function () {
                 req.unitPrice = $("#OriginalFilmunitPrice").val();
                 req.totalPurchase = $("#OriginalFilmtotalPurchase").val();
                 req.shippingFee = $("#OriginalFilmshippingFee").val();
+                req.unloadingFee = $("#OriginalunloadingFee").val();
                 req.remarks = $("#OriginalFilmremarks").val();
                 req.operator = $("#nickNameTextPanel").html();
                 req.addOrderData = "addOrderData";
@@ -748,7 +763,7 @@ $(function () {
                 var req = {};
                 req.operator = $("#nickNameTextPanel").html();
                 req.queryAll = "queryAll";
-                /*请求后台获取订单号/配件名称/配件图片*/
+                /*请求后台获取订单号/配件名称/配件图片 供应商表内所有供应商名称*/
                 Af.rest("FittingPublic.api", req, function (ans) {
                     $("#fittingOrderNumberPanel").val(ans.orderNumber);
                     var data = ans.data;
@@ -763,6 +778,16 @@ $(function () {
                     MAIN.addSelectVal(resultArray, "fittingSpecificationModel");
                     //渲染日期
                     $("#fittingOrderNumberDate").val(ans.serverTime);
+                    /*渲染供应商选择框*/
+                    let SupplierResult = ans.SupplierResult;
+                    var SupplierData = [];
+                    for (var i = 0; i < SupplierResult.length; i++) {
+                        var temporaryData = {};
+                        temporaryData.id = SupplierResult[i].id;
+                        temporaryData.name = SupplierResult[i].supplierName;
+                        SupplierData.push(temporaryData);
+                    }
+                    MAIN.addSelectVal(SupplierData,"fittingSupplier");
                 });
                 layer.open({
                     title: "配件采购",
@@ -795,7 +820,7 @@ $(function () {
                 var req = {};
                 req.orderNumber = $("#fittingOrderNumberPanel").val();
                 req.fittingDate = $("#fittingOrderNumberDate").val();
-                req.supplier = $("#fittingSupplier").val();
+                req.supplier = vm.replacementFittingSupplierSelectVal;
                 req.specificationModel = $("#fittingSpecificationModel").find("option:selected").text();
                 req.specificationModelVal = $("#fittingSpecificationModel").val();
                 req.purchaseQuantity = $("#fittingpurchaseQuantity").val();
@@ -985,6 +1010,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             //出货管理根据日期[查询]点击函数
             shipmentQueryFun: function () {
@@ -1159,10 +1185,7 @@ $(function () {
                 }
                 var shippedDataArr = Af.getJSONArray(shippedDataList);//将即将发货的数据归类
                 var unfinishedArr = Af.getJSONArray(editRawData);//将未发货的数组进行归类
-                Af.trace("将要发货的数据:");
-                Af.trace(shippedDataArr);
-                Af.trace("剩余未发货的数据:");
-                Af.trace(unfinishedArr);
+
                 /*计算未发货的玻璃规格型号结束*/
                 /*请求后台发送:已发货,剩余发货数据*/
                 req.addOrderData = "addOrderData"; //--->新增发货字段
@@ -1171,6 +1194,7 @@ $(function () {
                 req.specificationModel = shippedDataArr; //已发货数据
                 req.unfinishedArr = unfinishedArr; //剩余未发货数据
                 req.operator = $("#nickNameTextPanel").html();
+                req.orderNumber = vm.DataOrderNumber;
                 req.numberShipments = theTotalNumber.toString(); //--->发货数量
                 req.shipArea = theTotalArea.toString(); //--->发货面积
                 req.theTotalAmount = theTotalAmount.toString(); //--->发货金额
@@ -1385,6 +1409,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             //进销存管理[库存管理]查询函数
             inventoryInquiryFun:function() {
@@ -1468,6 +1493,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*订单信息管理:查询按钮交互函数*/
             orderBtnQueryFun: function () {
@@ -1942,6 +1968,7 @@ $(function () {
                         Af.rest("orderInfonQueiry.api", req, function (ans) {
                             var dataArray = ans.data;
                             var nowOrderInfo = ans.nowOrderInfo;
+                            let ShipResult = ans.ShipResult; //--->当前订单下出货表相关信息
                             if (!Af.nullstr(nowOrderInfo)) {
                                 $("#DetailsOrderNumber").val(nowOrderInfo[0].orderNumber);
                                 $("#DetailsOrderClientName").val(nowOrderInfo[0].clientName);
@@ -1949,13 +1976,27 @@ $(function () {
                                 $("#DetailsOrderDate").val(nowOrderInfo[0].orderDate);
                                 $("#DetailsOrderShippedQuantity").val(nowOrderInfo[0].numberShipments);
                                 $("#DetailsOrderShippedArea").val(nowOrderInfo[0].shipArea);
-                                $("#DetailsOrderUndeliveredQuantity").val();//--->未发货数量
-                                $("#DetailsOrderUnshippedArea").val();//--->未发货面积
+                                /*计算未发货数量,未发货面积*/
+                                let glassNumber = nowOrderInfo[0].glassNumber; //--->总数量
+                                let totalArea = nowOrderInfo[0].totalArea;//---总面积
+                                let numberShipments = nowOrderInfo[0].numberShipments; //--->已发货数量
+                                let shipArea = nowOrderInfo[0].shipArea; //--->已发货面积
+                                $("#DetailsOrderUndeliveredQuantity").val(Number(glassNumber)-Number(numberShipments));//--->未发货数量
+                                $("#DetailsOrderUnshippedArea").val(Number(totalArea)-Number(shipArea));//--->未发货面积
                                 $("#DetailsOrderdeliveryAddress").val(nowOrderInfo[0].deliveryAddress);
-                                $("#DetailsOrderTransportationManager").val();//->运输负责人
-                                $("#DetailsOrderTransportationCosts").val();//--->运输费用
+                                let transportationManagerArr = [];
+                                let totalFreight = 0;
+                                /*计算运输费用,计算运输负责人*/
+                                for(let i = 0;i < ShipResult.length;i++)
+                                {
+                                    let transportationManager = ShipResult[i].transportationManager;
+                                    transportationManagerArr.push(transportationManager);
+                                    let freight = ShipResult[i].freight;
+                                    totalFreight = Af.accAdd(totalFreight,freight);
+                                }
+                                $("#DetailsOrderTransportationManager").val(transportationManagerArr);//->运输负责人
+                                $("#DetailsOrderTransportationCosts").val(totalFreight);//--->运输费用
                                 $("#DetailsOrderRemarks").val(nowOrderInfo[0].remarks);
-
                                 $("#DetailsOrdertotalAmount").html(nowOrderInfo[0].totalAmount);  //--->总金额
                                 $("#DetailsOrdertheTotalArea").html(nowOrderInfo[0].totalArea);  //--->总面积
                             }
@@ -2208,6 +2249,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*已完成订单查询函数*/
             orderCompletedQueryFun:function(){
@@ -2259,6 +2301,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*基础信息[客户信息]管理:查询点击事件*/
             ClientInfoQueryFun: function () {
@@ -2508,6 +2551,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*财务管理：支出管理点击事件*/
             expenditureInfoLFun: function (){
@@ -2533,6 +2577,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*客户对账点击事件*/
             reconciliationFun: function () {
@@ -2558,6 +2603,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*员工管理[考勤管理]点击事件*/
             AttendanceInfoFun: function () {
@@ -2583,6 +2629,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*员工管理[考勤管理]查询事件*/
             QueryAttendanceFun:function(){
@@ -2633,6 +2680,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*员工管理[工资发放]查询事件*/
             salaryQueryFun:function(){
@@ -2682,6 +2730,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*员工管理[员工信息]查询点击事件*/
             employeeQueryFun:function(){
@@ -2731,6 +2780,7 @@ $(function () {
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*基础信息[原片信息]查询事件*/
             productNameQueryFun:function(){
@@ -2991,6 +3041,7 @@ $(function () {
                 this.OriginalInfoStatus = "none";
                 this.basicSettingsStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             //基础信息[配件信息]新增函数
             addFittingFun:function(){
@@ -3081,10 +3132,271 @@ $(function () {
                     });
                 }
             },
-            /*基础信息[供应商信息]管理*/
+            /*基础信息[供应商信息]管理点击事件*/
             SupplierFun:function(){
+                setTimeout(function () {
+                    /*渲染供应商管理数据表格*/
+                    MAIN.SupplierInfoList($("#nickNameTextPanel").html());
+                }, 100);
+                this.SupplierInfoStatus = "block";
+                this.stockStatus = "none";
+                this.IncomingGoodsStatus = "none";
+                this.financeReportStatus = "none";
+                this.shipmentStatus = "none";
+                this.orderManagementStatus = "none";
+                this.OrderMonthStatus = "none";
+                this.CustomerInfoStatus = "none";
+                this.revenueInfoStatus = "none";
+                this.expenditureInfoStatus = "none";
+                this.customerReconciliationStatus = "none";
+                this.AttendanceInfoStatus = "none";
+                this.salaryGivingStatus = "none";
+                this.employeeInfoStatus = "none";
+                this.OriginalInfoStatus = "none";
+                this.AttachmentInfoStatus = "none";
+                this.contactUsStatus = "none";
+                this.basicSettingsStatus = "none";
+            },
+            /*基本信息[供应商管理]查询函数*/
+            querySupplierFun:function(){
+                if(Af.nullstr(vm.SupplierInfoSelectData))
+                {
+                    MAIN.ErroAlert("不能查询空数据");
+                }
+                else{
+                    let req = {
+                        "customQuery":"customQuery",
+                        "supplierName":vm.SupplierInfoSelectData,
+                        "operator":$("#nickNameTextPanel").html()
+                    };
+                    Af.rest("supplier.api",req,function (ans) {
+                        if(ans.errorCode==0)
+                        {
+                            MAIN.SupplierInfoDataList(ans.data);
+                        }
+                    })
+                }
+            },
+            /*基本信息[供应商管理]新增函数*/
+            addSupplierFun:function(){
+                Af.openSubmenu("新增供应商",["950px","510px"],true,$("#addSupplierSubmenu"));
+            },
+            /*基本信息[供应商管理]监听银行卡号实时输入*/
+            BankCardRealTimeInput:function(){
+                let nowBankCard = vm.supplierBankCardNumber;
+                if(Af.getStringLength(nowBankCard)==19)
+                {
+                    let bankCardInfo =  bankCardAttribution(nowBankCard);
+                    if(bankCardInfo!="error")
+                    {
+                        $("#supplierBankSpan").css({"color":"#5FB878"});
+                        let bankCardType = bankCardInfo.bankName+"-"+bankCardInfo.cardTypeName;
+                        vm.supplierBankPrompt =bankCardType;
+                    }
+                    else
+                    {
+                        $("#supplierBankSpan").css({"color":"red"});
+                        vm.supplierBankPrompt ="请输入正确的卡号";
+
+                    }
+                }
+                else
+                {
+                    vm.supplierBankPrompt ="";
+                }
+            },
+            /*基本信息[供应商管理]监听银行卡号实时输入(编辑)*/
+            editBankCardRealTimeInput:function(){
+                let nowBankCard = vm.editSupplierBankCardNumber;
+                if(Af.getStringLength(nowBankCard)==19)
+                {
+                    let bankCardInfo =  bankCardAttribution(nowBankCard);
+                    if(bankCardInfo!="error")
+                    {
+                        $("#editSupplierBankSpan").css({"color":"#5FB878"});
+                        let bankCardType = bankCardInfo.bankName+"-"+bankCardInfo.cardTypeName;
+                        vm.editSupplierBankPrompt =bankCardType;
+                    }
+                    else
+                    {
+                        $("#editSupplierBankSpan").css({"color":"red"});
+                        vm.editSupplierBankPrompt ="请输入正确的卡号";
+                    }
+                }
+                else
+                {
+                    vm.editSupplierBankPrompt ="";
+                }
+            },
+            /*基本信息[供应商管理]新增提交函数*/
+            addSupplierSubmitFun:function(){
+                let req = {
+                    "supplierName":vm.supplierName,
+                    "primaryContact":vm.supplierContact,
+                    "contactNumber":vm.supplierPhone,
+                    "wechat":vm.supplierWechat,
+                    "address":vm.supplierAddress,
+                    "logoUrl":vm.supplierLogoSrc,
+                    "bankAccount":vm.supplierBankPrompt,
+                    "bankCardNumber":vm.supplierBankCardNumber,
+                    "addSupplier":"addSupplier",
+                    "operator":$("#nickNameTextPanel").html()
+                };
+                if(vm.supplierLogoSrc=="img/update.png")
+                {
+                    MAIN.ErroAlert("请上传供应商logo");
+                    return;
+                }
+                else if(vm.supplierContact=="")
+                {
+                    MAIN.ErroAlert("请填写首要联系人");
+                }
+                else if(vm.supplierPhone=="")
+                {
+                    MAIN.ErroAlert("请填写联系人电话");
+                }
+                else if(vm.supplierName=="")
+                {
+                    MAIN.ErroAlert("请填写供应商名称");
+                }else if(vm.supplierBankPrompt=="请输入正确的卡号"||vm.supplierBankPrompt=="")
+                {
+                    MAIN.ErroAlert("银行卡号填写不正确");
+                }
+                else{
+                    Af.rest("supplier.api",req,function(ans){
+                        if(ans.errorCode==0)
+                        {
+                            $("#supplierBlackTip").css({"display":"block"});
+                            vm.supplierLogoSrc = "img/update.png";
+                            vm.supplierName = "";
+                            vm.supplierContact = "";
+                            vm.supplierPhone = "";
+                            vm.supplierAddress = "";
+                            vm.supplierBankCardNumber = "";
+                            vm.supplierBankPrompt = "";
+                            vm.supplierWechat = "";
+                            layer.closeAll();
+                            layer.msg("添加成功");
+                            MAIN.SupplierInfoList($("#nickNameTextPanel").html());
+                        }
+                        else
+                        {
+                            layer.msg(ans.msg);
+                        }
+                    });
+                }
 
             },
+            /*基本信息[供应商管理]新增取消函数*/
+            addSupplierCancelFun:function(){
+                layer.closeAll();
+            },
+            /*基本信息[供应商管理]删除函数*/
+            delSupplierFun:function(){
+                let selectId = MAIN.getSelectId("SupplierInfoList");
+                if(Af.nullstr(selectId))
+                {
+                    MAIN.ErroAlert("不能删除空数据");
+                }
+                else {
+                    //调用layer的删除方法
+                    let processResult = Af.layerDel(selectId,"supplier.api");
+                    if(processResult)
+                    {
+                        MAIN.SupplierInfoList($("#nickNameTextPanel").html());
+                    }
+                }
+            },
+            /*基本信息[供应商管理]编辑函数*/
+            editSupplierFun:function(){
+                let selectId = MAIN.getSelectId("SupplierInfoList");
+                if(Af.nullstr(selectId))
+                {
+                    MAIN.ErroAlert("不能编辑空数据");
+                }else if(selectId.length>1)
+                {
+                    MAIN.ErroAlert("一次只能修改一条数据");
+                }
+                else{
+                    Af.openSubmenu("编辑供应商",["950px","510px"],true,$("#editSupplierSubmenu"));
+                    /*获取当前选项的数据*/
+                    let dataArray = MAIN.getSelectData("SupplierInfoList");
+                    vm.editSupplierLogoSrc = dataArray[0].logoUrl;
+                    vm.editSupplierName = dataArray[0].supplierName;
+                    vm.editSupplierContact = dataArray[0].primaryContact;
+                    vm.editSupplierBankPrompt = dataArray[0].bankAccount;
+                    vm.editSupplierPhone = dataArray[0].contactNumber;
+                    vm.editSupplierAddress = dataArray[0].address;
+                    vm.editSupplierBankCardNumber = dataArray[0].bankCardNumber;
+                    vm.editSupplierWechat = dataArray[0].wechat;
+                }
+
+            },
+            /*基本信息[供应商管理]编辑提交函数*/
+            editSupplierSubmitFun:function(){
+                let selectId = MAIN.getSelectId("SupplierInfoList");
+                let req = {
+                    "supplierName":vm.editSupplierName,
+                    "primaryContact":vm.editSupplierContact,
+                    "contactNumber":vm.editSupplierPhone,
+                    "wechat":vm.editSupplierWechat,
+                    "address":vm.editSupplierAddress,
+                    "logoUrl":vm.editSupplierLogoSrc,
+                    "bankAccount":vm.editSupplierBankPrompt,
+                    "bankCardNumber":vm.editSupplierBankCardNumber,
+                    "updateSupplier":"updateSupplier",
+                    "operator":$("#nickNameTextPanel").html(),
+                    "id":selectId[0]
+                };
+                if(vm.editSupplierLogoSrc=="img/update.png")
+                {
+                    MAIN.ErroAlert("请上传供应商logo");
+                    return;
+                }
+                else if(vm.editSupplierContact=="")
+                {
+                    MAIN.ErroAlert("请填写首要联系人");
+                }
+                else if(vm.editSupplierPhone=="")
+                {
+                    MAIN.ErroAlert("请填写联系人电话");
+                }
+                else if(vm.editSupplierName=="")
+                {
+                    MAIN.ErroAlert("请填写供应商名称");
+                }else if(vm.editSupplierBankPrompt=="请输入正确的卡号"||vm.editSupplierBankPrompt=="")
+                {
+                    MAIN.ErroAlert("银行卡号填写不正确");
+                }
+                else{
+                    Af.rest("supplier.api",req,function(ans){
+                        if(ans.errorCode==0)
+                        {
+                            $("#supplierBlackTip").css({"display":"block"});
+                            vm.editSupplierLogoSrc = "img/update.png";
+                            vm.editSupplierName = "";
+                            vm.editSupplierContact = "";
+                            vm.editSupplierPhone = "";
+                            vm.editSupplierAddress = "";
+                            vm.editSupplierBankCardNumber = "";
+                            vm.editSupplierBankPrompt = "";
+                            vm.editSupplierWechat = "";
+                            MAIN.SupplierInfoList($("#nickNameTextPanel").html());
+                            layer.closeAll();
+                            layer.msg("修改成功");
+                        }
+                        else
+                        {
+                            layer.msg(ans.msg);
+                        }
+                    });
+                }
+            },
+            /*基本信息[供应商管理]编辑取消函数*/
+            editSupplierCancelFun:function(){
+              layer.closeAll();
+            },
+
             /*基本设置 点击事件*/
             basicSettingsFun: function () {
                 this.basicSettingsStatus = "block";
@@ -3105,6 +3417,7 @@ $(function () {
                 this.OriginalInfoStatus = "none";
                 this.AttachmentInfoStatus = "none";
                 this.contactUsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*联系我们 点击事件*/
             contactUsFun: function () {
@@ -3127,6 +3440,7 @@ $(function () {
                 this.OriginalInfoStatus = "none";
                 this.AttachmentInfoStatus = "none";
                 this.basicSettingsStatus = "none";
+                this.SupplierInfoStatus = "none";
             },
             /*客户原始单据点击放大图片*/
             OriginalDocumentFun: function () {
@@ -3261,6 +3575,18 @@ $(function () {
         form.on('select(orderCompletedSelect)',function(data) {
            vm.orderCompletedSelectData = data.value;
         });
+        /*监听供应商信息,供应商名称选择*/
+        form.on('select(SupplierInfoSelectPanel)',function(data) {
+            vm.SupplierInfoSelectData = data.value;
+        });
+        /*监听原片采购[供应商]名称选择*/
+        form.on('select(OriginalFilmsupplier)',function(data){
+           vm.originalFilmSupplierSelectVal = data.value;
+        });
+        /*监听配件采购[供应商]名称选择*/
+        form.on('select(fittingSupplier)',function(data){
+            vm.replacementFittingSupplierSelectVal = data.value;
+        });
         /*监听出货管理[新增发货]客户名称选择*/
         form.on('select(shippingCustomerNameSelectPanel)', function (data) {
             var thisSelectVal = data.value;  //--->根据id查询规格型号
@@ -3278,6 +3604,7 @@ $(function () {
                         return;
                     }
                     vm.shippingCustomerValArr = dataArray;
+                    vm.DataOrderNumber = ans.DataOrderNumber;
                     var num = 0;
                     for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
                     {
@@ -3329,7 +3656,6 @@ $(function () {
         form.on('select(shippingOrderNumberSelectPanel)', function (data) {
             var thisSelectVal = data.value;
             //清空表格数据
-            $("#OrderModelList  tbody").html("");
             if (!Af.nullstr(thisSelectVal)) {
                 var req = {};  //--->根据id查询规格型号
                 req.orderId = thisSelectVal;
@@ -3399,6 +3725,27 @@ $(function () {
             else {
                 $("#newAccessoriesInput").removeClass("noInput");
                 $("#newAccessoriesInput").removeAttr('disabled');
+            }
+        });
+        //供应商logo图片上传
+        var supplierLogoUpload = upload.render({
+            elem: "#blackMask", //绑定元素
+            url: "servlet/UploadAPI", //上传接口
+            done: function (ans) {
+                //上传完毕回调
+                if (ans.errorCode == 0) {
+                    var userPicPath = URL + ans.userPicPath;
+                    vm.supplierLogoSrc = userPicPath;//--->供应商logo赋值
+                    $("#supplierBlackTip").css({"display":"none"});
+                } else {
+                    ErroAlert(ans.msg);
+                    $("#supplierBlackTip").css({"display":"block"});
+                }
+            },
+            error: function () {
+                //请求异常回调
+                layer.msg("服务器错误");
+                $("#supplierBlackTip").css({"display":"block"});
             }
         });
         //配件图片上传
@@ -5154,8 +5501,8 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'id',
-                            title: '序列号',
+                            field: 'orderNumber',
+                            title: '订单号',
                             align: "center"
                         },
                         {
@@ -5249,13 +5596,13 @@ $(function () {
                 cols: [
                     [
                         {
-                            field: 'id',
-                            title: '序列号',
+                            fixed: "left",
+                            type: 'checkbox',
                             align: "center"
                         },
                         {
-                            fixed: "left",
-                            type: 'checkbox',
+                            field: 'orderNumber',
+                            title: '订单号',
                             align: "center"
                         },
                         {
@@ -7255,6 +7602,167 @@ $(function () {
             });
         }
 
+        /*基础信息:供应商信息*/
+        MAIN.SupplierInfoList = function (userName) {
+            table.render({
+                url: "supplier.api",
+                method: 'POST', //方式
+                elem: '#SupplierInfoList',
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                page: true,
+                where: {
+                    operator: userName
+                },
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'supplierName',
+                            title: '供应商名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'primaryContact',
+                            title: '联系人姓名',
+                            align: "center"
+                        },
+                        {
+                            field: 'contactNumber',
+                            title: '联系人电话',
+                            align: "center"
+                        },
+                        {
+                            field: 'wechat',
+                            title: '联系人微信',
+                            align: "center"
+                        },
+                        {
+                            field: 'address',
+                            title: '供货商地址',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankCardNumber',
+                            title: '银行卡号',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankAccount',
+                            title: '开户银行',
+                            align: "center"
+                        },
+                    ]
+                ],
+                done: function (res, curr, count) {
+                    //清空select中除第一个以外的选项
+                    $("#SupplierInfoSelectPanel option:gt(0)").remove();
+                    //如果是异步请求数据方式，res即为接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    supplierNameSelectFun();
+                    /*渲染订单号选择框*/
+                    function supplierNameSelectFun() {
+                        var data = res.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].supplierName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "SupplierInfoSelectPanel");
+                    }
+
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+
+                    //                    //得到当前页码
+                    //                    console.log(curr);
+                    //                    //得到数据总量
+                    //                    console.log(count);
+                }
+            });
+        };
+        /*基础信息:供应商信息,传值调用*/
+        MAIN.SupplierInfoDataList = function (rawData) {
+            table.render({
+                elem: '#SupplierInfoList',
+                data:rawData,
+                page: true,
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'supplierName',
+                            title: '供应商名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'primaryContact',
+                            title: '联系人姓名',
+                            align: "center"
+                        },
+                        {
+                            field: 'contactNumber',
+                            title: '联系人电话',
+                            align: "center"
+                        },
+                        {
+                            field: 'wechat',
+                            title: '联系人微信',
+                            align: "center"
+                        },
+                        {
+                            field: 'address',
+                            title: '供货商地址',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankCardNumber',
+                            title: '银行卡号',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankAccount',
+                            title: '开户银行',
+                            align: "center"
+                        },
+                    ]
+                ],
+            });
+        };
     });
     //让浏览器全屏函数
     MAIN.fullScreen = function () {

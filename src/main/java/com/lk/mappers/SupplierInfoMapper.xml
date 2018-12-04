@@ -3,8 +3,191 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lk.mappers.SupplierInfoMapper">
-  <!--定义结果集:用于存储所有数据 -->
-	<resultMap type="" id="">
-
-  </resultMap>
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="SupplierInfo" id="SupplierInfoResult">
+		<id property="id" column="id" />
+		<id property="supplierName" column="supplierName" />
+		<id property="primaryContact" column="primaryContact" />
+		<id property="contactNumber" column="contactNumber" />
+		<id property="wechat" column="wechat" />
+		<id property="address" column="address" />
+		<id property="logoUrl" column="logoUrl" />
+		<id property="bankAccount" column="bankAccount" />
+		<id property="bankCardNumber" column="bankCardNumber" />
+		<id property="operator" column="operator" />
+	</resultMap>
+	<!-- 自定义查询表内数据(特定字段) -->
+	<select id="conditionalQuery" resultMap="SupplierInfoResult"
+		parameterType="SupplierInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_supplier
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="SupplierInfoResult"
+		parameterType="SupplierInfo">
+		SELECT
+		id,
+		supplierName,
+		primaryContact,
+		contactNumber,
+		wechat,
+		address,
+		logoUrl,
+		bankAccount,
+		bankCardNumber,
+		operator
+		FROM t_supplier
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="customQuery" resultMap="SupplierInfoResult"
+		parameterType="SupplierInfo">
+		SELECT
+		id,
+		supplierName,
+		primaryContact,
+		contactNumber,
+		wechat,
+		address,
+		logoUrl,
+		bankAccount,
+		bankCardNumber,
+		operator
+		FROM t_supplier
+		<where>
+			<if test="supplierName != null">
+				supplierName = #{supplierName}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="SupplierInfo">
+		delete from t_supplier where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="SupplierInfo">
+		insert into t_supplier
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="supplierName != null">
+				supplierName,
+			</if>
+			<if test="primaryContact != null">
+				primaryContact,
+			</if>
+			<if test="contactNumber != null">
+				contactNumber,
+			</if>
+			<if test="wechat != null">
+				wechat,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="logoUrl != null">
+				logoUrl,
+			</if>
+			<if test=" bankAccount != null">
+				bankAccount,
+			</if>
+			<if test=" bankCardNumber != null">
+				bankCardNumber,
+			</if>
+			<if test=" addTime != null">
+				addTime,
+			</if>
+			<if test=" operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="supplierName != null">
+				#{supplierName,jdbcType=VARCHAR},
+			</if>
+			<if test="primaryContact != null">
+				#{primaryContact,jdbcType=VARCHAR},
+			</if>
+			<if test="contactNumber != null">
+				#{contactNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="wechat != null">
+				#{wechat,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="logoUrl != null">
+				#{logoUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAccount != null">
+				#{bankAccount,jdbcType=VARCHAR},
+			</if>
+			<if test=" bankCardNumber != null">
+				#{bankCardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test=" addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test=" operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改信息 -->
+	<update id="update" parameterType="SupplierInfo">
+		update t_supplier
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="supplierName != null">
+				supplierName = #{supplierName},
+			</if>
+			<if test="primaryContact != null">
+				primaryContact = #{primaryContact},
+			</if>
+			<if test="contactNumber != null">
+				contactNumber = #{contactNumber},
+			</if>
+			<if test="wechat != null">
+				wechat = #{wechat},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test=" logoUrl != null">
+				logoUrl = #{logoUrl},
+			</if>
+			<if test=" bankAccount != null">
+				bankAccount =#{bankAccount},
+			</if>
+			<if test=" bankCardNumber != null">
+				bankCardNumber =#{bankCardNumber},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
 </mapper>
