@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="outlayType" column="outlayType" />
 		<result property="paymentMethod" column="paymentMethod" />
 		<result property="paymentAmount" column="paymentAmount" />
+		<result property="supperName" column="supperName" />
 		<result property="beneficiary" column="beneficiary" />
 		<result property="bankImg" column="bankImg" />
 		<result property="remarks" column="remarks" />
@@ -49,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		outlayType,
 		paymentMethod,
 		paymentAmount,
+		supperName,
 		beneficiary,
 		bankImg,
 		remarks,
@@ -71,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		outlayType,
 		paymentMethod,
 		paymentAmount,
+		supperName,
 		beneficiary,
 		bankImg,
 		remarks,
@@ -120,6 +123,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="paymentAmount != null">
 				paymentAmount,
 			</if>
+			<if test="supperName != null">
+				supperName,
+			</if>
 			<if test="beneficiary != null">
 				beneficiary,
 			</if>
@@ -151,6 +157,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="paymentAmount != null">
 				#{paymentAmount,jdbcType=DOUBLE},
+			</if>
+			<if test="supperName != null">
+				#{supperName,jdbcType=VARCHAR},
 			</if>
 			<if test="beneficiary != null">
 				#{beneficiary,jdbcType=VARCHAR},

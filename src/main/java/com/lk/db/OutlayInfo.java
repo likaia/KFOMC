@@ -17,6 +17,7 @@ public class OutlayInfo
 	private String outlayType;
 	private String paymentMethod;
 	private Double paymentAmount;
+	private String supperName;
 	private String remarks;
 	private String operator;
 	private String addTime;
@@ -73,6 +74,17 @@ public class OutlayInfo
 	public void setPaymentAmount(Double paymentAmount)
 	{
 		this.paymentAmount = paymentAmount;
+	}
+	
+	
+	
+	public String getSupperName()
+	{
+		return supperName;
+	}
+	public void setSupperName(String supperName)
+	{
+		this.supperName = supperName;
 	}
 	public String getRemarks()
 	{

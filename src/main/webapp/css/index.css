@@ -596,7 +596,7 @@ a {
 }
 
 #orderInformationDataList .title-BtnPanel .btn-panel {
-	width: 555px;
+	min-width: 555px;
 	height: 40px;
 	position: absolute;
 	right: 0px;
@@ -2019,4 +2019,51 @@ a {
 	width: 70%;
 	height: 140px;
 	float: left;
+}
+/*订单信息管理[添加收入]悬浮层样式*/
+#addRevenueSubmenu{
+	display: none;
+}
+#addRevenueSubmenu .inputArea{
+	width: 98%;
+	height: 240px;
+	margin:0 auto;
+}
+#addRevenueSubmenu .inputArea .row-panel{
+	width: 100%;
+	height: 40px;
+	margin-top: 15px;
+}
+#addRevenueSubmenu .inputArea .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#addRevenueSubmenu .inputArea .row-panel .item-panel .left-panel{
+	width: 20%;
+	height: 40px;
+	float: left;
+	text-align: right;
+}
+#addRevenueSubmenu .inputArea .row-panel .item-panel .left-panel span{
+	line-height: 40px;
+}
+#addRevenueSubmenu .inputArea .row-panel .item-panel .right-panel{
+	width: 79%;
+	height: 40px;
+	float: left;
+	margin-left: 1%;
+}
+/*按钮区域*/
+#addRevenueSubmenu .btnArea{
+	width: 98%;
+	height: 40px;
+	margin: 0 auto;
+	position: relative;
+}
+#addRevenueSubmenu .btnArea .btn-panel{
+	min-width: 110px;
+	height: 40px;
+	position: absolute;
+	right: 0;
 }

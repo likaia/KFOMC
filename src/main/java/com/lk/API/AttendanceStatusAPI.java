@@ -11,22 +11,23 @@ import org.json.JSONObject;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.lk.db.AttendanceInfo;
+import com.lk.db.AttendanceStatusInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
-import com.lk.mappers.AttendanceInfoMapper;
+import com.lk.mappers.AttendanceStatusInfoMapper;
 
 import af.restful.AfRestfulApi;
 
 /*
   * 
   *  @author  李凯
-  *  @version V-2018-11-05 17:32:12 root
+  *  @version V-2018-12-07 12:12:55 root
   *  
 * */
-/*员工管理[考勤管理]接口*/
-public class AttendanceInfoAPI extends AfRestfulApi
+
+/*考勤状态接口*/
+public class AttendanceStatusAPI extends AfRestfulApi
 {
-	private static Logger logger = Logger.getLogger(AttendanceInfoAPI.class);
+	private static Logger logger = Logger.getLogger(AttendanceStatusAPI.class);
 
 	@Override
 	public String execute(String reqText) throws Exception
@@ -58,14 +59,15 @@ public class AttendanceInfoAPI extends AfRestfulApi
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceInfoMapper attendanceInfoMapper = sqlSession.getMapper(AttendanceInfoMapper.class);
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
 				// 使用pageHelper插件进行分页查询
 				PageHelper.startPage(page, limit); // 设置分页
-				AttendanceInfo row = new AttendanceInfo();
+				AttendanceStatusInfo row = new AttendanceStatusInfo();
 				row.setOperator(operator);
-				List<AttendanceInfo> resultList = attendanceInfoMapper.findexpenditurePage(row);
+				List<AttendanceStatusInfo> resultList = attendanceStatusInfoMapper.findexpenditurePage(row);
 				// 获取表内所有的数据总记录数 :使用PageInfo方法
-				PageInfo<AttendanceInfo> pageInfo = new PageInfo<AttendanceInfo>(resultList);
+				PageInfo<AttendanceStatusInfo> pageInfo = new PageInfo<AttendanceStatusInfo>(resultList);
 				// 获取总记录数
 				count = pageInfo.getTotal();
 				result = new JSONArray(resultList);
@@ -77,14 +79,10 @@ public class AttendanceInfoAPI extends AfRestfulApi
 			// 条件查询
 			if (jsReq.has("conditionalQuery"))
 			{
-				/* 根据(部门,姓名,工号)查询数据 */
-				String division = jsReq.getString("division");
 				String nameOfWorker = jsReq.getString("nameOfWorker");
 				String jobNumber = jsReq.getString("jobNumber");
-				if (division.equals(""))
-				{
-					division = null;
-				}
+				String dStart = jsReq.getString("dStart");
+				String dEnd = jsReq.getString("dEnd");
 				if (nameOfWorker.equals(""))
 				{
 					nameOfWorker = null;
@@ -93,16 +91,26 @@ public class AttendanceInfoAPI extends AfRestfulApi
 				{
 					jobNumber = null;
 				}
+				if (dStart.equals(""))
+				{
+					dStart = null;
+				}
+				if (dEnd.equals(""))
+				{
+					dEnd = null;
+				}
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceInfoMapper attendanceInfoMapper = sqlSession.getMapper(AttendanceInfoMapper.class);
-				AttendanceInfo row = new AttendanceInfo();
-				row.setDivision(division);
-				row.setNameOfWorker(nameOfWorker);
-				row.setJobNumber(jobNumber);
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfo row = new AttendanceStatusInfo();
 				row.setOperator(operator);
-				List<AttendanceInfo> resultList = attendanceInfoMapper.conditionalQuery(row);
+				row.setdStart(dStart);
+				row.setdEnd(dEnd);
+				row.setJobNumber(jobNumber);
+				row.setNameOfWorker(nameOfWorker);
+				List<AttendanceStatusInfo> resultList = attendanceStatusInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */
 				androidData = "\"" + result + "\"";
@@ -110,24 +118,28 @@ public class AttendanceInfoAPI extends AfRestfulApi
 				sqlSession.close();
 			}
 			// 新增数据
-			if (jsReq.has("addAttendance"))
+			if (jsReq.has("addAttendanceStatusInfo"))
 			{
-				String nameOfWorker = jsReq.getString("nameOfWorker"); // --->员工姓名
-				String jobNumber = jsReq.getString("jobNumber"); // --->工号
-				String division = jsReq.getString("division"); // --->部门
-				double daysToAttend = jsReq.getDouble("daysToAttend"); // --->应出勤天数
-				double actualAttendanceDays = jsReq.getDouble("actualAttendanceDays");// --->实际出勤天数
-				double askForLeaveDays = jsReq.getDouble("askForLeaveDays"); // --->请假天数
-				double leaveDays = jsReq.getDouble("leaveDays"); // --->事假天数
-				double sickLeaveDays = jsReq.getDouble("sickLeaveDays"); // --->病假天数
-				String remark = jsReq.getString("remark"); // --->备注
+				String nameOfWorker = jsReq.getString("nameOfWorker");
+				String jobNumber = jsReq.getString("jobNumber");
+				String department = jsReq.getString("department");
+				String workingHours = jsReq.getString("workingHours");
+				String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
+				String attendanceDate = jsReq.getString("attendanceDate");
+				String wifiInfo = jsReq.getString("wifiInfo");
+				String attendanceLocation = jsReq.getString("attendanceLocation");
+				String attendanceRange = jsReq.getString("attendanceRange");
+				String fieldCard = jsReq.getString("fieldCard");
+				String remarks = jsReq.getString("remarks");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceInfoMapper attendanceInfoMapper = sqlSession.getMapper(AttendanceInfoMapper.class);
-				AttendanceInfo row = new AttendanceInfo(nameOfWorker, jobNumber, division, daysToAttend,
-						actualAttendanceDays, askForLeaveDays, leaveDays, sickLeaveDays, remark, serverTime, operator);
-				int processResult = attendanceInfoMapper.add(row);
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfo row = new AttendanceStatusInfo(nameOfWorker, jobNumber, department, workingHours,
+						afterGetOffWorkTime, attendanceDate, wifiInfo, attendanceLocation, attendanceRange, fieldCard,
+						remarks, serverTime, operator);
+				int processResult = attendanceStatusInfoMapper.add(row);
 				sqlSession.commit();
 				if (processResult > 0)
 				{
@@ -144,46 +156,49 @@ public class AttendanceInfoAPI extends AfRestfulApi
 			// 批量删除
 			if (jsReq.has("delAttendance"))
 			{
-				JSONArray ids = jsReq.getJSONArray("ids"); 
+				JSONArray ids = jsReq.getJSONArray("ids");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceInfoMapper attendanceInfoMapper = sqlSession.getMapper(AttendanceInfoMapper.class);
-				AttendanceInfo row = new AttendanceInfo();
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfo row = new AttendanceStatusInfo();
 				row.setIds(ids);
-				int processResult =  attendanceInfoMapper.del(row);
+				int processResult = attendanceStatusInfoMapper.del(row);
 				sqlSession.commit();
-				if(processResult>0)
+				if (processResult > 0)
 				{
 					msg = "删除成功!";
-				}
-				else
+				} else
 				{
 					code = 1;
 					errorCode = 1;
 					msg = "删除失败,数据库错误";
-					logger.error("员工管理[考勤管理]删除接口出错!");
+					logger.error("员工管理[考勤信息]删除接口出错!");
 				}
 				sqlSession.close();
 			}
-			//更新客户信息
-			if(jsReq.has("updateAttendance"))
+			// 更新客户信息
+			if (jsReq.has("updateAttendance"))
 			{
-				String nameOfWorker = jsReq.getString("nameOfWorker"); // --->员工姓名
-				String jobNumber = jsReq.getString("jobNumber"); // --->工号
-				String division = jsReq.getString("division"); // --->部门
-				double daysToAttend = jsReq.getDouble("daysToAttend"); // --->应出勤天数
-				double actualAttendanceDays = jsReq.getDouble("actualAttendanceDays");// --->实际出勤天数
-				double askForLeaveDays = jsReq.getDouble("askForLeaveDays"); // --->请假天数
-				double leaveDays = jsReq.getDouble("leaveDays"); // --->事假天数
-				double sickLeaveDays = jsReq.getDouble("sickLeaveDays"); // --->病假天数
-				String remark = jsReq.getString("remark"); // --->备注
+				String nameOfWorker = jsReq.getString("nameOfWorker");
+				String jobNumber = jsReq.getString("jobNumber");
+				String department = jsReq.getString("department");
+				String workingHours = jsReq.getString("workingHours");
+				String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
+				String attendanceDate = jsReq.getString("attendanceDate");
+				String wifiInfo = jsReq.getString("wifiInfo");
+				String attendanceLocation = jsReq.getString("attendanceLocation");
+				String attendanceRange = jsReq.getString("attendanceRange");
+				String fieldCard = jsReq.getString("fieldCard");
+				String remarks = jsReq.getString("remarks");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceInfoMapper attendanceInfoMapper = sqlSession.getMapper(AttendanceInfoMapper.class);
-				AttendanceInfo row = new AttendanceInfo(nameOfWorker, jobNumber, division, daysToAttend, actualAttendanceDays, askForLeaveDays, leaveDays, sickLeaveDays, remark, serverTime, operator);
-				int processResult =  attendanceInfoMapper.update(row);
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfo row = new AttendanceStatusInfo(nameOfWorker, jobNumber, department, workingHours, afterGetOffWorkTime, attendanceDate, wifiInfo, attendanceLocation, attendanceRange, fieldCard, remarks, operator);
+				int processResult =  attendanceStatusInfoMapper.update(row);
 				sqlSession.commit();
 				if(processResult>0)
 				{
@@ -203,14 +218,13 @@ public class AttendanceInfoAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("员工管理[考勤管理]接口异常:没有操作人");
+			logger.error("出货管理接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();
 		jsReply.put("errorCode", errorCode);
 		jsReply.put("code", code);
 		jsReply.put("msg", msg);
-		jsReply.put("serverTime", serverTime);
 		jsReply.put("data", result);
 		jsReply.put("androidData", androidData);
 		jsReply.put("operator", operator);

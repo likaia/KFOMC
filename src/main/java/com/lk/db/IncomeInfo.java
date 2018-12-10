@@ -24,6 +24,7 @@ public class IncomeInfo
 	private String operator;
 	private String addTime;
 	private String dStart;
+	private String bankCardNumber;
 	private String dEnd;
 	private JSONArray queryType;
 	private JSONArray ids;
@@ -166,19 +167,32 @@ public class IncomeInfo
 	{
 		this.bankImg = bankImg;
 	}
-	public IncomeInfo(String orderNumber, String incomeDate, String clientName, String paymentMethod,
-			Double paymentAmount, String payee, String remarks, String operator, String addTime)
+	
+	public String getBankCardNumber()
+	{
+		return bankCardNumber;
+	}
+	public void setBankCardNumber(String bankCardNumber)
+	{
+		this.bankCardNumber = bankCardNumber;
+	}
+	public IncomeInfo(String orderNumber, String incomeDate, String clientName, String productName,
+			String paymentMethod, Double paymentAmount, String payee, String remarks, String operator, String addTime,
+			String bankCardNumber, String bankImg)
 	{
 		super();
 		this.orderNumber = orderNumber;
 		this.incomeDate = incomeDate;
 		this.clientName = clientName;
+		this.productName = productName;
 		this.paymentMethod = paymentMethod;
 		this.paymentAmount = paymentAmount;
 		this.payee = payee;
 		this.remarks = remarks;
 		this.operator = operator;
 		this.addTime = addTime;
-	}
+		this.bankCardNumber = bankCardNumber;
+		this.bankImg = bankImg;
+	}	
 	
 }

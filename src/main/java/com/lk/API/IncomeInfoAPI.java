@@ -1,5 +1,6 @@
 package com.lk.API;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -11,9 +12,12 @@ import org.json.JSONObject;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lk.Utils.LkCommon;
 import com.lk.db.IncomeInfo;
+import com.lk.db.OrderInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.IncomeInfoMapper;
+import com.lk.mappers.OrderMapper;
 
 import af.restful.AfRestfulApi;
 
@@ -50,6 +54,7 @@ public class IncomeInfoAPI extends AfRestfulApi
 		if (jsReq.has("operator"))
 		{
 			operator = jsReq.getString("operator"); // --->取出操作人
+			LkCommon lkCommon = new LkCommon();
 			// 分页查询接口
 			if (jsReq.has("page") && jsReq.has("limit"))
 			{
@@ -116,25 +121,69 @@ public class IncomeInfoAPI extends AfRestfulApi
 			// 新增数据
 			if (jsReq.has("addIncome"))
 			{
-				String orderNumber = jsReq.getString("orderNumber");
-				String incomeDate = jsReq.getString("incomeDate");
-				String clientName = jsReq.getString("clientName");
-				String paymentMethod = jsReq.getString("paymentMethod");
-				Double paymentAmount = jsReq.getDouble("paymentAmount");
-				String payee = jsReq.getString("payee");
-				String remarks = jsReq.getString("remarks");
-				String addTime = serverTime;
+				String orderNumber = jsReq.getString("orderNumber"); //--->订单号
+				String incomeDate = jsReq.getString("incomeDate"); //--->收款日期
+				String clientName = jsReq.getString("clientName"); //--->客户名称
+				String paymentMethod = jsReq.getString("paymentMethod"); //--->支付方式
+				Double paymentAmount = jsReq.getDouble("paymentAmount"); //--->付款金额
+				String bankCardNumber = jsReq.getString("bankCardNumber"); //--->银行卡号
+				String productName = jsReq.getString("productName"); //--->工程名称
+				String payee = jsReq.getString("payee"); //--->收款人
+				String bankImg = jsReq.getString("bankImg"); //--->银行图片
+				String remarks = jsReq.getString("remarks");//--->备注
+				String addTime = serverTime;//--->添加时间
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				IncomeInfoMapper incomeInfoMapper = sqlSession.getMapper(IncomeInfoMapper.class);
-				IncomeInfo row = new IncomeInfo(orderNumber, incomeDate, clientName, paymentMethod, paymentAmount,
-						payee, remarks, operator, addTime);
-				int processResult = incomeInfoMapper.add(row);
+				IncomeInfo row = new IncomeInfo(orderNumber, incomeDate, clientName, productName, paymentMethod, paymentAmount, payee, remarks, operator, addTime, bankCardNumber, bankImg);
+				int processResult = incomeInfoMapper.add(row);            
 				sqlSession.commit();
 				if (processResult > 0)
 				{
 					msg = "添加成功";
+					/*更新订单信息表*/
+					OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+					//自定义查询(总金额/已付款)
+					String[] queryTypeArr = {"totalAmount","alreadyPaid"};
+					JSONArray queryType = new JSONArray(queryTypeArr);
+					OrderInfo orderRowQuery = new OrderInfo();
+					orderRowQuery.setOperator(operator);
+					orderRowQuery.setOrderNumber(orderNumber);
+					orderRowQuery.setClientName(clientName);
+					orderRowQuery.setQueryType(queryType);
+					List<OrderInfo> orderInfoResultList = orderMapper.customQuery(orderRowQuery);
+					JSONArray orderInfoResult = new JSONArray(orderInfoResultList);
+					if(orderInfoResult.length()>1)
+					{
+						logger.error("添加收入,更新订单表出错(出现大于一个相同订单)!");
+					}else if(orderInfoResult.length()==1)
+					{
+						JSONObject orderInfoObj = orderInfoResult.getJSONObject(0);
+						BigDecimal totalAlreadyPaid = new BigDecimal("0.00");//--->当前总已付款金额
+						BigDecimal unpaid = new BigDecimal("0.00"); //--->计算未付款
+						int orderId = orderInfoObj.getInt("id");
+						String totalAmount = orderInfoObj.getString("totalAmount");
+						String alreadyPaid =  orderInfoObj.getString("alreadyPaid");
+						totalAlreadyPaid =LkCommon.addDouble(alreadyPaid, paymentAmount.toString());
+						unpaid = lkCommon.subtract(totalAmount,totalAlreadyPaid.toString()); //--->未付款 = 总金额-总已付款
+						//更新订单信息表(已付款/未付款)
+						OrderInfo updateRow = new OrderInfo();
+						updateRow.setAlreadyPaid(alreadyPaid);
+						updateRow.setUnpaid(unpaid.toString());
+						updateRow.setOperator(operator);
+						updateRow.setId(orderId);
+						int updateResult = orderMapper.update(updateRow);
+						sqlSession.commit();
+						if(updateResult<=0)
+						{
+							logger.error("更新订单信息表失败(订单号):"+orderNumber);
+						}
+					}else
+					{
+						logger.error("更新订单信息表出错:该订单不存在!");
+					}
+					
 				} else
 				{
 					code = 1;
@@ -184,8 +233,15 @@ public class IncomeInfoAPI extends AfRestfulApi
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				IncomeInfoMapper incomeInfoMapper = sqlSession.getMapper(IncomeInfoMapper.class);
-				IncomeInfo row = new IncomeInfo(orderNumber, incomeDate, clientName, paymentMethod, paymentAmount,
-						payee, remarks, operator, addTime);
+				IncomeInfo row = new IncomeInfo();
+				row.setOrderNumber(orderNumber);
+				row.setIncomeDate(incomeDate);
+				row.setClientName(clientName);
+				row.setPaymentMethod(paymentMethod);
+				row.setPaymentAmount(paymentAmount);
+				row.setPayee(payee);
+				row.setRemarks(remarks);
+				row.setAddTime(addTime);
 				int processResult = incomeInfoMapper.update(row);
 				sqlSession.commit();
 				if(processResult>0)

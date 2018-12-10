@@ -1,5 +1,6 @@
 package com.lk.API;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -11,11 +12,14 @@ import org.json.JSONObject;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lk.Utils.LkCommon;
 import com.lk.db.FittingInfo;
 import com.lk.db.FittingPublic;
+import com.lk.db.OutlayInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.FittingInfoMapper;
 import com.lk.mappers.FittingPublicMapper;
+import com.lk.mappers.OutlayInfoMapper;
 
 import af.restful.AfRestfulApi;
 
@@ -44,6 +48,9 @@ public class FittingInfoAPI extends AfRestfulApi
 		int limit = 0;
 		if (jsReq.has("operator"))
 		{
+			LkCommon lkCommon = new LkCommon();
+			// 获取当前服务器时间
+			String serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 			operator = jsReq.getString("operator"); // --->取出操作人
 			// 分页查询接口
 			if (jsReq.has("page") && jsReq.has("limit"))
@@ -165,6 +172,8 @@ public class FittingInfoAPI extends AfRestfulApi
 				String specificationModelVal = jsReq.getString("specificationModelVal"); // 用户选择的数据id
 				String purchaseQuantity = jsReq.getString("purchaseQuantity");
 				String totalPurchase = jsReq.getString("totalPurchase");
+				totalPurchase = lkCommon.removeChinese(totalPurchase);
+				BigDecimal PaymentAmount = new BigDecimal(totalPurchase); //更新支出表时需要的金额
 				String paymentDetails = jsReq.getString("paymentDetails");
 				String otherFee = jsReq.getString("otherFee");
 				String remarks = jsReq.getString("remarks");
@@ -222,6 +231,25 @@ public class FittingInfoAPI extends AfRestfulApi
 					if (processResult > 0)
 					{
 						msg = "添加成功";
+						/*更新支出管理表*/
+						/*配置支出管理映射器:支出表新增一条记录*/
+						OutlayInfoMapper outlayInfoMapper = sqlSession.getMapper(OutlayInfoMapper.class);
+						OutlayInfo addOutlayRow = new OutlayInfo();
+						addOutlayRow.setOrderNumber(orderNumber);
+						addOutlayRow.setOutlayDate(serverTime);
+						addOutlayRow.setOutlayType("配件采购");
+						addOutlayRow.setOperator(operator);
+						addOutlayRow.setPaymentMethod("");
+						addOutlayRow.setPaymentAmount(PaymentAmount.doubleValue());
+						addOutlayRow.setRemarks(remarks);
+						addOutlayRow.setSupperName(supplier);
+						addOutlayRow.setAddTime(serverTime);
+						int addOutlayResult = outlayInfoMapper.add(addOutlayRow);
+						sqlSession.commit();
+						if(addOutlayResult<=0)
+						{
+							logger.error("配件采购,更新支出管理表失败!"+orderNumber);
+						}
 					} else
 					{
 						code = 1;

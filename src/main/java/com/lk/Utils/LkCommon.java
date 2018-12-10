@@ -56,6 +56,7 @@ public class LkCommon
 
 		return new JSONObject(map);
 	}
+
 	  // ArrayList类型转成String类型
     public String ArrayListToString(ArrayList<String> arrayList) {
         String result = "";

@@ -219,13 +219,23 @@ $(function () {
             orderCompletedRawData:"",  //--->后台返回的已完成订单数据
             orderCompletedSelectData:"", //--->监听下拉框选择
             loadingStatus:'none',  //--->加载层状态
+            /*订单管理[添加收入]需要的数据*/
+            addRevenueOrderVal:"", //订单号
+            addRevenueTime:"", //当前时间
+            addRevenueClientNameVal:"", //客户名称
+            addRevenuePayee:"", //收款人
+            addRevenuePaymentMethod:"银行卡",//--->付款方式
+            addRevenueCardVal:"", //--->卡号/账号
+            addRevenueCollectionAmount:"", //收款金额
+            addRevenueRemarks:"", //备注
+            addRevenueVlientInfo:"",//--->客户详细信息
+            addRevenueBankImg:URL+"webPic/bankImg/yinlianzhifu.png", //--->所选择的银行图片
+            addRevenueProjectName:"",//--->工程名称
             //精确/模糊(合并)点击状态
             fuzzyState:false, //--->模糊状态
             preciseState:false, //--->精确状态
             fuzzyVal:"",  //--->模糊合并后的数据
             /*订单管理[标签打印]状态*/
-            labelList:[{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"},{"sameId":1,"marks":"阳台玻璃","productName":"5+9+5双白单钢"}],
-
             labelRadio:1, //--->标签打印[标签纸]单选框选择
             labelFinalData:[],
             /*进货管理:原片采购*/
@@ -775,7 +785,7 @@ $(function () {
                         resultArray.push(resultObj);
                     }
                     //渲染配件名称select
-                    MAIN.addSelectVal(resultArray, "fittingSpecificationModel");
+                    MAIN.addSelectValForId(resultArray, "fittingSpecificationModel");
                     //渲染日期
                     $("#fittingOrderNumberDate").val(ans.serverTime);
                     /*渲染供应商选择框*/
@@ -1533,6 +1543,9 @@ $(function () {
 
                     }
                 });
+                /*清空除第一个以外的所有选项*/
+                $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
+                $("#customize1 option:gt(0)").remove();
                 /*请求后台获取 规格型号[产品名称] 集合*/
                 var req = {};
                 req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
@@ -1551,6 +1564,10 @@ $(function () {
                         }
                         //渲染品名型号下拉选择
                         MAIN.addSelectOrderVal(selectData, "customize1");
+                        if(globalVar!=1)
+                        {
+                            MAIN.addSelectOrderVal(selectData, "customize"+globalVar+"");
+                        }
                         //获取订单号并赋值
                         $("#billingOrderNumber").val(ans.serverTime);
                         MAIN.billingorderNumber = ans.serverTime;
@@ -1598,7 +1615,7 @@ $(function () {
                     let unitPricePanel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .unitPrice");
                     let totalAmountVessel = $(parent_panel + " " + containerPanel + row_line + i + foot_panel + " .totalAmount");
                     let userSelectData = $("#submenu .table-panel .content-panel .row_" + i + " .specificationModel select").find("option:selected").text();
-                    if (Af.nullstr(userSelectData) || Af.nullstr(lengthVessel.val())) {
+                    if (Af.nullstr(userSelectData) || Af.nullstr(lengthVessel.val()) || userSelectData=="点击选择规格型号") {
                         //退出循环
                         break;
                     }
@@ -1657,6 +1674,7 @@ $(function () {
                 vm.allSpecificationModel = userInputDatas; //--->当前用户输入的数据
                 if(printClicks==0)
                 {
+                    Af.trace(userInputDatas);
                     layer.alert("总金额,总面积,已经计算,请检查数据的准确性!确保无误后再次点打印,开始打印生产单!")
                     printClicks = 1;
                     return;
@@ -1949,6 +1967,93 @@ $(function () {
                     MAIN.exportFun(tableTitle, selectDatas);
                 }
             },
+            responsiblePersonDetailsFun:function(){
+                layer.alert($("#DetailsOrderTransportationManager").val());
+            },
+            /*订单信息管理:开始发货*/
+            startShippingFun:function(){
+
+            },
+            /*订单信息管理:添加收入按钮交互*/
+            addRevenueFun:function(){
+                /*请求后台获取当前客户信息*/
+                let selectVal = MAIN.getSelectData("orderInfoList");
+                if(Af.nullstr(selectVal))
+                {
+                    MAIN.ErroAlert("请勾选一个订单!");
+                }
+                else if(selectVal.length>1){
+                    MAIN.ErroAlert("只能勾选一个订单");
+                }
+                else
+                {
+                    Af.openSubmenu("添加收入",["870px","370px"],true,$("#addRevenueSubmenu"));
+                    let clientName = selectVal[0].clientName;
+                    vm.addRevenueProjectName = selectVal[0].projectName;
+                    let req = {
+                        "operator":$("#nickNameTextPanel").html(),
+                        "clientName":clientName,
+                        "dStart":"",
+                        "dEnd":"",
+                        conditionalQuery:"conditionalQuery"
+                    };
+                    Af.rest("ClientInfo.api",req,function(ans){
+                        if(ans.errorCode==0)
+                        {
+                            let data = ans.data;
+                            if(data.length>0)
+                            {
+                                vm.addRevenueVlientInfo = data;
+                                vm.addRevenueOrderVal = selectVal[0].orderNumber; //订单号
+                                vm.addRevenueTime = ans.serverTime; //--->服务器时间
+                                vm.addRevenueClientNameVal = clientName; //--->客户名称
+                                vm.addRevenuePayee = data[0].clientName; //--->收款人
+                                vm.addRevenueCardVal = data[0].bankCardNumber; //--->银行卡号
+                            }
+                            else{
+                                MAIN.ErroAlert("系统内没有录入该客户");
+                            }
+                        }
+                    });
+                }
+            },
+            /*订单信息管理:[添加收入]提交函数*/
+            addRevenueSubmitFun:function(){
+              if(Af.nullstr(vm.addRevenueCollectionAmount))
+              {
+                  MAIN.ErroAlert("请输入收款金额!");
+              }
+              else
+              {
+                  let req = {
+                      orderNumber:vm.addRevenueOrderVal, //--->订单号
+                      addIncome:"addIncome",
+                      operator:$("#nickNameTextPanel").html(),
+                      incomeDate:vm.addRevenueTime, //--->收入时间
+                      clientName:vm.addRevenueClientNameVal, //--->客户名称
+                      paymentMethod:vm.addRevenuePaymentMethod,//--->支付方式
+                      paymentAmount:vm.addRevenueCollectionAmount, //--->付款金额
+                      bankCardNumber:vm.addRevenueCardVal, //--->银行卡号
+                      productName:vm.addRevenueProjectName,//--->工程名称
+                      payee:vm.addRevenuePayee, //--->收款人
+                      bankImg:vm.addRevenueBankImg,
+                      remarks:vm.addRevenueRemarks, //--->备注
+                  }
+                  Af.rest("IncomeInfo.api",req,function (ans) {
+                      if(ans.errorCode==0)
+                      {
+                          layer.closeAll();
+                          layer.msg("添加成功");
+                      }
+                  });
+              }
+
+
+            },
+            /*订单信息管理:[添加收入]取消函数*/
+            addRevenueCancelFun:function(){
+              layer.closeAll();
+            },
             /*订单信息管理:订单详情交互*/
             orderDetailsFun: function () {
                 //清空订单详情表格
@@ -1964,12 +2069,14 @@ $(function () {
                         var req = {};
                         req.orderNumber = orders[0];
                         req.queryModelDetails = "modelDetails";
-                        req.operator = "";
+                        req.operator = $("#nickNameTextPanel").html();
                         Af.rest("orderInfonQueiry.api", req, function (ans) {
                             var dataArray = ans.data;
                             var nowOrderInfo = ans.nowOrderInfo;
                             let ShipResult = ans.ShipResult; //--->当前订单下出货表相关信息
-                            if (!Af.nullstr(nowOrderInfo)) {
+                            if (Af.nullstr(dataArray)) {
+                                MAIN.ErroAlert("该订单下没有录入规格型号!");
+                            } else {
                                 $("#DetailsOrderNumber").val(nowOrderInfo[0].orderNumber);
                                 $("#DetailsOrderClientName").val(nowOrderInfo[0].clientName);
                                 $("#DetailsOrderProjectName").val(nowOrderInfo[0].projectName);
@@ -1982,7 +2089,7 @@ $(function () {
                                 let numberShipments = nowOrderInfo[0].numberShipments; //--->已发货数量
                                 let shipArea = nowOrderInfo[0].shipArea; //--->已发货面积
                                 $("#DetailsOrderUndeliveredQuantity").val(Number(glassNumber)-Number(numberShipments));//--->未发货数量
-                                $("#DetailsOrderUnshippedArea").val(Number(totalArea)-Number(shipArea));//--->未发货面积
+                                $("#DetailsOrderUnshippedArea").val((Number(totalArea)-Number(shipArea)).toFixed(2));//--->未发货面积
                                 $("#DetailsOrderdeliveryAddress").val(nowOrderInfo[0].deliveryAddress);
                                 let transportationManagerArr = [];
                                 let totalFreight = 0;
@@ -1999,10 +2106,6 @@ $(function () {
                                 $("#DetailsOrderRemarks").val(nowOrderInfo[0].remarks);
                                 $("#DetailsOrdertotalAmount").html(nowOrderInfo[0].totalAmount);  //--->总金额
                                 $("#DetailsOrdertheTotalArea").html(nowOrderInfo[0].totalArea);  //--->总面积
-                            }
-                            if (Af.nullstr(dataArray)) {
-                                MAIN.ErroAlert("该订单下没有录入规格型号!");
-                            } else {
                                 var num = 0;
                                 for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
                                 {
@@ -3566,14 +3669,53 @@ $(function () {
 
 
         /*监听标签打印[单选框选择]*/
-        form.on('radio', function(data){
+        form.on('radio(labelRadio)', function(data){
             //console.log(data.value); //被点击的radio的value值
             vm.labelRadio = data.value;
         });
-
+        /*监听订单信息管理[添加收入]收款方式选择*/
+        form.on('select(incomePaymentMethod)',function (data) {
+            let selectData = data.value;
+            selectData =Number(selectData);
+            let rawData = vm.addRevenueVlientInfo;
+            let addRevenueCard = $("#addRevenueCard");
+            switch (selectData) {
+                case 0:
+                    vm.addRevenueCardVal = rawData[0].bankCardNumber;
+                    vm.addRevenueBankImg = URL+"webPic/bankImg/yinlianzhifu.png";
+                    vm.addRevenuePaymentMethod = "银行卡";
+                    addRevenueCard.removeClass("not_allowed");
+                    addRevenueCard.removeAttr("readonly");
+                    break;
+                case 1:
+                    vm.addRevenueCardVal = "";
+                    vm.addRevenuePaymentMethod = "支付宝";
+                    vm.addRevenueBankImg = URL+"webPic/bankImg/zhifubao.png";
+                    addRevenueCard.removeClass("not_allowed");
+                    addRevenueCard.removeAttr("readonly");
+                    break;
+                case 2:
+                    vm.addRevenueCardVal = rawData[0].weChat;
+                    vm.addRevenuePaymentMethod = "微信";
+                    vm.addRevenueBankImg = URL+"webPic/bankImg/weixinzhifu.png";
+                    addRevenueCard.removeClass("not_allowed");
+                    addRevenueCard.removeAttr("readonly");
+                    break;
+                case 3:
+                    vm.addRevenueBankImg = URL+"webPic/bankImg/xianjin.png";
+                    vm.addRevenueCardVal = "";
+                    vm.addRevenuePaymentMethod = "现金";
+                    addRevenueCard.addClass("not_allowed");
+                    addRevenueCard.attr("readonly","readonly");
+                    break;
+                default:
+                    MAIN.ErroAlert("非法操作");
+                    break;
+            }
+        });
         /*监听已完成订单客户名称选择*/
         form.on('select(orderCompletedSelect)',function(data) {
-           vm.orderCompletedSelectData = data.value;
+            vm.orderCompletedSelectData = data.value;
         });
         /*监听供应商信息,供应商名称选择*/
         form.on('select(SupplierInfoSelectPanel)',function(data) {
@@ -3819,7 +3961,7 @@ $(function () {
                 //判断用户是否勾选品名型号
                 var selectIds = $("select[name='customize" + globalVar + "']").val();
                 if (Af.nullstr(selectIds)) { //为空代表没有勾选
-                    var lastselectId = $("select[name='customize1']").val(); //--->获取 用户第一项选择的规格型号
+                    var lastselectId = $("select[name='customize"+(Number(globalVar)-1)+"']").val(); //--->获取 用户上一项选择的规格型号
                     $("select[name='customize" + globalVar + "']").val(lastselectId); //---->赋值当前选择框的数据
                     /*获取单价panel*/
                     var pricePanel = $(parent_panel + " " + containerPanel + row_line + globalVar + foot_panel + " .unitPrice");
@@ -3836,6 +3978,8 @@ $(function () {
                     $("#submenu .table-panel .content-panel .row_1 .item-panel .marks").focus();
                 } else {
                     globalVar++; //添加行
+                    //清空初第一个以外的所有选项
+                    $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
                     MAIN.addRow("#submenu .table-panel .content-panel");
                     //获取焦点
                     $("#submenu .table-panel .content-panel .row-panel .item-panel .getFocus").focus();
@@ -3928,6 +4072,28 @@ $(function () {
                         $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
                     } else {
                         $html += "<option value='" + item.name + "'>" + item.name + "</option>";
+                    }
+                });
+                $("select[name='" + container + "']").append($html);
+                //反选
+                //$("select[name='"+container+"']").val($("#???").val());
+                //append后必须从新渲染
+                form.render('select');
+            } else {
+                $html += "<option value='0'>没有任何数据</option>";
+                $("select[name='" + container + "']").append($html);
+                //append后必须从新渲染
+                form.render('select');
+            }
+        };
+        MAIN.addSelectValForId = function (data, container) {
+            var $html = "";
+            if (data != null) {
+                $.each(data, function (index, item) {
+                    if (item.proType) {
+                        $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                    } else {
+                        $html += "<option value='" + item.id + "'>" + item.name + "</option>";
                     }
                 });
                 $("select[name='" + container + "']").append($html);
@@ -6267,8 +6433,18 @@ $(function () {
                             align: "center"
                         },
                         {
+                            field: 'productName',
+                            title: '工程名称',
+                            align: "center"
+                        },
+                        {
                             field: 'paymentMethod',
                             title: '付款方式',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankCardNumber',
+                            title: '卡号/账号',
                             align: "center"
                         },
                         {
@@ -6320,8 +6496,18 @@ $(function () {
                             align: "center"
                         },
                         {
+                            field: 'productName',
+                            title: '工程名称',
+                            align: "center"
+                        },
+                        {
                             field: 'paymentMethod',
                             title: '付款方式',
+                            align: "center"
+                        },
+                        {
+                            field: 'bankCardNumber',
+                            title: '卡号/账号',
                             align: "center"
                         },
                         {
@@ -6388,6 +6574,11 @@ $(function () {
                             align: "center"
                         },
                         {
+                            field: 'supperName',
+                            title: '供货商',
+                            align: "center"
+                        },
+                        {
                             field: 'remarks',
                             title: '备注',
                             align: "center"
@@ -6433,6 +6624,11 @@ $(function () {
                         {
                             field: 'paymentAmount',
                             title: '付款金额',
+                            align: "center"
+                        },
+                        {
+                            field: 'supperName',
+                            title: '供货商',
                             align: "center"
                         },
                         {
@@ -6577,11 +6773,6 @@ $(function () {
                             field: 'sickLeaveDays',
                             title: '病假天数',
                             align: "center"
-                        },
-                        {
-                            field: 'remark',
-                            title: '备注',
-                            align: "center"
                         }
                     ]
                 ],
@@ -6717,11 +6908,6 @@ $(function () {
                         {
                             field: 'sickLeaveDays',
                             title: '病假天数',
-                            align: "center"
-                        },
-                        {
-                            field: 'remark',
-                            title: '备注',
                             align: "center"
                         }
                     ]

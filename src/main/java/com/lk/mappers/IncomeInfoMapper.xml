@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="clientName" column="clientName" />
 		<result property="productName" column="productName" />
 		<result property="paymentMethod" column="paymentMethod" />
+		<result property="bankCardNumber" column="bankCardNumber" />
 		<result property="paymentAmount" column="paymentAmount" />
 		<result property="payee" column="payee" />
 		<result property="remarks" column="remarks" />
@@ -50,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		clientName,
 		productName,
 		paymentMethod,
+		bankCardNumber,
 		paymentAmount,
 		payee,
 		remarks,
@@ -73,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		clientName,
 		productName,
 		paymentMethod,
+		bankCardNumber,
 		paymentAmount,
 		payee,
 		remarks,
@@ -120,8 +123,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="clientName != null">
 				clientName,
 			</if>
+			<if test="productName != null">
+				productName,
+			</if>
 			<if test="paymentMethod != null">
 				paymentMethod,
+			</if>
+			<if test="bankCardNumber != null">
+				bankCardNumber,
 			</if>
 			<if test="paymentAmount != null">
 				paymentAmount,
@@ -129,14 +138,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="payee != null">
 				payee,
 			</if>
-			<if test=" remarks != null">
+			<if test="remarks != null">
 				remarks,
 			</if>
-			<if test=" operator != null">
+			<if test="operator != null">
 				operator,
 			</if>
-			<if test=" addTime != null">
+			<if test="addTime != null">
 				addTime,
+			</if>
+			<if test="bankImg != null">
+				bankImg,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -149,11 +161,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="clientName != null">
 				#{clientName,jdbcType=VARCHAR},
 			</if>
+			<if test="productName != null">
+				#{productName,jdbcType=VARCHAR},
+			</if>
 			<if test="paymentMethod != null">
 				#{paymentMethod,jdbcType=VARCHAR},
 			</if>
+			<if test="bankCardNumber != null">
+				#{bankCardNumber,jdbcType=VARCHAR},
+			</if>
 			<if test="paymentAmount != null">
-				#{paymentAmount,jdbcType=DOUBLE},
+				#{paymentAmount,jdbcType=VARCHAR},
 			</if>
 			<if test="payee != null">
 				#{payee,jdbcType=VARCHAR},
@@ -161,11 +179,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="remarks != null">
 				#{remarks,jdbcType=VARCHAR},
 			</if>
-			<if test=" operator != null">
+			<if test="operator != null">
 				#{operator,jdbcType=VARCHAR},
 			</if>
-			<if test=" addTime != null">
+			<if test="addTime != null">
 				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="bankImg != null">
+				#{bankImg,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -182,17 +203,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="clientName != null">
 				clientName = #{clientName},
 			</if>
+			<if test="productName != null">
+				productName = #{productName},
+			</if>
 			<if test="paymentMethod != null">
 				paymentMethod = #{paymentMethod},
+			</if>
+			<if test="bankCardNumber != null">
+				bankCardNumber = #{bankCardNumber},
 			</if>
 			<if test="paymentAmount != null">
 				paymentAmount = #{paymentAmount},
 			</if>
-			<if test=" payee != null">
+			<if test="payee != null">
 				payee = #{payee},
 			</if>
-			<if test=" remarks != null">
-				remarks =#{remarks},
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+			<if test="bankImg != null">
+				bankImg = #{bankImg},
 			</if>
 		</trim>
 		<where>

@@ -253,7 +253,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="conditionalQuery" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
 		SELECT
-		id,orderNumber,orderDate,unfinishedArr,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
+		id,orderNumber,orderDate,unfinishedArr,deliveryAddress,remarks,modelDetails,clientName,projectName,glassNumber,totalArea,numberShipments,shipArea,additionalFees,totalAmount,AlreadyPaid,Unpaid,FinishDelivery,PreparedBy,operator
 		FROM t_order_Info
 		<where>
 			<if test="operator != null">
@@ -342,6 +342,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<where>
 			<if test="orderNumber != null">
 				orderNumber = #{orderNumber}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
 			</if>
 		</where>
 	</update>

@@ -9,13 +9,14 @@
 <head>
 <title>凯枫网络</title>
 <base href="<%=basePath%>">
-<script src="jquery/jquery-3.3.1.min.js "></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <%-- 滑动验证 --%>
 <script src="jquery/jquery.slider.min.js"></script>
 <link rel="stylesheet" href="jquery/jquery.slider.css">
 <%-- 引入md5 --%>
 <script src="js/md5.js"></script>
-<script type="text/javascript" src="layer/layer.js"></script>
+<script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+<link href="https://cdn.bootcss.com/layer/2.3/skin/layer.css" rel="stylesheet">
 <script src="layui/layui.js"></script>
 <link rel="stylesheet" href="layui/css/layui.css">
 <script src="js/LkCommon.js"></script>
@@ -24,8 +25,6 @@
 <%--网页加载进度条插件 --%>
 <link rel="stylesheet" href="nprogress/nprogress.css">
 <script src="nprogress/nprogress.js"></script>
-<!-- 百度验证 -->
-<meta name="baidu-site-verification" content="JwUB1mxjFy" />
 <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
 </head>
 <body>

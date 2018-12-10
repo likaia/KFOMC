@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sysUseAuthority" column="sysUseAuthority" />
 	</resultMap>
 
+
+
 	<!-- 添加 -->
 	<insert id="add" parameterType="User">
 		insert into t_user
@@ -64,6 +66,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update t_user set
 		userName=#{userName},avatar=#{avatar},picUrl =#{picUrl} where
 		userName=#{nowUser}
+	</update>
+	<!--更新 旷工范围/迟到范围/节假日状态 -->
+	<update id="updateRange" parameterType="User">
+		update t_user
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="completionScope != null">
+				completionScope = #{completionScope},
+			</if>
+			<if test="lateArrivalRange != null">
+				lateArrivalRange = #{lateArrivalRange},
+			</if>
+			<if test="holidayStatus != null">
+				holidayStatus = #{holidayStatus},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
 	</update>
 	<!-- 删除 -->
 	<delete id="delete" parameterType="User">

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.AttendanceStatusInfoMapper">
+	<!--定义结果集:用于存储所有数据 -->
+	<resultMap type="AttendanceStatusInfo" id="AttendanceStatusInfoResult">
+		<id property="id" column="id" />
+		<result property="nameOfWorker" column="nameOfWorker" />
+		<result property="jobNumber" column="jobNumber" />
+		<result property="department" column="department" />
+		<result property="workingHours" column="workingHours" />
+		<result property="afterGetOffWorkTime" column="afterGetOffWorkTime" />
+		<result property="attendanceDate" column="attendanceDate" />
+		<result property="wifiInfo" column="wifiInfo" />
+		<result property="attendanceLocation" column="attendanceLocation" />
+		<result property="attendanceRange" column="attendanceRange" />
+		<result property="fieldCard" column="fieldCard" />
+		<result property="addTime" column="addTime" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	<!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="AttendanceStatusInfoResult"
+		parameterType="AttendanceStatusInfo">
+		SELECT
+		id,
+		nameOfWorker,
+		jobNumber,
+		department,
+		workingHours,
+		afterGetOffWorkTime,
+		attendanceDate,
+		wifiInfo,
+		attendanceLocation,
+		attendanceRange,
+		fieldCard,
+		remarks,
+		addTime,
+		operator
+		FROM t_attendance_status
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据:(员工姓名/工号/考勤日期) -->
+	<select id="conditionalQuery" resultMap="AttendanceStatusInfoResult"
+		parameterType="AttendanceStatusInfo">
+		SELECT
+		id,
+		nameOfWorker,
+		jobNumber,
+		department,
+		workingHours,
+		afterGetOffWorkTime,
+		attendanceDate,
+		wifiInfo,
+		attendanceLocation,
+		attendanceRange,
+		fieldCard,
+		remarks,
+		addTime,
+		operator
+		FROM t_attendance_status
+		<where>
+			<if test="nameOfWorker != null">
+				nameOfWorker = #{nameOfWorker}
+			</if>
+			<if test="jobNumber != null">
+				AND jobNumber like #{jobNumber}  
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND attendanceDate <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND attendanceDate <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="AttendanceStatusInfo">
+		delete from t_attendance_status where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="AttendanceStatusInfo">
+		insert into t_attendance_status
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="nameOfWorker != null">
+				nameOfWorker,
+			</if>
+			<if test="jobNumber != null">
+				jobNumber,
+			</if>
+			<if test="department != null">
+				department,
+			</if>
+			<if test="workingHours != null">
+				workingHours,
+			</if>
+			<if test="afterGetOffWorkTime != null">
+				afterGetOffWorkTime,
+			</if>
+			<if test="attendanceDate != null">
+				attendanceDate,
+			</if>
+			<if test=" wifiInfo != null">
+				wifiInfo,
+			</if>
+			<if test=" attendanceLocation != null">
+				attendanceLocation,
+			</if>
+			<if test=" attendanceRange != null">
+				attendanceRange,
+			</if>
+			<if test="fieldCard != null">
+				fieldCard,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="addTime != null">
+				addTime,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="nameOfWorker != null">
+				#{nameOfWorker,jdbcType=VARCHAR},
+			</if>
+			<if test="jobNumber != null">
+				#{jobNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="workingHours != null">
+				#{workingHours,jdbcType=VARCHAR},
+			</if>
+			<if test="afterGetOffWorkTime != null">
+				#{afterGetOffWorkTime,jdbcType=VARCHAR},
+			</if>
+			<if test="attendanceDate != null">
+				#{attendanceDate,jdbcType=VARCHAR},
+			</if>
+			<if test="wifiInfo != null">
+				#{wifiInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="attendanceLocation != null">
+				#{attendanceLocation,jdbcType=DOUBLE},
+			</if>
+			<if test=" attendanceRange != null">
+				#{attendanceRange,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldCard != null">
+				#{fieldCard,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改信息 -->
+	<update id="update" parameterType="AttendanceStatusInfo">
+		update t_attendance_status
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="nameOfWorker != null">
+				nameOfWorker = #{nameOfWorker},
+			</if>
+			<if test="jobNumber != null">
+				jobNumber = #{jobNumber},
+			</if>
+			<if test="department != null">
+				department = #{department},
+			</if>
+			<if test="workingHours != null">
+				workingHours = #{workingHours},
+			</if>
+			<if test="afterGetOffWorkTime != null">
+				afterGetOffWorkTime = #{afterGetOffWorkTime},
+			</if>
+			<if test=" attendanceDate != null">
+				attendanceDate = #{attendanceDate},
+			</if>
+			<if test=" wifiInfo != null">
+				wifiInfo =#{wifiInfo},
+			</if>
+			<if test=" attendanceLocation != null">
+				attendanceLocation = #{attendanceLocation},
+			</if>
+			<if test=" fieldCard != null">
+				fieldCard = #{fieldCard},
+			</if>
+			<if test=" remarks != null">
+				remarks = #{remarks},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+			<if test="nameOfWorker != null">
+				AND nameOfWorker like #{nameOfWorker}
+			</if>
+		</where>
+	</update>
+</mapper>

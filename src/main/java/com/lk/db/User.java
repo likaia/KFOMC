@@ -10,6 +10,9 @@ public class User
 	private String version;
 	private String RegistrationTime;
 	private String sysUseAuthority;
+	private Integer completionScope;
+	private Integer lateArrivalRange;
+	private Boolean holidayStatus;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -107,6 +110,39 @@ public class User
 	public void setVersion(String version)
 	{
 		this.version = version;
+	}
+	
+	public Integer getCompletionScope()
+	{
+		return completionScope;
+	}
+	public void setCompletionScope(Integer completionScope)
+	{
+		this.completionScope = completionScope;
+	}
+	public Integer getLateArrivalRange()
+	{
+		return lateArrivalRange;
+	}
+	public void setLateArrivalRange(Integer lateArrivalRange)
+	{
+		this.lateArrivalRange = lateArrivalRange;
+	}
+	public Boolean getHolidayStatus()
+	{
+		return holidayStatus;
+	}
+	public void setHolidayStatus(Boolean holidayStatus)
+	{
+		this.holidayStatus = holidayStatus;
+	}
+	
+	public User(Integer completionScope, Integer lateArrivalRange, Boolean holidayStatus)
+	{
+		super();
+		this.completionScope = completionScope;
+		this.lateArrivalRange = lateArrivalRange;
+		this.holidayStatus = holidayStatus;
 	}
 	public String getRegistrationTime()
 	{

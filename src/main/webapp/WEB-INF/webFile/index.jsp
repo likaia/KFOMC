@@ -12,13 +12,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <base href="<%=basePath%>">
     <title>凯枫网络</title>
     <%--引入jQuery --%>
-    <script src="jquery/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <%--头像裁减 --%>
-    <link rel="stylesheet" href="jquery/jquery.Jcrop.css">
-    <script src="jquery/jquery.Jcrop.js"></script>
+    <link href="https://cdn.bootcss.com/jquery-jcrop/2.0.4/css/Jcrop.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
     <%--引入Vue --%>
-    <script src="vue/vue.min.js"></script>
-
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
     <%--引入jquery打印插件 --%>
     <script type="text/javascript" src="jquery/jquery.jqprint-0.3.js"></script>
     <script>
@@ -33,7 +32,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         })();
     </script>
     <%--引入Layer --%>
-    <script type="text/javascript" src="layer/layer.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <link href="https://cdn.bootcss.com/layer/2.3/skin/layer.css" rel="stylesheet">
     <%--引入Layui --%>
     <script src="layui/layui.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
@@ -465,6 +465,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                             class="layui-btn layui-btn-normal "
                                             v-bind:style="{background:BtnColor}">开单
                                     </button>
+                                    <button @click="startShippingFun"
+                                            class="layui-btn layui-btn-normal "
+                                            v-bind:style="{background:BtnColor}">开始发货
+                                    </button>
                                     <button @click="orderBtnQueryFun"
                                             class="layui-btn layui-btn-normal"
                                             v-bind:style="{background:BtnColor}">查询
@@ -480,6 +484,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     </button>
                                     <button class="layui-btn layui-btn-normal"
                                             @click="labelPrintingFun" v-bind:style="{background:BtnColor}">标签打印
+                                    </button>
+                                    <button class="layui-btn layui-btn-normal"
+                                            @click="addRevenueFun" v-bind:style="{background:BtnColor}">添加收入
                                     </button>
                                 </div>
                             </div>
@@ -2161,7 +2168,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <label class="layui-form-label">运输负责人</label>
                         <div class="layui-input-block">
                             <input type="text" readonly="readonly" placeholder="暂时没有发货记录"
-                                   id="DetailsOrderTransportationManager" autocomplete="off"
+                                   id="DetailsOrderTransportationManager" @click="responsiblePersonDetailsFun"
                                    class="layui-input">
                         </div>
                     </div>
@@ -2219,8 +2226,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <span>标签纸规格:</span>
             </div>
             <div class="right-panel">
-                <input type="radio" name="sex" value="1" title="5x13标签纸" checked>
-                <input type="radio" name="sex" value="2" title="4x11标签纸">
+                <input type="radio" name="labelRadio" value="1" title="5x13标签纸" lay-filter='labelRadio' checked>
+                <input type="radio" name="labelRadio" value="2" title="4x11标签纸" lay-filter='labelRadio'>
             </div>
         </div>
     </div>
@@ -2986,10 +2993,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
             </div>
         </div>
-        <div class="foot-panel">
+ <!--       <div class="foot-panel">
             <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
             <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-        </div>
+        </div>-->
     </div>
     <!--编辑客户悬浮层-->
     <div id="editClientSubmenu" class="layui-form">
@@ -3097,10 +3104,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
             </div>
         </div>
-        <div class="foot-panel">
+  <!--      <div class="foot-panel">
             <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
             <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-        </div>
+        </div>-->
     </div>
     <!--基础信息[原片信息]新增悬浮层-->
     <div id="addProductSubmenu">
@@ -3185,10 +3192,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     </div>
                 </div>
             </div>
-            <div class="foot-panel">
+ <!--           <div class="foot-panel">
                 <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
                 <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-            </div>
+            </div>-->
         </form>
     </div>
 
@@ -3276,10 +3283,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     </div>
                 </div>
             </div>
-            <div class="foot-panel">
+<!--            <div class="foot-panel">
                 <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
                 <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-            </div>
+            </div>-->
         </form>
     </div>
     <!--基础信息[配件信息]新增悬浮层-->
@@ -3295,6 +3302,100 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         <div class="row-panel">
             <div class="vessel-panel">
                 <input type="text" class="layui-input" v-model="productModelVal" placeholder="输入规格型号">
+            </div>
+        </div>
+    </div>
+    <!--添加收入悬浮层-->
+    <div id="addRevenueSubmenu" class="layui-form">
+        <div class="inputArea">
+            <div class="row-panel">
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>订单号:</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" class="layui-input" placeholder="自动获取" v-model="addRevenueOrderVal">
+                    </div>
+                </div>
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>日期:</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" class="layui-input not_allowed" placeholder="当前服务器时间" v-model="addRevenueTime" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row-panel">
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>客户名称:</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" class="layui-input" placeholder="自动获取" v-model="addRevenueClientNameVal">
+                    </div>
+                </div>
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>收款人:</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" class="layui-input" placeholder="该客户没有录入收款人" v-model="addRevenuePayee">
+                    </div>
+                </div>
+            </div>
+            <div class="row-panel">
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>付款方式:</span>
+                    </div>
+                    <div class="right-panel">
+                        <select name="incomePaymentMethod" lay-filter="incomePaymentMethod"
+                                id="incomePaymentMethod">
+                            <option value=""></option>
+                            <option value="0" selected="">银行卡</option>
+                            <option value="1">支付宝</option>
+                            <option value="2">微信</option>
+                            <option value="3">现金</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>卡号(账号):</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" id="addRevenueCard" placeholder="支付宝/微信/银行卡号" class="layui-input" v-model="addRevenueCardVal">
+                    </div>
+                </div>
+            </div>
+            <div class="row-panel">
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>收款金额:</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" class="layui-input" placeholder="¥" v-model="addRevenueCollectionAmount">
+                    </div>
+                </div>
+                <div class="item-panel">
+                    <div class="left-panel">
+                        <span>备注:</span>
+                    </div>
+                    <div class="right-panel">
+                        <input type="text" class="layui-input" placeholder="不是订单内收款清填写" v-model="addRevenueRemarks">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btnArea">
+            <div class="btn-panel">
+                <button @click="addRevenueSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="addRevenueCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
             </div>
         </div>
     </div>

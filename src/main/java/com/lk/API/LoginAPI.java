@@ -62,6 +62,34 @@ public class LoginAPI extends AfRestfulApi
 				}
 			}
 		}
+		if(jsReq.has("updateRange"))
+		{
+			int completionScope = jsReq.getInt("completionScope");
+			int lateArrivalRange = jsReq.getInt("lateArrivalRange");
+			// 打开数据库连接 配置当前要使用的Mapper
+			SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			User row = new User();
+			if(jsReq.has("holidayStatus"))
+			{
+				Boolean holidayStatus = jsReq.getBoolean("holidayStatus");
+				row.setHolidayStatus(holidayStatus);
+			}
+			row.setCompletionScope(completionScope);
+			row.setLateArrivalRange(lateArrivalRange);
+			int processResult = userMapper.updateRange(row);
+			sqlSession.commit();
+			if(processResult>0)
+			{
+				msg = "更新成功!";
+			}
+			else
+			{
+				errorCode = 1;
+				msg = "更新失败,数据库错误";
+			}
+			sqlSession.close();
+		}
 		if (jsReq.has("userName") && jsReq.has("passWord"))
 		{
 			//普通登录

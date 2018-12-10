@@ -35,6 +35,8 @@
 	<api name="supplier" class="com.lk.API.SupplierInfoAPI" />
 	<!-- 员工管理[考勤管理]接口 -->
 	<api name="AttendanceInfo" class="com.lk.API.AttendanceInfoAPI" />
+	<!-- 员工管理[考勤状态]接口 -->
+	<api name="AttendanceStatus" class="com.lk.API.AttendanceStatusAPI" />
 	<!-- 员工管理[工资发放]接口 -->
 	<api name="SalaryInfo" class="com.lk.API.SalaryInfoAPI" />
 	<!-- 员工管理[员工信息]接口 -->

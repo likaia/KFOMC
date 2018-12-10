@@ -9,6 +9,8 @@ public interface UserMapper
 	public int add(User user);
 	//更新一条记录
 	public int update(User user);
+	//更新范围区间
+	public int updateRange(User user);
 	//通过id删除
 	public int delete(Integer id);
 	//通过姓名手机号查找
