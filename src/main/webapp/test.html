@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>安卓web</title>
-    <script src="jquery/jquery-3.3.1.min.js "></script>
-    <script src="testPage/test.js "></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="js/LkCommon.js"></script>
+    <!--加密需要-->
+    <script src="crypto-js/core.js"></script>
+    <script src="crypto-js/md5.js"></script>
+    <script src="crypto-js/evpkdf.js"></script>
+    <script src="crypto-js/enc-base64.js"></script>
+    <script src="crypto-js/cipher-core.js"></script>
+    <script src="crypto-js/aes.js"></script>
+    <script src="crypto-js/hmac.js"></script>
+    <script src="crypto-js/sha1.js"></script>
+    <script src="crypto-js/sha256.js"></script>
 </head>
 <body>
-    <p>测试数据</p>
- 
+<script>
+    /*加密(msg,)*/
+    var _adminNmae= CryptoJS.AES.encrypt("aa", "likai","1195419506");
+    Af.trace("/admin/extract?name="+_adminNmae);
+    /*解密*/
+   var name=CryptoJS.AES.decrypt(_adminNmae, "likai","1195419506").toString(CryptoJS.enc.Utf8);
+   Af.trace(name)
+</script>
+
 </body>
 </html>

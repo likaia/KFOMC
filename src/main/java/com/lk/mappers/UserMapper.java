@@ -11,6 +11,8 @@ public interface UserMapper
 	public int update(User user);
 	//更新范围区间
 	public int updateRange(User user);
+	//更新公司考勤信息
+	public int updateAttendanceInfo(User row);
 	//通过id删除
 	public int delete(Integer id);
 	//通过姓名手机号查找

@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="finishDelivery" column="FinishDelivery" />
 		<result property="preparedBy" column="PreparedBy" />
 		<result property="operator" column="operator" />
+		<result property="companyName" column="companyName" />
 		<result property="deliveryAddress" column="deliveryAddress" />
 		<result property="contactNumber" column="contactNumber" />
 		<result property="shippingMethod" column="shippingMethod" />
@@ -203,12 +204,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 自定义查询表内数据 -->
 	<select id="customQuery" resultMap="OrderInfoResult"
 		parameterType="OrderInfo">
-		SELECT id,
+		SELECT id, 
 		<foreach item="queryTypeItem" collection="queryType" open=""
 			separator="," close="">
 			${queryTypeItem}
 		</foreach>
-		FROM t_order_Info
+		FROM t_order_Info  
 		<where>
 			<if test="operator != null">
 				operator = #{operator}

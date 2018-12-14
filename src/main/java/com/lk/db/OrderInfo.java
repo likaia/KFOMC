@@ -20,6 +20,7 @@ public class OrderInfo
 	private String FinishDelivery;
 	private String PreparedBy;
 	private String operator;
+	private String companyName;
 	private JSONArray queryType; 
 	private String unfinishedArr; //未发货的规格型号
 	public String getUnfinishedArr()
@@ -242,6 +243,14 @@ public class OrderInfo
 		return id;
 	}
 	
+	public String getCompanyName()
+	{
+		return companyName;
+	}
+	public void setCompanyName(String companyName)
+	{
+		this.companyName = companyName;
+	}
 	public OrderInfo()
 	{
 		super();

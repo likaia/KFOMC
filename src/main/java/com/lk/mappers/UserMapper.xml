@@ -15,8 +15,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sysUseAuthority" column="sysUseAuthority" />
 	</resultMap>
 
-
-
 	<!-- 添加 -->
 	<insert id="add" parameterType="User">
 		insert into t_user
@@ -79,6 +77,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="holidayStatus != null">
 				holidayStatus = #{holidayStatus},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
+	<!-- 更新公司考勤信息 -->
+	<update id=updateAttendanceInfo parameterType="User">
+		update t_user
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="workingHours != null">
+				workingHours = #{workingHours},
+			</if>
+			<if test="afterGetOffWorkTime != null">
+				afterGetOffWorkTime = #{afterGetOffWorkTime},
+			</if>
+			<if test="attendanceDate != null">
+				attendanceDate = #{attendanceDate},
+			</if>
+			<if test="officeWifi != null">
+				officeWifi = #{officeWifi},
+			</if>
+			<if test="officeLocation != null">
+				officeLocation = #{officeLocation},
+			</if>
+			<if test="fieldCard != null">
+				fieldCard = #{fieldCard},
 			</if>
 		</trim>
 		<where>

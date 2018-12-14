@@ -95,8 +95,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 				// 自定义查询
 				if (jsReq.has("queryType"))
 				{
-					JSONArray queryType = jsReq.getJSONArray("queryType"); // --->传JSONArray
-																			// [需要获取的数据库字段名进行查询]
+					JSONArray queryType = jsReq.getJSONArray("queryType"); // --->传JSONArray	// [需要获取的数据库字段名进行查询]
 					// 打开连接
 					SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 					// 配置映射器

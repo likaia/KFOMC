@@ -13,6 +13,12 @@ public class User
 	private Integer completionScope;
 	private Integer lateArrivalRange;
 	private Boolean holidayStatus;
+	private String workingHours;
+	private String afterGetOffWorkTime;
+	private String attendanceDate;
+	private String officeWifi;
+	private String officeLocation;
+	private Boolean fieldCard;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -137,6 +143,54 @@ public class User
 		this.holidayStatus = holidayStatus;
 	}
 	
+	public String getWorkingHours()
+	{
+		return workingHours;
+	}
+	public void setWorkingHours(String workingHours)
+	{
+		this.workingHours = workingHours;
+	}
+	public String getAfterGetOffWorkTime()
+	{
+		return afterGetOffWorkTime;
+	}
+	public void setAfterGetOffWorkTime(String afterGetOffWorkTime)
+	{
+		this.afterGetOffWorkTime = afterGetOffWorkTime;
+	}
+	public String getAttendanceDate()
+	{
+		return attendanceDate;
+	}
+	public void setAttendanceDate(String attendanceDate)
+	{
+		this.attendanceDate = attendanceDate;
+	}
+	public String getOfficeWifi()
+	{
+		return officeWifi;
+	}
+	public void setOfficeWifi(String officeWifi)
+	{
+		this.officeWifi = officeWifi;
+	}
+	public String getOfficeLocation()
+	{
+		return officeLocation;
+	}
+	public void setOfficeLocation(String officeLocation)
+	{
+		this.officeLocation = officeLocation;
+	}
+	public Boolean getFieldCard()
+	{
+		return fieldCard;
+	}
+	public void setFieldCard(Boolean fieldCard)
+	{
+		this.fieldCard = fieldCard;
+	}
 	public User(Integer completionScope, Integer lateArrivalRange, Boolean holidayStatus)
 	{
 		super();

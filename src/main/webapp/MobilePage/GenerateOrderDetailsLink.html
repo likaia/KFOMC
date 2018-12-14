@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加密并跳转</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/LkCommon.js"></script>
+    <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
+    <!--加密需要-->
+    <script src="../crypto-js/core.js"></script>
+    <script src="../crypto-js/md5.js"></script>
+    <script src="../crypto-js/evpkdf.js"></script>
+    <script src="../crypto-js/enc-base64.js"></script>
+    <script src="../crypto-js/cipher-core.js"></script>
+    <script src="../crypto-js/aes.js"></script>
+    <script src="../crypto-js/hmac.js"></script>
+    <script src="../crypto-js/sha1.js"></script>
+    <script src="../crypto-js/sha256.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    getUrl();
+    function getUrl() {
+        /*获取get请求中的参数*/
+        var operator = Af.getQueryString("operator");
+        var orderNumber = Af.getQueryString("orderNumber");
+        if(orderNumber==null||operator==null)
+        {
+            $("body").html("<h1 style='color: red'>链接中没有get参数!</h1>");
+            alert("链接错误");
+            return;
+        }
+        var URL = "https://www.kaisir.cn/";
+        var aes_key = "likai";
+        var aes_iv = "1195419506";
+        /*开始加密*/
+        var operator_aes = CryptoJS.AES.encrypt(operator,aes_key,aes_iv);
+        var orderNumber_aes = CryptoJS.AES.encrypt(orderNumber,aes_key,aes_iv);
+        /*生成链接*/
+        var links = URL+"KFOMC/MobilePage/orderDetails.html?operator="+operator_aes+"&orderNumber="+orderNumber_aes;
+        /*开始跳转页面*/
+        window.location.replace(links);
+    }
+</script>
+</body>
+</html>

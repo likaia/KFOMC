@@ -287,6 +287,17 @@ Af.openSubmenu = function(title,[width,height],status,container){
         }
     });
 };
+
+/* 检测屏幕方向
+ window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+       if (window.orientation === 180 || window.orientation === 0) {
+           alert("竖屏");
+       }
+       if (window.orientation === 90 || window.orientation === -90 ){
+           alert("横屏");
+       }
+   }, false);*/
+
 /*小数加法函数*/
 /**
  ** 加法函数，用来得到精确的加法结果

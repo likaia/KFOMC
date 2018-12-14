@@ -37,11 +37,23 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <%--引入Layui --%>
     <script src="layui/layui.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css">
+    <!--加密需要-->
+    <script src="crypto-js/core.js"></script>
+    <script src="crypto-js/md5.js"></script>
+    <script src="crypto-js/evpkdf.js"></script>
+    <script src="crypto-js/enc-base64.js"></script>
+    <script src="crypto-js/cipher-core.js"></script>
+    <script src="crypto-js/aes.js"></script>
+    <script src="crypto-js/hmac.js"></script>
+    <script src="crypto-js/sha1.js"></script>
+    <script src="crypto-js/sha256.js"></script>
     <%-- 引入工具类--%>
     <script src="js/LkCommon.js"></script>
     <%--网页加载进度条插件 --%>
     <link rel="stylesheet" href="nprogress/nprogress.css">
     <script src="nprogress/nprogress.js"></script>
+    <%--二维码生成工具-->
+    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <%--当前页面布局与交互文件 --%>
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
@@ -55,10 +67,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <script src="js/bankCardAttribution-min.js"></script>
     <link rel="shortcut icon" href="https://www.kaisir.cn/icon/favicon.ico">
     <jsp:include page="islogin.jsp"></jsp:include>
-    <script src="js/underscore-min.js"></script>
     <!--标签打印样式-->
     <link rel="stylesheet" href="css/tagPrint.css">
     <%--扩展函数库 --%>
+    <script src="js/underscore-min.js"></script>
+    <%--赋值到剪切版工具--%>
+    <!--<script src="js/clipboard/clipboard.min.js"></script>-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
     <%--获取当前用户信息 --%>
     <%
     //取得session对象
@@ -2067,8 +2082,24 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
     </div>
 
+
     <!-- 订单详情页面 -->
     <div id="orderDetailsSubmenu" style="display:none">
+        <!--微信二维码分享容器-->
+        <div id="orderDetailsWechatQrcodePanel">
+
+        </div>
+        <div class="row-panel">
+            <div class="title-panel">
+                <span>订单详情</span>
+            </div>
+            <input id="orderLinks" value="">
+            <button class="partakeFun" data-clipboard-target="#orderLinks">
+                <div class="partake-panel partake_panel" @click="partakeFun" id="partakePanel" title="分享当前订单">
+                    <img src="img/partakeImg.png" height="20" width="20"/>
+                </div>
+            </button>
+        </div>
         <div class="title-panel">
             <div class="row-panel">
                 <div class="item-panel">

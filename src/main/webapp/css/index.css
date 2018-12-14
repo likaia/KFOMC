@@ -1535,10 +1535,34 @@ a {
 .not_allowed{
     cursor:not-allowed;
 }
+#orderDetailsSubmenu{
+	position: relative;
+}
 /*订单详情布局*/
 #orderDetailsSubmenu .title-panel{
 	width: 100%;
 	height: 170px;
+}
+#orderDetailsSubmenu .row-panel{
+	width: 100%;
+	height: 40px;
+	position: relative;
+}
+#orderDetailsSubmenu .row-panel .title-panel{
+	width: 230px;
+	height: 40px;
+	margin-left: 10px;
+}
+#orderDetailsSubmenu .row-panel .title-panel span{
+	line-height: 40px;
+}
+#orderDetailsSubmenu .row-panel .partake-panel{
+	width: 30px;
+	height: 30px;
+	top:15px;
+	position: absolute;
+	right: 15px;
+	cursor: pointer;
 }
 #orderDetailsSubmenu .title-panel .row-panel{
 	width: 100%;
@@ -1693,6 +1717,12 @@ a {
 	 background: #5FB878;
 	 color:white;
  }
+#orderLinks{
+	position: absolute;
+	top: 290px;
+	left: 120px;
+	z-index: 0;
+}
 #shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel{
 	width: 98%;
 	height: 210px;
