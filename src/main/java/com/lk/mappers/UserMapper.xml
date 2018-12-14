@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</update>
 	<!-- 更新公司考勤信息 -->
-	<update id=updateAttendanceInfo parameterType="User">
+	<update id="updateAttendanceInfo" parameterType="User">
 		update t_user
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="workingHours != null">

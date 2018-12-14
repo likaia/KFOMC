@@ -45,17 +45,7 @@ public class TestClass
 
 	public static void main(String[] args) throws Exception
 	{
-		// 模板文件地址
-		String inputUrl = "src/main/resources/wordTemplate/title.docx";
-		// 新生产的模板文件
-		String outputUrl = "/home/likai/201812110orderDetailTemplate.docx";
-		Map<String, String> testMap = new HashMap<String, String>();
-	
-		List<String[]> testList = new ArrayList<String[]>();
-		if(WorderToNewWordUtils.changWord(inputUrl, outputUrl, testMap, testList))
-		{
-			System.out.println("导出成功");
-		};
+
 		/*
 		 * JSONArray arr = new JSONArray(); JSONObject obj = new JSONObject();
 		 * for(int i = 0; i<20;i++) { if(i>10) { obj.put("name", "aa");

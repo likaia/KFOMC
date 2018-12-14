@@ -1564,6 +1564,14 @@ a {
 	right: 15px;
 	cursor: pointer;
 }
+#orderDetailsSubmenu .row-panel .wechat-panel{
+    width: 30px;
+    height: 30px;
+    top:10px;
+    position: absolute;
+    right: 45px;
+    cursor: pointer;
+}
 #orderDetailsSubmenu .title-panel .row-panel{
 	width: 100%;
 	height: 40px;

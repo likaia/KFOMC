@@ -2151,8 +2151,36 @@ $(function () {
                 $("#orderLinks").val(links);
                 /*清理剪切板赋值*/
                 // clipboard.destroy();
+            },
+            /*订单详情:微信分享*/
+            wechatSharing:function(){
+                let orderNumber = $("#DetailsOrderNumber").val();
+                let operator = $("#nickNameTextPanel").html();
+                let aes_key = "likai";
+                let aes_iv = "1195419506";
+                /*开始加密*/
+                let orderNumber_aes = CryptoJS.AES.encrypt(orderNumber, aes_key, aes_iv);
+                let operator_aes = CryptoJS.AES.encrypt(operator, aes_key, aes_iv);
+                /*生成链接*/
+                let links = URL + "KFOMC/MobilePage/orderDetails.html?operator=" + operator_aes + "&orderNumber=" + orderNumber_aes;
                 /*生成二维码*/
-                
+                var qrcode = new QRCode("wechatQRCodePanel", {
+                    text: links,
+                    width: 320,
+                    height: 320,
+                    colorDark : "#000000", //--->二维码颜色
+                    colorLight : "#ffffff", //--->二维码底色
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    area: '320px',
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: $('#wechatQRCodePanel')
+                });
             },
             /*订单信息管理:标签打印函数*/
             labelPrintingFun: function () {

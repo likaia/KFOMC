@@ -53,7 +53,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" href="nprogress/nprogress.css">
     <script src="nprogress/nprogress.js"></script>
     <%--二维码生成工具-->
-    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script src="js/qrCode/qrcode.min.js"></script>
     <%--当前页面布局与交互文件 --%>
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
@@ -83,6 +83,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     String avatarUrl = (String) hs.getAttribute("avatarUrl");
     String sysUseAuthority = (String) hs.getAttribute("sysUseAuthority");
     %>
+
 </head>
 <body>
 <div id="vue-panel" v-cloak>
@@ -2084,19 +2085,24 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 
     <!-- 订单详情页面 -->
-    <div id="orderDetailsSubmenu" style="display:none">
-        <!--微信二维码分享容器-->
-        <div id="orderDetailsWechatQrcodePanel">
+    <!--微信二维码承载容器-->
+    <div id="wechatQRCodePanel">
 
-        </div>
+    </div>
+    <div id="orderDetailsSubmenu" style="display:none">
         <div class="row-panel">
             <div class="title-panel">
                 <span>订单详情</span>
             </div>
+            <!--微信二维码分享容器-->
+            <div class="wechat-panel" @click="wechatSharing">
+                <i class="layui-icon layui-icon-login-wechat" style="font-size: 30px; color: #5FB878;"></i>
+            </div>
+
             <input id="orderLinks" value="">
             <button class="partakeFun" data-clipboard-target="#orderLinks">
                 <div class="partake-panel partake_panel" @click="partakeFun" id="partakePanel" title="分享当前订单">
-                    <img src="img/partakeImg.png" height="20" width="20"/>
+                    <img src="img/partakeImg.png" height="25" width="25"/>
                 </div>
             </button>
         </div>
@@ -3441,6 +3447,5 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
     </div>
 </div>
-
 </body>
 </html>

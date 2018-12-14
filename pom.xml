@@ -81,7 +81,6 @@
 			<version>1.3.3</version>
 		</dependency>
 		<!-- md5 -->
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -109,6 +108,13 @@
 		    <groupId>org.freemarker</groupId>
 		    <artifactId>freemarker</artifactId>
 		    <version>2.3.20</version>
+		</dependency>
+		<!-- 添加Junit的支持 -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
 		</dependency>
 		<!-- 项目默认添加 -->
 		<dependency>
