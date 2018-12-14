@@ -83,8 +83,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="id != null">
 				id = #{id}
 			</if>
-			<if test="operator != null">
-				AND operator like #{operator}
+			<if test="userName != null">
+				AND userName like #{userName}
 			</if>
 		</where>
 	</update>
@@ -115,8 +115,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="id != null">
 				id = #{id}
 			</if>
-			<if test="operator != null">
-				AND operator like #{operator}
+			<if test="userName != null">
+				AND userName like #{userName}
 			</if>
 		</where>
 	</update>

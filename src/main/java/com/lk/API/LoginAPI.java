@@ -29,7 +29,6 @@ public class LoginAPI extends AfRestfulApi
 		String msg = "ok";
 		JSONObject data = new JSONObject();
 		JSONObject jsReq = new JSONObject(reqText);
-		
 		//android通过验证码登录
 		if(jsReq.has("verificationCodeLogin"))
 		{
@@ -64,6 +63,7 @@ public class LoginAPI extends AfRestfulApi
 		}
 		if(jsReq.has("updateRange"))
 		{
+			String userName = jsReq.getString("userName");
 			int completionScope = jsReq.getInt("completionScope");
 			int lateArrivalRange = jsReq.getInt("lateArrivalRange");
 			// 打开数据库连接 配置当前要使用的Mapper
@@ -77,6 +77,7 @@ public class LoginAPI extends AfRestfulApi
 			}
 			row.setCompletionScope(completionScope);
 			row.setLateArrivalRange(lateArrivalRange);
+			row.setUserName(userName);
 			int processResult = userMapper.updateRange(row);
 			sqlSession.commit();
 			if(processResult>0)
@@ -93,6 +94,7 @@ public class LoginAPI extends AfRestfulApi
 		/*更新本公司其他考勤状态信息*/
 		if(jsReq.has("updateAttendanceInfo"))
 		{
+			String userName = jsReq.getString("userName");
 			String workingHours = jsReq.getString("workingHours");
 			String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
 			String attendanceDate = jsReq.getString("attendanceDate");
@@ -109,6 +111,7 @@ public class LoginAPI extends AfRestfulApi
 			row.setOfficeWifi(officeWifi);
 			row.setOfficeLocation(officeLocation);
 			row.setFieldCard(fieldCard);
+			row.setUserName(userName);
 			int processResult = userMapper.updateAttendanceInfo(row);
 			sqlSession.commit();
 			if(processResult>0)
