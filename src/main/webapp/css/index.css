@@ -1355,9 +1355,10 @@ a {
 	text-align: center;
 }
 #orderDetailsList tbody .title{ /*订单详情表格*/
-	background:#E2E2E2;
 	text-align: left;
-	color:red;
+    background: #5FB878;
+    color:white;
+    font-weight: 700;
 }
 #orderDetailsList tbody tr td{
 	text-align:center;
@@ -1606,6 +1607,46 @@ a {
 	line-height: 40px;
 	font-size: 17px;
 }
+/*底部分享*/
+#orderDetailsSubmenu .share-panel{
+    width: 100%;
+    height: 40px;
+}
+#orderDetailsSubmenu .share-panel .sharingArea{
+    width: 100%;
+    height: 40px;
+}
+#orderDetailsSubmenu .share-panel .sharingArea .textArea{
+    float: left;
+    width: 60px;
+    height: 40px;
+    margin-left: 1040px;
+}
+#orderDetailsSubmenu .share-panel .sharingArea .textArea span{
+    color: #666666;
+    line-height: 40px;
+    font-weight: 600;
+}
+#orderDetailsSubmenu .share-panel .sharingArea .iconArea{
+    cursor: pointer;
+}
+#orderDetailsSubmenu .share-panel .sharingArea .iconArea .wechat-panel{
+    width: 30px;
+    float: left;
+    margin-top: 6px;
+}
+#orderDetailsSubmenu .share-panel .sharingArea .iconArea .linksPanel{
+    width: 30px;
+    float: left;
+}
+.noneForButton{
+    border: none;
+    outline: none;
+    background: white;
+}
+#partakePanel{
+    margin-top: 0.7px;
+}
 /*配件采购:新增悬浮层[图片]*/
 #fittingAddSubmenu .productImage-panel{
 	width: 100%;
@@ -1727,9 +1768,9 @@ a {
  }
 #orderLinks{
 	position: absolute;
-	top: 290px;
-	left: 120px;
-	z-index: 0;
+	top:0;
+    left: 0;
+	z-index: -999;
 }
 #shipmentAddSubmenu .shipmentAddCon-panel .userHasSelectedModel-panel{
 	width: 98%;
@@ -2105,3 +2146,4 @@ a {
 	position: absolute;
 	right: 0;
 }
+/*分享样式*/

@@ -2153,7 +2153,7 @@ $(function () {
                 // clipboard.destroy();
             },
             /*订单详情:微信分享*/
-            wechatSharing:function(){
+            wechatSharing: function () {
                 let orderNumber = $("#DetailsOrderNumber").val();
                 let operator = $("#nickNameTextPanel").html();
                 let aes_key = "likai";
@@ -2164,23 +2164,25 @@ $(function () {
                 /*生成链接*/
                 let links = URL + "KFOMC/MobilePage/orderDetails.html?operator=" + operator_aes + "&orderNumber=" + orderNumber_aes;
                 /*生成二维码*/
+                $("#wechatQRCodePanel img").remove();
                 var qrcode = new QRCode("wechatQRCodePanel", {
                     text: links,
                     width: 320,
                     height: 320,
-                    colorDark : "#000000", //--->二维码颜色
-                    colorLight : "#ffffff", //--->二维码底色
-                    correctLevel : QRCode.CorrectLevel.H
+                    colorDark: "#003366", //--->二维码颜色
+                    colorLight: "#ffffff", //--->二维码底色
+                    correctLevel: QRCode.CorrectLevel.H
                 });
                 layer.open({
                     type: 1,
                     title: false,
-                    closeBtn: 0,
                     area: '320px',
                     skin: 'layui-layer-nobg', //没有背景色
                     shadeClose: true,
+                    time: 12000,
                     content: $('#wechatQRCodePanel')
                 });
+                MAIN.successAlert("打开手机微信,扫描下方二维码!")
             },
             /*订单信息管理:标签打印函数*/
             labelPrintingFun: function () {
@@ -3648,6 +3650,49 @@ $(function () {
                     break;
             }
         });
+        var orderInfoTmpobj = null;
+        /*页面中所有layui数据表格单击当前行当前行的复选框被选中*/
+        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+            var obj = event ? event.target : event.srcElement;
+            var tag = obj.tagName;
+            var index = $(this).attr('data-index');
+            var tableBox = $(this).parents(".layui-table-box");
+//存在固定列
+            if (tableBox.find('.layui-table-fixed.layui-table-fixed-l').length > 0) {
+                tableDiv = tableBox.find('.layui-table-fixed.layui-table-fixed-l');
+            } else {
+                tableDiv = tableBox.find('.layui-table-body.layui-table-main');
+            }
+            var checkCell = tableDiv.find('tr[data-index=' + index + ']').find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+            if (checkCell.length > 0) {
+//if(tag == 'DIV') {
+                checkCell.click();
+//}
+            }
+        });
+        $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+            e.stopPropagation();
+        });
+        /*页面中所有layui数据表格单击当前行当前行的复选框被选中结束*/
+        /*监听订单列表行单击事件*/
+        table.on('row(orderInfoList)', function (obj) {
+            if (orderInfoTmpobj != null) {
+                orderInfoTmpobj.tr[0].style = 'background-color: #ffffff;';
+                if (orderInfoTmpobj.tr[1]) {
+                    orderInfoTmpobj.tr[1].style = 'background-color: #ffffff;';
+                }
+            }
+            orderInfoTmpobj = obj;
+            obj.tr[0].style = 'background-color: #F2F2F2;';
+            if (obj.tr[1]) {
+                obj.tr[1].style = 'background-color: #F2F2F2;';
+            }
+        });
+        /*监听订单列表行双击事件*/
+        table.on('rowDouble(orderInfoList)', function(obj){
+            /*执行订单详情函数*/
+            vm.orderDetailsFun();
+        });
         /*监听已完成订单客户名称选择*/
         form.on('select(orderCompletedSelect)', function (data) {
             vm.orderCompletedSelectData = data.value;
@@ -3879,7 +3924,22 @@ $(function () {
                 color: '#777'
             });
         };
-
+        //正确信息弹出
+        MAIN.successAlert = function (e) {
+            var index = layer.alert(e, {
+                icon: 6,
+                time: 2000,
+                offset: 't',
+                closeBtn: 0,
+                title: '成功提示',
+                btn: [],
+                anim: 2,
+                shade: 0
+            });
+            layer.style(index, {
+                color: '#777'
+            });
+        };
         /*订单信息管理:开单悬浮层多行数据录入逻辑处理*/
         /*数量框,按下回车键新增一行：并获取焦点*/
         $("#submenu").on("keypress", ".table-panel .content-panel .row-panel .item-panel .addRow", function (e) {

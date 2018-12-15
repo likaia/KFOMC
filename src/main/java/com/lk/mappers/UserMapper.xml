@@ -13,6 +13,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="version" column="version" />
 		<result property="RegistrationTime" column="RegistrationTime" />
 		<result property="sysUseAuthority" column="sysUseAuthority" />
+		<result property="morningOffHours" column="morningOffHours" />
+		<result property="afternoonWorkTime" column="afternoonWorkTime" />
+		<result property="twoCommutes" column="twoCommutes" />
+		<result property="punchAfterWorkStatus" column="punchAfterWorkStatus" />
+		<result property="phoneModel" column="phoneModel" />
+		<result property="mobilePhoneSerialNumber" column="mobilePhoneSerialNumber" />
 	</resultMap>
 
 	<!-- 添加 -->
@@ -109,6 +115,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="fieldCard != null">
 				fieldCard = #{fieldCard},
+			</if>
+			<if test="morningOffHours != null">
+				morningOffHours = #{morningOffHours},
+			</if>
+			<if test="afternoonWorkTime != null">
+				afternoonWorkTime = #{afternoonWorkTime},
+			</if>
+			<if test="twoCommutes != null">
+				twoCommutes = #{twoCommutes},
+			</if>
+			<if test="punchAfterWorkStatus != null">
+				punchAfterWorkStatus = #{punchAfterWorkStatus},
+			</if>
+			<if test="phoneModel != null">
+				phoneModel = #{phoneModel},
+			</if>
+			<if test="mobilePhoneSerialNumber != null">
+				mobilePhoneSerialNumber = #{mobilePhoneSerialNumber},
 			</if>
 		</trim>
 		<where>

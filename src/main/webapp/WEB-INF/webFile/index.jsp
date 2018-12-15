@@ -17,7 +17,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link href="https://cdn.bootcss.com/jquery-jcrop/2.0.4/css/Jcrop.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
     <%--引入Vue --%>
-	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
     <%--引入jquery打印插件 --%>
     <script type="text/javascript" src="jquery/jquery.jqprint-0.3.js"></script>
     <script>
@@ -52,8 +52,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <%--网页加载进度条插件 --%>
     <link rel="stylesheet" href="nprogress/nprogress.css">
     <script src="nprogress/nprogress.js"></script>
-    <%--二维码生成工具-->
-    <script src="js/qrCode/qrcode.min.js"></script>
     <%--当前页面布局与交互文件 --%>
     <script src="js/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
@@ -71,6 +69,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" href="css/tagPrint.css">
     <%--扩展函数库 --%>
     <script src="js/underscore-min.js"></script>
+    <!--二维码生成工具-->
+    <script src="js/qrCode/qrcode.min.js"></script>
     <%--赋值到剪切版工具--%>
     <!--<script src="js/clipboard/clipboard.min.js"></script>-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
@@ -83,7 +83,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     String avatarUrl = (String) hs.getAttribute("avatarUrl");
     String sysUseAuthority = (String) hs.getAttribute("sysUseAuthority");
     %>
-
 </head>
 <body>
 <div id="vue-panel" v-cloak>
@@ -92,6 +91,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         <div class="layui-header" style="min-height: 80px"
              v-bind:style="{background:headerBgColor}">
             <div id="top" v-bind:style="{background:headerBgColor}">
+                <input id="orderLinks" value="">
                 <!--logo区域-->
                 <div class="logoInfo-panel">
                     <div class="logo-panel">
@@ -1590,7 +1590,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <span>银行卡号:</span>
                     </div>
                     <div class="bankVal-panel">
-                        <input v-on:input="BankCardRealTimeInput" type="text" placeholder="输入银行卡号" class="layui-input" maxlength="19" v-model="supplierBankCardNumber">
+                        <input v-on:input="BankCardRealTimeInput" type="text" placeholder="输入银行卡号" class="layui-input"
+                               maxlength="19" v-model="supplierBankCardNumber">
                     </div>
                     <div class="bankTip-panel">
                         <span id="supplierBankSpan">{{supplierBankPrompt}}</span>
@@ -1609,8 +1610,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
             <div class="btnArea">
                 <div class="btn-panel">
-                    <button class="layui-btn" @click="addSupplierSubmitFun" v-bind:style="{background:BtnColor}">提交</button>
-                    <button class="layui-btn" @click="addSupplierCancelFun" v-bind:style="{background:BtnColor}">取消</button>
+                    <button class="layui-btn" @click="addSupplierSubmitFun" v-bind:style="{background:BtnColor}">提交
+                    </button>
+                    <button class="layui-btn" @click="addSupplierCancelFun" v-bind:style="{background:BtnColor}">取消
+                    </button>
                 </div>
             </div>
         </div>
@@ -1666,7 +1669,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <span>银行卡号:</span>
                     </div>
                     <div class="bankVal-panel">
-                        <input v-on:input="editBankCardRealTimeInput" type="text" placeholder="输入银行卡号" class="layui-input" maxlength="19" v-model="editSupplierBankCardNumber">
+                        <input v-on:input="editBankCardRealTimeInput" type="text" placeholder="输入银行卡号"
+                               class="layui-input" maxlength="19" v-model="editSupplierBankCardNumber">
                     </div>
                     <div class="bankTip-panel">
                         <span id="editSupplierBankSpan">{{editSupplierBankPrompt}}</span>
@@ -1685,8 +1689,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
             <div class="btnArea">
                 <div class="btn-panel">
-                    <button class="layui-btn" @click="editSupplierSubmitFun" v-bind:style="{background:BtnColor}">提交</button>
-                    <button class="layui-btn" @click="editSupplierCancelFun" v-bind:style="{background:BtnColor}">取消</button>
+                    <button class="layui-btn" @click="editSupplierSubmitFun" v-bind:style="{background:BtnColor}">提交
+                    </button>
+                    <button class="layui-btn" @click="editSupplierCancelFun" v-bind:style="{background:BtnColor}">取消
+                    </button>
                 </div>
             </div>
         </div>
@@ -2086,7 +2092,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
     <!-- 订单详情页面 -->
     <!--微信二维码承载容器-->
-    <div id="wechatQRCodePanel">
+    <div id="wechatQRCodePanel" style="display: none;">
 
     </div>
     <div id="orderDetailsSubmenu" style="display:none">
@@ -2095,16 +2101,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <span>订单详情</span>
             </div>
             <!--微信二维码分享容器-->
-            <div class="wechat-panel" @click="wechatSharing">
+            <!--<div class="wechat-panel" @click="wechatSharing">
                 <i class="layui-icon layui-icon-login-wechat" style="font-size: 30px; color: #5FB878;"></i>
-            </div>
+            </div>-->
 
-            <input id="orderLinks" value="">
-            <button class="partakeFun" data-clipboard-target="#orderLinks">
-                <div class="partake-panel partake_panel" @click="partakeFun" id="partakePanel" title="分享当前订单">
-                    <img src="img/partakeImg.png" height="25" width="25"/>
-                </div>
-            </button>
+            <!--分享区域-->
+
+            <!-- <button class="partakeFun" data-clipboard-target="#orderLinks">
+                 <div class="partake-panel partake_panel" @click="partakeFun" id="partakePanel" title="分享当前订单">
+                     <img src="img/partakeImg.png" height="25" width="25"/>
+                 </div>
+             </button>-->
         </div>
         <div class="title-panel">
             <div class="row-panel">
@@ -2233,7 +2240,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
         <!-- 表格渲染模块 -->
         <div class="orderTable-panel">
-            <table class="layui-table" id="orderDetailsList">
+            <table class="layui-table" id="orderDetailsList" lay-filter="orderDetailsList">
                 <thead>
                 <tr>
                     <th class="layui-bg-cyan">序号</th>
@@ -2253,6 +2260,26 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <span>总金额: </span> <span class="val-panel"
                                          id="DetailsOrdertotalAmount">￥</span> <span>总面积: </span> <span
                     class="val-panel" id="DetailsOrdertheTotalArea">平方</span>
+            </div>
+        </div>
+        <!--底部分享-->
+        <div class="share-panel">
+            <div class="sharingArea">
+                <div class="textArea">
+                    <span>分享到:</span>
+                </div>
+                <div class="iconArea" title="微信分享">
+                    <div class="wechat-panel" @click="wechatSharing">
+                       <i class="layui-icon layui-icon-login-wechat" style="font-size: 25px; color: #5FB878;"></i>
+                   </div>
+                    <div class="linksPanel">
+                         <button class="partakeFun noneForButton" data-clipboard-target="#orderLinks" style="cursor: pointer;margin-top:6px">
+                             <div class="partake-panel partake_panel" @click="partakeFun" id="partakePanel" title="链接分享">
+                                 <img src="img/copyImg.png" height="25" width="25"/>
+                             </div>
+                         </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -3030,10 +3057,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
             </div>
         </div>
- <!--       <div class="foot-panel">
-            <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
-            <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-        </div>-->
+        <!--       <div class="foot-panel">
+                   <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
+                   <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
+               </div>-->
     </div>
     <!--编辑客户悬浮层-->
     <div id="editClientSubmenu" class="layui-form">
@@ -3141,10 +3168,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
             </div>
         </div>
-  <!--      <div class="foot-panel">
-            <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
-            <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-        </div>-->
+        <!--      <div class="foot-panel">
+                  <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
+                  <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
+              </div>-->
     </div>
     <!--基础信息[原片信息]新增悬浮层-->
     <div id="addProductSubmenu">
@@ -3229,10 +3256,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     </div>
                 </div>
             </div>
- <!--           <div class="foot-panel">
-                <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
-                <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-            </div>-->
+            <!--           <div class="foot-panel">
+                           <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
+                           <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
+                       </div>-->
         </form>
     </div>
 
@@ -3320,10 +3347,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     </div>
                 </div>
             </div>
-<!--            <div class="foot-panel">
-                <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
-                <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-            </div>-->
+            <!--            <div class="foot-panel">
+                            <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
+                            <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
+                        </div>-->
         </form>
     </div>
     <!--基础信息[配件信息]新增悬浮层-->
@@ -3359,7 +3386,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <span>日期:</span>
                     </div>
                     <div class="right-panel">
-                        <input type="text" class="layui-input not_allowed" placeholder="当前服务器时间" v-model="addRevenueTime" readonly>
+                        <input type="text" class="layui-input not_allowed" placeholder="当前服务器时间"
+                               v-model="addRevenueTime" readonly>
                     </div>
                 </div>
             </div>
@@ -3402,7 +3430,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <span>卡号(账号):</span>
                     </div>
                     <div class="right-panel">
-                        <input type="text" id="addRevenueCard" placeholder="支付宝/微信/银行卡号" class="layui-input" v-model="addRevenueCardVal">
+                        <input type="text" id="addRevenueCard" placeholder="支付宝/微信/银行卡号" class="layui-input"
+                               v-model="addRevenueCardVal">
                     </div>
                 </div>
             </div>

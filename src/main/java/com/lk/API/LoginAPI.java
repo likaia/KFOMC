@@ -101,6 +101,12 @@ public class LoginAPI extends AfRestfulApi
 			String officeWifi = jsReq.getString("officeWifi");
 			String officeLocation = jsReq.getString("officeLocation");
 			Boolean fieldCard = jsReq.getBoolean("fieldCard");
+			String morningOffHours = jsReq.getString("morningOffHours");
+			String afternoonWorkTime = jsReq.getString("afternoonWorkTime");
+			Boolean twoCommutes = jsReq.getBoolean("twoCommutes");
+			Boolean punchAfterWorkStatus = jsReq.getBoolean("punchAfterWorkStatus"); 
+			String phoneModel = jsReq.getString("phoneModel");
+			String mobilePhoneSerialNumber = jsReq.getString("mobilePhoneSerialNumber");
 			// 打开数据库连接 配置当前要使用的Mapper
 			SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -112,6 +118,12 @@ public class LoginAPI extends AfRestfulApi
 			row.setOfficeLocation(officeLocation);
 			row.setFieldCard(fieldCard);
 			row.setUserName(userName);
+			row.setMorningOffHours(morningOffHours);
+			row.setAfternoonWorkTime(afternoonWorkTime);
+			row.setTwoCommutes(twoCommutes);
+			row.setPunchAfterWorkStatus(punchAfterWorkStatus);
+			row.setPhoneModel(phoneModel);
+			row.setMobilePhoneSerialNumber(mobilePhoneSerialNumber);
 			int processResult = userMapper.updateAttendanceInfo(row);
 			sqlSession.commit();
 			if(processResult>0)
@@ -125,6 +137,7 @@ public class LoginAPI extends AfRestfulApi
 			}
 			sqlSession.close();
 		}
+	
 		if (jsReq.has("userName") && jsReq.has("passWord"))
 		{
 			//普通登录

@@ -24,6 +24,14 @@
     <script src="../crypto-js/sha256.js"></script>
 </head>
 <body>
+<!--判断当前打开设备-->
+<script type="text/javascript">
+    if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+      layer.msg("手机");       //手机
+    } else {
+        layer.msg("电脑");       //电脑
+    }
+</script>
 <div id="titlePanel">
     <div class="row-panel">
         <span class="citizenName" id="citizenName">title</span>

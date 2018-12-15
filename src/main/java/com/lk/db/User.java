@@ -19,6 +19,12 @@ public class User
 	private String officeWifi;
 	private String officeLocation;
 	private Boolean fieldCard;
+	private String morningOffHours;
+	private String afternoonWorkTime;
+	private Boolean twoCommutes;
+	private Boolean punchAfterWorkStatus;
+	private String phoneModel;
+	private String mobilePhoneSerialNumber;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -206,4 +212,53 @@ public class User
 	{
 		RegistrationTime = registrationTime;
 	}
+	public String getMorningOffHours()
+	{
+		return morningOffHours;
+	}
+	public void setMorningOffHours(String morningOffHours)
+	{
+		this.morningOffHours = morningOffHours;
+	}
+	public String getAfternoonWorkTime()
+	{
+		return afternoonWorkTime;
+	}
+	public void setAfternoonWorkTime(String afternoonWorkTime)
+	{
+		this.afternoonWorkTime = afternoonWorkTime;
+	}
+	public Boolean getTwoCommutes()
+	{
+		return twoCommutes;
+	}
+	public void setTwoCommutes(Boolean twoCommutes)
+	{
+		this.twoCommutes = twoCommutes;
+	}
+	public Boolean getPunchAfterWorkStatus()
+	{
+		return punchAfterWorkStatus;
+	}
+	public void setPunchAfterWorkStatus(Boolean punchAfterWorkStatus)
+	{
+		this.punchAfterWorkStatus = punchAfterWorkStatus;
+	}
+	public String getPhoneModel()
+	{
+		return phoneModel;
+	}
+	public void setPhoneModel(String phoneModel)
+	{
+		this.phoneModel = phoneModel;
+	}
+	public String getMobilePhoneSerialNumber()
+	{
+		return mobilePhoneSerialNumber;
+	}
+	public void setMobilePhoneSerialNumber(String mobilePhoneSerialNumber)
+	{
+		this.mobilePhoneSerialNumber = mobilePhoneSerialNumber;
+	}
+	
 }

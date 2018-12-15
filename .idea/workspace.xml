@@ -3,13 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/Test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/partakeImg.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/test.html" afterDir="false" />
     </list>
@@ -27,40 +26,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="55" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="296">
+              <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
               <folding>
-                <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#0;n#div#1;n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#1;n#div#19;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#0;n#li#0;n#div#1;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="2170" column="35" lean-forward="true" selection-start-line="2170" selection-start-column="35" selection-end-line="2170" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="1573" column="1" selection-start-line="1573" selection-start-column="1" selection-end-line="1573" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -78,20 +60,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>回车</find>
-      <find>orderDetailsList</find>
-      <find>DetailsOrderdeliveryAddress</find>
-      <find>dataArray</find>
-      <find>orderDetailsSubmenu</find>
-      <find>crypto</find>
-      <find>CryptoJS</find>
-      <find>.title</find>
-      <find>发货凭单</find>
-      <find>序号</find>
-      <find>invoicePrintList</find>
-      <find>shippedDataArr</find>
-      <find>tdType</find>
-      <find>##orderDetailsList  tbody</find>
       <find>生成</find>
       <find>Url</find>
       <find>$(&quot;body&quot;).html(&quot;&lt;h1 style='color: red'&gt;链接中没有get参数!&lt;/h1&gt;&quot;);</find>
@@ -100,13 +68,27 @@
       <find>clipboard</find>
       <find>partake-panel partake_panel</find>
       <find>#orderLinks</find>
-      <find>partakePanel</find>
       <find>orderDetailsWechatQrcodePanel</find>
       <find>addRevenueSubmenu</find>
       <find>partake-panel</find>
       <find>wechat-panel</find>
       <find>partakeFun</find>
       <find>wechatSharing</find>
+      <find>qrcode</find>
+      <find>wecha</find>
+      <find>MAIN.Err</find>
+      <find>wechatQRCodePanel</find>
+      <find>section</find>
+      <find>orderLinks</find>
+      <find>orderTable-panel</find>
+      <find>微信</find>
+      <find>partakePanel</find>
+      <find>title</find>
+      <find>orderDetailsList</find>
+      <find>分享</find>
+      <find>sharingArea</find>
+      <find>layui.use</find>
+      <find>1.5</find>
       <find>订单详情</find>
     </findStrings>
     <replaceStrings>
@@ -131,19 +113,20 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/GenerateOrderDetailsLink.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
-        <option value="$PROJECT_DIR$/src/main/webapp/test.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/test.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="28" />
-    <option name="width" value="1920" />
-    <option name="height" value="1052" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="101" />
+    <option name="y" value="308" />
+    <option name="width" value="1300" />
+    <option name="height" value="757" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -184,40 +167,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-              <item name="webFile" type="462c0819:PsiDirectoryNode" />
+              <item name="MobilePage" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -242,10 +192,11 @@
       <recent name="$PROJECT_DIR$/src/main/webapp/MobilePage/css" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/css" />
       <recent name="$PROJECT_DIR$/src/main/webapp/js/mob" />
       <recent name="$PROJECT_DIR$/src/main/webapp/img" />
       <recent name="$PROJECT_DIR$/src/main/webapp/js/clipboard" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/crypto-js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -397,18 +348,18 @@
       <workItem from="1544441953700" duration="2896000" />
       <workItem from="1544592295905" duration="10556000" />
       <workItem from="1544604310191" duration="39497000" />
-      <workItem from="1544706454224" duration="17363000" />
+      <workItem from="1544706454224" duration="35757000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="858334000" />
+    <option name="totallyTimeSpent" value="876728000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="740" width="1300" height="757" extended-state="1" />
+    <frame x="0" y="28" width="1920" height="1052" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22648902" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15242615" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -597,23 +548,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" column="76" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/GenerateOrderDetailsLink.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" column="76" selection-start-line="7" selection-start-column="76" selection-end-line="7" selection-end-column="76" />
-          <folding>
-            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/clipboard.min.js" />
     <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -626,44 +560,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="596">
+          <caret line="3668" column="34" lean-forward="true" selection-start-line="3668" selection-start-column="34" selection-end-line="3668" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
-          <caret line="1573" column="1" selection-start-line="1573" selection-start-column="1" selection-end-line="1573" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="32" column="36" lean-forward="true" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="2170" column="35" lean-forward="true" selection-start-line="2170" selection-start-column="35" selection-end-line="2170" selection-end-column="35" />
+          <caret line="1631" column="1" lean-forward="true" selection-start-line="1631" selection-start-column="1" selection-end-line="1631" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="55" selection-start-line="55" selection-end-line="55" />
+        <state relative-caret-position="521">
+          <caret line="2277" column="70" selection-start-line="2277" selection-start-column="70" selection-end-line="2277" selection-end-column="70" />
           <folding>
             <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#div#0;n#div#1;n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#div#1;n#div#19;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#li#0;n#div#1;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#div#0;n#div#1;n#div#0;n#div#4;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#div#4;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/GenerateOrderDetailsLink.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-125">
+          <caret line="7" column="76" selection-start-line="7" selection-start-column="76" selection-end-line="7" selection-end-column="76" />
+          <folding>
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
