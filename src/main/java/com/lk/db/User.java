@@ -23,6 +23,7 @@ public class User
 	private String afternoonWorkTime;
 	private Boolean twoCommutes;
 	private Boolean punchAfterWorkStatus;
+	private String mobilePhoneManufacturer;
 	private String phoneModel;
 	private String mobilePhoneSerialNumber;
 	public String getSysUseAuthority()
@@ -119,6 +120,14 @@ public class User
 		return version;
 	}
 
+	public String getMobilePhoneManufacturer()
+	{
+		return mobilePhoneManufacturer;
+	}
+	public void setMobilePhoneManufacturer(String mobilePhoneManufacturer)
+	{
+		this.mobilePhoneManufacturer = mobilePhoneManufacturer;
+	}
 	public void setVersion(String version)
 	{
 		this.version = version;

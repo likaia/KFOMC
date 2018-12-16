@@ -7,6 +7,12 @@ $(function () {
             return false;
         }
     });
+    <!--判断当前打开设备-->
+    if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+        alert("点击右上角,分享给微信好友!")      //手机
+    } else {
+        layer.alert("打印请按:CTRL + P"); //电脑
+    }
     // 鼠标右键的复制事件
     $(document).unbind('copy').bind('copy', function(e) {
         setTime();

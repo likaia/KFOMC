@@ -16,15 +16,13 @@ var globalData = [];
 var currentSelection = null;  //--->开单悬浮层,用户是否有选择规格型号
 //单击延时触发 (解决同时绑定单击和双击单击事件多次触发bug)
 var clickTimeId;
-
 /*出货管理[新增发货]弹出层表格行双击事件*/
 function ModelItemFun(item, rowLine) {//参数说明:item:当前点击是第几行,rowLine:当前点击的条目属于第几行
     // 取消上次延时未执行的方法
     clearTimeout(clickTimeId);
     //Af.trace("当前点击行的是第"+rowLine+"项的第"+item+"行");
-    $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeClass("rowLineSelectStyle");
-    $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-rowLine");
-    $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-item");
+   // $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-rowLine");
+   // $("#OrderModelList tbody .row_" + rowLine + "").eq(item).removeAttr("data-item");
 }
 
 /*出货管理[新增发货]弹出层表格行单击事件*/
@@ -34,9 +32,19 @@ function ModelItemOneFun(item, rowLine) {
     //执行延时
     clickTimeId = setTimeout(function () {
         //此处为单击事件要执行的代码
-        $("#OrderModelList tbody .row_" + rowLine + "").eq(item).addClass("rowLineSelectStyle");
-        $("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-rowLine", "" + rowLine + ""); //添加当前选择项
-        $("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-item", "" + item + ""); //选择当前选择条目
+        $("#OrderModelList tbody .row_" + rowLine + " input").eq(item).bind("input propertychange",function(event) {
+            var thisInputVal = $("#OrderModelList tbody .row_" + rowLine + " input").eq(item).val(); //--->获取当前输入
+            if (Af.nullstr(thisInputVal)) {
+                Af.trace("空")
+            } else
+            {
+                var a = $("#OrderModelList tbody .row_" + rowLine + " .totalNum").eq(item).html();
+                var b = $("#OrderModelList tbody .row_" + rowLine + " .shippedQuantity").eq(item).html();
+                $("#OrderModelList tbody .row_" + rowLine + " .lastNum").eq(item).html();
+            }
+        });
+        //$("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-rowLine", "" + rowLine + ""); //添加当前选择项
+       // $("#OrderModelList tbody .row_" + rowLine + "").eq(item).attr("data-item", "" + item + ""); //选择当前选择条目
     }, 250);
 }
 
@@ -1043,45 +1051,7 @@ $(function () {
                     })
                 }
             },
-            //出货管理[新增]点击函数
-            shipmentAddFun: function () {
-                //清空select中除第一个以外的选项
-                $("#shippingCustomerNameSelectPanel option:gt(0)").remove();
-                $("#shippingOrderNumberSelectPanel option:gt(0)").remove();
-                var req = {};
-                req.queryType = ["clientName", "orderNumber"];
-                req.operator = $("#nickNameTextPanel").html();
-                //请求后台获取订单表内订单信息
-                Af.rest("orderInfonQueiry.api", req, function (ans) {
-                    var data = ans.data;
-                    //取出客户名称(生成客户名称下拉列表所需要的数据)
-                    var clientNameSelectData = [];
-                    var orderNumberSelectData = [];
-                    for (var i = 0; i < data.length; i++) {
-                        var clientNameObj = {};
-                        var orderNumberObj = {};
-                        clientNameObj["id"] = data[i].id;
-                        clientNameObj["name"] = data[i].clientName;
-                        orderNumberObj["id"] = data[i].id;
-                        orderNumberObj["name"] = data[i].orderNumber;
-                        clientNameSelectData.push(clientNameObj);
-                        orderNumberSelectData.push(orderNumberObj);
-                    }
-                    //渲染 客户名称 订单号
-                    MAIN.addSelectOrderVal(clientNameSelectData, "shippingCustomerNameSelectPanel");
-                    MAIN.addSelectOrderVal(orderNumberSelectData, "shippingOrderNumberSelectPanel");
-                });
-                layer.open({
-                    title: "新增发货",
-                    type: 1,
-                    area: ['1170px', '740px'],
-                    //shadeClose : true, //点击遮罩关闭
-                    content: $("#shipmentAddSubmenu"),
-                    end: function () { //弹层销毁出发回调
 
-                    }
-                });
-            },
             itemCloseFun: function (index) {
                 if (vm.modelDetailsList.length == 1) {
                     MAIN.ErroAlert("不能删除了");
@@ -1954,7 +1924,100 @@ $(function () {
             },
             /*订单信息管理:开始发货*/
             startShippingFun: function () {
+                /*自定义查询订单信息表:获取该用户的所有规格型号*/
+                let orderNumberArr = MAIN.getSelectOrder("orderInfoList");
+                let cilentNameArr = MAIN.getClientName("orderInfoList");
+                if(Af.nullstr(orderNumberArr))
+                {
+                    MAIN.ErroAlert("没有勾选订单号");
+                }
+                else if(orderNumberArr.length>1)
+                {
+                    MAIN.ErroAlert("每次只能查询一个订单");
+                }
+                else
+                {
+                    let req = {
+                        operator:$("#nickNameTextPanel").html(),
+                        queryType:["modelDetails"],
+                        orderNumber:orderNumberArr[0]
+                    };
+                    Af.rest("orderInfonQueiry.api",req,function (ans) {
+                        if(ans.errorCode==0)
+                        {
+                            let data = ans.data;
+                            let modelDetails = data[0].modelDetails;
+                            let dataArray = JSON.parse(modelDetails);
+                            var num = 0;
+                            for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
+                            {
+                                var trStart = "<tr>";
+                                var trEnd = "</tr>";
+                                var td,
+                                    td1,
+                                    td2,
+                                    td3,
+                                    td4,
+                                    td5,
+                                    td6,
+                                    td7,
+                                    td8;
+                                var tdType = "<td colspan='9' class='title'>";
+                                var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
+                                if (dataArrayLength > 1) {
+                                    num++;
+                                    $("#OrderModelList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+                                    for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                                    {
+                                        td = "<td>" + j + "</td>";
+                                        td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
+                                        td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
+                                        td3 = "<td class='totalNum'>" + dataArray[i][j].glassNum + "</td>";
+                                        td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+                                        td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+                                        td6 = "<td style='width: 120px' class='quantityInput'>" + "<input oninput =\"value=value.replace(/[^\\d]/g,'');if(value>"+dataArray[i][j].glassNum+"){value="+dataArray[i][j].glassNum+"};\" class='layui-input' style=\"width:120px\">" + "</td>";
+                                        td7 = "<td class='shippedQuantity' style='width: 120px'>" + "" + "</td>";
+                                        td8 = "<td class='lastNum'>" + "" + "</td>";
+                                        $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 +td6 + td7 + td8 + trEnd); //---->追加到页面
+                                    }
 
+                                } else {
+                                    var aa = "value=value.replace(/[^\d]/g,'')"
+
+                                    $("#OrderModelList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+                                    for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                                    {
+                                        td = "<td>" + j + "</td>";
+                                        td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
+                                        td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
+                                        td3 = "<td class='totalNum'>" + dataArray[i][j].glassNum + "</td>";
+                                        td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+                                        td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+                                        td6 = "<td class='quantityInput' style='width: 120px'>" + "<input oninput =\"value=value.replace(/[^\\d]/g,'');if(value>"+dataArray[i][j].glassNum+"){value="+dataArray[i][j].glassNum+"};\" class='layui-input' style=\"width:120px\">" + "</td>";
+                                        td7 = "<td class='shippedQuantity' style='width: 120px'>" + "" + "</td>";
+                                        td8 = "<td class='lastNum'>" + "" + "</td>";
+                                        $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 +td6 + td7 + td8 + trEnd); //---->追加到页面
+                                    }
+                                }
+                            }
+                            layer.open({
+                                title: cilentNameArr[0]+"的订单",
+                                type: 1,
+                                area: ['1170px', '740px'],
+                                //shadeClose : true, //点击遮罩关闭
+                                content: $("#shipmentAddSubmenu"),
+                                end: function () { //弹层销毁出发回调
+
+                                }
+                            });
+
+                        }
+                        else {
+                            MAIN.ErroAlert(ans.msg);
+                        }
+                    })
+                }
+                
             },
             /*订单信息管理:添加收入按钮交互*/
             addRevenueFun: function () {
@@ -3715,12 +3778,17 @@ $(function () {
             //清空表格数据
             $("#OrderModelList  tbody").html("");
             if (!Af.nullstr(thisSelectVal)) {
+                /*
+                * 使用自定义查询用户下单的所有规格型号,遇到重复的客户,用弹层展示客户的下单时间
+                * */
                 var req = {};
-                req.orderId = thisSelectVal;
+                req.clientName = thisSelectVal; //--->客户名称
                 req.operator = $("#nickNameTextPanel").html();
-                req.findModelById = "findModelById";
+                req.queryType = ["modelDetails"];
                 Af.rest("orderInfonQueiry.api", req, function (ans) {
-                    var dataArray = ans.data;
+                    var data = ans.data;
+                    var dataString  = data[0].modelDetails;
+                    var dataArray = JSON.parse(dataString);
                     if (dataArray.length == 0) {
                         MAIN.ErroAlert("所选用户,没有未发货的规格型号!");
                         return;
@@ -3737,8 +3805,11 @@ $(function () {
                             td2,
                             td3,
                             td4,
-                            td5;
-                        var tdType = "<td colspan='7' class='title'>";
+                            td5,
+                            td6,
+                            td7,
+                            td8;
+                        var tdType = "<td colspan='9' class='title'>";
                         var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
                         if (dataArrayLength > 1) {
                             num++;
@@ -3748,10 +3819,13 @@ $(function () {
                                 td = "<td>" + j + "</td>";
                                 td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
                                 td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
-                                td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
+                                td3 = "<td>" + "" + "</td>";
                                 td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
                                 td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
-                                $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 + trEnd); //---->追加到页面
+                                td6 = "<td style='width: 120px'>" + "<input class='layui-input' style=\"width:120px\">" + "</td>";
+                                td7 = "<td style='width: 120px'>" + "" + "</td>";
+                                td8 = "<td>" + "" + "</td>";
+                                $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 +td6 + td7 + td8 + trEnd); //---->追加到页面
                             }
 
                         } else {
@@ -3761,10 +3835,13 @@ $(function () {
                                 td = "<td>" + j + "</td>";
                                 td1 = "<td>" + dataArray[i][j].glassLength + "</td>";
                                 td2 = "<td>" + dataArray[i][j].glassWidth + "</td>";
-                                td3 = "<td>" + dataArray[i][j].glassNum + "</td>";
+                                td3 = "<td>" + "" + "</td>";
                                 td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
                                 td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
-                                $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 + trEnd); //---->追加到页面
+                                td6 = "<td style='width: 120px'>" + "<input class='layui-input' style=\"width:120px\">" + "</td>";
+                                td7 = "<td style='width: 120px'>" + "" + "</td>";
+                                td8 = "<td>" + "" + "</td>";
+                                $("#OrderModelList  tbody").append("<tr onclick='ModelItemOneFun(" + j + "," + i + ")' ondblclick='ModelItemFun(" + j + "," + i + ")' class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 +td6 + td7 + td8 + trEnd); //---->追加到页面
                             }
                         }
                     }
@@ -4172,6 +4249,16 @@ $(function () {
                 orders.push(data[i].orderNumber);
             }
             return orders;
+        };
+        MAIN.getClientName = function(tableId){
+            var checkStatus = table.checkStatus(tableId),
+                data = checkStatus.data;
+            var clientNames = [];
+            for(var i = 0;i < data.length;i++)
+            {
+                clientNames.push(data[i].clientName);
+            }
+            return clientNames;
         };
         //获取当前数据表格选择项全部数据
         MAIN.getSelectData = function (tableId) {

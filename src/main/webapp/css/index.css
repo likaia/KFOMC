@@ -1735,28 +1735,12 @@ a {
 }
 #shipmentAddSubmenu .shipmentAddCon-panel .OrderModel-panel{
 	width: 100%;
-	height: 320px;
+	height: 610px;
 	overflow: auto;
     margin-bottom: 10px;
     position: relative;
 }
-#OrderModelTableSubmenu{
-    width: 100%;
-    height: 320px;
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    z-index: 999;
-    display: none;
-}
-#OrderModelTableSubmenu span{
-    line-height: 320px;
-    font-size: 22px;
-    color: white;
-    font-weight: 600;
-}
+
  #OrderModelList tbody .title{
 	 background: #5FB878;
 	 color:white;

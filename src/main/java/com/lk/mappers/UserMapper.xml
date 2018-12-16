@@ -75,15 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateRange" parameterType="User">
 		update t_user
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="completionScope != null">
-				completionScope = #{completionScope},
-			</if>
-			<if test="lateArrivalRange != null">
-				lateArrivalRange = #{lateArrivalRange},
-			</if>
-			<if test="holidayStatus != null">
-				holidayStatus = #{holidayStatus},
-			</if>
+			
 		</trim>
 		<where>
 			<if test="id != null">
@@ -98,6 +90,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateAttendanceInfo" parameterType="User">
 		update t_user
 		<trim prefix="SET" suffixOverrides=",">
+		<if test="completionScope != null">
+				completionScope = #{completionScope},
+			</if>
+			<if test="lateArrivalRange != null">
+				lateArrivalRange = #{lateArrivalRange},
+			</if>
+			<if test="holidayStatus != null">
+				holidayStatus = #{holidayStatus},
+			</if>
 			<if test="workingHours != null">
 				workingHours = #{workingHours},
 			</if>
@@ -128,6 +129,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="punchAfterWorkStatus != null">
 				punchAfterWorkStatus = #{punchAfterWorkStatus},
 			</if>
+			<if test="mobilePhoneManufacturer != null">
+				mobilePhoneManufacturer = #{mobilePhoneManufacturer},
+			</if>
 			<if test="phoneModel != null">
 				phoneModel = #{phoneModel},
 			</if>
@@ -144,6 +148,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</update>
+	<!-- 自定义查询 -->
+	<select id="customQuery" resultMap="UserResult"
+		parameterType="User">
+		SELECT id, 
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_user 
+		<where>
+			<if test="userName != null">
+				userName = #{userName}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+		</where>
+	</select>
 	<!-- 删除 -->
 	<delete id="delete" parameterType="User">
 		delete from t_user where id =

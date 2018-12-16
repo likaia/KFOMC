@@ -481,8 +481,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                             class="layui-btn layui-btn-normal "
                                             v-bind:style="{background:BtnColor}">开单
                                     </button>
-                                    <button @click="startShippingFun"
-                                            class="layui-btn layui-btn-normal "
+                                    <button @click="startShippingFun" class="layui-btn layui-btn-normal "
                                             v-bind:style="{background:BtnColor}">开始发货
                                     </button>
                                     <button @click="orderBtnQueryFun"
@@ -749,9 +748,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <!--表格顶部按钮区域-->
                         <div class="tableTopBtn-panel">
                             <div class="btn-panel">
-                                <button class="layui-btn layui-btn-normal" @click="shipmentAddFun"
-                                        v-bind:style="{background:BtnColor}">新增
-                                </button>
                                 <button @click="shipmentDelFun" class="layui-btn layui-btn-normal"
                                         v-bind:style="{background:BtnColor}">删除
                                 </button>
@@ -2843,44 +2839,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     -->
     <div id="shipmentAddSubmenu">
         <div class="shipmentAddCon-panel layui-form">
-            <div class="row-panel">
-                <!-- 下单时间/客户名称/订单号 查询订单表内，所查询订单的详细规格型号-->
-                <div class="item-panel">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">客户名称:</label>
-                        <div class="layui-input-block">
-                            <select id="shippingCustomerNameSelectPanel" name="shippingCustomerNameSelectPanel"
-                                    lay-search lay-filter="shippingCustomerNameSelectPanel">
-                                <option value="">选择/输入客户名称</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">订单号:</label>
-                        <div class="layui-input-block">
-                            <select name="shippingOrderNumberSelectPanel" lay-search id="shippingOrderNumberSelectPanel"
-                                    lay-filter="shippingOrderNumberSelectPanel">
-                                <option value="">选择/输入订单号</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="layui-form-item">
-                        <button @click="addShipmentFun" class="layui-btn" v-bind:style="{background:BtnColor}">添加发货
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <!--当前所查询订单型号详情-->
             <div class="OrderModel-panel">
-                <!--表格遮罩-->
-                <div id="OrderModelTableSubmenu">
-                    <span>禁止再次编辑,请完成本次发货后,再进行下一次发货!若规格型号选择有误,请刷新页面!</span>
-                </div>
                 <!-- 表格渲染模块 -->
                 <table class="layui-table" id="OrderModelList" lay-filter="OrderModelList">
                     <thead>
@@ -2888,33 +2848,18 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <th class="layui-bg-cyan">序号</th>
                         <th class="layui-bg-cyan">长度</th>
                         <th class="layui-bg-cyan">宽度</th>
-                        <th class="layui-bg-cyan">数量</th>
+                        <th class="layui-bg-cyan">总数量</th>
                         <th class="layui-bg-cyan">标记</th>
                         <th class="layui-bg-cyan">面积</th>
+                        <th class="layui-bg-cyan">发货数量</th>
+                        <th class="layui-bg-cyan">已发货数量</th>
+                        <th class="layui-bg-cyan">剩余数量</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     </tbody>
                 </table>
-            </div>
-            <!--用户勾选规格型号后渲染用户已选择的规格型号-->
-            <div class="userHasSelectedModel-panel">
-                <div class="item-panel" v-for="item in modelDetailsList">
-                    <div class="specificationTitle-panel">
-                        <span>{{ item.productName }}</span>
-                    </div>
-                    <div class="specificationDetails-panel">
-                        <span>长度:</span> <span class="ReadColorClass" id="specificationDetailsLengthVal">{{ item.glassLength }}</span>
-                        <span>宽度:</span> <span class="ReadColorClass" id="specificationDetailsWidthVal">{{ item.glassWidth }}</span>
-                        <span>数量:</span> <span class="ReadColorClass" id="specificationDetailsNumVal">{{ item.glassNum }}</span>
-                        <span>面积:</span> <span class="ReadColorClass"
-                                               id="specificationDetailsArea">{{ item.glassArea }}</span>
-                    </div>
-                    <div class="close-panel" @click='itemCloseFun(item.itemID)' :data-ids="item.itemID">
-                        <i class="layui-icon layui-icon-close-fill" style="color: white;font-size: 20px"></i>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="foot-panel">

@@ -1,6 +1,7 @@
 package com.lk.API;
 
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,169 +29,131 @@ public class LoginAPI extends AfRestfulApi
 		int errorCode = 0;
 		String msg = "ok";
 		JSONObject data = new JSONObject();
+		JSONArray nowResult = new 	JSONArray();
 		JSONObject jsReq = new JSONObject(reqText);
-		//android通过验证码登录
-		if(jsReq.has("verificationCodeLogin"))
+		if(jsReq.has("userName"))
 		{
-			String cellPhone = jsReq.getString("cellPhone");
-			if(cellPhone.equals(""))
+			if (jsReq.has("userName") && jsReq.has("passWord"))
 			{
-				errorCode =1;
-				msg = "验证失败,手机号为空!";
-			}
-			else
+				//普通登录
+				String userName = jsReq.getString("userName").replaceAll(" ", "");
+				String passWord = jsReq.getString("passWord").replaceAll(" ", "");
+				if (userName.equals("") || passWord.equals(""))
+				{
+					logger.error("用户名或密码为空(非法操作)");
+					if (userName.equals(""))
+					{
+						errorCode = 1;
+						msg = "用户名不能为空";
+					}
+					if (passWord.equals(""))
+					{
+						errorCode = 1;
+						msg = "密码不能为空";
+					}
+				} else
+				{
+					// 打开数据库连接 配置当前要使用的Mapper
+					SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+					UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+					User dbData = userMapper.findByName(userName);
+					// 关闭session
+					sqlSession.close();
+					if (dbData == null)
+					{
+						errorCode = 1;
+						msg = "此用户不存在!请注册";
+					} else
+					{
+						JSONObject result = new JSONObject(dbData);
+						String sqlUserName = result.getString("userName");
+						String sqlPassWord = result.getString("passWord");
+						if (userName.equals(sqlUserName) && passWord.equals(sqlPassWord))
+						{
+							errorCode = 0;
+							msg = "密码正确";
+							httpSession.setAttribute("nowUser", sqlUserName);
+							httpSession.setAttribute("Version", dbData.getVersion());
+							httpSession.setAttribute("nickName", dbData.getUserName());
+							httpSession.setAttribute("avatarUrl", dbData.getFilePath());
+							httpSession.setAttribute("sysUseAuthority", dbData.getSysUseAuthority());
+
+						} else
+						{
+							errorCode = 1;
+							msg = "密码错误";
+						}
+					}
+				}
+			} 
+			if(jsReq.has("queryType"))
 			{
+				String userName = jsReq.getString("userName");
 				// 打开数据库连接 配置当前要使用的Mapper
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 				User row = new User();
-				row.setCellPhone(cellPhone);
-				List<User> resultList = userMapper.findCellphoneByUser(row);
-				JSONArray result = new JSONArray(resultList);
-				//关闭连接
+				row.setUserName(userName);
+				List<User> resultList = userMapper.customQuery(row);
+				nowResult = new JSONArray(resultList);
 				sqlSession.close();
-				if(result.length()>0)
+			}
+			/*更新本公司其他考勤状态信息*/
+			if(jsReq.has("updateAttendanceInfo"))
+			{
+				int completionScope = jsReq.getInt("completionScope");
+				int lateArrivalRange = jsReq.getInt("lateArrivalRange");
+				Boolean holidayStatus = jsReq.getBoolean("holidayStatus");
+				String userName = jsReq.getString("userName");
+				String workingHours = jsReq.getString("workingHours");
+				String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
+				String attendanceDate = jsReq.getString("attendanceDate");
+				String officeWifi = jsReq.getString("officeWifi");
+				String officeLocation = jsReq.getString("officeLocation");
+				Boolean fieldCard = jsReq.getBoolean("fieldCard");
+				String morningOffHours = jsReq.getString("morningOffHours");
+				String afternoonWorkTime = jsReq.getString("afternoonWorkTime");
+				Boolean twoCommutes = jsReq.getBoolean("twoCommutes");
+				Boolean punchAfterWorkStatus = jsReq.getBoolean("punchAfterWorkStatus"); 
+				String phoneModel = jsReq.getString("phoneModel");
+				String mobilePhoneSerialNumber = jsReq.getString("mobilePhoneSerialNumber");
+				String mobilePhoneManufacturer = jsReq.getString("mobilePhoneManufacturer");
+				// 打开数据库连接 配置当前要使用的Mapper
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+				User row = new User();
+				row.setCompletionScope(completionScope);
+				row.setLateArrivalRange(lateArrivalRange);
+				row.setHolidayStatus(holidayStatus);
+				row.setWorkingHours(workingHours);
+				row.setAfterGetOffWorkTime(afterGetOffWorkTime);
+				row.setAttendanceDate(attendanceDate);
+				row.setOfficeWifi(officeWifi);
+				row.setOfficeLocation(officeLocation);
+				row.setFieldCard(fieldCard);
+				row.setUserName(userName);
+				row.setMorningOffHours(morningOffHours);
+				row.setAfternoonWorkTime(afternoonWorkTime);
+				row.setTwoCommutes(twoCommutes);
+				row.setPunchAfterWorkStatus(punchAfterWorkStatus);
+				row.setMobilePhoneManufacturer(mobilePhoneManufacturer);
+				row.setPhoneModel(phoneModel);
+				row.setMobilePhoneSerialNumber(mobilePhoneSerialNumber);
+				int processResult = userMapper.updateAttendanceInfo(row);
+				sqlSession.commit();
+				if(processResult>0)
 				{
-					msg = "登录成功!";
-					errorCode = 0;
+					msg = "更新成功!";
 				}
 				else
 				{
 					errorCode = 1;
-					msg = "此用户不存在";
+					msg = "更新失败,数据库错误";
 				}
-			}
-		}
-		if(jsReq.has("updateRange"))
-		{
-			String userName = jsReq.getString("userName");
-			int completionScope = jsReq.getInt("completionScope");
-			int lateArrivalRange = jsReq.getInt("lateArrivalRange");
-			// 打开数据库连接 配置当前要使用的Mapper
-			SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-			User row = new User();
-			if(jsReq.has("holidayStatus"))
-			{
-				Boolean holidayStatus = jsReq.getBoolean("holidayStatus");
-				row.setHolidayStatus(holidayStatus);
-			}
-			row.setCompletionScope(completionScope);
-			row.setLateArrivalRange(lateArrivalRange);
-			row.setUserName(userName);
-			int processResult = userMapper.updateRange(row);
-			sqlSession.commit();
-			if(processResult>0)
-			{
-				msg = "更新成功!";
-			}
-			else
-			{
-				errorCode = 1;
-				msg = "更新失败,数据库错误";
-			}
-			sqlSession.close();
-		}
-		/*更新本公司其他考勤状态信息*/
-		if(jsReq.has("updateAttendanceInfo"))
-		{
-			String userName = jsReq.getString("userName");
-			String workingHours = jsReq.getString("workingHours");
-			String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
-			String attendanceDate = jsReq.getString("attendanceDate");
-			String officeWifi = jsReq.getString("officeWifi");
-			String officeLocation = jsReq.getString("officeLocation");
-			Boolean fieldCard = jsReq.getBoolean("fieldCard");
-			String morningOffHours = jsReq.getString("morningOffHours");
-			String afternoonWorkTime = jsReq.getString("afternoonWorkTime");
-			Boolean twoCommutes = jsReq.getBoolean("twoCommutes");
-			Boolean punchAfterWorkStatus = jsReq.getBoolean("punchAfterWorkStatus"); 
-			String phoneModel = jsReq.getString("phoneModel");
-			String mobilePhoneSerialNumber = jsReq.getString("mobilePhoneSerialNumber");
-			// 打开数据库连接 配置当前要使用的Mapper
-			SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-			User row = new User();
-			row.setWorkingHours(workingHours);
-			row.setAfterGetOffWorkTime(afterGetOffWorkTime);
-			row.setAttendanceDate(attendanceDate);
-			row.setOfficeWifi(officeWifi);
-			row.setOfficeLocation(officeLocation);
-			row.setFieldCard(fieldCard);
-			row.setUserName(userName);
-			row.setMorningOffHours(morningOffHours);
-			row.setAfternoonWorkTime(afternoonWorkTime);
-			row.setTwoCommutes(twoCommutes);
-			row.setPunchAfterWorkStatus(punchAfterWorkStatus);
-			row.setPhoneModel(phoneModel);
-			row.setMobilePhoneSerialNumber(mobilePhoneSerialNumber);
-			int processResult = userMapper.updateAttendanceInfo(row);
-			sqlSession.commit();
-			if(processResult>0)
-			{
-				msg = "更新成功!";
-			}
-			else
-			{
-				errorCode = 1;
-				msg = "更新失败,数据库错误";
-			}
-			sqlSession.close();
-		}
-	
-		if (jsReq.has("userName") && jsReq.has("passWord"))
-		{
-			//普通登录
-			String userName = jsReq.getString("userName").replaceAll(" ", "");
-			String passWord = jsReq.getString("passWord").replaceAll(" ", "");
-			if (userName.equals("") || passWord.equals(""))
-			{
-				logger.error("用户名或密码为空(非法操作)");
-				if (userName.equals(""))
-				{
-					errorCode = 1;
-					msg = "用户名不能为空";
-				}
-				if (passWord.equals(""))
-				{
-					errorCode = 1;
-					msg = "密码不能为空";
-				}
-			} else
-			{
-				// 打开数据库连接 配置当前要使用的Mapper
-				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-				UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-				User dbData = userMapper.findByName(userName);
-				// 关闭session
 				sqlSession.close();
-				if (dbData == null)
-				{
-					errorCode = 1;
-					msg = "此用户不存在!请注册";
-				} else
-				{
-					JSONObject result = new JSONObject(dbData);
-					String sqlUserName = result.getString("userName");
-					String sqlPassWord = result.getString("passWord");
-					if (userName.equals(sqlUserName) && passWord.equals(sqlPassWord))
-					{
-						errorCode = 0;
-						msg = "密码正确";
-						httpSession.setAttribute("nowUser", sqlUserName);
-						httpSession.setAttribute("Version", dbData.getVersion());
-						httpSession.setAttribute("nickName", dbData.getUserName());
-						httpSession.setAttribute("avatarUrl", dbData.getFilePath());
-						httpSession.setAttribute("sysUseAuthority", dbData.getSysUseAuthority());
-
-					} else
-					{
-						errorCode = 1;
-						msg = "密码错误";
-					}
-				}
 			}
-		} else
+		}
+		else
 		{
 			errorCode = 1;
 			msg = "字段缺失";
@@ -201,6 +164,7 @@ public class LoginAPI extends AfRestfulApi
 		jsReply.put("errorCode", errorCode);
 		jsReply.put("msg", msg);
 		jsReply.put("data", data);
+		jsReply.put("result", nowResult);
 		return jsReply.toString();
 	}
 

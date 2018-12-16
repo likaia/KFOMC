@@ -15,6 +15,8 @@ public interface UserMapper
 	public int updateAttendanceInfo(User row);
 	//通过id删除
 	public int delete(Integer id);
+	//自定义查询
+	public List<User> customQuery(User row);
 	//通过姓名手机号查找
 	public  List<User> findCellphoneByUser(User row);
 	//通过姓名查找
