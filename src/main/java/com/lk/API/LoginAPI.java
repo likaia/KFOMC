@@ -86,14 +86,17 @@ public class LoginAPI extends AfRestfulApi
 					}
 				}
 			} 
+			/*自定义查询*/
 			if(jsReq.has("queryType"))
 			{
+				JSONArray queryType = jsReq.getJSONArray("queryType");
 				String userName = jsReq.getString("userName");
 				// 打开数据库连接 配置当前要使用的Mapper
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 				User row = new User();
 				row.setUserName(userName);
+				row.setQueryType(queryType);
 				List<User> resultList = userMapper.customQuery(row);
 				nowResult = new JSONArray(resultList);
 				sqlSession.close();

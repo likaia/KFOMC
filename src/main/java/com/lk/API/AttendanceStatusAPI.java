@@ -76,6 +76,50 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
+			//自定义查询(可根据 [员工姓名/工号/开始时间/结束时间]查询)
+			if(jsReq.has("queryType"))
+			{
+				JSONArray queryType = jsReq.getJSONArray("queryType");
+				String nameOfWorker = jsReq.getString("nameOfWorker");
+				String jobNumber = jsReq.getString("jobNumber");
+				String dStart = jsReq.getString("dStart");
+				String dEnd = jsReq.getString("dEnd");
+				if (nameOfWorker.equals(""))
+				{
+					nameOfWorker = null;
+				}
+				if (jobNumber.equals(""))
+				{
+					jobNumber = null;
+				}
+				if (dStart.equals(""))
+				{
+					dStart = null;
+				}
+				if (dEnd.equals(""))
+				{
+					dEnd = null;
+				}
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfo row = new AttendanceStatusInfo();
+				row.setOperator(operator);
+				row.setdStart(dStart);
+				row.setdEnd(dEnd);
+				row.setQueryType(queryType);
+				row.setJobNumber(jobNumber);
+				row.setNameOfWorker(nameOfWorker);
+				row.setQueryType(queryType);
+				List<AttendanceStatusInfo> resultList =  attendanceStatusInfoMapper.customQuery(row);
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
 			// 条件查询
 			if (jsReq.has("conditionalQuery"))
 			{

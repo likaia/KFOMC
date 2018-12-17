@@ -5,13 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -31,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="772" column="49" selection-start-line="772" selection-start-column="49" selection-end-line="772" selection-end-column="49" />
+            <state relative-caret-position="554">
+              <caret line="2859" selection-start-line="2859" selection-end-line="2859" />
               <folding>
                 <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -52,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="41" column="105" lean-forward="true" selection-start-line="41" selection-start-column="105" selection-end-line="41" selection-end-column="105" />
+            <state relative-caret-position="295">
+              <caret line="1932" column="83" selection-start-line="1932" selection-start-column="83" selection-end-line="1932" selection-end-column="83" />
               <folding>
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
@@ -85,11 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>partake-panel</find>
-      <find>wechat-panel</find>
-      <find>partakeFun</find>
-      <find>wechatSharing</find>
-      <find>qrcode</find>
       <find>wecha</find>
       <find>MAIN.Err</find>
       <find>wechatQRCodePanel</find>
@@ -104,17 +93,22 @@
       <find>sharingArea</find>
       <find>layui.use</find>
       <find>1.5</find>
-      <find>OrderModelList</find>
       <find>OrderModel-panel</find>
       <find>ModelItemOneFun</find>
       <find>shippingCustomerNameSelectPanel</find>
       <find>startShippingFun</find>
       <find>订单详情</find>
-      <find>新增发货</find>
       <find>originalFilmOutList</find>
       <find>shipmentAddFun</find>
       <find>start</find>
+      <find>lastNum</find>
+      <find>新增发货</find>
       <find>开始发货</find>
+      <find>发货</find>
+      <find>addShipmentSubmitFun</find>
+      <find>null</find>
+      <find>OrderModelList</find>
+      <find>的订单</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -135,19 +129,19 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/bankCardAttribution.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/testPage/test.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.css" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/GenerateOrderDetailsLink.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/test.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="369" />
     <option name="y" value="254" />
     <option name="width" value="1469" />
@@ -161,7 +155,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -224,6 +217,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -399,12 +393,14 @@
       <workItem from="1544592295905" duration="10556000" />
       <workItem from="1544604310191" duration="39497000" />
       <workItem from="1544706454224" duration="46875000" />
-      <workItem from="1544879038261" duration="12776000" />
+      <workItem from="1544879038261" duration="29397000" />
+      <workItem from="1544954887673" duration="492000" />
+      <workItem from="1544955430871" duration="17415000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="900622000" />
+    <option name="totallyTimeSpent" value="935150000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1920" height="1052" extended-state="7" />
@@ -568,13 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="47" column="40" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/testPage/test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -645,10 +634,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2375">
+          <caret line="10" column="65" selection-start-line="10" selection-start-column="65" selection-end-line="10" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="772" column="49" selection-start-line="772" selection-start-column="49" selection-end-line="772" selection-end-column="49" />
+        <state relative-caret-position="554">
+          <caret line="2859" selection-start-line="2859" selection-end-line="2859" />
           <folding>
             <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -666,8 +662,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="41" column="105" lean-forward="true" selection-start-line="41" selection-start-column="105" selection-end-line="41" selection-end-column="105" />
+        <state relative-caret-position="295">
+          <caret line="1932" column="83" selection-start-line="1932" selection-start-column="83" selection-end-line="1932" selection-end-column="83" />
           <folding>
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />

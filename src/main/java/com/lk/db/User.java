@@ -1,5 +1,7 @@
 package com.lk.db;
 
+import org.json.JSONArray;
+
 public class User
 {
 	private Integer id;
@@ -26,6 +28,7 @@ public class User
 	private String mobilePhoneManufacturer;
 	private String phoneModel;
 	private String mobilePhoneSerialNumber;
+	private JSONArray queryType;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -216,6 +219,15 @@ public class User
 	public String getRegistrationTime()
 	{
 		return RegistrationTime;
+	}
+	
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
 	}
 	public void setRegistrationTime(String registrationTime)
 	{
