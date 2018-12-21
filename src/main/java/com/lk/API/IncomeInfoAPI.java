@@ -165,11 +165,15 @@ public class IncomeInfoAPI extends AfRestfulApi
 						int orderId = orderInfoObj.getInt("id");
 						String totalAmount = orderInfoObj.getString("totalAmount");
 						String alreadyPaid =  orderInfoObj.getString("alreadyPaid");
+						totalAmount = lkCommon.removeChinese(totalAmount); //--->总金额
+						alreadyPaid = lkCommon.removeChinese(alreadyPaid); //--->已付款
 						totalAlreadyPaid =LkCommon.addDouble(alreadyPaid, paymentAmount.toString());
+						
 						unpaid = lkCommon.subtract(totalAmount,totalAlreadyPaid.toString()); //--->未付款 = 总金额-总已付款
+				
 						//更新订单信息表(已付款/未付款)
 						OrderInfo updateRow = new OrderInfo();
-						updateRow.setAlreadyPaid(alreadyPaid);
+						updateRow.setAlreadyPaid(totalAlreadyPaid.toString());
 						updateRow.setUnpaid(unpaid.toString());
 						updateRow.setOperator(operator);
 						updateRow.setId(orderId);

@@ -88,6 +88,12 @@ Af.getTableData = function(container){
 				{
 					row.push($(this).text().trim());
 				}
+				/*获取自定义属性的值:每一项的规格型号*/
+				if(typeof($(this).attr("data-productname"))!="undefined")
+				{
+					let productName = $(this).attr("data-productname");
+					row.push(productName);
+				}
 			});
 			table.push(row);
 		});
@@ -103,6 +109,11 @@ Af.getTableData = function(container){
 		}
 	}
 	return finalDoubleArray;
+};
+/*相同数组值合并*/
+Af.mergeTheSameArrayValue = function(thisArr){
+	var x = new Set(thisArr);
+	return [...x]; //展开运算符
 };
 /*JSON数据精确合并:*/
 Af.preciseMerger = function(arr){
@@ -347,7 +358,6 @@ Af.openSubmenu = function(title,[width,height],status,container){
        }
    }, false);*/
 
-/*小数加法函数*/
 /**
  ** 加法函数，用来得到精确的加法结果
  ** 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
@@ -355,36 +365,89 @@ Af.openSubmenu = function(title,[width,height],status,container){
  ** 返回值：arg1加上arg2的精确结果
  **/
 Af.accAdd = function(arg1, arg2) {
-    var r1, r2, m, c;
-    try {
-        r1 = arg1.toString().split(".")[1].length;
-    }
-    catch (e) {
-        r1 = 0;
-    }
-    try {
-        r2 = arg2.toString().split(".")[1].length;
-    }
-    catch (e) {
-        r2 = 0;
-    }
-    c = Math.abs(r1 - r2);
-    m = Math.pow(10, Math.max(r1, r2));
-    if (c > 0) {
-        var cm = Math.pow(10, c);
-        if (r1 > r2) {
-            arg1 = Number(arg1.toString().replace(".", ""));
-            arg2 = Number(arg2.toString().replace(".", "")) * cm;
-        } else {
-            arg1 = Number(arg1.toString().replace(".", "")) * cm;
-            arg2 = Number(arg2.toString().replace(".", ""));
-        }
-    } else {
-        arg1 = Number(arg1.toString().replace(".", ""));
-        arg2 = Number(arg2.toString().replace(".", ""));
-    }
-    return (arg1 + arg2) / m;
+	var r1, r2, m, c;
+	try {
+		r1 = arg1.toString().split(".")[1].length;
+	}
+	catch (e) {
+		r1 = 0;
+	}
+	try {
+		r2 = arg2.toString().split(".")[1].length;
+	}
+	catch (e) {
+		r2 = 0;
+	}
+	c = Math.abs(r1 - r2);
+	m = Math.pow(10, Math.max(r1, r2));
+	if (c > 0) {
+		var cm = Math.pow(10, c);
+		if (r1 > r2) {
+			arg1 = Number(arg1.toString().replace(".", ""));
+			arg2 = Number(arg2.toString().replace(".", "")) * cm;
+		} else {
+			arg1 = Number(arg1.toString().replace(".", "")) * cm;
+			arg2 = Number(arg2.toString().replace(".", ""));
+		}
+	} else {
+		arg1 = Number(arg1.toString().replace(".", ""));
+		arg2 = Number(arg2.toString().replace(".", ""));
+	}
+	return (arg1 + arg2) / m;
 }
+
+/**
+ ** 减法函数，用来得到精确的减法结果
+ ** 说明：javascript的减法结果会有误差，在两个浮点数相减的时候会比较明显。这个函数返回较为精确的减法结果。
+ ** 调用：accSub(arg1,arg2)
+ ** 返回值：arg1减去arg2的精确结果
+ **/
+Af.accSub = function(arg1, arg2) {
+	var r1, r2, m, n;
+	try {
+		r1 = arg1.toString().split(".")[1].length;
+	}
+	catch (e) {
+		r1 = 0;
+	}
+	try {
+		r2 = arg2.toString().split(".")[1].length;
+	}
+	catch (e) {
+		r2 = 0;
+	}
+	m = Math.pow(10, Math.max(r1, r2)); //last modify by deeka //动态控制精度长度
+	n = (r1 >= r2) ? r1 : r2;
+	return ((arg1 * m - arg2 * m) / m).toFixed(n);
+}
+
+/**
+ ** 乘法函数，用来得到精确的乘法结果
+ ** 说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+ ** 调用：accMul(arg1,arg2)
+ ** 返回值：arg1乘以 arg2的精确结果
+ **/
+ Af.accMul = function (arg1, arg2) {
+	var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+	try {
+		m += s1.split(".")[1].length;
+	}
+	catch (e) {
+	}
+	try {
+		m += s2.split(".")[1].length;
+	}
+	catch (e) {
+	}
+	return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
+};
+
+/*以table形式输出JSONArray到控制台*/
+Af.tableTrace = function(JSONArray){
+	try {
+		console.table(JSONArray);
+	} catch (err) {}
+};
 
 /*JSONArray归类*/
 Af.getJSONArray = function(resultJSONArray) {

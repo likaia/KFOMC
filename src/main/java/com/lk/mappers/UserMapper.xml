@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="punchAfterWorkStatus" column="punchAfterWorkStatus" />
 		<result property="phoneModel" column="phoneModel" />
 		<result property="mobilePhoneSerialNumber" column="mobilePhoneSerialNumber" />
+		<result property="companyName" column="companyName" />
 	</resultMap>
 
 	<!-- 添加 -->

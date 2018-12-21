@@ -2,7 +2,11 @@ package com.lk.Utils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -104,6 +108,135 @@ public class LkCommon
 		return rawData.toString();
 	}
 
+	/* 计算两个时间相差的天数 */
+	public static final int daysBetween(Date early, Date late)
+	{
+		java.util.Calendar calst = java.util.Calendar.getInstance();
+		java.util.Calendar caled = java.util.Calendar.getInstance();
+		calst.setTime(early);
+		caled.setTime(late);
+		// 设置时间为0时
+		calst.set(java.util.Calendar.HOUR_OF_DAY, 0);
+		calst.set(java.util.Calendar.MINUTE, 0);
+		calst.set(java.util.Calendar.SECOND, 0);
+		caled.set(java.util.Calendar.HOUR_OF_DAY, 0);
+		caled.set(java.util.Calendar.MINUTE, 0);
+		caled.set(java.util.Calendar.SECOND, 0);
+		// 得到两个日期相差的天数
+		int days = ((int) (caled.getTime().getTime() / 1000) - (int) (calst.getTime().getTime() / 1000)) / 3600 / 24;
+		return days;
+	}
+
+
+	/* 计算两个时间的相差数(天/时/分/秒) */
+	public static String longTimeToDay(Long ms)
+	{
+		/*
+		 * @使用方法 String startTime = "08:00:00"; String endTime = "08:20:00";
+		 * //看自己的时间格式选择对应的转换对象 SimpleDateFormat sdf = new
+		 * SimpleDateFormat("HH:mm:ss"); //如果时间格式为 2018-10-12 20:23,这里格式应为new
+		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss") //转换成date类型 Date start =
+		 * sdf.parse(startTime); Date end = sdf.parse(endTime); //获取毫秒数 Long
+		 * startLong = start.getTime(); Long endLong = end.getTime();
+		 * //计算时间差,单位毫秒 Long ms = endLong-startLong; //时间差转换为 \天\时\分\秒 String
+		 * time = LkCommon.longTimeToDay(ms); //方法调用 System.out.println(time);
+		 */
+		Integer ss = 1000;
+		Integer mi = ss * 60;
+		Integer hh = mi * 60;
+		Integer dd = hh * 24;
+		Long day = ms / dd;
+		Long hour = (ms - day * dd) / hh;
+		Long minute = (ms - day * dd - hour * hh) / mi;
+		Long second = (ms - day * dd - hour * hh - minute * mi) / ss;
+		Long milliSecond = ms - day * dd - hour * hh - minute * mi - second * ss;
+		StringBuffer sb = new StringBuffer();
+		if (day > 0)
+		{
+			sb.append(day + "天");
+		}
+		if (hour > 0)
+		{
+			sb.append(hour + "小时");
+		}
+		if (minute > 0)
+		{
+			sb.append(minute + "分");
+		}
+		if (second > 0)
+		{
+			sb.append(second + "秒");
+		}
+		if (milliSecond > 0)
+		{
+			sb.append(milliSecond + "毫秒");
+		}
+		return sb.toString();
+	}
+	/*时间区间判断
+	 * @ inputDate当前时间
+	 * @ prohibitDate 标准时间
+	 * @ startDate 开始时间
+	 * @ normalDate 正常时间
+	 * @ endDate 结束时间
+	 * */
+	public String timeIntervalJudgment(String inputDate,String prohibitDate,String startDate,String normalDate,String endDate) throws ParseException
+	{
+		String result = "";
+		/*
+		 * 接口规范:
+		 * 		传HH:mm的数据
+		 */
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+		Date now = df.parse(inputDate);  //当前时间
+		//如果禁止打卡时间没有设置默认为06:00
+		if(prohibitDate.equals(""))
+		{
+			prohibitDate = "06:00";
+		}
+		Date prohibit = df.parse(prohibitDate); //--->禁止打卡时间段
+		Date begin = df.parse(startDate); //--->开始时间
+		Date normal = df.parse(normalDate); //--->在20分钟内
+		Date end = df.parse(endDate); //--->结束时间
+		Calendar nowTime = Calendar.getInstance();
+		nowTime.setTime(now);  //--->当前时间的判断值
+		Calendar beginTime = Calendar.getInstance();
+		Calendar prohibitTime = Calendar.getInstance();
+		prohibitTime.setTime(prohibit);//--->禁止打卡时间的判断值
+		beginTime.setTime(begin); //--->开始时间的判断值
+		Calendar endTime = Calendar.getInstance();
+		endTime.setTime(end); //--->结束时间的判断值
+		Calendar normalTime = Calendar.getInstance();
+		normalTime.setTime(normal); //--->20分钟以内的时间判断值
+		if (nowTime.before(normalTime) && nowTime.after(beginTime))
+		{
+			/*如果在20分钟以内:当前时间在正常时间之前,在开始时间之后*/
+			result = "正常打卡";
+			//return true;
+			
+		} else if(nowTime.before(endTime) && nowTime.after(beginTime))
+		{
+			/*如果在(开始时间)到(结束时间)之间:当前时间在结束时间之前,在开始时间之后*/
+			result ="迟到打卡";
+			//return false;
+		} else if(nowTime.before(beginTime)&& nowTime.after(prohibitTime))
+		{
+			/*如果在开始时间之前,在禁止打卡时间之后*/
+			result = "提前打卡";
+		} else if(nowTime.before(prohibitTime))
+		{
+			/*如果在禁止打卡时间之前*/
+			result = "禁止打卡";
+		} else if(nowTime.equals(beginTime))
+		{
+			result = "准时打卡";
+		}
+		else
+		{
+			result = "旷工";
+		}
+		return result;
+	}
 	/* 将日期为同一天的数据归类到一块 */
 	public static JSONArray getSameDateJsonArray(JSONArray rawArray)
 	{

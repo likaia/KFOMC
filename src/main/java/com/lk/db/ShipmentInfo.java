@@ -20,6 +20,7 @@ public class ShipmentInfo
 	private String orderNumber;
 	private JSONArray queryType;
 	private String  freight;
+	private Boolean freightPaymentStatus;
 	public String getFreight()
 	{
 		return freight;
@@ -146,6 +147,14 @@ public class ShipmentInfo
 		this.transportationManager = transportationManager;
 	}
 	
+	public Boolean getFreightPaymentStatus()
+	{
+		return freightPaymentStatus;
+	}
+	public void setFreightPaymentStatus(Boolean freightPaymentStatus)
+	{
+		this.freightPaymentStatus = freightPaymentStatus;
+	}
 	public String getOrderNumber()
 	{
 		return orderNumber;

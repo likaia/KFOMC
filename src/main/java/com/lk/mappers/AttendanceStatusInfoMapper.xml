@@ -11,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="department" column="department" />
 		<result property="workingHours" column="workingHours" />
 		<result property="afterGetOffWorkTime" column="afterGetOffWorkTime" />
+		<result property="morningWorkTime" column="morningWorkTime" />
+		<result property="afternoonWorkTime" column="afternoonWorkTime" />
 		<result property="attendanceDate" column="attendanceDate" />
 		<result property="wifiInfo" column="wifiInfo" />
 		<result property="attendanceLocation" column="attendanceLocation" />

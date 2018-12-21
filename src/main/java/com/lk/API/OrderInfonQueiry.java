@@ -211,6 +211,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 					String alreadyPaid = jsReq.getString("Paid");// --->已付款
 					String unpaid = jsReq.getString("Unpaid");// --->未付款
 					JSONArray modelDetails = jsReq.getJSONArray("data");// --->规格型号
+					JSONArray unfinishedArr = jsReq.getJSONArray("unfinishedArr");//--->未发货规格型号
 					// 打开连接
 					SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 					// 配置映射器
@@ -233,7 +234,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 					row.setAlreadyPaid(alreadyPaid + "元");
 					row.setUnpaid(unpaid + "元");
 					row.setModelDetails(modelDetails.toString());
-					row.setUnfinishedArr(modelDetails.toString()); // 未发货规格型号
+					row.setUnfinishedArr(unfinishedArr.toString()); // 未发货规格型号
 					int processResult = orderMapper.add(row);
 					sqlSession.commit();
 					sqlSession.close();

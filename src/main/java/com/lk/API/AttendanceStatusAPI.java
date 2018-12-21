@@ -262,7 +262,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("出货管理接口异常:没有操作人");
+			logger.error("考勤状态接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();

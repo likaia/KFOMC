@@ -20,6 +20,8 @@ public class AttendanceStatusInfo
 	private String attendanceDate;
 	private String wifiInfo;
 	private String attendanceLocation;
+	private String morningWorkTime;
+	private String afternoonWorkTime;
 	private String attendanceRange;
 	private String fieldCard;
 	private String remarks;
@@ -116,6 +118,23 @@ public class AttendanceStatusInfo
 	public void setFieldCard(String fieldCard)
 	{
 		this.fieldCard = fieldCard;
+	}
+	
+	public String getMorningWorkTime()
+	{
+		return morningWorkTime;
+	}
+	public void setMorningWorkTime(String morningWorkTime)
+	{
+		this.morningWorkTime = morningWorkTime;
+	}
+	public String getAfternoonWorkTime()
+	{
+		return afternoonWorkTime;
+	}
+	public void setAfternoonWorkTime(String afternoonWorkTime)
+	{
+		this.afternoonWorkTime = afternoonWorkTime;
 	}
 	public String getRemarks()
 	{

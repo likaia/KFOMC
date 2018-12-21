@@ -27,6 +27,7 @@ public class User
 	private Boolean punchAfterWorkStatus;
 	private String mobilePhoneManufacturer;
 	private String phoneModel;
+	private String companyName;
 	private String mobilePhoneSerialNumber;
 	private JSONArray queryType;
 	public String getSysUseAuthority()
@@ -221,6 +222,15 @@ public class User
 		return RegistrationTime;
 	}
 	
+	
+	public String getCompanyName()
+	{
+		return companyName;
+	}
+	public void setCompanyName(String companyName)
+	{
+		this.companyName = companyName;
+	}
 	public JSONArray getQueryType()
 	{
 		return queryType;

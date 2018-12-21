@@ -133,6 +133,8 @@ public class SupplierInfo
 	{
 		super();
 	}
+	
+
 	public SupplierInfo(String supplierName, String primaryContact, String contactNumber, String wechat, String address,
 			String logoUrl, String bankAccount, String bankCardNumber, String addTime, String operator)
 	{

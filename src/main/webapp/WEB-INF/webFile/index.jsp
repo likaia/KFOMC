@@ -492,7 +492,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                             v-bind:style="{background:BtnColor}" @click="DeleteOrderFun">删除
                                     </button>
                                     <button class="layui-btn layui-btn-normal"
-                                            @click="ExportOrderFun" v-bind:style="{background:BtnColor}">导出订单
+                                            @click="printOrderFun" v-bind:style="{background:BtnColor}">订单打印
                                     </button>
                                     <button class="layui-btn layui-btn-normal"
                                             @click="orderDetailsFun" v-bind:style="{background:BtnColor}">订单详情
@@ -2852,8 +2852,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <th class="layui-bg-cyan">标记</th>
                         <th class="layui-bg-cyan">面积</th>
                         <th class="layui-bg-cyan">发货数量</th>
+                        <th class="layui-bg-cyan">发货金额</th>
+                        <th class="layui-bg-cyan">发货面积</th>
                         <th class="layui-bg-cyan">已发货数量</th>
                         <th class="layui-bg-cyan">剩余数量</th>
+                        <th class="layui-bg-cyan">单价</th>
+                        <th class="layui-bg-cyan">总金额</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -2884,8 +2888,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             <div class="itemLeft-panel">
                 <span>运费:</span>
             </div>
+
             <div class="itemRight-panel">
-                <input type="text" v-model="invoiceFreight" placeholder="请输入" class="layui-input">
+                <input type="text" v-model="invoiceFreight"  placeholder="请输入" class="layui-input" style="width: 210px;float: left">
+                <div style="float: left;margin-top: 5px;margin-left: 10px">
+                    <input type="checkbox" title="已支付" style="float: left;" lay-filter="freightSwitch">
+                </div>
             </div>
         </div>
         <div class="row-panel">
@@ -2989,7 +2997,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <span>开户银行:</span>
                 </div>
                 <div class="val-panel">
-                    <input type="text" v-model="bankAccountVal" class="layui-input" placeholder="4~9位纯汉字" maxlength="9">
+                    <input type="text" v-model="bankAccountVal" class="layui-input" placeholder="输入卡号自动读取所属银行" maxlength="19">
                 </div>
             </div>
             <div class="item-panel">
@@ -2997,8 +3005,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <span>银行卡号:</span>
                 </div>
                 <div class="val-panel">
-                    <input type="text" v-model="bankCardNumberVal" class="layui-input" placeholder="16~19位纯数字"
-                           maxlength="19">
+                    <input type="text" class="layui-input" placeholder="16~19位纯数字" v-on:input="addClientBankCardRealTimeInput" v-model="bankCardNumberVal" maxlength="19">
                 </div>
             </div>
         </div>
