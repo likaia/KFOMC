@@ -28,6 +28,7 @@ public class User
 	private String mobilePhoneManufacturer;
 	private String phoneModel;
 	private String companyName;
+	private Integer userID;
 	private String mobilePhoneSerialNumber;
 	private JSONArray queryType;
 	public String getSysUseAuthority()
@@ -104,6 +105,15 @@ public class User
 		return cellPhone;
 	}
 
+	
+	public Integer getUserID()
+	{
+		return userID;
+	}
+	public void setUserID(Integer userID)
+	{
+		this.userID = userID;
+	}
 	public void setCellPhone(String cellPhone)
 	{
 		this.cellPhone = cellPhone;

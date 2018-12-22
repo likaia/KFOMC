@@ -68,6 +68,11 @@ public class RegisteredAPI extends AfRestfulApi
 						user.setPassWord(passWord);
 						user.setCellPhone(cellPhone);
 						user.setRegistrationTime(serverTime);
+						if(jsReq.has("userID"))
+						{
+							int userID = jsReq.getInt("userID");
+							user.setUserID(userID);
+						}
 						int result = userMapper.add(user);
 						sqlSession.commit();
 						// 关闭session

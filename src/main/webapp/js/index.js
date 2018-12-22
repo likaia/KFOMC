@@ -1204,7 +1204,7 @@ $(function () {
                                     let ShipmentReq = {};
                                     ShipmentReq.addOrderData = "addOrderData"; //--->新增发货字段
                                     ShipmentReq.clientName = vm.shipClientName;//--->客户名称
-                                    ShipmentReq.dataToShip = Af.getJSONArray(finalJSONArr); //要发货的数据
+                                    ShipmentReq.dataToShip = Af.getJSONArray(dataToBeShipped); //要发货的数据
                                     ShipmentReq.tempArray = Af.getJSONArray(finalJSONArr); //临时数据用于移除不需要的元素
                                     ShipmentReq.operator = $("#nickNameTextPanel").html();
                                     ShipmentReq.orderNumber = vm.shipOrderNumber;
@@ -1255,7 +1255,10 @@ $(function () {
                                                     td5,
                                                     td7,
                                                     td8;
-                                                var tdType = "<td colspan='8'>";
+
+                                                var tdType1 = "<td colspan='5' class='title colspans'>";
+                                                var tdType2 = "<td colspan='2' class='title colspans'>";
+                                                var tdType3 = "<td colspan='1' class='title colspans'>";
                                                 var dataArrayLength = Af.getJsonLength(shippedDataArr[i]); //---->获取当前JSONArray下的数据长度
                                                 if (dataArrayLength > 1) {
                                                     let nowTotalArea = 0;
@@ -1267,22 +1270,22 @@ $(function () {
                                                         nowTotalArea = Af.accAdd(itemArea, nowTotalArea);
                                                         nowTotalMoney = Af.accAdd(itemMoney, nowTotalMoney);
                                                     }
-                                                    $("#invoicePrintList  tbody").append(trStart + tdType + "规格型号:" + shippedDataArr[i][0].productName + ",面积(小计):" + nowTotalArea + ",金额(小计):" + nowTotalMoney + "</td>" + trEnd);
+                                                    $("#invoicePrintList  tbody").append(trStart + tdType1 + "规格型号:" + shippedDataArr[i][0].productName + "</td>"+tdType3+ "面积(小计):" + nowTotalArea +"</td>"+tdType2 + "金额(小计):" + nowTotalMoney + "</td>" + trEnd);
                                                     for (let j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
                                                     {
                                                         let unitPrice = shippedDataArr[i][j].unitPrice;
                                                         td = "<td>" + j + "</td>";
                                                         td1 = "<td>" + shippedDataArr[i][j].glassLength + "</td>";    //表单模块需要的数据:玻璃长度/宽度/发货数量/标记/总面积/单价/总金额/
                                                         td2 = "<td>" + shippedDataArr[i][j].glassWidth + "</td>";
-                                                        td3 = "<td>" + shippedDataArr[i][j].glassNum + "</td>";
+                                                        td3 = "<td>" + shippedDataArr[i][j].nowShipNum + "</td>";
                                                         td4 = "<td>" + "  " + "</td>";
-                                                        td5 = "<td>" + shippedDataArr[i][j].glassArea + "</td>";
+                                                        td5 = "<td>" + shippedDataArr[i][j].nowArea + "</td>";
                                                         if (Af.nullstr(unitPrice)) {
                                                             td7 = "<td>" + "  " + "</td>";
                                                         } else {
                                                             td7 = "<td>" + unitPrice + "</td>";
                                                         }
-                                                        td8 = "<td>" + shippedDataArr[i][j].unitPrice + "</td>";
+                                                        td8 = "<td>" + shippedDataArr[i][j].nowAmount + "</td>";
                                                         $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + td8 + trEnd); //---->追加到页面
                                                     }
 
@@ -1295,22 +1298,22 @@ $(function () {
                                                         nowTotalArea = Af.accAdd(itemArea, nowTotalArea);
                                                         nowTotalMoney = Af.accAdd(itemMoney, nowTotalMoney);
                                                     }
-                                                    $("#invoicePrintList  tbody").append(trStart + tdType + "规格型号:" + shippedDataArr[i][0].productName + ",总面积:" + nowTotalArea + ",总金额:" + nowTotalMoney + "</td>" + trEnd);
+                                                    $("#invoicePrintList  tbody").append(trStart + tdType1 + "规格型号:" + shippedDataArr[i][0].productName + "</td>"+tdType3+ "面积(小计):" + nowTotalArea +"</td>"+tdType2 + "金额(小计):" + nowTotalMoney + "</td>" + trEnd);
                                                     for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
                                                     {
                                                         let unitPrice = shippedDataArr[i][j].unitPrice;
                                                         td = "<td>" + j + "</td>";
-                                                        td1 = "<td>" + shippedDataArr[i][j].glassLength + "</td>";
+                                                        td1 = "<td>" + shippedDataArr[i][j].glassLength + "</td>";    //表单模块需要的数据:玻璃长度/宽度/发货数量/标记/总面积/单价/总金额/
                                                         td2 = "<td>" + shippedDataArr[i][j].glassWidth + "</td>";
-                                                        td3 = "<td>" + shippedDataArr[i][j].glassNum + "</td>";
+                                                        td3 = "<td>" + shippedDataArr[i][j].nowShipNum + "</td>";
                                                         td4 = "<td>" + "  " + "</td>";
-                                                        td5 = "<td>" + shippedDataArr[i][j].glassArea + "</td>";
+                                                        td5 = "<td>" + shippedDataArr[i][j].nowArea + "</td>";
                                                         if (Af.nullstr(unitPrice)) {
                                                             td7 = "<td>" + "  " + "</td>";
                                                         } else {
                                                             td7 = "<td>" + unitPrice + "</td>";
                                                         }
-                                                        td8 = "<td>" + shippedDataArr[i][j].totalAmount + "</td>";
+                                                        td8 = "<td>" + shippedDataArr[i][j].nowAmount + "</td>";
                                                         $("#invoicePrintList  tbody").append(trStart + td + td1 + td2 + td3 + td4 + td5 + td7 + td8 + trEnd); //---->追加到页面
                                                     }
                                                 }
@@ -1842,7 +1845,8 @@ $(function () {
                             td4,
                             td5,
                             td7;
-                        var tdType = "<td colspan='7'>";
+                        var tdType1 = "<td colspan='5' class='title colspans'>";
+                        var tdType2 = "<td colspan='2' class='title colspans'>";
                         var dataArrayLength = Af.getJsonLength(userInputArray[i]); //---->获取当前JSONArray下的数据长度
                         if (dataArrayLength > 1) {
                             var totalAreaValue = 0;
@@ -1852,7 +1856,7 @@ $(function () {
                                 totalAreaValue = Af.accAdd(totalAreaValue, nowArea);
                                 totalAreaValue = totalAreaValue.toFixed(2);
                             }
-                            $("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + userInputArray[i][0].productName + ",总面积:" + totalAreaValue + "</td>" + trEnd);
+                            $("#ProductionOrderList  tbody").append(trStart + tdType1 + "规格型号:" + userInputArray[i][0].productName +"</td>" + tdType2 + "总面积:" + totalAreaValue + "</td>" + trEnd);
                             for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
                             {
                                 td = "<td>" + j + "</td>";
@@ -1873,7 +1877,7 @@ $(function () {
                                 totalAreaValue = Af.accAdd(totalAreaValue, nowArea);
                                 totalAreaValue = totalAreaValue.toFixed(2);
                             }
-                            $("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + userInputArray[i][0].productName + ",总面积:" + totalAreaValue + "</td>" + trEnd);
+                            $("#ProductionOrderList  tbody").append(trStart + tdType1 + "规格型号:" + userInputArray[i][0].productName +"</td>" + tdType2 + "总面积:" + totalAreaValue + "</td>" + trEnd);
                             for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
                             {
                                 td = "<td>" + j + "</td>";
@@ -2050,7 +2054,8 @@ $(function () {
                                td4,
                                td5,
                                td7;
-                           var tdType = "<td colspan='7'>";
+                           var tdType1 = "<td colspan='5' class='title colspans'>";
+                           var tdType2 = "<td colspan='2' class='title colspans'>";
                            var dataArrayLength = Af.getJsonLength(userInputArray[i]); //---->获取当前JSONArray下的数据长度
                            if (dataArrayLength > 1) {
                                var totalAreaValue = 0;
@@ -2060,7 +2065,7 @@ $(function () {
                                    totalAreaValue = Af.accAdd(totalAreaValue, nowArea);
                                    totalAreaValue = totalAreaValue.toFixed(2);
                                }
-                               $("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + userInputArray[i][0].productName + ",总面积:" + totalAreaValue + "</td>" + trEnd);
+                               $("#ProductionOrderList  tbody").append(trStart + tdType1 + "规格型号:" + userInputArray[i][0].productName +"</td>" + tdType2+ "面积(小计):" + totalAreaValue + "</td>" + trEnd);
                                for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
                                {
                                    td = "<td>" + j + "</td>";
@@ -2081,7 +2086,7 @@ $(function () {
                                    totalAreaValue = Af.accAdd(totalAreaValue, nowArea);
                                    totalAreaValue = totalAreaValue.toFixed(2);
                                }
-                               $("#ProductionOrderList  tbody").append(trStart + tdType + "规格型号:" + userInputArray[i][0].productName + ",总面积:" + totalAreaValue + "</td>" + trEnd);
+                               $("#ProductionOrderList  tbody").append(trStart + tdType1 + "规格型号:" + userInputArray[i][0].productName +"</td>" + tdType2+ "面积(小计):" + totalAreaValue + "</td>" + trEnd);
                                for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
                                {
                                    td = "<td>" + j + "</td>";
@@ -3952,11 +3957,12 @@ $(function () {
             }, 270);
         }
     });
-    layui.use(['form', 'element', 'jquery', 'table', 'laydate', 'carousel', 'colorpicker', 'upload'], function () {
+    layui.use(['form', 'element', 'jquery', 'table', 'laydate', 'carousel', 'colorpicker', 'upload','laytpl'], function () {
         var form = layui.form,
             element = layui.element,
             $ = layui.$,
             table = layui.table,
+            laytpl = layui.laytpl,
             laydate = layui.laydate,
             carousel = layui.carousel,
             colorpicker = layui.colorpicker,
@@ -5988,7 +5994,18 @@ $(function () {
                         {
                             field: 'freightPaymentStatus',
                             title: '运费状态',
-                            align: "center"
+                            align: "center",
+                            templet: function(d){
+                                let freightPaymentStatus = d.freightPaymentStatus;
+                                let thisVal = "";
+                                if(freightPaymentStatus)
+                                {
+                                    thisVal = "已支付";
+                                }else{
+                                    thisVal = "未支付";
+                                }
+                                return thisVal; 
+                            }
                         },
 
                     ]

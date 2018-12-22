@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="remainingArea" column="remainingArea" />
 		<result property="paymentDetails" column="paymentDetails" />
 		<result property="transportationManager" column="transportationManager" />
+		<result property="freightPaymentStatus" column="freightPaymentStatus" />
 		<result property="orderNumber" column="orderNumber" />
 		<result property="freight" column="freight" />
 		<result property="operator" column="operator" />
@@ -36,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		remainingArea,
 		paymentDetails,
 		transportationManager,
+		freightPaymentStatus,
 		orderNumber,
 		theTotalAmount,
 		operator,
@@ -60,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		unfinishedArr,
 		shipArea,
 		theRemainingAmount,
+		freightPaymentStatus,
 		remainingArea,
 		paymentDetails,
 		transportationManager,

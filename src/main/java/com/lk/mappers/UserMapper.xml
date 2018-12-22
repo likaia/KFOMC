@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="phoneModel" column="phoneModel" />
 		<result property="mobilePhoneSerialNumber" column="mobilePhoneSerialNumber" />
 		<result property="companyName" column="companyName" />
+		<result property="userID" column="userID" />
 	</resultMap>
 
 	<!-- 添加 -->
@@ -44,6 +45,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="sysUseAuthority != null">
 				sysUseAuthority,
 			</if>
+			<if test="userID != null">
+				userID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userName != null">
@@ -63,6 +67,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="sysUseAuthority != null">
 				#{sysUseAuthority,jdbcType=VARCHAR},
+			</if>
+			<if test="userID != null">
+				#{userID,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>

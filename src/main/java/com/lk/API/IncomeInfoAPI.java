@@ -173,8 +173,8 @@ public class IncomeInfoAPI extends AfRestfulApi
 				
 						//更新订单信息表(已付款/未付款)
 						OrderInfo updateRow = new OrderInfo();
-						updateRow.setAlreadyPaid(totalAlreadyPaid.toString());
-						updateRow.setUnpaid(unpaid.toString());
+						updateRow.setAlreadyPaid(totalAlreadyPaid+"元");
+						updateRow.setUnpaid(unpaid+"元");
 						updateRow.setOperator(operator);
 						updateRow.setId(orderId);
 						int updateResult = orderMapper.update(updateRow);
