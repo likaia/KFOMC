@@ -1,5 +1,8 @@
 package com.lk.Utils;
 
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -11,13 +14,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.ibatis.io.ResolverUtil.Test;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 
 /*
   * 
@@ -59,6 +65,23 @@ public class LkCommon
 		}
 
 		return new JSONObject(map);
+	}
+
+	public String readConfigFile(String configPath)
+	{
+		/* 加载配置文件 */
+		Properties props = new Properties();
+		try
+		{
+			InputStream is = Test.class.getResourceAsStream(configPath);
+			props.load(is);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		// 取得配置参数
+		String tomcatPath = props.getProperty("path", "---");
+		return tomcatPath;
 	}
 
 	// ArrayList类型转成String类型
@@ -127,7 +150,6 @@ public class LkCommon
 		return days;
 	}
 
-
 	/* 计算两个时间的相差数(天/时/分/秒) */
 	public static String longTimeToDay(Long ms)
 	{
@@ -173,70 +195,77 @@ public class LkCommon
 		}
 		return sb.toString();
 	}
-	/*时间区间判断
+
+	/*
+	 * 时间区间判断
+	 * 
 	 * @ inputDate当前时间
+	 * 
 	 * @ prohibitDate 标准时间
+	 * 
 	 * @ startDate 开始时间
+	 * 
 	 * @ normalDate 正常时间
+	 * 
 	 * @ endDate 结束时间
-	 * */
-	public String timeIntervalJudgment(String inputDate,String prohibitDate,String startDate,String normalDate,String endDate) throws ParseException
+	 */
+	public String timeIntervalJudgment(String inputDate, String prohibitDate, String startDate, String normalDate,
+			String endDate) throws ParseException
 	{
 		String result = "";
 		/*
-		 * 接口规范:
-		 * 		传HH:mm的数据
+		 * 接口规范: 传HH:mm的数据
 		 */
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-		Date now = df.parse(inputDate);  //当前时间
-		//如果禁止打卡时间没有设置默认为06:00
-		if(prohibitDate.equals(""))
+		Date now = df.parse(inputDate); // 当前时间
+		// 如果禁止打卡时间没有设置默认为06:00
+		if (prohibitDate.equals(""))
 		{
 			prohibitDate = "06:00";
 		}
-		Date prohibit = df.parse(prohibitDate); //--->禁止打卡时间段
-		Date begin = df.parse(startDate); //--->开始时间
-		Date normal = df.parse(normalDate); //--->在20分钟内
-		Date end = df.parse(endDate); //--->结束时间
+		Date prohibit = df.parse(prohibitDate); // --->禁止打卡时间段
+		Date begin = df.parse(startDate); // --->开始时间
+		Date normal = df.parse(normalDate); // --->在20分钟内
+		Date end = df.parse(endDate); // --->结束时间
 		Calendar nowTime = Calendar.getInstance();
-		nowTime.setTime(now);  //--->当前时间的判断值
+		nowTime.setTime(now); // --->当前时间的判断值
 		Calendar beginTime = Calendar.getInstance();
 		Calendar prohibitTime = Calendar.getInstance();
-		prohibitTime.setTime(prohibit);//--->禁止打卡时间的判断值
-		beginTime.setTime(begin); //--->开始时间的判断值
+		prohibitTime.setTime(prohibit);// --->禁止打卡时间的判断值
+		beginTime.setTime(begin); // --->开始时间的判断值
 		Calendar endTime = Calendar.getInstance();
-		endTime.setTime(end); //--->结束时间的判断值
+		endTime.setTime(end); // --->结束时间的判断值
 		Calendar normalTime = Calendar.getInstance();
-		normalTime.setTime(normal); //--->20分钟以内的时间判断值
+		normalTime.setTime(normal); // --->20分钟以内的时间判断值
 		if (nowTime.before(normalTime) && nowTime.after(beginTime))
 		{
-			/*如果在20分钟以内:当前时间在正常时间之前,在开始时间之后*/
+			/* 如果在20分钟以内:当前时间在正常时间之前,在开始时间之后 */
 			result = "正常打卡";
-			//return true;
-			
-		} else if(nowTime.before(endTime) && nowTime.after(beginTime))
+			// return true;
+
+		} else if (nowTime.before(endTime) && nowTime.after(beginTime))
 		{
-			/*如果在(开始时间)到(结束时间)之间:当前时间在结束时间之前,在开始时间之后*/
-			result ="迟到打卡";
-			//return false;
-		} else if(nowTime.before(beginTime)&& nowTime.after(prohibitTime))
+			/* 如果在(开始时间)到(结束时间)之间:当前时间在结束时间之前,在开始时间之后 */
+			result = "迟到打卡";
+			// return false;
+		} else if (nowTime.before(beginTime) && nowTime.after(prohibitTime))
 		{
-			/*如果在开始时间之前,在禁止打卡时间之后*/
+			/* 如果在开始时间之前,在禁止打卡时间之后 */
 			result = "提前打卡";
-		} else if(nowTime.before(prohibitTime))
+		} else if (nowTime.before(prohibitTime))
 		{
-			/*如果在禁止打卡时间之前*/
+			/* 如果在禁止打卡时间之前 */
 			result = "禁止打卡";
-		} else if(nowTime.equals(beginTime))
+		} else if (nowTime.equals(beginTime))
 		{
 			result = "准时打卡";
-		}
-		else
+		} else
 		{
 			result = "旷工";
 		}
 		return result;
 	}
+
 	/* 将日期为同一天的数据归类到一块 */
 	public static JSONArray getSameDateJsonArray(JSONArray rawArray)
 	{

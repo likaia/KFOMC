@@ -76,12 +76,12 @@
 		<servlet-name>ExportExcelAPI</servlet-name>
 		<servlet-class>com.lk.API.ExportExcelAPI</servlet-class>
 	</servlet>
-
-	<!-- 图片裁减 -->
+	<!-- 上传接口 -->
 	<servlet-mapping>
 		<servlet-name>UploadAPI</servlet-name>
 		<url-pattern>/servlet/UploadAPI</url-pattern>
 	</servlet-mapping>
+	<!-- 图片裁减 -->
 	<servlet-mapping>
 		<servlet-name>PicCropAPI</servlet-name>
 		<url-pattern>/servlet/PicCropAPI</url-pattern>

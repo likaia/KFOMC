@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="freightPaymentStatus" column="freightPaymentStatus" />
 		<result property="orderNumber" column="orderNumber" />
 		<result property="freight" column="freight" />
+		<result property="deliveryNote" column="deliveryNote" />
 		<result property="operator" column="operator" />
 	</resultMap>
 	<!-- 分页查询数据开始: -->
@@ -121,7 +122,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{idItem}
 		</foreach>
 	</delete>
-
+	<!-- 更新 -->
+	<update id="update" parameterType="ShipmentInfo">
+	update t_shipment
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="deliveryNote != null">
+				deliveryNote = #{deliveryNote},
+			</if>
+		</trim>
+		<where>
+			<if test="orderNumber != null">
+				orderNumber = #{orderNumber}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="ShipmentInfo">
 		insert into t_shipment

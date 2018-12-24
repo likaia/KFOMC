@@ -92,6 +92,34 @@ public class OrderInfonQueiry extends AfRestfulApi
 						sqlSession.close();
 					}
 				}
+				/*更新订单表*/
+				if(jsReq.has("updateOrder"))
+				{
+					String customerOriginalDocument = jsReq.getString("customerOriginalDocument");
+					String orderNumber = jsReq.getString("orderNumber");
+					// 打开连接
+					SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+					// 配置映射器
+					OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+					OrderInfo row = new OrderInfo();
+					row.setOperator(operator);
+					row.setCustomerOriginalDocument(customerOriginalDocument);
+					row.setOrderNumber(orderNumber);
+					int thisResult = orderMapper.update(row);
+					sqlSession.commit();
+					if(thisResult>0)
+					{
+						msg = "更新成功";
+						code = 0 ;
+						errorCode = 0;
+					}
+					else
+					{
+						msg = "更新失败";
+						code = 1;
+						errorCode = 1;
+					}
+				}
 				// 自定义查询
 				if (jsReq.has("queryType"))
 				{

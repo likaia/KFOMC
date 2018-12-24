@@ -23,6 +23,7 @@ public class OrderInfo
 	private String companyName;
 	private JSONArray queryType; 
 	private String unfinishedArr; //未发货的规格型号
+	private String customerOriginalDocument; //客户原始单据
 	public String getUnfinishedArr()
 	{
 		return unfinishedArr;
@@ -152,6 +153,15 @@ public class OrderInfo
 	public String getNumberShipments()
 	{
 		return numberShipments;
+	}
+	
+	public String getCustomerOriginalDocument()
+	{
+		return customerOriginalDocument;
+	}
+	public void setCustomerOriginalDocument(String customerOriginalDocument)
+	{
+		this.customerOriginalDocument = customerOriginalDocument;
 	}
 	public void setNumberShipments(String numberShipments)
 	{

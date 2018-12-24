@@ -1,5 +1,8 @@
 package com.lk.junitTest;
 
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -159,8 +163,27 @@ public class JunitTestAPI
 	@Test
 	public void test6()
 	{
-		
-	
+		/* 加载配置文件 */
+		Properties props = new Properties();
+		try
+		{
+			InputStream is = Test.class.getResourceAsStream("/TomcatPath.properties");
+			props.load(is);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		// 取得配置参数
+		String tomcatPath = props.getProperty("path", "---");
+		System.out.println(tomcatPath);
 	}
-	
+	@Test
+	public void test7()
+	{
+		String fileName ="webPic/20190910.jpg";
+		fileName = fileName.substring(6);
+		String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
+		fileName = tomcatPath + fileName;
+		System.out.println(fileName);
+	}
 }

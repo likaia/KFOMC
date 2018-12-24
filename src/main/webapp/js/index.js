@@ -302,6 +302,8 @@ $(function () {
             invoiceTransportationManager: "", //运输负责人
             DataOrderNumber: "", //--->根据id查询数据时,被查询数据所对应的订单号
             invoiceFreight: "", //运费
+            shippingOrderNumber:"",
+            shippingOrderID:"",
             /*客户信息管理数据*/
             clientInfoName: "",   //--->客户姓名
             clientInfoStart: "", //--->开始时间
@@ -387,6 +389,7 @@ $(function () {
             editSupplierBankCardNumber: '', //--->供应商银行卡号
             editSupplierBankPrompt: '', //--->所属银行提示
             editSupplierWechat: '', //--->供应商联系人微信
+            uploadDocumentForOrderNumber:'',
         },
         methods: {
             materialFun: function () {
@@ -418,6 +421,14 @@ $(function () {
                     MAIN.ErroAlert("请上传配件图片!");
                 }
             },
+            //上传单据函数
+            uploadDocument:function(){
+                let thisRowData = MAIN.getTableRowData("orderInfoList");
+                if(!Af.nullstr(thisRowData))
+                {
+                    vm.uploadDocumentForOrderNumber = thisRowData[0].orderNumber;
+                }
+                },
             //财务报表点击函数
             financeReportFun: function () {
                 /*请求后台获取(当前总收入/当前总支出/当前总余额)*/
@@ -1402,15 +1413,138 @@ $(function () {
                 }
             }
             ,
-            //出货管理[导出] 函数
-            shipmentExportFun: function () {
-                var tableTitle = ['序列号', '客户姓名', '发货日期', '发货数量', '发货面积', '剩余数量', '剩余面积', '发货金额', '运输负责人', '运费'];
-                var selectDatas = MAIN.getShipmentDatas("originalFilmOutList");
-                if (!Af.nullstr(selectDatas)) {
-                    MAIN.exportFun(tableTitle, selectDatas);
+            //出货管理[查看详情] 函数
+            shipmentSeeDetails: function () {
+                /*获取当前勾选行的数据*/
+                let thisRowData = MAIN.getTableRowData("originalFilmOutList");
+                if(Af.nullstr(thisRowData))
+                {
+                    MAIN.ErroAlert("请勾选一个出货单!");
+                }else if(thisRowData.length==1)
+                {
+                    $("#shipOrderList tbody").html("");
+                   let orderNumber = thisRowData[0].orderNumber;
+                   let clientName = thisRowData[0].clientName;
+                   let transportationManager = thisRowData[0].transportationManager;
+                   let freight = thisRowData[0].freight+"元";
+                   let freightPaymentStatus = thisRowData[0].freightPaymentStatus;
+                   $("#shipOrderNumber").html(orderNumber);
+                   $("#shipClientName").html(clientName);
+                   $("#shipPeople").html(transportationManager);
+                   $("#shipFreight").html(freight);
+                   if(freightPaymentStatus)
+                   {
+                       $("#shipFreightPaymentStatus").html("已付款");
+                   }
+                   else
+                   {
+                       $("#shipFreightPaymentStatus").html("未付款");
+                   }
+                    let dataArray = JSON.parse(thisRowData[0].specificationModel);
+                    var num = 0;
+                    for (var i = 0; i < dataArray.length; i++) //--->渲染生产单表格区域
+                    {
+                        var trStart = "<tr>";
+                        var trEnd = "</tr>";
+                        var td,
+                            td1,
+                            td2,
+                            td3,
+                            td4,
+                            td5,
+                            td6,
+                            td7,
+                            td8,
+                            td9,
+                            td10,
+                            td11,
+                            td12;
+                        var tdType = "<td colspan='13' class='title'>";
+                        var dataArrayLength = Af.getJsonLength(dataArray[i]); //---->获取当前JSONArray下的数据长度
+                        if (dataArrayLength > 1) {
+                            num++;
+                            $("#shipOrderList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+                            for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                            {
+                                td = "<td data-productName="+dataArray[i][j].productName+">" + (j + 1) + "</td>";
+                                td1 = "<td class='glassLength'>" + dataArray[i][j].glassLength + "</td>";
+                                td2 = "<td class='glassWidth'>" + dataArray[i][j].glassWidth + "</td>";
+                                td3 = "<td class='totalNum'>" + dataArray[i][j].glassNum + "</td>";
+                                td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+                                td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+                                td6 = "<td class='quantityInput'>"+dataArray[i][j].nowShipNum+"</td>";
+                                td7 ="<td class='nowAmount'>" + dataArray[i][j].nowAmount + "</td>";
+                                td8 ="<td class='shipArea'>" + dataArray[i][j].nowArea + "</td>";
+                                td9 = "<td class='shippedQuantity' data-rawData="+dataArray[i][j].shippedQuantity+">" + dataArray[i][j].shippedQuantity + "</td>";
+                                if(Af.nullstr(dataArray[i][j].shippedQuantity))
+                                {
+                                    td9 = "<td class='shippedQuantity' data-rawData="+0+">" + 0 + "</td>";
+                                }
+                                td10 = "<td class='lastNum'>" + dataArray[i][j].lastNum + "</td>";
+                                if (Number(dataArray[i][j].lastNum)==0)
+                                {
+                                    td10 = "<td class='lastNum' style='background:#FF5722;color: white '>" + dataArray[i][j].lastNum + "</td>";
+                                }
+                                if(Af.nullstr(dataArray[i][j].lastNum))
+                                {
+                                    td10 = "<td class='lastNum'>" + dataArray[i][j].glassNum + "</td>";
+                                }
+                                td11 = "<td class='unitPrice'>" +  dataArray[i][j].unitPrice + "</td>";
+                                td12 = "<td>" +  dataArray[i][j].totalAmount + "</td>";
+                                $("#shipOrderList  tbody").append("<tr class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 + td6 + td7 + td8 + td9 + td10 + td11 +td12 + trEnd); //---->追加到页面
+                            }
+
+                        } else {
+                            $("#shipOrderList  tbody").append(trStart + tdType + "规格型号:" + dataArray[i][0].productName + "</td>" + trEnd);
+                            for (var j = 0; j < dataArrayLength; j++) //---->遍历当前重复的规格型号下的数据,并追加页面
+                            {
+                                td = "<td data-productName="+dataArray[i][j].productName+">" + (j + 1) + "</td>";
+                                td1 = "<td class='glassLength'>" + dataArray[i][j].glassLength + "</td>";
+                                td2 = "<td class='glassWidth'>" + dataArray[i][j].glassWidth + "</td>";
+                                td3 = "<td class='totalNum'>" + dataArray[i][j].glassNum + "</td>";
+                                td4 = "<td>" + dataArray[i][j].glassMark + "</td>";
+                                td5 = "<td>" + dataArray[i][j].glassArea + "</td>";
+                                td6 = "<td class='quantityInput'>"+dataArray[i][j].nowShipNum+"</td>";
+                                td7 ="<td class='nowAmount'>" + dataArray[i][j].nowAmount + "</td>";
+                                td8 ="<td class='shipArea'>" + dataArray[i][j].nowArea + "</td>";
+                                td9 = "<td class='shippedQuantity' data-rawData="+dataArray[i][j].shippedQuantity+">" + dataArray[i][j].shippedQuantity + "</td>";
+                                if(Af.nullstr(dataArray[i][j].shippedQuantity))
+                                {
+                                    td9 = "<td class='shippedQuantity' data-rawData="+0+">" + 0 + "</td>";
+                                }
+                                td10 = "<td class='lastNum'>" + dataArray[i][j].lastNum + "</td>";
+                                if (Number(dataArray[i][j].lastNum)==0)
+                                {
+                                    td10 = "<td class='lastNum' style='background:#FF5722;color: white '>" + dataArray[i][j].lastNum + "</td>";
+                                }
+                                if(Af.nullstr(dataArray[i][j].lastNum))
+                                {
+                                    td10 = "<td class='lastNum'>" + dataArray[i][j].glassNum + "</td>";
+                                }
+                                td11 = "<td class='unitPrice'>" +  dataArray[i][j].unitPrice + "</td>";
+                                td12 = "<td>" +  dataArray[i][j].totalAmount + "</td>";
+                                $("#shipOrderList  tbody").append("<tr class='row_" + i + "'>" + td + td1 + td2 + td3 + td4 + td5 + td6 + td7 + td8 + td9 + td10 + td11 +td12 + trEnd); //---->追加到页面
+                            }
+                        }
+                    }
+                    Af.openSubmenu(""+thisRowData[0].clientName+"的出货单",["1170px","740px"],true,$("#shipmentSeeDetailsSubmenu"));
                 }
+                else
+                {
+                    MAIN.ErroAlert("不能勾选多个!");
+                }
+
             }
             ,
+            uploadDeliveryNoteFun:function(){
+                /*获取当前勾选行的数据*/
+                let thisRowData = MAIN.getTableRowData("originalFilmOutList");
+                if(!Af.nullstr(thisRowData))
+                {
+                    vm.shippingOrderNumber = thisRowData[0].orderNumber;
+                    vm.shippingOrderID =  thisRowData[0].id;
+                }
+            },
             //进销存管理[库存管理]点击事件
             stockFun: function () {
                 this.stockStatus = "block";
@@ -4068,6 +4202,11 @@ $(function () {
             /*执行订单详情函数*/
             vm.orderDetailsFun();
         });
+        /*监听出货管理[查看详情]表格双击事件*/
+        table.on('rowDouble(originalFilmOutList)', function (obj) {
+            /*执行出货管理查看详情函数*/
+            vm.shipmentSeeDetails();
+        });
         /*监听已完成订单客户名称选择*/
         form.on('select(orderCompletedSelect)', function (data) {
             vm.orderCompletedSelectData = data.value;
@@ -4094,6 +4233,115 @@ $(function () {
             } else {
                 $("#newAccessoriesInput").removeClass("noInput");
                 $("#newAccessoriesInput").removeAttr('disabled');
+            }
+        });
+        /*送货单上传*/
+        var uploadDeliveryNote = upload.render({
+            elem: "#uploadDeliveryNote", //绑定元素
+            url: "servlet/UploadAPI", //上传接口
+            done: function (ans) {
+                //上传完毕回调
+                if (ans.errorCode == 0) {
+                    var userPicPath = URL + ans.userPicPath;
+                    let req = {
+                        "updateOrder":"updateOrder",
+                        "deliveryNote":userPicPath,
+                        "id":vm.shippingOrderID,
+                        "orderNumber":vm.shippingOrderNumber,
+                        "operator":$("#nickNameTextPanel").html()
+                    };
+                    if(Af.nullstr(req.orderNumber))
+                    {
+                        let dropReq = {
+                            "operator":$("#nickNameTextPanel").html(),
+                            "delPic":"delPic",
+                            "fileName":ans.userPicPath
+                        };
+                        /*请求后台删除图片*/
+                        Af.rest("dropFile.api",dropReq,function (ans) {
+                            if(ans.errorCode==0)
+                            {
+                                MAIN.ErroAlert("没有勾选订单,所上传文件已经删除!");
+                            }
+                            else {
+                                layer.msg(ans.msg);
+                            }
+                        });
+                        return;
+                    }
+                    Af.rest("ShipmentInfo.api",req,function (ans) {
+                        if(ans.errorCode==0)
+                        {
+                            layer.msg("添加成功");
+                            vm.shippingOrderNumber = "";
+                        }
+                        else
+                        {
+                            MAIN.ErroAlert(ans.msg);
+                        }
+                    });
+                } else {
+                    MAIN.ErroAlert(ans.msg);
+
+                }
+            },
+            error: function () {
+                //请求异常回调
+                layer.msg("服务器错误");
+            }
+        });
+        //客户原始订单单据上传
+        var originalOrderDocument = upload.render({
+            elem: "#uploadDocument", //绑定元素
+            url: "servlet/UploadAPI", //上传接口
+            done: function (ans) {
+                //上传完毕回调
+                if (ans.errorCode == 0) {
+                    var userPicPath = URL + ans.userPicPath;
+                    let req = {
+                        "updateOrder":"updateOrder",
+                        "customerOriginalDocument":userPicPath,
+                        "orderNumber":vm.uploadDocumentForOrderNumber,
+                        "operator":$("#nickNameTextPanel").html()
+                    };
+                    if(Af.nullstr(req.orderNumber))
+                    {
+                        let dropReq = {
+                            "operator":$("#nickNameTextPanel").html(),
+                            "delPic":"delPic",
+                            "fileName":ans.userPicPath
+                        };
+                        /*请求后台删除图片*/
+                        Af.rest("dropFile.api",dropReq,function (ans) {
+                          if(ans.errorCode==0)
+                          {
+                              MAIN.ErroAlert("没有勾选订单,所上传文件已经删除!");
+                          }
+                          else {
+                              layer.msg(ans.msg);
+                          }
+                        });
+                        return;
+                    }
+                    Af.rest("orderInfonQueiry.api",req,function (ans) {
+                        if(ans.errorCode==0)
+                        {
+                            layer.msg("添加成功");
+                            vm.uploadDocumentForOrderNumber = "";
+                        }
+                        else
+                        {
+                            MAIN.ErroAlert(ans.msg);
+                        }
+                    });
+                } else {
+                    MAIN.ErroAlert(ans.msg);
+
+                }
+            },
+            error: function () {
+                //请求异常回调
+                layer.msg("服务器错误");
             }
         });
         //供应商logo图片上传
@@ -6004,7 +6252,7 @@ $(function () {
                                 }else{
                                     thisVal = "未支付";
                                 }
-                                return thisVal; 
+                                return thisVal;
                             }
                         },
 
@@ -6940,19 +7188,18 @@ $(function () {
             });
         };
         /*客户对账*/
-        MAIN.customerReconciliationList = function () {
+        MAIN.customerReconciliationList = function (userName) {
             table.render({
-                url: URL + "/customerReconciliationList",
-                // data:testData, //请求地址
+                url: "customerReconciliation.api",
                 method: 'POST', //方式
                 elem: '#customerReconciliationList',
+                contentType: 'application/json', //发送到服务端的内容编码类型
+                where: {
+                    operator: userName
+                },
                 page: true,
                 height: '270',
                 limits: [10, 15, 20, 25],
-                request: {
-                    pageName: 'page', //页码的参数名称，默认：page
-                    limitName: 'rows' //每页数据量的参数名，默认：limit
-                },
                 cols: [
                     [
                         {
@@ -6961,53 +7208,33 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'CardID',
-                            title: '客户类型',
+                            field: 'orderNumber',
+                            title: '订单号',
                             align: "center"
                         },
                         {
-                            field: 'CardID',
-                            title: '客户名称',
+                            field: 'orderDate',
+                            title: '订单日期',
                             align: "center"
                         },
                         {
-                            field: 'CardName',
-                            title: '公司名称',
+                            field: 'projectName',
+                            title: '工程名称',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '税号',
+                            field: 'totalAmount',
+                            title: '总金额',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '地址',
+                            field: 'totalNum',
+                            title: '总数量',
                             align: "center"
                         },
                         {
-                            field: 'Point',
-                            title: '手机',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '微信',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '邮箱',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '开户银行',
-                            align: "center"
-                        },
-                        {
-                            field: 'Point',
-                            title: '银行卡号',
+                            field: 'preparedBy',
+                            title: '制单人',
                             align: "center"
                         }
                     ]

@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mobilePhoneSerialNumber" column="mobilePhoneSerialNumber" />
 		<result property="companyName" column="companyName" />
 		<result property="userID" column="userID" />
+		<result property="bearingInformation" column="bearingInformation" />
 	</resultMap>
 
 	<!-- 添加 -->
@@ -145,6 +146,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="mobilePhoneSerialNumber != null">
 				mobilePhoneSerialNumber = #{mobilePhoneSerialNumber},
+			</if>
+			<if test="bearingInformation != null">
+				bearingInformation = #{bearingInformation},
 			</if>
 		</trim>
 		<where>

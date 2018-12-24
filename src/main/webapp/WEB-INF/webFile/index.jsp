@@ -481,6 +481,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                             class="layui-btn layui-btn-normal "
                                             v-bind:style="{background:BtnColor}">开单
                                     </button>
+                                    <button class="layui-btn layui-btn-normal " id="uploadDocument" @click="uploadDocument"
+                                            v-bind:style="{background:BtnColor}">上传单据
+                                    </button>
                                     <button @click="startShippingFun" class="layui-btn layui-btn-normal "
                                             v-bind:style="{background:BtnColor}">开始发货
                                     </button>
@@ -751,8 +754,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <button @click="shipmentDelFun" class="layui-btn layui-btn-normal"
                                         v-bind:style="{background:BtnColor}">删除
                                 </button>
-                                <button @click="shipmentExportFun" class="layui-btn layui-btn-normal"
-                                        v-bind:style="{background:BtnColor}">导出
+                                <button @click="shipmentSeeDetails" class="layui-btn layui-btn-normal"
+                                        v-bind:style="{background:BtnColor}">查看详情
+                                </button>
+                                <button @click="uploadDeliveryNoteFun" class="layui-btn layui-btn-normal" id="uploadDeliveryNote"
+                                        v-bind:style="{background:BtnColor}">上传送货单
                                 </button>
                             </div>
                         </div>
@@ -3321,6 +3327,59 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
         </div>
     </div>
+    <!--出货管理[查看详情]悬浮层--->
+    <div id="shipmentSeeDetailsSubmenu">
+        <div class="row-panel">
+            <!--订单号/客户姓名/运输负责人/运费/运费支付状态-->
+            <div class="item-panel">
+                <span class="tips-panel" style="margin-left: 20px">订单号:</span>
+                <span class="val-panel" id="shipOrderNumber"></span>
+            </div>
+            <div class="item-panel">
+                <span class="tips-panel">客户姓名:</span>
+                <span class="val-panel" id="shipClientName"></span>
+            </div>
+            <div class="item-panel">
+                <span class="tips-panel">运输负责人:</span>
+                <span class="val-panel" id="shipPeople"></span>
+            </div>
+            <div class="item-panel">
+                <span class="tips-panel">运费:</span>
+                <span class="val-panel" id="shipFreight"></span>
+            </div>
+            <div class="item-panel">
+                <span class="tips-panel">运费支付状态:</span>
+                <span class="val-panel" id="shipFreightPaymentStatus"></span>
+            </div>
+        </div>
+        <!--当前所查询出货订单型号详情-->
+        <div class="shipOrderModel-panel">
+            <!-- 表格渲染模块 -->
+            <table class="layui-table" id="shipOrderList" lay-filter="shipOrderList">
+                <thead>
+                <tr>
+                    <th class="layui-bg-cyan">序号</th>
+                    <th class="layui-bg-cyan">长度</th>
+                    <th class="layui-bg-cyan">宽度</th>
+                    <th class="layui-bg-cyan">总数量</th>
+                    <th class="layui-bg-cyan">标记</th>
+                    <th class="layui-bg-cyan">面积</th>
+                    <th class="layui-bg-cyan">当前发货数量</th>
+                    <th class="layui-bg-cyan">发货金额</th>
+                    <th class="layui-bg-cyan">发货面积</th>
+                    <th class="layui-bg-cyan">已发货数量</th>
+                    <th class="layui-bg-cyan">剩余数量</th>
+                    <th class="layui-bg-cyan">单价</th>
+                    <th class="layui-bg-cyan">总金额</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!--添加收入悬浮层-->
     <div id="addRevenueSubmenu" class="layui-form">
         <div class="inputArea">

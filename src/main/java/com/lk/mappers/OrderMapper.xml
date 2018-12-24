@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="remarks" column="remarks" />
 		<result property="modelDetails" column="modelDetails" />
 		<result property="unfinishedArr" column="unfinishedArr" />
-
+		<result property="customerOriginalDocument" column="customerOriginalDocument" />
 	</resultMap>
 	<!-- 添加数据开始 -->
 	<insert id="add" parameterType="OrderInfo">
@@ -97,6 +97,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="unfinishedArr != null">
 				unfinishedArr,
 			</if>
+			<if test="customerOriginalDocument != null">
+				customerOriginalDocument,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="orderNumber != null">
@@ -161,6 +164,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="unfinishedArr != null">
 				#{unfinishedArr,jdbcType=VARCHAR},
+			</if>
+			<if test="customerOriginalDocument != null">
+				#{customerOriginalDocument,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -339,6 +345,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="unfinishedArr != null">
 				unfinishedArr = #{unfinishedArr},
 			</if>
+			<if test="customerOriginalDocument != null">
+				customerOriginalDocument = #{customerOriginalDocument},
+			</if>
+			
 		</trim>
 		<where>
 			<if test="orderNumber != null">

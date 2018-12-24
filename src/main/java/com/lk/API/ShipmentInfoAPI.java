@@ -405,6 +405,37 @@ public class ShipmentInfoAPI extends AfRestfulApi
 				sqlSession.close();
 				/* 添加发货接口结束 */
 			}
+			/*更新发货单字段*/
+			if(jsReq.has("updateOrder"))
+			{
+				String deliveryNote = jsReq.getString("deliveryNote");
+				int id = jsReq.getInt("id");
+				String orderNumber = jsReq.getString("orderNumber");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				ShipmentInfo row = new ShipmentInfo();
+				row.setDeliveryNote(deliveryNote);
+				row.setOperator(operator);
+				row.setId(id);
+				row.setOrderNumber(orderNumber);
+				int thisResult = shipmentMapper.update(row);
+				sqlSession.commit();
+				if(thisResult>0)
+				{
+					msg = "更新成功";
+					code = 0;
+					errorCode =0;
+				}
+				else
+				{
+					code = 1;
+					errorCode =1;
+					msg = "更新失败!";
+				}
+				sqlSession.close();
+			}
 			// 批量删除
 			if (jsReq.has("delOrders"))
 			{

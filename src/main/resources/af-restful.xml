@@ -43,6 +43,10 @@
 	<api name="EmployeeInfo" class="com.lk.API.EmployeeInfoAPI" />
 	<!-- 获取订单号接口 -->
 	<api name="getOrderNumber" class="com.lk.API.GetOrderNumberAPI" />
-	<!-- 测试接口 -->
-	<api name="AndroidDataTest" class="com.lk.TestAPI.AndroidDataTestAPI" />
+	<!-- 删除文件接口 -->
+	<api name="dropFile" class="com.lk.API.DropFileAPI" />
+	<!-- 获取服务器时间 -->
+	<api name="getServerTime" class="com.lk.API.ServerTimeAPI" />
+	<!-- 客户对账 -->
+
 </restful>
