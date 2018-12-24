@@ -16,7 +16,7 @@ public interface ClientInfoMapper
 {
 	//查询表内所有数据
 	public List<ClientInfo> findexpenditurePage(ClientInfo row);
-	//自定义查询
+	//按条件查询
 	public List<ClientInfo> conditionalQuery(ClientInfo row);
 	//批量删除
 	public int del(ClientInfo row);
@@ -24,4 +24,6 @@ public interface ClientInfoMapper
 	public int add(ClientInfo row);
 	//更新数据
 	public int update(ClientInfo row);
+	//自定义查询
+	public  List<ClientInfo> customQuery(ClientInfo row);
 }

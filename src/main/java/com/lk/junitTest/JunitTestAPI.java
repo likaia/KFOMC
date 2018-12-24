@@ -15,12 +15,16 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.*;
 
 import com.lk.Utils.LkCommon;
 import com.lk.Utils.WorderToNewWordUtils;
+import com.lk.db.ClientInfo;
+import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.ClientInfoMapper;
 
 /*
   * 
@@ -160,6 +164,7 @@ public class JunitTestAPI
 		System.out.println(ts);
 		
 	}
+	/*tomcat路径读取测试*/
 	@Test
 	public void test6()
 	{
@@ -177,6 +182,7 @@ public class JunitTestAPI
 		String tomcatPath = props.getProperty("path", "---");
 		System.out.println(tomcatPath);
 	}
+	/*tomcat路径拼接测试*/
 	@Test
 	public void test7()
 	{
@@ -185,5 +191,24 @@ public class JunitTestAPI
 		String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
 		fileName = tomcatPath + fileName;
 		System.out.println(fileName);
+	}
+	/*客户名称自定义查询接口测试*/
+	@Test
+	public void test8()
+	{
+		String operator = "李凯";
+		String[] queryTypeArr = {"clientName"};
+		JSONArray queryType = new JSONArray(queryTypeArr);
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		ClientInfoMapper clientInfoMapper = sqlSession.getMapper(ClientInfoMapper.class);
+		ClientInfo row  = new ClientInfo();
+		row.setOperator(operator);
+		row.setQueryType(queryType);
+		List<ClientInfo> resultList = clientInfoMapper.customQuery(row);
+		JSONArray clientData = new JSONArray(resultList);
+		System.out.println(clientData);
+		sqlSession.close();
 	}
 }

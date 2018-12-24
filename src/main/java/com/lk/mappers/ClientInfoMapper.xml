@@ -43,6 +43,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="ClientInfoResult"
+		parameterType="ClientInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_client_Info  
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="clientName != null">
+				AND clientName like #{clientName}
+			</if>
+		</where>
+	</select>
 	<!-- 根据特定条件查询表内数据 -->
 	<select id="conditionalQuery" resultMap="ClientInfoResult"
 		parameterType="ClientInfo">

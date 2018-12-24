@@ -1085,15 +1085,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="layui-form-item">
                                 <label class="layui-form-label">客户姓名</label>
                                 <div class="layui-input-block layui-form">
-                                    <select lay-search="" lay-filter=""
-                                            name="customerNameSelectPanel">
+                                    <select lay-search="" lay-filter="customerReconciliationSelect" id="customerReconciliationSelect"
+                                            name="customerReconciliationSelect">
                                         <option value="">直接选择或输入客户姓名</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="queryBtn-panel">
-                            <button class="layui-btn layui-btn-normal"
+                            <button class="layui-btn layui-btn-normal" @click="queryAllOrderFun"
                                     v-bind:style="{background:BtnColor}">查询
                             </button>
                         </div>

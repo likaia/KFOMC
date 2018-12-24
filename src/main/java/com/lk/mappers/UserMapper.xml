@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="companyName" column="companyName" />
 		<result property="userID" column="userID" />
 		<result property="bearingInformation" column="bearingInformation" />
+		<result property="punchRange" column="punchRange" />
 	</resultMap>
 
 	<!-- 添加 -->
@@ -135,6 +136,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="bearingInformation != null">
 				bearingInformation = #{bearingInformation},
 			</if>
+			<if test="punchRange != null">
+				punchRange = #{punchRange},
+			</if>
 		</trim>
 		<where>
 			<if test="id != null">
@@ -157,6 +161,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<where>
 			<if test="userName != null">
 				userName = #{userName}
+			</if>
+			<if test="companyName != null">
+				AND companyName like #{companyName}
 			</if>
 			<if test="id != null">
 				AND id like #{id}

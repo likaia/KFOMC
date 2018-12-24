@@ -32,6 +32,7 @@ public class User
 	private Integer userID;
 	private String mobilePhoneSerialNumber;
 	private JSONArray queryType;
+	private Integer punchRange;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -138,6 +139,14 @@ public class User
 		this.filePath = filePath;
 	}
 
+	public Integer getPunchRange()
+	{
+		return punchRange;
+	}
+	public void setPunchRange(Integer punchRange)
+	{
+		this.punchRange = punchRange;
+	}
 	public String getVersion()
 	{
 		return version;

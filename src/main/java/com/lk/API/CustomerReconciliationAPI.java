@@ -2,8 +2,17 @@ package com.lk.API;
 
 import af.restful.AfRestfulApi;
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.json.*;
+
+import com.lk.db.ClientInfo;
+import com.lk.db.OrderInfo;
+import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.ClientInfoMapper;
+import com.lk.mappers.OrderMapper;
 /*
   * 
   *  @author  李凯
@@ -13,7 +22,7 @@ import org.json.*;
 /*客户对账*/
 public class CustomerReconciliationAPI extends AfRestfulApi
 {
-	private static Logger logger = Logger.getLogger(ClientInfoAPI.class);
+	private static Logger logger = Logger.getLogger(CustomerReconciliationAPI.class);
 
 	@Override
 	public String execute(String reqText) throws Exception
@@ -25,18 +34,50 @@ public class CustomerReconciliationAPI extends AfRestfulApi
 		int errorCode = 0;
 		int code = 0;
 		JSONArray result = new JSONArray();
+		JSONArray clientData = new JSONArray();
 		String msg = "ok";
 		/* 安卓端返回数据 */
 		/* 定义分页需要的字段 */
 		if (jsReq.has("operator"))
 		{
-
+			if(jsReq.has("queryClientName"))
+			{
+				operator = jsReq.getString("operator");
+				String[] queryTypeArr = {"clientName"};
+				JSONArray queryType = new JSONArray(queryTypeArr);
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ClientInfoMapper clientInfoMapper = sqlSession.getMapper(ClientInfoMapper.class);
+				ClientInfo row  = new ClientInfo();
+				row.setOperator(operator);
+				row.setQueryType(queryType);
+				List<ClientInfo> resultList = clientInfoMapper.customQuery(row);
+				clientData = new JSONArray(resultList);
+				sqlSession.close();
+			}
+			if(jsReq.has("queryOrderInfo"))
+			{
+				int id = jsReq.getInt("clientID");
+				JSONArray queryType = jsReq.getJSONArray("queryType"); 
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+				OrderInfo row = new OrderInfo();
+				row.setId(id);
+				row.setOperator(operator);
+				row.setQueryType(queryType);
+				List<OrderInfo> resultList = orderMapper.customQuery(row);
+				result = new JSONArray(resultList);
+				sqlSession.close();
+			}
 		} else
 		{
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
-			logger.error("出货管理接口异常:没有操作人");
+			logger.error("客户对账接口异常:没有操作人");
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();
@@ -44,6 +85,7 @@ public class CustomerReconciliationAPI extends AfRestfulApi
 		jsReply.put("code", code);
 		jsReply.put("msg", msg);
 		jsReply.put("data", result);
+		jsReply.put("clientData", clientData);
 		jsReply.put("operator", operator);
 		return jsReply.toString();
 	}

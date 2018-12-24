@@ -2,25 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/CustomerReconciliationAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/CustomerReconciliationAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ShipmentInfoAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/AndroidDataTestAPI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/TestAPI/TestClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/OrderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/OrderInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/ShipmentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/ShipmentInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/ClientInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/ClientInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/af-restful.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/af-restful.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -40,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="1102" column="61" selection-start-line="1102" selection-start-column="35" selection-end-line="1102" selection-end-column="61" />
+            <state relative-caret-position="379">
+              <caret line="1087" column="132" selection-start-line="1087" selection-start-column="104" selection-end-line="1087" selection-end-column="132" />
               <folding>
                 <element signature="n#style#0;n#div#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -66,10 +57,9 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="679">
-              <caret line="7243" column="27" selection-start-line="7243" selection-start-column="27" selection-end-line="7243" selection-end-column="27" />
+            <state relative-caret-position="329">
+              <caret line="2278" column="67" selection-start-line="2278" selection-start-column="67" selection-end-line="2278" selection-end-column="67" />
               <folding>
-                <element signature="e#69614#77438#0" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
@@ -78,6 +68,7 @@
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="e#336621#338466#0" />
               </folding>
             </state>
           </provider>
@@ -86,7 +77,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
+            <state relative-caret-position="22450">
               <caret line="898" column="22" selection-start-line="898" selection-start-column="22" selection-end-line="898" selection-end-column="22" />
             </state>
           </provider>
@@ -105,14 +96,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>生产单</find>
-      <find>PrintTemplate</find>
-      <find>订单打印</find>
-      <find>printOrderFun</find>
-      <find>billingFun</find>
-      <find>出货管理</find>
-      <find>laytpl</find>
-      <find>templet</find>
       <find>originalFilmOutList</find>
       <find>shipmentExportFun</find>
       <find>input</find>
@@ -134,7 +117,15 @@
       <find>shippingOrderNumber</find>
       <find>shippingOrderID</find>
       <find>customerReconciliationList-panel</find>
+      <find>customerNameSelectPanel</find>
+      <find>客户对账</find>
+      <find>customerReconciliation</find>
+      <find>客户对账点击</find>
+      <find>vue</find>
+      <find>监听</find>
+      <find>customerReconciliationSelectVal</find>
       <find>customerReconciliationList</find>
+      <find>customerReconciliationSelect</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -161,8 +152,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
       </list>
     </option>
@@ -448,11 +439,12 @@
       <workItem from="1545447131422" duration="25304000" />
       <workItem from="1545529317701" duration="5115000" />
       <workItem from="1545539857215" duration="9982000" />
+      <workItem from="1545619277296" duration="7074000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1081669000" />
+    <option name="totallyTimeSpent" value="1088743000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -704,15 +696,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
+        <state relative-caret-position="22450">
           <caret line="898" column="22" selection-start-line="898" selection-start-column="22" selection-end-line="898" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="1102" column="61" selection-start-line="1102" selection-start-column="35" selection-end-line="1102" selection-end-column="61" />
+        <state relative-caret-position="379">
+          <caret line="1087" column="132" selection-start-line="1087" selection-start-column="104" selection-end-line="1087" selection-end-column="132" />
           <folding>
             <element signature="n#style#0;n#div#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -735,10 +727,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="7243" column="27" selection-start-line="7243" selection-start-column="27" selection-end-line="7243" selection-end-column="27" />
+        <state relative-caret-position="329">
+          <caret line="2278" column="67" selection-start-line="2278" selection-start-column="67" selection-end-line="2278" selection-end-column="67" />
           <folding>
-            <element signature="e#69614#77438#0" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
@@ -747,6 +738,7 @@
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="e#336621#338466#0" />
           </folding>
         </state>
       </provider>

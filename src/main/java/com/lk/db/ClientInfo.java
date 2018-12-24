@@ -27,7 +27,7 @@ public class ClientInfo
 	private String dStart;
 	private String dEnd;
 	private JSONArray ids;
-	
+	private JSONArray queryType;
 	public JSONArray getIds()
 	{
 		return ids;
@@ -157,6 +157,14 @@ public class ClientInfo
 		this.dEnd = dEnd;
 	}
 	
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
+	}
 	public ClientInfo()
 	{
 		super();

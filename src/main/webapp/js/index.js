@@ -390,6 +390,8 @@ $(function () {
             editSupplierBankPrompt: '', //--->所属银行提示
             editSupplierWechat: '', //--->供应商联系人微信
             uploadDocumentForOrderNumber:'',
+            /*客户对账*/
+            customerReconciliationSelectVal:""
         },
         methods: {
             materialFun: function () {
@@ -2260,6 +2262,23 @@ $(function () {
                 layer.alert($("#DetailsOrderTransportationManager").val());
             }
             ,
+            /*查询所有订单*/
+            queryAllOrderFun:function(){
+              let clientID = vm.customerReconciliationSelectVal;
+              if(clientID==0||Af.nullstr(clientID))
+              {
+                  MAIN.ErroAlert("没有勾选客户不能查询!");
+                  return;
+              }
+              let req = {
+                  "clientID":clientID,
+                  "operator":$("#nickNameTextPanel").html(),
+                  "queryType":["orderNumber","orderDate","projectName","totalAmount","glassNumber","preparedBy"]
+              };
+              Af.rest("customerReconciliation.api",req,function (ans) {
+                  MAIN.customerReconciliationDataList = function(){}
+              });
+            },
             /*订单信息管理:开始发货*/
             startShippingFun: function () {
                 $("#OrderModelList  tbody").html(""); //--->清空表格数据
@@ -3124,7 +3143,7 @@ $(function () {
             expenditureInfoLFun: function () {
                 this.expenditureInfoStatus = "block";
                 setTimeout(function () {
-                    /*渲染订单月结管理数据表格*/
+
                     MAIN.expenditureInfoList($("#nickNameTextPanel").html());
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理  客户对账 隐藏*/
@@ -3151,8 +3170,8 @@ $(function () {
             reconciliationFun: function () {
                 this.customerReconciliationStatus = "block";
                 setTimeout(function () {
-                    /*渲染订单月结管理数据表格*/
-                    MAIN.customerReconciliationList();
+                    MAIN.customerReconciliationList($("#nickNameTextPanel").html());
+
                 }, 100);
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理  支出管理隐藏*/
                 this.stockStatus = "none";
@@ -4119,6 +4138,13 @@ $(function () {
         form.on('checkbox(freightSwitch)', function (data) {
             vm.freightPaymentStatus = data.elem.checked;
         });
+        /*监听客户对账(客户名称选择)*/
+        form.on('select(customerReconciliationSelect)', function (data) {
+            let selectData = data.value;
+            vm.customerReconciliationSelectVal = Number(selectData);
+
+        });
+
         /*监听订单信息管理[添加收入]收款方式选择*/
         form.on('select(incomePaymentMethod)', function (data) {
             let selectData = data.value;
@@ -7195,7 +7221,8 @@ $(function () {
                 elem: '#customerReconciliationList',
                 contentType: 'application/json', //发送到服务端的内容编码类型
                 where: {
-                    operator: userName
+                    operator: userName,
+                    queryClientName:""
                 },
                 page: true,
                 height: '270',
@@ -7228,7 +7255,97 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'totalNum',
+                            field: 'glassNumber',
+                            title: '总数量',
+                            align: "center"
+                        },
+                        {
+                            field: 'preparedBy',
+                            title: '制单人',
+                            align: "center"
+                        }
+                    ]
+                ],
+                done:function (res,curr,count) {
+                    //清空select中除第一个以外的选项 渲染(部门,姓名,工号)
+                    $("#customerReconciliationSelect option:gt(0)").remove();
+                    AttendanceNameSelectFun();
+                    /*渲染客户名称*/
+                    function AttendanceNameSelectFun() {
+                        var data = res.clientData;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].clientName;
+                            nowData.push(temporaryData);
+                        }
+                        addSelectVal(nowData, "customerReconciliationSelect");
+                    }
+                    /*动态赋值select函数*/
+                    function addSelectVal(data, container) {
+                        var $html = "";
+                        if (data != null) {
+                            $.each(data, function (index, item) {
+                                if (item.proType) {
+                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                } else {
+                                    $html += "<option value='" + item.id + "'>" + item.name + "</option>";
+                                }
+                            });
+                            $("select[name='" + container + "']").append($html);
+                            //反选
+                            //$("select[name='"+container+"']").val($("#???").val());
+                            //append后必须从新渲染
+                            form.render('select');
+                        } else {
+                            $html += "<option value='0'>没有任何数据</option>";
+                            $("select[name='" + container + "']").append($html);
+                            //append后必须从新渲染
+                            form.render('select');
+                        }
+
+                    }
+                }
+            });
+        };
+        /*客户对账,传值调用*/
+        MAIN.customerReconciliationDataList = function (UserData) {
+            table.render({
+                data:UserData,
+                elem: '#customerReconciliationList',
+                page: true,
+                height: '270',
+                limits: [10, 15, 20, 25],
+                cols: [
+                    [
+                        {
+                            fixed: "left",
+                            type: 'checkbox',
+                            align: "center"
+                        },
+                        {
+                            field: 'orderNumber',
+                            title: '订单号',
+                            align: "center"
+                        },
+                        {
+                            field: 'orderDate',
+                            title: '订单日期',
+                            align: "center"
+                        },
+                        {
+                            field: 'projectName',
+                            title: '工程名称',
+                            align: "center"
+                        },
+                        {
+                            field: 'totalAmount',
+                            title: '总金额',
+                            align: "center"
+                        },
+                        {
+                            field: 'glassNumber',
                             title: '总数量',
                             align: "center"
                         },

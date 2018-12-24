@@ -31,6 +31,7 @@ public class LoginAPI extends AfRestfulApi
 		JSONObject data = new JSONObject();
 		JSONArray nowResult = new 	JSONArray();
 		JSONObject jsReq = new JSONObject(reqText);
+		JSONObject nowUserInfo = new JSONObject();
 		Integer userID = null;
 		if(jsReq.has("userName"))
 		{
@@ -67,6 +68,7 @@ public class LoginAPI extends AfRestfulApi
 					} else
 					{
 						JSONObject result = new JSONObject(dbData);
+						nowUserInfo = result;
 						String sqlUserName = result.getString("userName");
 						String sqlPassWord = result.getString("passWord");
 						if(result.has("userID"))
@@ -101,6 +103,11 @@ public class LoginAPI extends AfRestfulApi
 				UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 				User row = new User();
 				row.setUserName(userName);
+				if(jsReq.has("companyName"))
+				{
+					String companyName = jsReq.getString("companyName");
+					row.setCompanyName(companyName);
+				}
 				row.setQueryType(queryType);
 				List<User> resultList = userMapper.customQuery(row);
 				nowResult = new JSONArray(resultList);
@@ -152,6 +159,11 @@ public class LoginAPI extends AfRestfulApi
 					JSONArray bearingInformation =jsReq.getJSONArray("bearingInformation");
 					row.setBearingInformation(bearingInformation.toString());
 				}
+				if(jsReq.has("punchRange"))
+				{
+					int punchRange = jsReq.getInt("punchRange");
+					row.setPunchRange(punchRange);
+				}
 				int processResult = userMapper.updateAttendanceInfo(row);
 				sqlSession.commit();
 				if(processResult>0)
@@ -177,6 +189,7 @@ public class LoginAPI extends AfRestfulApi
 		jsReply.put("errorCode", errorCode);
 		jsReply.put("msg", msg);
 		jsReply.put("data", data);
+		jsReply.put("nowUserInfo", nowUserInfo);
 		jsReply.put("userID", userID);
 		jsReply.put("result", nowResult);
 		return jsReply.toString();
