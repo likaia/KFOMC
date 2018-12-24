@@ -80,21 +80,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		userName=#{userName},avatar=#{avatar},picUrl =#{picUrl} where
 		userName=#{nowUser}
 	</update>
-	<!--更新 旷工范围/迟到范围/节假日状态 -->
-	<update id="updateRange" parameterType="User">
-		update t_user
-		<trim prefix="SET" suffixOverrides=",">
-			
-		</trim>
-		<where>
-			<if test="id != null">
-				id = #{id}
-			</if>
-			<if test="userName != null">
-				AND userName like #{userName}
-			</if>
-		</where>
-	</update>
 	<!-- 更新公司考勤信息 -->
 	<update id="updateAttendanceInfo" parameterType="User">
 		update t_user

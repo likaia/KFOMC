@@ -150,7 +150,7 @@ public class LoginAPI extends AfRestfulApi
 				if(jsReq.has("bearingInformation"))
 				{
 					JSONArray bearingInformation =jsReq.getJSONArray("bearingInformation");
-					row.setBearingInformation(bearingInformation);
+					row.setBearingInformation(bearingInformation.toString());
 				}
 				int processResult = userMapper.updateAttendanceInfo(row);
 				sqlSession.commit();

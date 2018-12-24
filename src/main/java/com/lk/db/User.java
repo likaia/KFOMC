@@ -28,7 +28,7 @@ public class User
 	private String mobilePhoneManufacturer;
 	private String phoneModel;
 	private String companyName;
-	private JSONArray bearingInformation;
+	private String bearingInformation;
 	private Integer userID;
 	private String mobilePhoneSerialNumber;
 	private JSONArray queryType;
@@ -81,6 +81,14 @@ public class User
 		this.id = id;
 	}
 
+	public String getBearingInformation()
+	{
+		return bearingInformation;
+	}
+	public void setBearingInformation(String bearingInformation)
+	{
+		this.bearingInformation = bearingInformation;
+	}
 	public String getUserName()
 	{
 		return userName;
@@ -106,15 +114,7 @@ public class User
 		return cellPhone;
 	}
 
-	
-	public JSONArray getBearingInformation()
-	{
-		return bearingInformation;
-	}
-	public void setBearingInformation(JSONArray bearingInformation)
-	{
-		this.bearingInformation = bearingInformation;
-	}
+
 	public Integer getUserID()
 	{
 		return userID;

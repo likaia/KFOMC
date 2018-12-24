@@ -23,6 +23,14 @@ public class OrderInfo
 	private String companyName;
 	private JSONArray queryType; 
 	private String unfinishedArr; //未发货的规格型号
+	private String dStart;
+	private String dEnd;
+	private String deliveryAddress;  //--->送货地址
+	private String contactNumber; //--->联系电话
+	private String shippingMethod;//--->发货方式
+	private String remarks;//--->备注
+	private String modelDetails;//--->规格型号
+	private JSONArray orders;
 	private String customerOriginalDocument; //客户原始单据
 	public String getUnfinishedArr()
 	{
@@ -40,15 +48,6 @@ public class OrderInfo
 	{
 		this.queryType = queryType;
 	}
-
-	private String dStart;
-	private String dEnd;
-	private String deliveryAddress;  //--->送货地址
-	private String contactNumber; //--->联系电话
-	private String shippingMethod;//--->发货方式
-	private String remarks;//--->备注
-	private String modelDetails;//--->规格型号
-	private JSONArray orders;
 	public JSONArray getOrders()
 	{
 		return orders;

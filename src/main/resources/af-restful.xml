@@ -48,5 +48,5 @@
 	<!-- 获取服务器时间 -->
 	<api name="getServerTime" class="com.lk.API.ServerTimeAPI" />
 	<!-- 客户对账 -->
-
+	<api name="customerReconciliation" class="com.lk.API.CustomerReconciliationAPI" />
 </restful>
