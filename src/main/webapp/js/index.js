@@ -4027,8 +4027,7 @@ $(function () {
             },
             /*客户对账:单据下载函数*/
             downloadAllOrderFun:function () {
-                window.location.href="https://www.kaisir.cn/webPic/20181225120155_macOS-Mojave-Night-wallpaper.jpg"; 
-
+                
             },
         }
     });

@@ -1,11 +1,11 @@
 package com.lk.junitTest;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.*;
 
+
+import com.lk.Utils.DeleteFileUtil;
 import com.lk.Utils.LkCommon;
 import com.lk.Utils.WorderToNewWordUtils;
 import com.lk.Utils.ZipUtils;
@@ -50,7 +52,6 @@ public class JunitTestAPI
 	 * @AfterClass: 所有测试结束之后运行
 	 */
 	LkCommon lkcommon = new LkCommon();
-
 	// 测试:JSONArray中每个元素重复出现次数,元素占比,当前元素的金额
 	@Test
 	public void test1()
@@ -263,6 +264,7 @@ public class JunitTestAPI
 		}
 	}
 	/**
+	 * @throws IOException 
 	 * 
 	 * @Title:             test12
 	 * @Description:     文件操作
@@ -270,8 +272,65 @@ public class JunitTestAPI
 	 * @throws
 	 */
 	@Test
-	public void test12()
+	public void test12() throws IOException
 	{
-		lkcommon.createAFile("/home/likai/aa.txt", "aa.txt");
+		String[] picStrArr = {"webPic/20181223172516_233223.png","webPic/43.jpg","webPic/20181004023334_admin.jpg","webPic/20181223114011_timg.jpeg","webPic/20181224092931_shengdan.jpg"};
+		JSONArray picArr = new JSONArray(picStrArr);
+		  //获取网络时间
+		  String webTime=LkCommon.getNetworkTime("http://www.baidu.com"); 
+		  //去除时间中的所有标点符号
+		  webTime = webTime.replaceAll("[\\pP\\p{Punct}]","");
+		  //获取tomcat路径
+		  String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
+		  //拼接文件夹名称
+		  String folderName = tomcatPath+"/"+webTime+"";
+		  //去除空格
+		  folderName =  folderName.replace(" ","");
+		  System.out.println("将要创建的文件夹名称为:"+folderName);
+		  //创建文件夹
+		  lkcommon.createFolder(folderName);
+		 int num = 0;
+		  //将文件名从数组中读出来
+		  for(int i = 0; i <picArr.length();i++)
+		  {
+			  num++;
+			  String fileName = picArr.getString(i);
+			  //去除webPic前缀
+			  fileName = fileName.substring(6);
+			  //拼接每一项的文件路径,得到tomcat下的真实文件路径
+			  fileName = tomcatPath+"/"+fileName+"";
+			  //将遍历到的每一项文件复制到新建的文件夹中
+			  lkcommon.copyFile(fileName, folderName);
+		  }
+		  System.out.println(num+"个文件,已拷贝到"+folderName+"中");
+		  String zipFile = tomcatPath+"/zipFile/"+webTime+".zip";
+		  //去除空格
+		  zipFile =zipFile.replace(" ","");
+		  //压缩文件
+		  ZipUtils.doCompress(folderName, zipFile);
+		  System.out.println("文件压缩成功,路径为:"+zipFile);
+		  //删除刚开始创建的文件夹
+		  DeleteFileUtil.deleteDirectory(folderName);
+		  System.out.println("文件:"+folderName+"已删除");
+	}
+	/**
+	 * 
+	 * @Title:             test13
+	 * @Description:     arrayList排序
+	 * @param:                
+	 * @return:         void   
+	 * @throws
+	 */
+	@Test
+	public void test13()
+	{
+		String[] arr = {"aa","cc","nn","bb"};
+		ArrayList<String> arrs = new ArrayList<String>();
+		for(int i = 0;i< arr.length;i++)
+		{
+			arrs.add(arr[i]);
+		}
+		Collections.sort(arrs);
+		System.out.println(arrs);
 	}
 }

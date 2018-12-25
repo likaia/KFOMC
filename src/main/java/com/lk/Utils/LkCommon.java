@@ -146,15 +146,11 @@ public class LkCommon
 	 * @return:         void   
 	 * @throws
 	 */
-	@SuppressWarnings("unused")
-	private static void copyFile(String srcPathStr, String desPathStr)
+	public void copyFile(String srcPathStr, String desPathStr)
 	{
 		// 1.获取源文件的名称
-		String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("\\") + 1); // 目标文件地址
-		System.out.println(newFileName);
+		String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("/") + 1); // 目标文件地址(linux为"/")
 		desPathStr = desPathStr + File.separator + newFileName; // 源文件地址
-		System.out.println(desPathStr);
-
 		try
 		{
 			// 2.创建输入输出流对象
