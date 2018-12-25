@@ -37,6 +37,7 @@ public class ServerTimeAPI extends AfRestfulApi
 			code = 1;
 			errorCode = 1;
 			msg = "字段丢失:operator is Undefined";
+			
 		}
 		/* 构造返回对象 */
 		JSONObject jsReply = new JSONObject();
