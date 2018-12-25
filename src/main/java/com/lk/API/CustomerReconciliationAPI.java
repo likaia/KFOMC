@@ -10,9 +10,11 @@ import org.json.*;
 
 import com.lk.db.ClientInfo;
 import com.lk.db.OrderInfo;
+import com.lk.db.ShipmentInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.ClientInfoMapper;
 import com.lk.mappers.OrderMapper;
+import com.lk.mappers.ShipmentMapper;
 /*
   * 
   *  @author  李凯
@@ -36,13 +38,11 @@ public class CustomerReconciliationAPI extends AfRestfulApi
 		JSONArray result = new JSONArray();
 		JSONArray clientData = new JSONArray();
 		String msg = "ok";
-		/* 安卓端返回数据 */
-		/* 定义分页需要的字段 */
 		if (jsReq.has("operator"))
 		{
+			operator = jsReq.getString("operator");
 			if(jsReq.has("queryClientName"))
 			{
-				operator = jsReq.getString("operator");
 				String[] queryTypeArr = {"clientName"};
 				JSONArray queryType = new JSONArray(queryTypeArr);
 				// 打开连接
@@ -58,17 +58,31 @@ public class CustomerReconciliationAPI extends AfRestfulApi
 			}
 			if(jsReq.has("queryOrderInfo"))
 			{
-				int id = jsReq.getInt("clientID");
-				JSONArray queryType = jsReq.getJSONArray("queryType"); 
+				String clientName = jsReq.getString("clientName");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
 				OrderInfo row = new OrderInfo();
-				row.setId(id);
+				row.setClientName(clientName);
 				row.setOperator(operator);
-				row.setQueryType(queryType);
-				List<OrderInfo> resultList = orderMapper.customQuery(row);
+				/*按条件查询:(客户名称查询所有订单)*/
+				List<OrderInfo> resultList = orderMapper.uniqueQuery(row);
+				result = new JSONArray(resultList);
+				sqlSession.close();
+			}
+			if(jsReq.has("queryShipInfo"))
+			{
+				/*根据订单号查询当前订单所有出货信息*/
+				String orderNumber = jsReq.getString("orderNumber");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				ShipmentMapper shipmentMapper = sqlSession.getMapper(ShipmentMapper.class);
+				ShipmentInfo row = new ShipmentInfo();
+				row.setOperator(operator);
+				row.setOrderNumber(orderNumber);
+				List<ShipmentInfo> resultList = shipmentMapper.uniqueQuery(row);
 				result = new JSONArray(resultList);
 				sqlSession.close();
 			}

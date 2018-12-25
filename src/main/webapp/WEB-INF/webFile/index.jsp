@@ -49,6 +49,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <script src="crypto-js/sha256.js"></script>
     <%-- 引入工具类--%>
     <script src="js/LkCommon.js"></script>
+    <!--图片压缩上传-->
+    <script src="js/imageCompression.js"></script>
     <%--网页加载进度条插件 --%>
     <link rel="stylesheet" href="nprogress/nprogress.css">
     <script src="nprogress/nprogress.js"></script>
@@ -760,6 +762,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <button @click="uploadDeliveryNoteFun" class="layui-btn layui-btn-normal" id="uploadDeliveryNote"
                                         v-bind:style="{background:BtnColor}">上传送货单
                                 </button>
+                                <input type="button" id = "btnHide" style="display: none">
                             </div>
                         </div>
                         <!--数据表格-->
@@ -1096,6 +1099,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <button class="layui-btn layui-btn-normal" @click="queryAllOrderFun"
                                     v-bind:style="{background:BtnColor}">查询
                             </button>
+                            <button class="layui-btn layui-btn-normal" @click="downloadAllOrderFun"
+                                    v-bind:style="{background:BtnColor}">单据下载
+                            </button>
                         </div>
                     </div>
                     <!--数据表格列表-->
@@ -1108,8 +1114,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="layui-col-space10">
                         <div class="layui-col-md4">
                             <!--客户原始单据-->
-                            <div class="lump-panel" @click="OriginalDocumentFun">
-                                <img src="img/bg1.jpeg" alt="">
+                            <div class="lump-panel" @click="OriginalDocumentFun" id="customerOriginalDocumentImgPanel">
+                                <img src="img/bg1.jpeg" alt="" id="customerOriginalDocumentImg">
                                 <div class="BlackSuspensionLayer">
                                     <span>客户原始单据(点击查看大图)</span>
                                 </div>
@@ -1127,10 +1133,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             </div>
                         </div>
                         <div class="layui-col-md4">
-                            <div class="lump-panel">
-                                <!--客户原始单据-->
+                            <div class="lump-panel" @click="deliveryOrderFun">
+                                <!--送货清单-->
                                 <div class="lump-panel">
-                                    <img src="img/bg1.jpeg" alt="">
+                                    <img src="img/bg1.jpeg" alt="" id="deliveryOrderPanel">
                                     <div class="BlackSuspensionLayer">
                                         <span>送货清单(点击查看大图)</span>
                                     </div>

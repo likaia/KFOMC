@@ -391,7 +391,9 @@ $(function () {
             editSupplierWechat: '', //--->供应商联系人微信
             uploadDocumentForOrderNumber:'',
             /*客户对账*/
-            customerReconciliationSelectVal:""
+            customerReconciliationSelectVal:"",
+            deliveryOrderJsonSrc:[], //--->送货请单图片地址
+            customerOriginalDocumentSrc:[] //--->原始订单图片地址
         },
         methods: {
             materialFun: function () {
@@ -2264,19 +2266,20 @@ $(function () {
             ,
             /*查询所有订单*/
             queryAllOrderFun:function(){
-              let clientID = vm.customerReconciliationSelectVal;
-              if(clientID==0||Af.nullstr(clientID))
+              let clientName = vm.customerReconciliationSelectVal;
+              if(Af.nullstr(clientName))
               {
                   MAIN.ErroAlert("没有勾选客户不能查询!");
                   return;
               }
               let req = {
-                  "clientID":clientID,
+                  "clientName":clientName,
                   "operator":$("#nickNameTextPanel").html(),
+                  "queryOrderInfo":"",
                   "queryType":["orderNumber","orderDate","projectName","totalAmount","glassNumber","preparedBy"]
               };
               Af.rest("customerReconciliation.api",req,function (ans) {
-                  MAIN.customerReconciliationDataList = function(){}
+                  MAIN.customerReconciliationDataList(ans.data);
               });
             },
             /*订单信息管理:开始发货*/
@@ -4008,7 +4011,25 @@ $(function () {
             ,
             /*客户原始单据点击放大图片*/
             OriginalDocumentFun: function () {
-            }
+                //点击查看大图
+                layer.photos({
+                    photos: vm.customerOriginalDocumentSrc
+                    ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+                });
+            },
+            /*送货请单原始单据点击放大图片*/
+            deliveryOrderFun:function () {
+                //点击查看大图
+                layer.photos({
+                    photos: vm.deliveryOrderJsonSrc
+                    ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+                });
+            },
+            /*客户对账:单据下载函数*/
+            downloadAllOrderFun:function () {
+                window.location.href="https://www.kaisir.cn/webPic/20181225120155_macOS-Mojave-Night-wallpaper.jpg"; 
+
+            },
         }
     });
     /*左侧导航栏*/
@@ -4127,8 +4148,6 @@ $(function () {
                         Af.trace($(this).attr("elementposition"));
                     },1200);
                 });*/
-
-
         /*监听标签打印[单选框选择]*/
         form.on('radio(labelRadio)', function (data) {
             //console.log(data.value); //被点击的radio的value值
@@ -4140,9 +4159,7 @@ $(function () {
         });
         /*监听客户对账(客户名称选择)*/
         form.on('select(customerReconciliationSelect)', function (data) {
-            let selectData = data.value;
-            vm.customerReconciliationSelectVal = Number(selectData);
-
+            vm.customerReconciliationSelectVal = data.value;
         });
 
         /*监听订单信息管理[添加收入]收款方式选择*/
@@ -4228,6 +4245,76 @@ $(function () {
             /*执行订单详情函数*/
             vm.orderDetailsFun();
         });
+        /*监听客户对账列表行双击事件*/
+        table.on('rowDouble(customerReconciliationList)', function (obj) {
+            let req ={
+                "orderNumber":obj.data.orderNumber,
+                "operator":$("#nickNameTextPanel").html(),
+                "queryShipInfo":""
+            };
+            if(Af.nullstr(obj.data.customerOriginalDocument))
+            {
+                MAIN.ErroAlert("该订单没有上传原始单据");
+                return;
+            }
+            else
+            {
+                //生成客户原始单据查看大图需要的json数据
+                vm.customerOriginalDocumentSrc = {
+                    "title":"客户原始单据",
+                    "id":1,
+                    "start":0,
+                    "data":[
+                        {
+                            "alt":"原始订单",
+                            "pid":1,
+                            "src":obj.data.customerOriginalDocument
+                        }
+                    ]
+                };
+                $("#customerOriginalDocumentImg").attr("src",obj.data.customerOriginalDocument);
+                //生成送货清单查看大图需要的JSON数据
+                Af.rest("customerReconciliation.api",req,function(ans){
+                    let thisArr = ans.data;
+                    if(Af.nullstr(thisArr))
+                    {
+                        MAIN.ErroAlert("此订单没上传任何发货单!");
+                    }
+                    else
+                    {
+                        let thisData = [];
+                        for(let i = 0;i < thisArr.length;i++)
+                        {
+                            let picSrc = thisArr[i].deliveryNote;
+                            if(Af.nullstr(picSrc))
+                            {
+                                continue;
+                            }
+                            else {
+                                let thisObj ={
+                                    "alt":"送货请单",
+                                    "pid":i,
+                                    "src":picSrc
+                                };
+                                thisData.push(thisObj);
+                            }
+                        }
+                        let finalObj = {
+                            "title":"送货清单",
+                            "id":2,
+                            "start":0,
+                            "data":thisData
+                        };
+                        vm.deliveryOrderJsonSrc = finalObj;
+                        Af.trace(vm.deliveryOrderJsonSrc);
+                        if(!Af.nullstr(thisData))
+                        {
+                            $("#deliveryOrderPanel").attr("src",thisData[0].src);
+                        }
+                    }
+                });
+            }
+        });
         /*监听出货管理[查看详情]表格双击事件*/
         table.on('rowDouble(originalFilmOutList)', function (obj) {
             /*执行出货管理查看详情函数*/
@@ -4265,6 +4352,36 @@ $(function () {
         var uploadDeliveryNote = upload.render({
             elem: "#uploadDeliveryNote", //绑定元素
             url: "servlet/UploadAPI", //上传接口
+            auto: false,
+            bindAction: "#btnHide",
+            choose: function(obj) {
+                var files = obj.pushFile();
+                var index, file, indexArr = [];
+                for(index in files) {
+                    indexArr.push(index);
+                };
+                var iaLen = indexArr.length;
+                file = files[indexArr[iaLen - 1]];
+                for(var i = 0; i < iaLen - 1; i++) {
+                    delete files[indexArr[i]];
+                }
+                try {
+                    if(file.size > 200 * 1024) {
+                        delete files[index];
+                        photoCompress(file, {
+                            quality: 0.5,
+                        }, function(base64Codes) {
+                            var bl = convertBase64UrlToBlob(base64Codes);
+                            obj.resetFile(index, bl, file.name);
+                            $("#btnHide").trigger("click");
+                        });
+                    } else {
+                        $("#btnHide").trigger("click");
+                    }
+                } catch(e) {
+                    $("#btnHide").trigger("click");
+                }
+            },
             done: function (ans) {
                 //上传完毕回调
                 if (ans.errorCode == 0) {
@@ -7288,9 +7405,9 @@ $(function () {
                         if (data != null) {
                             $.each(data, function (index, item) {
                                 if (item.proType) {
-                                    $html += "<option class='generate' value='" + item.id + "'>" + item.proType + "</option>";
+                                    $html += "<option class='generate' value='" + item.name + "'>" + item.proType + "</option>";
                                 } else {
-                                    $html += "<option value='" + item.id + "'>" + item.name + "</option>";
+                                    $html += "<option value='" + item.name + "'>" + item.name + "</option>";
                                 }
                             });
                             $("select[name='" + container + "']").append($html);

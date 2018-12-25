@@ -20,7 +20,10 @@ public interface OrderMapper
 
 	// 根据订单号查询规格型号详情
 	public List<OrderInfo> queryModelDetails(OrderInfo row);
-
+	
+	//客户对账查询需要的数据
+	public List<OrderInfo> uniqueQuery(OrderInfo row);
+	
 	// 根据订单号查询当前订单号下所有字段
 	public List<OrderInfo> queryNowOrderInfo(OrderInfo row);
 

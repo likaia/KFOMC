@@ -1,9 +1,16 @@
 package com.lk.Utils;
 
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +31,6 @@ import org.apache.ibatis.io.ResolverUtil.Test;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 /*
   * 
   *  @author  李凯
@@ -35,7 +41,154 @@ import org.json.JSONObject;
 public class LkCommon
 {
 
+	/**
+	 * 
+	 * @Title:             getNetworkTime
+	 * @Description:     获取当前网络时间
+	 * @param:             @param webUrl
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
+	public static String getNetworkTime(String webUrl)
+	{
+		try
+		{
+			URL url = new URL(webUrl);
+			URLConnection conn = url.openConnection();
+			conn.connect();
+			long dateL = conn.getDate();
+			Date date = new Date(dateL);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+			return dateFormat.format(date);
+		} catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
+	 * 
+	 * @Title:             createFolder
+	 * @Description:     创建文件夹
+	 * @param:             @param name
+	 * @param:             @return   
+	 * @return:         JSONObject   
+	 * @throws
+	 */
+	public JSONObject createFolder(String name)
+	{
+		JSONObject javaReply = new JSONObject();
+		Boolean result = true;
+		String msg = "创建成功!";
+		File myFolderPath = new File(name);
+		try
+		{
+			if (!myFolderPath.exists())
+			{
+				myFolderPath.mkdir();
+			}
+		} catch (Exception e)
+		{
+			msg = "新建目录操作出错";
+			result = false;
+			e.printStackTrace();
+		}
+		javaReply.put("result", result);
+		javaReply.put("msg", msg);
+		return javaReply;
+	}
+
+	/**
+	 * 
+	 * @Title:           	createAFile
+	 * @Description:     执行文件创建
+	 * @param:             @param filePath 文件路径
+	 * @param:             @param documentContent 文件内容
+	 * @param:             @return   
+	 * @return:         Boolean   
+	 * @throws
+	 */
+	public Boolean createAFile(String filePath, String documentContent)
+	{
+		Boolean result = true;
+		File myFilePath = new File(filePath);
+		try
+		{
+			if (!myFilePath.exists())
+			{
+				myFilePath.createNewFile();
+			}
+			FileWriter resultFile = new FileWriter(myFilePath);
+			PrintWriter myFile = new PrintWriter(resultFile);
+			myFile.println(documentContent);
+			resultFile.close();
+		} catch (Exception e)
+		{
+			System.out.println("新建文件操作出错");
+			result = false;
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @Title:            copyFile
+	 * @Description:     拷贝文件
+	 * @param:             @param srcPathStr 源文件路径
+	 * @param:             @param desPathStr   最终路径
+	 * @return:         void   
+	 * @throws
+	 */
+	@SuppressWarnings("unused")
+	private static void copyFile(String srcPathStr, String desPathStr)
+	{
+		// 1.获取源文件的名称
+		String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("\\") + 1); // 目标文件地址
+		System.out.println(newFileName);
+		desPathStr = desPathStr + File.separator + newFileName; // 源文件地址
+		System.out.println(desPathStr);
+
+		try
+		{
+			// 2.创建输入输出流对象
+			FileInputStream fis = new FileInputStream(srcPathStr);
+			@SuppressWarnings("resource")
+			FileOutputStream fos = new FileOutputStream(desPathStr);
+			// 创建搬运工具
+			byte datas[] = new byte[1024 * 8];
+			// 创建长度
+			int len = 0;
+			// 循环读取数据
+			while ((len = fis.read(datas)) != -1)
+			{
+				fos.write(datas, 0, len);
+			}
+			// 3.释放资源
+			fis.close();
+			fis.close();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	/* 白天json数组统计 */
+	/**
+	 * 
+	 * @Title:             getJSONArrayLengths
+	 * @Description:     统计JSON数据中元素的出现次数(白天)
+	 * @param:             @param oldData
+	 * @param:             @return   
+	 * @return:         JSONObject   
+	 * @throws
+	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject getJSONArrayLengths(JSONArray oldData)
 	{
@@ -67,6 +220,15 @@ public class LkCommon
 		return new JSONObject(map);
 	}
 
+	/**
+	 * 
+	 * @Title:             readConfigFile
+	 * @Description:     读取配置文件
+	 * @param:             @param configPath
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
 	public String readConfigFile(String configPath)
 	{
 		/* 加载配置文件 */
@@ -84,7 +246,15 @@ public class LkCommon
 		return tomcatPath;
 	}
 
-	// ArrayList类型转成String类型
+	/**
+	 * 
+	 * @Title:             ArrayListToString
+	 * @Description:     ArrayList类型转成String类型
+	 * @param:             @param arrayList
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
 	public String ArrayListToString(ArrayList<String> arrayList)
 	{
 		String result = "";
@@ -101,7 +271,15 @@ public class LkCommon
 		return result;
 	}
 
-	/* 三徒弟:将日期为同一天的数据归类到一块 */
+	/**
+	 * 
+	 * @Title:             timeFormat
+	 * @Description:     三徒弟:将日期为同一天的数据归类到一块
+	 * @param:             @param rawData
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
 	public String timeFormat(JSONArray rawData)
 	{
 		ConcurrentHashMap<String, JSONArray> hs = new ConcurrentHashMap<>();
@@ -131,7 +309,16 @@ public class LkCommon
 		return rawData.toString();
 	}
 
-	/* 计算两个时间相差的天数 */
+	/**
+	 * 
+	 * @Title:             daysBetween
+	 * @Description:      计算两个时间相差的天数
+	 * @param:             @param early
+	 * @param:             @param late
+	 * @param:             @return   
+	 * @return:         int   
+	 * @throws
+	 */
 	public static final int daysBetween(Date early, Date late)
 	{
 		java.util.Calendar calst = java.util.Calendar.getInstance();
@@ -150,19 +337,17 @@ public class LkCommon
 		return days;
 	}
 
-	/* 计算两个时间的相差数(天/时/分/秒) */
+	/**
+	 * 
+	 * @Title:             longTimeToDay
+	 * @Description:     计算两个时间的相差数(天/时/分/秒)
+	 * @param:             @param ms
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
 	public static String longTimeToDay(Long ms)
 	{
-		/*
-		 * @使用方法 String startTime = "08:00:00"; String endTime = "08:20:00";
-		 * //看自己的时间格式选择对应的转换对象 SimpleDateFormat sdf = new
-		 * SimpleDateFormat("HH:mm:ss"); //如果时间格式为 2018-10-12 20:23,这里格式应为new
-		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss") //转换成date类型 Date start =
-		 * sdf.parse(startTime); Date end = sdf.parse(endTime); //获取毫秒数 Long
-		 * startLong = start.getTime(); Long endLong = end.getTime();
-		 * //计算时间差,单位毫秒 Long ms = endLong-startLong; //时间差转换为 \天\时\分\秒 String
-		 * time = LkCommon.longTimeToDay(ms); //方法调用 System.out.println(time);
-		 */
 		Integer ss = 1000;
 		Integer mi = ss * 60;
 		Integer hh = mi * 60;
@@ -266,7 +451,15 @@ public class LkCommon
 		return result;
 	}
 
-	/* 将日期为同一天的数据归类到一块 */
+	/**
+	 * 
+	 * @Title:             getSameDateJsonArray
+	 * @Description:     将日期为同一天的数据归类到一块
+	 * @param:             @param rawArray
+	 * @param:             @return   
+	 * @return:         JSONArray   
+	 * @throws
+	 */
 	public static JSONArray getSameDateJsonArray(JSONArray rawArray)
 	{
 		JSONArray array = new JSONArray();
@@ -323,14 +516,32 @@ public class LkCommon
 		return array;
 	}
 
-	/* 百分比运算 */
+	/**
+	 * 
+	 * @Title:             txPercentage
+	 * @Description:      百分比运算
+	 * @param:             @param a
+	 * @param:             @param b
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
 	public String txPercentage(int a, int b)
 	{
 		DecimalFormat df = new DecimalFormat("0.00");// 设置保留位数
 		return df.format((float) a / b);
 	}
 
-	/* 小数加法运算 */
+	/**
+	 * 
+	 * @Title:             addDouble
+	 * @Description:     小数加法运算
+	 * @param:             @param a
+	 * @param:             @param b
+	 * @param:             @return   
+	 * @return:         BigDecimal   
+	 * @throws
+	 */
 	public static BigDecimal addDouble(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -339,7 +550,16 @@ public class LkCommon
 		return result;
 	}
 
-	/* 小数减法运算 */
+	/**
+	 * 
+	 * @Title:             subtract
+	 * @Description:     小数减法运算
+	 * @param:             @param a
+	 * @param:             @param b
+	 * @param:             @return   
+	 * @return:         BigDecimal   
+	 * @throws
+	 */
 	public BigDecimal subtract(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -348,7 +568,16 @@ public class LkCommon
 		return result;
 	}
 
-	/* 小数乘法运算 */
+	/**
+	 * 
+	 * @Title:             multiply
+	 * @Description:     小数乘法运算
+	 * @param:             @param a
+	 * @param:             @param b
+	 * @param:             @return   
+	 * @return:         BigDecimal   
+	 * @throws
+	 */
 	public BigDecimal multiply(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -357,7 +586,16 @@ public class LkCommon
 		return result;
 	}
 
-	/* 小数除法运算 */
+	/**
+	 * 
+	 * @Title:             divide
+	 * @Description:     小数除法运算
+	 * @param:             @param a
+	 * @param:             @param b
+	 * @param:             @return   
+	 * @return:         BigDecimal   
+	 * @throws
+	 */
 	public BigDecimal divide(String a, String b)
 	{
 		BigDecimal parameterOne = new BigDecimal(a);
@@ -366,7 +604,15 @@ public class LkCommon
 		return result;
 	}
 
-	/* 正则表达式去掉字符串的中文 */
+	/**
+	 * 
+	 * @Title:             removeChinese
+	 * @Description:     正则表达式去掉字符串的中文
+	 * @param:             @param str
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
 	public String removeChinese(String str)
 	{
 		String reg = "[\u4e00-\u9fa5]";
@@ -376,7 +622,15 @@ public class LkCommon
 		return repickStr;
 	}
 
-	/* JSONArray根据name去重,并计算amount(三徒弟) */
+	/**
+	 * 
+	 * @Title:             removeDuplicate
+	 * @Description:     JSONArray根据name去重,并计算amount(三徒弟)
+	 * @param:             @param rawData
+	 * @param:             @return   
+	 * @return:         JSONArray   
+	 * @throws
+	 */
 	public JSONArray removeDuplicate(JSONArray rawData)
 	{
 		/*
@@ -407,7 +661,15 @@ public class LkCommon
 		return rawData;
 	}
 
-	/* JSONArray根据name去重,并计算Amount */
+	/**
+	 * 
+	 * @Title:             lkRemoveDuplicate
+	 * @Description:     JSONArray根据name去重,并计算Amount
+	 * @param:             @param rawData
+	 * @param:             @return   
+	 * @return:         JSONArray   
+	 * @throws
+	 */
 	@SuppressWarnings(
 	{ "rawtypes", "unchecked" })
 	public static JSONArray lkRemoveDuplicate(JSONArray rawData)
@@ -482,7 +744,15 @@ public class LkCommon
 		 */
 	}
 
-	/* 将数据按日期归类好后,根据订单号来比对当前时间段下的数据 */
+	/**
+	 * 
+	 * @Title:             orderSameDateArray
+	 * @Description:     将数据按日期归类好后,根据订单号来比对当前时间段下的数据 
+	 * @param:             @param sameDateArray
+	 * @param:             @param orderNumber   
+	 * @return:         void   
+	 * @throws
+	 */
 	public void orderSameDateArray(JSONArray sameDateArray, String orderNumber)
 	{
 		for (int i = 0; i < sameDateArray.length(); i++)
@@ -510,7 +780,15 @@ public class LkCommon
 		}
 	}
 
-	/* 大大JSONArray归类 */
+	/**
+	 * 
+	 * @Title:             getJSONArray
+	 * @Description:     大大JSONArray归类
+	 * @param:             @param jsonArray
+	 * @param:             @return   
+	 * @return:         JSONArray   
+	 * @throws
+	 */
 	@SuppressWarnings(
 	{ "rawtypes", "unchecked" })
 	public JSONArray getJSONArray(JSONArray jsonArray)

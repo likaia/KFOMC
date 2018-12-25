@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/CustomerReconciliationAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/CustomerReconciliationAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/LoginAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/ClientInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/ClientInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/DateUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ClientInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/OrderMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ShipmentMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -31,9 +32,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="1087" column="132" selection-start-line="1087" selection-start-column="104" selection-end-line="1087" selection-end-column="132" />
+            <state relative-caret-position="354">
+              <caret line="1102" column="77" lean-forward="true" selection-start-line="1102" selection-start-column="77" selection-end-line="1102" selection-end-column="77" />
               <folding>
+                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -58,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="329">
-              <caret line="2278" column="67" selection-start-line="2278" selection-start-column="67" selection-end-line="2278" selection-end-column="67" />
+              <caret line="4029" column="117" selection-start-line="4029" selection-start-column="117" selection-end-line="4029" selection-end-column="117" />
               <folding>
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
@@ -68,8 +70,16 @@
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-                <element signature="e#336621#338466#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="393">
+              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
             </state>
           </provider>
         </entry>
@@ -77,8 +87,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22450">
-              <caret line="898" column="22" selection-start-line="898" selection-start-column="22" selection-end-line="898" selection-end-column="22" />
+            <state relative-caret-position="354">
+              <caret line="890" column="16" selection-start-line="890" selection-start-column="16" selection-end-line="890" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -88,33 +98,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>originalFilmOutList</find>
-      <find>shipmentExportFun</find>
-      <find>input</find>
-      <find>OrderModelList</find>
-      <find>shipOrderList</find>
-      <find>OrderList</find>
-      <find>OrderModel-panel</find>
-      <find>lastNum</find>
-      <find>shipOrderNumber</find>
-      <find>title</find>
-      <find>#OrderModelList tbody .titl</find>
-      <find>双击</find>
-      <find>开始发货</find>
-      <find>uploadDocument</find>
-      <find>uploadDocumentForOrderNumber</find>
-      <find>查看详情</find>
-      <find>shipmentSeeDetails</find>
-      <find>上传</find>
-      <find>shippingOrderNumber</find>
       <find>shippingOrderID</find>
       <find>customerReconciliationList-panel</find>
       <find>customerNameSelectPanel</find>
@@ -123,9 +114,28 @@
       <find>客户对账点击</find>
       <find>vue</find>
       <find>监听</find>
-      <find>customerReconciliationSelectVal</find>
-      <find>customerReconciliationList</find>
       <find>customerReconciliationSelect</find>
+      <find>customerReconciliationSelectVal</find>
+      <find>queryAllOrderFun</find>
+      <find>src=&quot;img/bg1.jpeg&quot;</find>
+      <find>BlackSuspensionLayer</find>
+      <find>layer.ph</find>
+      <find>customerOriginalDocumentImgPanel</find>
+      <find>001</find>
+      <find>双击</find>
+      <find>customerOriginalDocument</find>
+      <find>new vue</find>
+      <find>deliveryOrder</find>
+      <find>OriginalDocumentFun</find>
+      <find>customerOriginalDocumentSrc</find>
+      <find>deliveryOrderFun</find>
+      <find>deliveryOrderJsonSrc</find>
+      <find>上传</find>
+      <find>上传送货单</find>
+      <find>uploadDeliveryNoteFun</find>
+      <find>customerReconciliationList</find>
+      <find>queryBtn-panel</find>
+      <find>layui.use</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -152,6 +162,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/imageCompression.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
@@ -439,12 +450,12 @@
       <workItem from="1545447131422" duration="25304000" />
       <workItem from="1545529317701" duration="5115000" />
       <workItem from="1545539857215" duration="9982000" />
-      <workItem from="1545619277296" duration="7074000" />
+      <workItem from="1545619277296" duration="27312000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1088743000" />
+    <option name="totallyTimeSpent" value="1108981000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -662,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="449" column="2" lean-forward="true" selection-start-line="449" selection-start-column="2" selection-end-line="449" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -694,18 +698,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/imageCompression.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="721">
+          <caret line="54" column="1" lean-forward="true" selection-start-line="54" selection-start-column="1" selection-end-line="54" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22450">
-          <caret line="898" column="22" selection-start-line="898" selection-start-column="22" selection-end-line="898" selection-end-column="22" />
+        <state relative-caret-position="354">
+          <caret line="890" column="16" selection-start-line="890" selection-start-column="16" selection-end-line="890" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="1087" column="132" selection-start-line="1087" selection-start-column="104" selection-end-line="1087" selection-end-column="132" />
+        <state relative-caret-position="354">
+          <caret line="1102" column="77" lean-forward="true" selection-start-line="1102" selection-start-column="77" selection-end-line="1102" selection-end-column="77" />
           <folding>
+            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -728,7 +747,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
-          <caret line="2278" column="67" selection-start-line="2278" selection-start-column="67" selection-end-line="2278" selection-end-column="67" />
+          <caret line="4029" column="117" selection-start-line="4029" selection-start-column="117" selection-end-line="4029" selection-end-column="117" />
           <folding>
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
@@ -738,7 +757,6 @@
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="e#336621#338466#0" />
           </folding>
         </state>
       </provider>

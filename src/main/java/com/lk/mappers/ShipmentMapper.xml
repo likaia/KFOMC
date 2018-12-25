@@ -89,6 +89,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+	<!-- 客户对账接口特有查询 -->
+	<select id="uniqueQuery" resultMap="ShipmentInfoResult"
+		parameterType="ShipmentInfo">
+		SELECT
+		id,
+		deliveryNote,
+		dateOfShipment
+		FROM
+		t_shipment
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="orderNumber != null">
+				AND orderNumber like #{orderNumber}
+			</if>
+		</where>
+	</select>
 	<!-- 自定义查询 -->
 	<select id="customQuery" resultMap="ShipmentInfoResult"
 		parameterType="ShipmentInfo">

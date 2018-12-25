@@ -13,6 +13,8 @@ public interface ShipmentMapper
 		public List<ShipmentInfo> conditionalQuery(ShipmentInfo row);
 		//自定义查询
 		public List<ShipmentInfo> customQuery(ShipmentInfo row);
+		//特有查询
+		public List<ShipmentInfo> uniqueQuery(ShipmentInfo row);
 		//更新数据
 		public int update(ShipmentInfo row);
 		//删除数据

@@ -1,6 +1,6 @@
 package com.lk.junitTest;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -22,9 +22,12 @@ import org.junit.*;
 
 import com.lk.Utils.LkCommon;
 import com.lk.Utils.WorderToNewWordUtils;
+import com.lk.Utils.ZipUtils;
 import com.lk.db.ClientInfo;
+import com.lk.db.OrderInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.ClientInfoMapper;
+import com.lk.mappers.OrderMapper;
 
 /*
   * 
@@ -145,15 +148,16 @@ public class JunitTestAPI
 		String time = LkCommon.longTimeToDay(ms);
 		System.out.println(time);
 	}
-	
-	/*打卡区间判断*/
+
+	/* 打卡区间判断 */
 	@Test
 	public void test4() throws ParseException
 	{
 		String result = lkcommon.timeIntervalJudgment("08:20", "", "08:00", "08:20", "09:00");
-		System.out.println("当前打卡状态:"+result);
+		System.out.println("当前打卡状态:" + result);
 	}
-	/*使用TreeSet去除数组中的重复元素,并且会排序*/
+
+	/* 使用TreeSet去除数组中的重复元素,并且会排序 */
 	@Test
 	public void test5()
 	{
@@ -162,9 +166,10 @@ public class JunitTestAPI
 		ts.add("王");
 		ts.add("王");
 		System.out.println(ts);
-		
+
 	}
-	/*tomcat路径读取测试*/
+
+	/* tomcat路径读取测试 */
 	@Test
 	public void test6()
 	{
@@ -182,33 +187,91 @@ public class JunitTestAPI
 		String tomcatPath = props.getProperty("path", "---");
 		System.out.println(tomcatPath);
 	}
-	/*tomcat路径拼接测试*/
+
+	/* tomcat路径拼接测试 */
 	@Test
 	public void test7()
 	{
-		String fileName ="webPic/20190910.jpg";
+		String fileName = "webPic/20190910.jpg";
 		fileName = fileName.substring(6);
 		String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
 		fileName = tomcatPath + fileName;
 		System.out.println(fileName);
 	}
-	/*客户名称自定义查询接口测试*/
+
+	/* 客户名称自定义查询接口测试 */
 	@Test
 	public void test8()
 	{
 		String operator = "李凯";
-		String[] queryTypeArr = {"clientName"};
+		String[] queryTypeArr =
+		{ "clientName" };
 		JSONArray queryType = new JSONArray(queryTypeArr);
 		// 打开连接
 		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 		// 配置映射器
 		ClientInfoMapper clientInfoMapper = sqlSession.getMapper(ClientInfoMapper.class);
-		ClientInfo row  = new ClientInfo();
+		ClientInfo row = new ClientInfo();
 		row.setOperator(operator);
 		row.setQueryType(queryType);
 		List<ClientInfo> resultList = clientInfoMapper.customQuery(row);
 		JSONArray clientData = new JSONArray(resultList);
 		System.out.println(clientData);
 		sqlSession.close();
+	}
+
+	/* 订单接口:客户对账特有接口查询 */
+	@Test
+	public void test9()
+	{
+		String clientName = "张小飞";
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+		OrderInfo row = new OrderInfo();
+		row.setClientName(clientName);
+		row.setOperator("李凯");
+		/* 按条件查询:(客户名称查询所有订单) */
+		List<OrderInfo> resultList = orderMapper.uniqueQuery(row);
+		JSONArray result = new JSONArray(resultList);
+		sqlSession.close();
+		System.out.println(result);
+	}
+
+	/* 文件压缩测试 */
+	@Test
+	public void test10() throws IOException
+	{
+		String fileName = "webPic/43.jpg";
+		fileName = fileName.substring(6);
+		String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
+		fileName = tomcatPath + fileName;
+		String zipFile = "/home/likai/my.zip";
+		ZipUtils.doCompress(fileName, zipFile);
+	}
+	/* 获取网络时间 */
+	@Test
+	public void test11()
+	{
+		for (int i = 0; i < 1000; i++)
+		{
+			 //获取当前网络时间
+	        String webUrl="http://www.baidu.com";//百度时间
+	        String webTime=LkCommon.getNetworkTime(webUrl);
+	        System.out.println("当前网络时间为："+webTime);
+		}
+	}
+	/**
+	 * 
+	 * @Title:             test12
+	 * @Description:     文件操作
+	 * @return:         void   
+	 * @throws
+	 */
+	@Test
+	public void test12()
+	{
+		lkcommon.createAFile("/home/likai/aa.txt", "aa.txt");
 	}
 }
