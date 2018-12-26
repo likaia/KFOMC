@@ -30,6 +30,7 @@ import com.lk.db.OrderInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.ClientInfoMapper;
 import com.lk.mappers.OrderMapper;
+import com.lk.timedTask.PicTempFileManager;
 
 /*
   * 
@@ -324,13 +325,55 @@ public class JunitTestAPI
 	@Test
 	public void test13()
 	{
-		String[] arr = {"aa","cc","nn","bb"};
-		ArrayList<String> arrs = new ArrayList<String>();
-		for(int i = 0;i< arr.length;i++)
+			String[] originArrs = {"星期五","星期一","星期三","星期六"};
+			System.out.println(weekSort(originArrs));
+	}
+	public static String[] weekSort(String[] originArrs){
+        String[] destArrs = {"一","二","三","四","五","六","日"};
+        String[] tempArrs = new String[originArrs.length];
+        int size = 0;
+        for(int i=0;i<destArrs.length;i++){
+            for(int j=0;j<originArrs.length;j++){
+                if(originArrs[j].indexOf(destArrs[i])>-1){
+                    tempArrs[size]=originArrs[j];
+                    size++;
+                    break;
+                }
+            }
+        }
+        return tempArrs;
+    }
+	@Test
+	/**
+	 * 
+	 * @Title:             test14
+	 * @Description:     通过io流读取配置文件
+	 * @param:                
+	 * @return:         void   
+	 * @throws
+	 */
+	public void test14()
+	{
+		Properties prop = new Properties();
+		String every_time_run;
+		InputStream inStrem = PicTempFileManager.class.getClassLoader().getResourceAsStream("timedDeletion.properties");
+		try
 		{
-			arrs.add(arr[i]);
+			prop.load(inStrem);
+			every_time_run = prop.getProperty("every_time_run");
+			System.out.println(every_time_run);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			try
+			{
+				inStrem.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
-		Collections.sort(arrs);
-		System.out.println(arrs);
 	}
 }

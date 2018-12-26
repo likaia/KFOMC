@@ -90,4 +90,10 @@
 		<servlet-name>ExportExcelAPI</servlet-name>
 		<url-pattern>/servlet/ExportExcelAPI</url-pattern>
 	</servlet-mapping>
+	<!-- 定时删除文件 -->
+	<listener>
+	    <listener-class>
+	         com.lk.timedTask.PicTempFileListener
+	    </listener-class>
+	</listener>
 </web-app>
