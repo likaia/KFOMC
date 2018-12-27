@@ -80,7 +80,7 @@ public class ZipUtils
 			ZipEntry zipEntry=new ZipEntry(name);
 			zipEntry.setUnixMode(755);//解决linux乱码
 			// 向zip输出流中添加一个zip实体，构造器中name为zip实体的文件的名字
-			zos.putNextEntry(new ZipEntry(name));
+			zos.putNextEntry(zipEntry);
 			// copy文件到zip输出流中
 			int len;
 			FileInputStream in = new FileInputStream(sourceFile);
