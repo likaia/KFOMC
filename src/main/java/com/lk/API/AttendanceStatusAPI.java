@@ -288,6 +288,11 @@ public class AttendanceStatusAPI extends AfRestfulApi
 					int workID = jsReq.getInt("workID");
 					row.setId(workID);
 				}
+				if(jsReq.has("afternoonWorkTime"))
+				{
+					String afternoonWorkTime = jsReq.getString("afternoonWorkTime");
+					row.setAfternoonWorkTime(afternoonWorkTime);
+				}
 				int processResult =  attendanceStatusInfoMapper.update(row);
 				sqlSession.commit();
 				if(processResult>0)

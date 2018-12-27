@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,9 +25,11 @@ import com.lk.Utils.DeleteFileUtil;
 import com.lk.Utils.LkCommon;
 import com.lk.Utils.WorderToNewWordUtils;
 import com.lk.Utils.ZipUtils;
+import com.lk.db.AttendanceStatusInfo;
 import com.lk.db.ClientInfo;
 import com.lk.db.OrderInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.AttendanceStatusInfoMapper;
 import com.lk.mappers.ClientInfoMapper;
 import com.lk.mappers.OrderMapper;
 import com.lk.timedTask.PicTempFileManager;
@@ -56,6 +57,7 @@ public class JunitTestAPI
 	LkCommon lkcommon = new LkCommon();
 	@SuppressWarnings("unused")
 	private static Logger logger = Logger.getLogger(JunitTestAPI.class);
+
 	// 测试:JSONArray中每个元素重复出现次数,元素占比,当前元素的金额
 	@Test
 	public void test1()
@@ -246,14 +248,14 @@ public class JunitTestAPI
 
 	/* 文件压缩测试 */
 	@Test
-	public void test10() throws IOException
+	public void test10() throws Exception
 	{
 		String fileName = "webPic/43.jpg";
 		fileName = fileName.substring(6);
 		String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
 		fileName = tomcatPath + fileName;
 		String zipFile = "/home/likai/my.zip";
-		ZipUtils.doCompress(fileName, zipFile);
+		ZipUtils.toZip(fileName, zipFile, true);
 	}
 
 	/* 获取网络时间 */
@@ -270,6 +272,7 @@ public class JunitTestAPI
 	}
 
 	/**
+	 * @throws Exception 
 	 * @throws IOException 
 	 * 
 	 * @Title:             test12
@@ -278,7 +281,7 @@ public class JunitTestAPI
 	 * @throws
 	 */
 	@Test
-	public void test12() throws IOException
+	public void test12() throws Exception
 	{
 		String[] picStrArr =
 		{ "webPic/20181223172516_233223.png", "webPic/43.jpg", "webPic/20181004023334_admin.jpg",
@@ -315,7 +318,7 @@ public class JunitTestAPI
 		// 去除空格
 		zipFile = zipFile.replace(" ", "");
 		// 压缩文件
-		ZipUtils.doCompress(folderName, zipFile);
+		ZipUtils.toZip(folderName, zipFile, true);
 		System.out.println("文件压缩成功,路径为:" + zipFile);
 		// 删除刚开始创建的文件夹
 		DeleteFileUtil.deleteDirectory(folderName);
@@ -367,7 +370,7 @@ public class JunitTestAPI
 		}
 		// 排序
 		Collections.sort(tmpArr);
-		System.out.println("转成int后的数据:"+tmpArr);
+		System.out.println("转成int后的数据:" + tmpArr);
 		// 转回List
 		ArrayList<String> finalArr = new ArrayList<String>();
 		for (int i = 0; i < tmpArr.size(); i++)
@@ -398,7 +401,7 @@ public class JunitTestAPI
 				break;
 			}
 		}
-		System.out.println("排序好的数据:"+finalArr);
+		System.out.println("排序好的数据:" + finalArr);
 	}
 
 	@Test
@@ -434,12 +437,30 @@ public class JunitTestAPI
 			}
 		}
 	}
+
 	@Test
 	public void test15()
 	{
-		String time = "15:30";
-		time = time.substring(0,2);
-		System.out.println(LkCommon.getDuringDay(Integer.parseInt(time)));
-		
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession.getMapper(AttendanceStatusInfoMapper.class);
+		AttendanceStatusInfo row = new AttendanceStatusInfo();
+		row.setNameOfWorker("9");
+		row.setOperator("9");
+		row.setJobNumber("0218093");
+		String department = "哈哈哈";
+		row.setDepartment(department);
+		String workingHours = "10:00";
+		row.setWorkingHours(workingHours);
+		String afterGetOffWorkTime = "";
+		row.setAfterGetOffWorkTime(afterGetOffWorkTime);
+		int processResult = attendanceStatusInfoMapper.update(row);
+		sqlSession.commit();
+		if (processResult > 0)
+		{
+			System.out.println("更新成功");
+		}
+		sqlSession.close();
 	}
 }

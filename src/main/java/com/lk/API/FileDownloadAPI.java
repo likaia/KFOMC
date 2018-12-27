@@ -69,7 +69,7 @@ public class FileDownloadAPI extends AfRestfulApi
 				// 去除空格
 				zipFile = zipFile.replace(" ", "");
 				// 压缩文件
-				ZipUtils.doCompress(folderName, zipFile);
+				ZipUtils.toZip(folderName, zipFile,true);
 				// 删除刚开始创建的文件夹
 				DeleteFileUtil.deleteDirectory(folderName);
 				downloadLink = "https://www.kaisir.cn/webPic/zipFile/"+(webTime.replace(" ", ""))+".zip";
