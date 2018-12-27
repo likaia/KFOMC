@@ -31,7 +31,7 @@ public class ServerTimeAPI extends AfRestfulApi
 		String msg = "ok";
 		if (jsReq.has("operator"))
 		{
-			serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+			serverTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss EEEE").format(Calendar.getInstance().getTime());
 		} else
 		{
 			code = 1;

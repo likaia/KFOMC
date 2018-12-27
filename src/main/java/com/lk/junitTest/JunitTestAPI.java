@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,10 +17,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.*;
-
 
 import com.lk.Utils.DeleteFileUtil;
 import com.lk.Utils.LkCommon;
@@ -53,6 +54,8 @@ public class JunitTestAPI
 	 * @AfterClass: 所有测试结束之后运行
 	 */
 	LkCommon lkcommon = new LkCommon();
+	@SuppressWarnings("unused")
+	private static Logger logger = Logger.getLogger(JunitTestAPI.class);
 	// 测试:JSONArray中每个元素重复出现次数,元素占比,当前元素的金额
 	@Test
 	public void test1()
@@ -252,18 +255,20 @@ public class JunitTestAPI
 		String zipFile = "/home/likai/my.zip";
 		ZipUtils.doCompress(fileName, zipFile);
 	}
+
 	/* 获取网络时间 */
 	@Test
 	public void test11()
 	{
 		for (int i = 0; i < 1000; i++)
 		{
-			 //获取当前网络时间
-	        String webUrl="http://www.baidu.com";//百度时间
-	        String webTime=LkCommon.getNetworkTime(webUrl);
-	        System.out.println("当前网络时间为："+webTime);
+			// 获取当前网络时间
+			String webUrl = "http://www.baidu.com";// 百度时间
+			String webTime = LkCommon.getNetworkTime(webUrl);
+			System.out.println("当前网络时间为：" + webTime);
 		}
 	}
+
 	/**
 	 * @throws IOException 
 	 * 
@@ -275,45 +280,48 @@ public class JunitTestAPI
 	@Test
 	public void test12() throws IOException
 	{
-		String[] picStrArr = {"webPic/20181223172516_233223.png","webPic/43.jpg","webPic/20181004023334_admin.jpg","webPic/20181223114011_timg.jpeg","webPic/20181224092931_shengdan.jpg"};
+		String[] picStrArr =
+		{ "webPic/20181223172516_233223.png", "webPic/43.jpg", "webPic/20181004023334_admin.jpg",
+				"webPic/20181223114011_timg.jpeg", "webPic/20181224092931_shengdan.jpg" };
 		JSONArray picArr = new JSONArray(picStrArr);
-		  //获取网络时间
-		  String webTime=LkCommon.getNetworkTime("http://www.baidu.com"); 
-		  //去除时间中的所有标点符号
-		  webTime = webTime.replaceAll("[\\pP\\p{Punct}]","");
-		  //获取tomcat路径
-		  String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
-		  //拼接文件夹名称
-		  String folderName = tomcatPath+"/"+webTime+"";
-		  //去除空格
-		  folderName =  folderName.replace(" ","");
-		  System.out.println("将要创建的文件夹名称为:"+folderName);
-		  //创建文件夹
-		  lkcommon.createFolder(folderName);
-		 int num = 0;
-		  //将文件名从数组中读出来
-		  for(int i = 0; i <picArr.length();i++)
-		  {
-			  num++;
-			  String fileName = picArr.getString(i);
-			  //去除webPic前缀
-			  fileName = fileName.substring(6);
-			  //拼接每一项的文件路径,得到tomcat下的真实文件路径
-			  fileName = tomcatPath+"/"+fileName+"";
-			  //将遍历到的每一项文件复制到新建的文件夹中
-			  lkcommon.copyFile(fileName, folderName);
-		  }
-		  System.out.println(num+"个文件,已拷贝到"+folderName+"中");
-		  String zipFile = tomcatPath+"/zipFile/"+webTime+".zip";
-		  //去除空格
-		  zipFile =zipFile.replace(" ","");
-		  //压缩文件
-		  ZipUtils.doCompress(folderName, zipFile);
-		  System.out.println("文件压缩成功,路径为:"+zipFile);
-		  //删除刚开始创建的文件夹
-		  DeleteFileUtil.deleteDirectory(folderName);
-		  System.out.println("文件:"+folderName+"已删除");
+		// 获取网络时间
+		String webTime = LkCommon.getNetworkTime("http://www.baidu.com");
+		// 去除时间中的所有标点符号
+		webTime = webTime.replaceAll("[\\pP\\p{Punct}]", "");
+		// 获取tomcat路径
+		String tomcatPath = lkcommon.readConfigFile("/TomcatPath.properties");
+		// 拼接文件夹名称
+		String folderName = tomcatPath + "/" + webTime + "";
+		// 去除空格
+		folderName = folderName.replace(" ", "");
+		System.out.println("将要创建的文件夹名称为:" + folderName);
+		// 创建文件夹
+		lkcommon.createFolder(folderName);
+		int num = 0;
+		// 将文件名从数组中读出来
+		for (int i = 0; i < picArr.length(); i++)
+		{
+			num++;
+			String fileName = picArr.getString(i);
+			// 去除webPic前缀
+			fileName = fileName.substring(6);
+			// 拼接每一项的文件路径,得到tomcat下的真实文件路径
+			fileName = tomcatPath + "/" + fileName + "";
+			// 将遍历到的每一项文件复制到新建的文件夹中
+			lkcommon.copyFile(fileName, folderName);
+		}
+		System.out.println(num + "个文件,已拷贝到" + folderName + "中");
+		String zipFile = tomcatPath + "/zipFile/" + webTime + ".zip";
+		// 去除空格
+		zipFile = zipFile.replace(" ", "");
+		// 压缩文件
+		ZipUtils.doCompress(folderName, zipFile);
+		System.out.println("文件压缩成功,路径为:" + zipFile);
+		// 删除刚开始创建的文件夹
+		DeleteFileUtil.deleteDirectory(folderName);
+		System.out.println("文件:" + folderName + "已删除");
 	}
+
 	/**
 	 * 
 	 * @Title:             test13
@@ -325,24 +333,74 @@ public class JunitTestAPI
 	@Test
 	public void test13()
 	{
-			String[] originArrs = {"星期五","星期一","星期三","星期六"};
-			System.out.println(weekSort(originArrs));
+		String[] date =
+		{ "星期三", "星期四", "星期一", "星期五", "星期六", "星期天", "星期二" };
+		ArrayList<Integer> tmpArr = new ArrayList<Integer>();
+		// 转换为Integer数组
+		for (int i = 0; i < date.length; i++)
+		{
+			String thisDate = date[i];
+			switch (thisDate)
+			{
+			case "星期一":
+				tmpArr.add(1);
+				break;
+			case "星期二":
+				tmpArr.add(2);
+				break;
+			case "星期三":
+				tmpArr.add(3);
+				break;
+			case "星期四":
+				tmpArr.add(4);
+				break;
+			case "星期五":
+				tmpArr.add(5);
+				break;
+			case "星期六":
+				tmpArr.add(6);
+				break;
+			default:
+				tmpArr.add(7);
+				break;
+			}
+		}
+		// 排序
+		Collections.sort(tmpArr);
+		System.out.println("转成int后的数据:"+tmpArr);
+		// 转回List
+		ArrayList<String> finalArr = new ArrayList<String>();
+		for (int i = 0; i < tmpArr.size(); i++)
+		{
+			int thisVal = tmpArr.get(i);
+			switch (thisVal)
+			{
+			case 1:
+				finalArr.add("星期一");
+				break;
+			case 2:
+				finalArr.add("星期二");
+				break;
+			case 3:
+				finalArr.add("星期三");
+				break;
+			case 4:
+				finalArr.add("星期四");
+				break;
+			case 5:
+				finalArr.add("星期五");
+				break;
+			case 6:
+				finalArr.add("星期六");
+				break;
+			default:
+				finalArr.add("星期天");
+				break;
+			}
+		}
+		System.out.println("排序好的数据:"+finalArr);
 	}
-	public static String[] weekSort(String[] originArrs){
-        String[] destArrs = {"一","二","三","四","五","六","日"};
-        String[] tempArrs = new String[originArrs.length];
-        int size = 0;
-        for(int i=0;i<destArrs.length;i++){
-            for(int j=0;j<originArrs.length;j++){
-                if(originArrs[j].indexOf(destArrs[i])>-1){
-                    tempArrs[size]=originArrs[j];
-                    size++;
-                    break;
-                }
-            }
-        }
-        return tempArrs;
-    }
+
 	@Test
 	/**
 	 * 
@@ -375,5 +433,13 @@ public class JunitTestAPI
 				e.printStackTrace();
 			}
 		}
+	}
+	@Test
+	public void test15()
+	{
+		String time = "15:30";
+		time = time.substring(0,2);
+		System.out.println(LkCommon.getDuringDay(Integer.parseInt(time)));
+		
 	}
 }

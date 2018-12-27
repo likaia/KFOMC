@@ -3,11 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/initTomcat/ExportHistoryBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/initTomcat/SysContextListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/AttendanceStatusAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/AttendanceStatusAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/FileDownloadAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/FileDownloadAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ServerTimeAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ServerTimeAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/DelectFileByTime.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/PicTempFileListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/PicTempFileListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/PicTempFileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/PicTempFileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/SystemTaskTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/timedTask/SystemTaskTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/af-restful.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/af-restful.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,9 +36,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="354">
-              <caret line="1102" column="77" selection-start-line="1102" selection-start-column="77" selection-end-line="1102" selection-end-column="77" />
+              <caret line="765" column="66" selection-start-line="765" selection-start-column="59" selection-end-line="765" selection-end-column="66" />
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -53,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="4029" column="16" selection-start-line="4029" selection-start-column="16" selection-end-line="4029" selection-end-column="16" />
+            <state relative-caret-position="329">
+              <caret line="1552" column="43" selection-start-line="1552" selection-start-column="23" selection-end-line="1552" selection-end-column="43" />
               <folding>
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
@@ -72,8 +82,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="65" selection-start-line="65" selection-end-line="65" />
+            <state relative-caret-position="3700">
+              <caret line="148" column="38" selection-start-line="148" selection-start-column="38" selection-end-line="148" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -81,7 +91,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
+            <state relative-caret-position="22250">
               <caret line="890" column="16" selection-start-line="890" selection-start-column="16" selection-end-line="890" selection-end-column="16" />
             </state>
           </provider>
@@ -100,17 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>shippingOrderID</find>
-      <find>customerReconciliationList-panel</find>
-      <find>customerNameSelectPanel</find>
-      <find>客户对账</find>
-      <find>customerReconciliation</find>
-      <find>客户对账点击</find>
-      <find>vue</find>
-      <find>监听</find>
-      <find>customerReconciliationSelect</find>
-      <find>customerReconciliationSelectVal</find>
-      <find>queryAllOrderFun</find>
       <find>src=&quot;img/bg1.jpeg&quot;</find>
       <find>BlackSuspensionLayer</find>
       <find>layer.ph</find>
@@ -124,12 +123,23 @@
       <find>customerOriginalDocumentSrc</find>
       <find>deliveryOrderFun</find>
       <find>deliveryOrderJsonSrc</find>
-      <find>上传</find>
-      <find>上传送货单</find>
-      <find>uploadDeliveryNoteFun</find>
       <find>customerReconciliationList</find>
       <find>queryBtn-panel</find>
       <find>layui.use</find>
+      <find>servletRest</find>
+      <find>原始单据</find>
+      <find>下载</find>
+      <find>所选</find>
+      <find>已经删除</find>
+      <find>上传</find>
+      <find>禁止</find>
+      <find>uploadDocument</find>
+      <find>上传单据</find>
+      <find>上传送货单</find>
+      <find>uploadDeliveryNoteFun</find>
+      <find>uploadDeliveryNote</find>
+      <find>btnHide</find>
+      <find>documentUploadStatus</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -155,15 +165,15 @@
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/imageCompression.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="272" />
     <option name="y" value="28" />
     <option name="width" value="1459" />
@@ -445,11 +455,13 @@
       <workItem from="1545529317701" duration="5115000" />
       <workItem from="1545539857215" duration="9982000" />
       <workItem from="1545619277296" duration="27312000" />
+      <workItem from="1545807431225" duration="12786000" />
+      <workItem from="1545875686720" duration="6563000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1111598000" />
+    <option name="totallyTimeSpent" value="1134787000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -461,7 +473,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="28" width="1920" height="1052" extended-state="6" />
+    <frame x="0" y="28" width="1920" height="1052" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15242615" />
@@ -701,14 +713,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="65" selection-start-line="65" selection-end-line="65" />
+        <state relative-caret-position="3700">
+          <caret line="148" column="38" selection-start-line="148" selection-start-column="38" selection-end-line="148" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
+        <state relative-caret-position="22250">
           <caret line="890" column="16" selection-start-line="890" selection-start-column="16" selection-end-line="890" selection-end-column="16" />
         </state>
       </provider>
@@ -716,9 +728,10 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
-          <caret line="1102" column="77" selection-start-line="1102" selection-start-column="77" selection-end-line="1102" selection-end-column="77" />
+          <caret line="765" column="66" selection-start-line="765" selection-start-column="59" selection-end-line="765" selection-end-column="66" />
           <folding>
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#16;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#div#18;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -740,8 +753,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="4029" column="16" selection-start-line="4029" selection-start-column="16" selection-end-line="4029" selection-end-column="16" />
+        <state relative-caret-position="329">
+          <caret line="1552" column="43" selection-start-line="1552" selection-start-column="23" selection-end-line="1552" selection-end-column="43" />
           <folding>
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />

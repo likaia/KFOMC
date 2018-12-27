@@ -226,22 +226,68 @@ public class AttendanceStatusAPI extends AfRestfulApi
 			if (jsReq.has("updateAttendance"))
 			{
 				String nameOfWorker = jsReq.getString("nameOfWorker");
-				String jobNumber = jsReq.getString("jobNumber");
-				String department = jsReq.getString("department");
-				String workingHours = jsReq.getString("workingHours");
-				String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
-				String attendanceDate = jsReq.getString("attendanceDate");
-				String wifiInfo = jsReq.getString("wifiInfo");
-				String attendanceLocation = jsReq.getString("attendanceLocation");
-				String attendanceRange = jsReq.getString("attendanceRange");
-				String fieldCard = jsReq.getString("fieldCard");
-				String remarks = jsReq.getString("remarks");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
-						.getMapper(AttendanceStatusInfoMapper.class);
-				AttendanceStatusInfo row = new AttendanceStatusInfo(nameOfWorker, jobNumber, department, workingHours, afterGetOffWorkTime, attendanceDate, wifiInfo, attendanceLocation, attendanceRange, fieldCard, remarks, operator);
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfo row = new AttendanceStatusInfo();
+				row.setNameOfWorker(nameOfWorker);
+				row.setOperator(operator);
+				if(jsReq.has("jobNumber"))
+				{
+					String jobNumber = jsReq.getString("jobNumber"); 
+					row.setJobNumber(jobNumber);
+				}
+				if(jsReq.has("department"))
+				{
+					String department = jsReq.getString("department");
+					row.setDepartment(department);
+				}
+				if(jsReq.has("workingHours"))
+				{
+					String workingHours = jsReq.getString("workingHours");
+					row.setWorkingHours(workingHours);
+				}
+				if(jsReq.has("afterGetOffWorkTime"))
+				{
+					String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
+					row.setAfterGetOffWorkTime(afterGetOffWorkTime);
+				}
+				if(jsReq.has("attendanceDate"))
+				{
+					String attendanceDate = jsReq.getString("attendanceDate");
+					row.setAttendanceDate(attendanceDate);
+				}
+				if(jsReq.has("wifiInfo"))
+				{
+					String wifiInfo = jsReq.getString("wifiInfo");
+					row.setWifiInfo(wifiInfo);
+				}
+				if(jsReq.has("attendanceLocation"))
+				{
+					String attendanceLocation = jsReq.getString("attendanceLocation");
+					row.setAttendanceLocation(attendanceLocation);
+				}
+				if(jsReq.has("attendanceRange"))
+				{
+					String attendanceRange = jsReq.getString("attendanceRange");
+					row.setAttendanceRange(attendanceRange);
+				}
+				if(jsReq.has("fieldCard"))
+				{
+					String fieldCard = jsReq.getString("fieldCard");
+					row.setFieldCard(fieldCard);
+				}
+				if(jsReq.has("remarks"))
+				{
+					String remarks = jsReq.getString("remarks");
+					row.setRemarks(remarks);
+				}
+				if(jsReq.has("workID"))
+				{
+					int workID = jsReq.getInt("workID");
+					row.setId(workID);
+				}
 				int processResult =  attendanceStatusInfoMapper.update(row);
 				sqlSession.commit();
 				if(processResult>0)

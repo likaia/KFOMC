@@ -1,6 +1,9 @@
 package com.lk.timedTask;
 
 import javax.servlet.ServletContextListener;
+
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -20,6 +23,7 @@ public class PicTempFileListener implements ServletContextListener
 {
 	private Timer timer;
 	private SystemTaskTest systemTask;
+	private static Logger logger = Logger.getLogger(PicTempFileListener.class);
 	private static String every_time_run;
 	static
 	{
@@ -52,7 +56,8 @@ public class PicTempFileListener implements ServletContextListener
 		systemTask = new SystemTaskTest(sce.getServletContext().getRealPath("/"), sce.getServletContext());
 		try
 		{
-			sce.getServletContext().log("定时器已启动");
+			//sce.getServletContext().log("定时器已启动");
+			logger.info("定时器已启动");
 			// 设置在每天xx:xx分执行任务
 			 Calendar calendar = Calendar.getInstance();
 			 calendar.set(Calendar.HOUR_OF_DAY, 12); // 24 ,可以更改时间
@@ -64,7 +69,9 @@ public class PicTempFileListener implements ServletContextListener
 			Long time = Long.parseLong(every_time_run) * 60 * 1000;// 循环执行的时间
 			// 第一个参数是要运行的代码，第二个参数是从什么时候开始运行，第三个参数是每隔多久在运行一次。重复执行
 			timer.schedule(systemTask, date, time);
-			sce.getServletContext().log("已经添加任务调度表");
+			//sce.getServletContext().log("已经添加任务调度表");
+			logger.info("已经添加任务调度表");
+			
 		} catch (Exception e)
 		{
 		}

@@ -141,6 +141,13 @@ Af.preciseMerger = function(arr){
     }
     return objs;
 };
+/*文件下载*/
+Af.downloadFile = function(newdownloadUrl) {
+	var elemIF = document.createElement("iframe");
+	elemIF.src = newdownloadUrl;
+	elemIF.style.display = "none";
+	document.body.appendChild(elemIF);
+};
 /*JSON数据模糊合并*/
 Af.fuzzyMerger = function (arr) {
     function sortLength(a, b) {

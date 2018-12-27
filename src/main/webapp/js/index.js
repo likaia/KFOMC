@@ -393,7 +393,9 @@ $(function () {
             /*客户对账*/
             customerReconciliationSelectVal:"",
             deliveryOrderJsonSrc:[], //--->送货请单图片地址
-            customerOriginalDocumentSrc:[] //--->原始订单图片地址
+            customerOriginalDocumentSrc:[], //--->原始订单图片地址
+            /*上传状态管理*/
+            documentUploadStatus:false
         },
         methods: {
             materialFun: function () {
@@ -431,6 +433,7 @@ $(function () {
                 if(!Af.nullstr(thisRowData))
                 {
                     vm.uploadDocumentForOrderNumber = thisRowData[0].orderNumber;
+                    vm.documentUploadStatus = false;
                 }
                 },
             //财务报表点击函数
@@ -1547,6 +1550,7 @@ $(function () {
                 {
                     vm.shippingOrderNumber = thisRowData[0].orderNumber;
                     vm.shippingOrderID =  thisRowData[0].id;
+                    vm.documentUploadStatus = false;
                 }
             },
             //进销存管理[库存管理]点击事件
@@ -4027,7 +4031,40 @@ $(function () {
             },
             /*客户对账:单据下载函数*/
             downloadAllOrderFun:function () {
-                
+                let customerOriginalDocumentSrc = vm.customerOriginalDocumentSrc.data; //客户原始单据
+                let deliveryOrderJsonSrc = vm.deliveryOrderJsonSrc.data; //发货单据
+                if(Af.nullstr(customerOriginalDocumentSrc)||Af.nullstr(deliveryOrderJsonSrc))
+                {
+                    MAIN.ErroAlert("不能下载空单据!");
+                    return;
+                }
+                let picPath = [];
+                picPath.push(customerOriginalDocumentSrc[0].src);
+                for(let i = 0;i < deliveryOrderJsonSrc.length;i++)
+                {
+                    picPath.push(deliveryOrderJsonSrc[i].src);
+                };
+                //路径处理(去除网站)
+                let finalPath = [];
+                $.each(picPath,function (index,item) {
+                   item = item.substring(22);
+                   finalPath.push(item);
+                });
+                let req = {
+                   "picPath":finalPath,
+                   "getReceipt":"",
+                   "operator":$("#nickNameTextPanel").html()
+               };
+               Af.rest("fileDownload.api",req,function (ans) {
+                   if(ans.errorCode==0)
+                   {
+                       //开始下载文件
+                       Af.downloadFile(ans.downloadLink);
+                   }
+                   else {
+                       MAIN.ErroAlert(ans.msg);
+                   }
+               });
             },
         }
     });
@@ -4305,7 +4342,6 @@ $(function () {
                             "data":thisData
                         };
                         vm.deliveryOrderJsonSrc = finalObj;
-                        Af.trace(vm.deliveryOrderJsonSrc);
                         if(!Af.nullstr(thisData))
                         {
                             $("#deliveryOrderPanel").attr("src",thisData[0].src);
@@ -4352,8 +4388,83 @@ $(function () {
             elem: "#uploadDeliveryNote", //绑定元素
             url: "servlet/UploadAPI", //上传接口
             auto: false,
+            bindAction: "#hideBtn",
+            choose: function(obj) {
+                if(Af.nullstr(vm.shippingOrderNumber))
+                {
+                    MAIN.ErroAlert("没有勾选订单,不能上传!");
+                    return;
+                }
+                var files = obj.pushFile();
+                var index, file, indexArr = [];
+                for(index in files) {
+                    indexArr.push(index);
+                };
+                var iaLen = indexArr.length;
+                file = files[indexArr[iaLen - 1]];
+                for(var i = 0; i < iaLen - 1; i++) {
+                    delete files[indexArr[i]];
+                }
+                try {
+                    if(file.size > 200 * 1024) {
+                        delete files[index];
+                        photoCompress(file, {
+                            quality: 0.5,
+                        }, function(base64Codes) {
+                            var bl = convertBase64UrlToBlob(base64Codes);
+                            obj.resetFile(index, bl, file.name);
+                            $("#hideBtn").trigger("click");
+                        });
+                    } else {
+                        $("#hideBtn").trigger("click");
+                    }
+                } catch(e) {
+                    $("#hideBtn").trigger("click");
+                }
+            },
+            done: function (ans) {
+                //上传完毕回调
+                if(vm.documentUploadStatus)
+                {
+                    console.log("禁止触发第二次后台请求!");
+                }
+                else {
+                    vm.documentUploadStatus = true;
+                    if (ans.errorCode == 0) {
+                        var userPicPath = URL + ans.userPicPath;
+                        let req = {
+                            "updateOrder":"updateOrder",
+                            "deliveryNote":userPicPath,
+                            "id":vm.shippingOrderID,
+                            "orderNumber":vm.shippingOrderNumber,
+                            "operator":$("#nickNameTextPanel").html()
+                        };
+                        Af.rest("ShipmentInfo.api",req,function (ans) {
+                            if(ans.errorCode==0)
+                            {
+                                layer.msg("添加成功");
+                            }
+                        });
+                    }
+                }
+            },
+            error: function () {
+                //请求异常回调
+                layer.msg("服务器错误");
+            }
+        });
+        /*客户原始订单单据上传*/
+        var originalOrderDocument = upload.render({
+            elem: "#uploadDocument", //绑定元素
+            url: "servlet/UploadAPI", //上传接口
+            auto: false,
             bindAction: "#btnHide",
             choose: function(obj) {
+                if(Af.nullstr(vm.uploadDocumentForOrderNumber))
+                {
+                    MAIN.ErroAlert("没有勾选订单,不能上传!");
+                    return;
+                }
                 var files = obj.pushFile();
                 var index, file, indexArr = [];
                 for(index in files) {
@@ -4383,48 +4494,28 @@ $(function () {
             },
             done: function (ans) {
                 //上传完毕回调
-                if (ans.errorCode == 0) {
-                    var userPicPath = URL + ans.userPicPath;
-                    let req = {
-                        "updateOrder":"updateOrder",
-                        "deliveryNote":userPicPath,
-                        "id":vm.shippingOrderID,
-                        "orderNumber":vm.shippingOrderNumber,
-                        "operator":$("#nickNameTextPanel").html()
-                    };
-                    if(Af.nullstr(req.orderNumber))
-                    {
-                        let dropReq = {
-                            "operator":$("#nickNameTextPanel").html(),
-                            "delPic":"delPic",
-                            "fileName":ans.userPicPath
+                if(vm.documentUploadStatus)
+                {
+                    console.log("禁止触发第二次后台请求!");
+                }
+                else{
+                    vm.documentUploadStatus = true;
+                    if (ans.errorCode == 0) {
+                        var userPicPath = URL + ans.userPicPath;
+                        let req = {
+                            "updateOrder":"updateOrder",
+                            "customerOriginalDocument":userPicPath,
+                            "orderNumber":vm.uploadDocumentForOrderNumber,
+                            "operator":$("#nickNameTextPanel").html()
                         };
-                        /*请求后台删除图片*/
-                        Af.rest("dropFile.api",dropReq,function (ans) {
+                        Af.rest("orderInfonQueiry.api",req,function (ans) {
                             if(ans.errorCode==0)
                             {
-                                MAIN.ErroAlert("没有勾选订单,所上传文件已经删除!");
-                            }
-                            else {
-                                layer.msg(ans.msg);
+                                layer.msg("添加成功");
+                                vm.uploadDocumentForOrderNumber = "";
                             }
                         });
-                        return;
                     }
-                    Af.rest("ShipmentInfo.api",req,function (ans) {
-                        if(ans.errorCode==0)
-                        {
-                            layer.msg("添加成功");
-                            vm.shippingOrderNumber = "";
-                        }
-                        else
-                        {
-                            MAIN.ErroAlert(ans.msg);
-                        }
-                    });
-                } else {
-                    MAIN.ErroAlert(ans.msg);
-
                 }
             },
             error: function () {
@@ -4432,60 +4523,7 @@ $(function () {
                 layer.msg("服务器错误");
             }
         });
-        //客户原始订单单据上传
-        var originalOrderDocument = upload.render({
-            elem: "#uploadDocument", //绑定元素
-            url: "servlet/UploadAPI", //上传接口
-            done: function (ans) {
-                //上传完毕回调
-                if (ans.errorCode == 0) {
-                    var userPicPath = URL + ans.userPicPath;
-                    let req = {
-                        "updateOrder":"updateOrder",
-                        "customerOriginalDocument":userPicPath,
-                        "orderNumber":vm.uploadDocumentForOrderNumber,
-                        "operator":$("#nickNameTextPanel").html()
-                    };
-                    if(Af.nullstr(req.orderNumber))
-                    {
-                        let dropReq = {
-                            "operator":$("#nickNameTextPanel").html(),
-                            "delPic":"delPic",
-                            "fileName":ans.userPicPath
-                        };
-                        /*请求后台删除图片*/
-                        Af.rest("dropFile.api",dropReq,function (ans) {
-                          if(ans.errorCode==0)
-                          {
-                              MAIN.ErroAlert("没有勾选订单,所上传文件已经删除!");
-                          }
-                          else {
-                              layer.msg(ans.msg);
-                          }
-                        });
-                        return;
-                    }
-                    Af.rest("orderInfonQueiry.api",req,function (ans) {
-                        if(ans.errorCode==0)
-                        {
-                            layer.msg("添加成功");
-                            vm.uploadDocumentForOrderNumber = "";
-                        }
-                        else
-                        {
-                            MAIN.ErroAlert(ans.msg);
-                        }
-                    });
-                } else {
-                    MAIN.ErroAlert(ans.msg);
 
-                }
-            },
-            error: function () {
-                //请求异常回调
-                layer.msg("服务器错误");
-            }
-        });
         //供应商logo图片上传
         var supplierLogoUpload = upload.render({
             elem: "#blackMask", //绑定元素

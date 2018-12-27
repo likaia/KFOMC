@@ -49,4 +49,6 @@
 	<api name="getServerTime" class="com.lk.API.ServerTimeAPI" />
 	<!-- 客户对账 -->
 	<api name="customerReconciliation" class="com.lk.API.CustomerReconciliationAPI" />
+	<!-- 文件下载接口 -->
+	<api name="fileDownload" class="com.lk.API.FileDownloadAPI" />
 </restful>

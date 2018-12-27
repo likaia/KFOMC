@@ -3,6 +3,7 @@ package com.lk.API;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ import af.restful.AfRestfulApi;
 /*订单信息查询*/
 public class OrderInfonQueiry extends AfRestfulApi
 {
+	private static Logger logger = Logger.getLogger(OrderInfonQueiry.class);
 	@Override
 	public String execute(String reqText) throws Exception
 	{
@@ -268,12 +270,15 @@ public class OrderInfonQueiry extends AfRestfulApi
 					sqlSession.close();
 					if (processResult == 1)
 					{
-						System.out.println("订单信息表添加一条信息成功!");
+						msg = "添加成功";
+						code =0;
+						errorCode = 0;
 					} else
 					{
 						code = 1;
 						errorCode = 1;
 						msg = "数据库异常!数据添加失败";
+						logger.info("数据库异常!数据添加失败");
 					}
 				}
 				// 刪除订单
@@ -295,6 +300,8 @@ public class OrderInfonQueiry extends AfRestfulApi
 						msg = "删除成功!";
 					} else
 					{
+						code =1;
+						errorCode = 1;
 						msg = "删除失败";
 					}
 				}

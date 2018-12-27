@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import com.lk.Utils.LkCommon;
 
 /*
@@ -20,6 +22,7 @@ import com.lk.Utils.LkCommon;
 public class PicTempFileManager implements Runnable
 {
 	private static String path;// 路径
+	private static Logger logger = Logger.getLogger(PicTempFileManager.class);
 	LkCommon lkCommon = new LkCommon();
 	private static String RETENTION_TIME = "";// 文件保存的时间
 	static
@@ -105,10 +108,10 @@ public class PicTempFileManager implements Runnable
 				{
 					if (file.delete())
 					{
-						System.out.println("文件" + file.getName() + "删除成功!");
+						logger.info("文件" + file.getName() + "删除成功!");
 					} else
 					{
-						System.out.println("文件" + file.getName() + "删除失败!此文件可能正在被使用");
+						logger.info("文件" + file.getName() + "删除失败!此文件可能正在被使用");
 					}
 				} else
 				{
@@ -116,12 +119,12 @@ public class PicTempFileManager implements Runnable
 				}
 			} else
 			{
-				System.out.println("没有可以删除的文件了");
+				logger.info("没有可以删除的文件了");
 			}
 
 		} catch (Exception e)
 		{
-			System.out.println("删除文件失败========");
+			logger.info("删除文件失败========");
 			e.printStackTrace();
 		}
 	}
@@ -192,10 +195,10 @@ public class PicTempFileManager implements Runnable
 				{
 					if (folder.delete())
 					{
-						System.out.println("文件夹" + folder.getName() + "删除成功!");
+						logger.info("文件夹" + folder.getName() + "删除成功!");
 					} else
 					{
-						System.out.println("文件夹" + folder.getName() + "删除失败!此文件夹内的文件可能正在被使用");
+						logger.info("文件夹" + folder.getName() + "删除失败!此文件夹内的文件可能正在被使用");
 					}
 				}
 			}

@@ -1,9 +1,12 @@
 package com.lk.timedTask;
 
-import java.util.Date;
 import java.util.TimerTask;
 
 import javax.servlet.ServletContext;
+
+import org.apache.log4j.Logger;
+
+
 
 /*
   * 
@@ -14,6 +17,8 @@ import javax.servlet.ServletContext;
 
 public class SystemTaskTest extends TimerTask
 {
+	private static Logger logger = Logger.getLogger(SystemTaskTest.class);
+	@SuppressWarnings("unused")
 	private ServletContext context;
 	private String path;
 	@SuppressWarnings("unused")
@@ -24,8 +29,6 @@ public class SystemTaskTest extends TimerTask
 		this.path = path;
 		this.context = context;
 	}
-
-	@SuppressWarnings("deprecation")
 	@Override
 	/**  
 	 * 把要定时执行的任务就在run中  
@@ -35,13 +38,12 @@ public class SystemTaskTest extends TimerTask
 		PicTempFileManager etf;
 		try
 		{
-			context.log("开始执行任务!");
+			logger.info("开始执行定时任务!");
 			// 需要执行的代码
-			System.out.println(new Date().toLocaleString());
 			//System.out.println("path======" + path);
 			etf = new PicTempFileManager(path);
 			etf.run();
-			context.log("指定任务执行完成!");
+			logger.info("指定任务执行完成");
 		} catch (Exception e)
 		{
 			e.printStackTrace();

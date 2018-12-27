@@ -763,6 +763,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                         v-bind:style="{background:BtnColor}">上传送货单
                                 </button>
                                 <input type="button" id = "btnHide" style="display: none">
+                                <input type="button" id = "hideBtn" style="display: none">
                             </div>
                         </div>
                         <!--数据表格-->

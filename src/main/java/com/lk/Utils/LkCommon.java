@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -511,6 +512,81 @@ public class LkCommon
 		array = finalData;
 		return array;
 	}
+	/**
+	 * 
+	 * @Title:             weekSort
+	 * @Description:     周排序
+	 * @param:             @param rawDate
+	 * @param:             @return   
+	 * @return:         ArrayList<String>   
+	 * @throws
+	 */
+	public ArrayList<String> weekSort(ArrayList<String> rawDate)
+	{
+		// 转换为Integer数组
+		ArrayList<Integer> tmpArr = new ArrayList<Integer>();
+		for (int i = 0; i < rawDate.size(); i++)
+		{
+			String thisVal = rawDate.get(i);
+			switch (thisVal)
+			{
+			case "星期一":
+				tmpArr.add(1);
+				break;
+			case "星期二":
+				tmpArr.add(2);
+				break;
+			case "星期三":
+				tmpArr.add(3);
+				break;
+			case "星期四":
+				tmpArr.add(4);
+				break;
+			case "星期五":
+				tmpArr.add(5);
+				break;
+			case "星期六":
+				tmpArr.add(6);
+				break;
+			default:
+				tmpArr.add(7);
+				break;
+			}
+		}
+		// 排序
+		Collections.sort(tmpArr);
+		// 转回List
+		ArrayList<String> finalArr = new ArrayList<String>();
+		for (int i = 0; i < tmpArr.size(); i++)
+		{
+			int thisVal = tmpArr.get(i);
+			switch (thisVal)
+			{
+			case 1:
+				finalArr.add("星期一");
+				break;
+			case 2:
+				finalArr.add("星期二");
+				break;
+			case 3:
+				finalArr.add("星期三");
+				break;
+			case 4:
+				finalArr.add("星期四");
+				break;
+			case 5:
+				finalArr.add("星期五");
+				break;
+			case 6:
+				finalArr.add("星期六");
+				break;
+			default:
+				finalArr.add("星期天");
+				break;
+			}
+		}
+		return finalArr;
+	}
 
 	/**
 	 * 
@@ -617,7 +693,40 @@ public class LkCommon
 		String repickStr = mat.replaceAll("");
 		return repickStr;
 	}
-
+	/**
+	 * 根据小时判断是否为上午、中午、下午
+	 * @param hour
+	 * @return
+	 * @author 李凯
+	 */
+	public static String getDuringDay(int hour){
+		if (hour >= 7 && hour < 11) {
+			return "AM";
+		}if (hour >= 11 && hour <= 13) {
+			return "NOON";
+		}if (hour >= 14 && hour <= 18) {
+			return "PM";
+		}
+		return null;
+	}
+	/**
+	 * 
+	 * @Title:             getWeekOfDate
+	 * @Description:     传日期获取当前为星期几
+	 * @param:             @param date
+	 * @param:             @return   
+	 * @return:         String   
+	 * @throws
+	 */
+	public static String getWeekOfDate(Date date) { 
+		  String[] weekDaysName = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" }; 
+		  //String[] weekDaysCode = { "0", "1", "2", "3", "4", "5", "6" }; 
+		  Calendar calendar = Calendar.getInstance(); 
+		  calendar.setTime(date); 
+		  int intWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1; 
+		  return weekDaysName[intWeek]; 
+	}
+	
 	/**
 	 * 
 	 * @Title:             removeDuplicate
