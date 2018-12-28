@@ -25,11 +25,9 @@ import com.lk.Utils.DeleteFileUtil;
 import com.lk.Utils.LkCommon;
 import com.lk.Utils.WorderToNewWordUtils;
 import com.lk.Utils.ZipUtils;
-import com.lk.db.AttendanceStatusInfo;
 import com.lk.db.ClientInfo;
 import com.lk.db.OrderInfo;
 import com.lk.dbutil.SqlSessionFactoryUtil;
-import com.lk.mappers.AttendanceStatusInfoMapper;
 import com.lk.mappers.ClientInfoMapper;
 import com.lk.mappers.OrderMapper;
 import com.lk.timedTask.PicTempFileManager;
@@ -441,26 +439,6 @@ public class JunitTestAPI
 	@Test
 	public void test15()
 	{
-		// 打开连接
-		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-		// 配置映射器
-		AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession.getMapper(AttendanceStatusInfoMapper.class);
-		AttendanceStatusInfo row = new AttendanceStatusInfo();
-		row.setNameOfWorker("9");
-		row.setOperator("9");
-		row.setJobNumber("0218093");
-		String department = "哈哈哈";
-		row.setDepartment(department);
-		String workingHours = "10:00";
-		row.setWorkingHours(workingHours);
-		String afterGetOffWorkTime = "";
-		row.setAfterGetOffWorkTime(afterGetOffWorkTime);
-		int processResult = attendanceStatusInfoMapper.update(row);
-		sqlSession.commit();
-		if (processResult > 0)
-		{
-			System.out.println("更新成功");
-		}
-		sqlSession.close();
+		
 	}
 }

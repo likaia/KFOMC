@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userID" column="userID" />
 		<result property="bearingInformation" column="bearingInformation" />
 		<result property="punchRange" column="punchRange" />
+		<result property="companyID" column="companyID" />
 	</resultMap>
 
 	<!-- 添加 -->
@@ -50,6 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="userID != null">
 				userID,
 			</if>
+			<if test="companyID != null">
+				companyID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userName != null">
@@ -72,6 +76,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="userID != null">
 				#{userID,jdbcType=INTEGER},
+			</if>
+			<if test="companyID != null">
+				#{companyID,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>

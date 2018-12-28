@@ -216,6 +216,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="workingHours != null">
 				workingHours = #{workingHours},
 			</if>
+			<if test="morningWorkTime != null">
+				morningWorkTime = #{morningWorkTime},
+			</if>
+			<if test="afternoonWorkTime != null">
+				afternoonWorkTime = #{afternoonWorkTime},
+			</if>
 			<if test="afterGetOffWorkTime != null">
 				afterGetOffWorkTime = #{afterGetOffWorkTime},
 			</if>

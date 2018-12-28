@@ -73,6 +73,14 @@ public class RegisteredAPI extends AfRestfulApi
 							int userID = jsReq.getInt("userID");
 							user.setUserID(userID);
 						}
+						if(jsReq.has("companyID"))
+						{
+							/**
+							 * 公司ID
+							 */
+							int companyID = jsReq.getInt("companyID");
+							user.setCompanyID(companyID);
+						}
 						int result = userMapper.add(user);
 						sqlSession.commit();
 						// 关闭session

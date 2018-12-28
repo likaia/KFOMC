@@ -103,7 +103,7 @@ public class IncomeInfoAPI extends AfRestfulApi
 				IncomeInfoMapper incomeInfoMapper = sqlSession.getMapper(IncomeInfoMapper.class);
 				IncomeInfo row = new IncomeInfo();
 				row.setOperator(operator);
-				if(jsReq.has("paymentMethod"))
+				if (jsReq.has("paymentMethod"))
 				{
 					String paymentMethod = jsReq.getString("paymentMethod");
 					row.setPaymentMethod(paymentMethod);
@@ -121,31 +121,40 @@ public class IncomeInfoAPI extends AfRestfulApi
 			// 新增数据
 			if (jsReq.has("addIncome"))
 			{
-				String orderNumber = jsReq.getString("orderNumber"); //--->订单号
-				String incomeDate = jsReq.getString("incomeDate"); //--->收款日期
-				String clientName = jsReq.getString("clientName"); //--->客户名称
-				String paymentMethod = jsReq.getString("paymentMethod"); //--->支付方式
-				Double paymentAmount = jsReq.getDouble("paymentAmount"); //--->付款金额
-				String bankCardNumber = jsReq.getString("bankCardNumber"); //--->银行卡号
-				String productName = jsReq.getString("productName"); //--->工程名称
-				String payee = jsReq.getString("payee"); //--->收款人
-				String bankImg = jsReq.getString("bankImg"); //--->银行图片
-				String remarks = jsReq.getString("remarks");//--->备注
-				String addTime = serverTime;//--->添加时间
+				String orderNumber = jsReq.getString("orderNumber"); // --->订单号
+				String incomeDate = jsReq.getString("incomeDate"); // --->收款日期
+				String clientName = jsReq.getString("clientName"); // --->客户名称
+				String paymentMethod = jsReq.getString("paymentMethod"); // --->支付方式
+				Double paymentAmount = jsReq.getDouble("paymentAmount"); // --->付款金额
+				String bankCardNumber = jsReq.getString("bankCardNumber"); // --->银行卡号
+				String productName = jsReq.getString("productName"); // --->工程名称
+				String payee = jsReq.getString("payee"); // --->收款人
+				String bankImg = jsReq.getString("bankImg"); // --->银行图片
+				String remarks = jsReq.getString("remarks");// --->备注
+				String addTime = serverTime;// --->添加时间
+				if (incomeDate.equals(""))
+				{
+					incomeDate = serverTime;
+				}
+				if (orderNumber.equals(""))
+				{
+					orderNumber = null;
+				}
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				IncomeInfoMapper incomeInfoMapper = sqlSession.getMapper(IncomeInfoMapper.class);
-				IncomeInfo row = new IncomeInfo(orderNumber, incomeDate, clientName, productName, paymentMethod, paymentAmount, payee, remarks, operator, addTime, bankCardNumber, bankImg);
-				int processResult = incomeInfoMapper.add(row);            
+				IncomeInfo row = new IncomeInfo(orderNumber, incomeDate, clientName, productName, paymentMethod,
+						paymentAmount, payee, remarks, operator, addTime, bankCardNumber, bankImg);
+				int processResult = incomeInfoMapper.add(row);
 				sqlSession.commit();
 				if (processResult > 0)
 				{
-					msg = "添加成功";
-					/*更新订单信息表*/
+					/* 更新订单信息表 */
 					OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
-					//自定义查询(总金额/已付款)
-					String[] queryTypeArr = {"totalAmount","alreadyPaid"};
+					// 自定义查询(总金额/已付款)
+					String[] queryTypeArr =
+					{ "totalAmount", "alreadyPaid" };
 					JSONArray queryType = new JSONArray(queryTypeArr);
 					OrderInfo orderRowQuery = new OrderInfo();
 					orderRowQuery.setOperator(operator);
@@ -154,40 +163,40 @@ public class IncomeInfoAPI extends AfRestfulApi
 					orderRowQuery.setQueryType(queryType);
 					List<OrderInfo> orderInfoResultList = orderMapper.customQuery(orderRowQuery);
 					JSONArray orderInfoResult = new JSONArray(orderInfoResultList);
-					if(orderInfoResult.length()>1)
+					if (orderInfoResult.length() > 1)
 					{
 						logger.error("添加收入,更新订单表出错(出现大于一个相同订单)!");
-					}else if(orderInfoResult.length()==1)
+					} else if (orderInfoResult.length() == 1)
 					{
 						JSONObject orderInfoObj = orderInfoResult.getJSONObject(0);
-						BigDecimal totalAlreadyPaid = new BigDecimal("0.00");//--->当前总已付款金额
-						BigDecimal unpaid = new BigDecimal("0.00"); //--->计算未付款
+						BigDecimal totalAlreadyPaid = new BigDecimal("0.00");// --->当前总已付款金额
+						BigDecimal unpaid = new BigDecimal("0.00"); // --->计算未付款
 						int orderId = orderInfoObj.getInt("id");
 						String totalAmount = orderInfoObj.getString("totalAmount");
-						String alreadyPaid =  orderInfoObj.getString("alreadyPaid");
-						totalAmount = lkCommon.removeChinese(totalAmount); //--->总金额
-						alreadyPaid = lkCommon.removeChinese(alreadyPaid); //--->已付款
-						totalAlreadyPaid =LkCommon.addDouble(alreadyPaid, paymentAmount.toString());
-						
-						unpaid = lkCommon.subtract(totalAmount,totalAlreadyPaid.toString()); //--->未付款 = 总金额-总已付款
-				
-						//更新订单信息表(已付款/未付款)
+						String alreadyPaid = orderInfoObj.getString("alreadyPaid");
+						totalAmount = lkCommon.removeChinese(totalAmount); // --->总金额
+						alreadyPaid = lkCommon.removeChinese(alreadyPaid); // --->已付款
+						totalAlreadyPaid = LkCommon.addDouble(alreadyPaid, paymentAmount.toString());
+
+						unpaid = lkCommon.subtract(totalAmount, totalAlreadyPaid.toString()); // --->未付款=
+																								// 总金额-总已付款
+
+						// 更新订单信息表(已付款/未付款)
 						OrderInfo updateRow = new OrderInfo();
-						updateRow.setAlreadyPaid(totalAlreadyPaid+"元");
-						updateRow.setUnpaid(unpaid+"元");
+						updateRow.setAlreadyPaid(totalAlreadyPaid + "元");
+						updateRow.setUnpaid(unpaid + "元");
 						updateRow.setOperator(operator);
 						updateRow.setId(orderId);
 						int updateResult = orderMapper.update(updateRow);
 						sqlSession.commit();
-						if(updateResult<=0)
+						if (updateResult <= 0)
 						{
-							logger.error("更新订单信息表失败(订单号):"+orderNumber);
+							logger.error("更新订单信息表失败(订单号):" + orderNumber);
 						}
-					}else
+					} else
 					{
-						logger.error("更新订单信息表出错:该订单不存在!");
+						
 					}
-					
 				} else
 				{
 					code = 1;
@@ -209,11 +218,10 @@ public class IncomeInfoAPI extends AfRestfulApi
 				row.setIds(ids);
 				int processResult = incomeInfoMapper.del(row);
 				sqlSession.commit();
-				if(processResult>0)
+				if (processResult > 0)
 				{
 					msg = "删除成功!";
-				}
-				else
+				} else
 				{
 					code = 1;
 					errorCode = 1;
@@ -222,8 +230,8 @@ public class IncomeInfoAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
-			//更新客户信息
-			if(jsReq.has("updateSalary"))
+			// 更新客户信息
+			if (jsReq.has("updateSalary"))
 			{
 				String orderNumber = jsReq.getString("orderNumber");
 				String incomeDate = jsReq.getString("incomeDate");
@@ -248,11 +256,10 @@ public class IncomeInfoAPI extends AfRestfulApi
 				row.setAddTime(addTime);
 				int processResult = incomeInfoMapper.update(row);
 				sqlSession.commit();
-				if(processResult>0)
+				if (processResult > 0)
 				{
 					msg = "更新成功";
-				}
-				else
+				} else
 				{
 					code = 1;
 					errorCode = 1;

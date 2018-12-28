@@ -255,6 +255,10 @@ $(function () {
             addRevenueVlientInfo: "",//--->客户详细信息
             addRevenueBankImg: URL + "webPic/bankImg/yinlianzhifu.png", //--->所选择的银行图片
             addRevenueProjectName: "",//--->工程名称
+            OtherRevenueClientName:"",
+            OtherRevenuePayee:"",
+            OtherRevenueAmount:"",
+            OtherRevenueAmountRemarks:"",
             //精确/模糊(合并)点击状态
             fuzzyState: false, //--->模糊状态
             preciseState: false, //--->精确状态
@@ -3173,7 +3177,96 @@ $(function () {
                 this.SupplierInfoStatus = "none";
             }
             ,
-            /*客户对账点击事件*/
+            /*财务管理[收入管理]查询*/
+            revenueQueryFun:function(){
+
+            },
+            /*财务管理[收入管理]添加其他收入项*/
+            revenueAddFun:function(){
+                Af.openSubmenu("其他收入",["520px","220px"],true,$("#addOtherRevenueSubmenu"));
+            },
+            //提交
+            revenueSubmitFun:function(){
+                let req = {
+                    "orderNumber":"",
+                    "clientName":vm.OtherRevenueClientName,
+                    "paymentMethod":"",
+                    "bankCardNumber":"",
+                    "incomeDate":"",
+                    "productName":"",
+                    "bankImg":"",
+                    "payee":vm.OtherRevenuePayee,
+                    "paymentAmount":vm.OtherRevenueAmount,
+                    "remarks":vm.OtherRevenueAmountRemarks,
+                    "addIncome":"addIncome",
+                    "operator":$("#nickNameTextPanel").html()
+                };
+                if(Af.nullstr(req.clientName)||Af.nullstr(req.payee)||Af.nullstr(req.paymentAmount))
+                {
+                    MAIN.ErroAlert("客户名称,收款人,收款金额,为必填项!");
+                }
+                else
+                {
+                    req.paymentAmount = Number(req.paymentAmount);
+                    if(isNaN(req.paymentAmount))
+                    {
+                        MAIN.ErroAlert("收款金额,必须为有效的数字!");
+                        return;
+                    }
+                    Af.rest("IncomeInfo.api",req,function(ans){
+                        if(ans.errorCode==0)
+                        {
+                            layer.closeAll();
+                            MAIN.revenueInfoList($("#nickNameTextPanel").html());
+                            layer.msg("添加成功");
+                        }
+                        else {
+                            MAIN.ErroAlert(ans.msg);
+                        }
+                    });
+                }
+            },
+            //取消
+            revenueCancelFun:function(){
+              layer.closeAll();
+            },
+            /*财务管理[收入管理]编辑*/
+            revenueEditFun:function(){
+                let rowData = MAIN.getTableRowData("revenueInfoList");
+                if(rowData.length==1)
+                {
+                    Af.openSubmenu("收入信息修改",["720px","520px"],true,$("#revenueEditSubmenu"));
+                    Af.trace(rowData);
+                }
+                else
+                {
+                    MAIN.ErroAlert("必须勾选一条收入信息!");
+                }
+
+            },
+            /*财务管理[收入管理]删除*/
+            revenueDelFun:function(){
+
+            },
+            /*财务管理[支出管理]查询*/
+            payQueryFun:function(){
+
+            },
+            /*财务管理[支出管理]添加*/
+            payAddFun:function(){
+
+            },
+            /*财务管理[支出管理]编辑*/
+            payEditFun:function(){
+
+            },
+            /*财务管理[支出管理]删除*/
+            payDelFun:function(){
+
+            },
+            /*财务管理[财务报表]*/
+
+            /*财务管理[客户对账]点击事件*/
             reconciliationFun: function () {
                 this.customerReconciliationStatus = "block";
                 setTimeout(function () {
@@ -3249,6 +3342,14 @@ $(function () {
                 });
             }
             ,
+            /*员工管理[考勤管理]编辑事件*/
+            addAttendanceFun:function(){
+
+            },
+            /*员工管理[考勤管理]删除事件*/
+            delAttendanceFun:function(){
+
+            },
             /*员工管理[工资发放]点击事件*/
             salaryGivingFun: function () {
                 this.salaryGivingStatus = "block";
@@ -3298,6 +3399,18 @@ $(function () {
                 });
             }
             ,
+            /*员工管理[工资发放]新增事件*/
+            salaryAddFun:function(){
+
+            },
+            /*员工管理[工资发放]编辑事件*/
+            salaryEditFun:function(){
+
+            },
+            /*员工管理[工资发放]删除事件*/
+            salaryDelFun:function(){
+
+            },
             /*员工管理[员工信息]点击事件*/
             employeeInfoFun: function () {
                 this.employeeInfoStatus = "block";
@@ -3346,6 +3459,18 @@ $(function () {
                 });
             }
             ,
+            /*员工管理[员工信息]新增点击事件*/
+            employeeAddFun:function(){
+
+            },
+            /*员工管理[员工信息]删除点击事件*/
+            employeeDelFun:function(){
+
+            },
+            /*员工管理[员工信息]编辑点击事件*/
+            employeeEditFun:function(){
+
+            },
             /*基础信息[原片信息]点击事件*/
             OriginalInfoFun: function () {
                 this.OriginalInfoStatus = "block";

@@ -987,27 +987,36 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         </div>
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
-                                <button class="layui-btn layui-btn-normal"
+                                <button class="layui-btn layui-btn-normal" @click="revenueQueryFun"
                                         v-bind:style="{background:BtnColor}">查询
+                                </button>
+                                <button class="layui-btn layui-btn-normal" @click="revenueAddFun"
+                                        v-bind:style="{background:BtnColor}">添加收入
+                                </button>
+                                <button class="layui-btn layui-btn-normal" @click="revenueEditFun"
+                                        v-bind:style="{background:BtnColor}">编辑条目
+                                </button>
+                                <button class="layui-btn layui-btn-normal" @click="revenueDelFun"
+                                        v-bind:style="{background:BtnColor}">删除条目
                                 </button>
                             </div>
                         </div>
                         <div class="layui-col-md3"></div>
                     </div>
                     <!--按钮区域-->
-                    <div class="layui-row btnParent-panel">
-                        <div class="btn-panel">
-                            <button class="layui-btn layui-btn-normal"
-                                    v-bind:style="{background:BtnColor}">新增
-                            </button>
-                            <button class="layui-btn layui-btn-normal"
-                                    v-bind:style="{background:BtnColor}">导出
-                            </button>
-                            <button class="layui-btn layui-btn-normal"
-                                    v-bind:style="{background:BtnColor}">打印
-                            </button>
-                        </div>
-                    </div>
+                    <!--<div class="layui-row btnParent-panel">-->
+                        <!--<div class="btn-panel">-->
+                            <!--<button class="layui-btn layui-btn-normal"-->
+                                    <!--v-bind:style="{background:BtnColor}">新增-->
+                            <!--</button>-->
+                            <!--<button class="layui-btn layui-btn-normal"-->
+                                    <!--v-bind:style="{background:BtnColor}">导出-->
+                            <!--</button>-->
+                            <!--<button class="layui-btn layui-btn-normal"-->
+                                    <!--v-bind:style="{background:BtnColor}">打印-->
+                            <!--</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <!--数据表格区域-->
                     <div class="layui-row revenueInfoList-panel">
                         <table id="revenueInfoList" lay-filter="revenueInfoList"></table>
@@ -1044,15 +1053,24 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         </div>
                         <div class="layui-col-md3">
                             <div class="item-panel layui-form">
-                                <button class="layui-btn layui-btn-normal"
+                                <button class="layui-btn layui-btn-normal" @click="payQueryFun"
                                         v-bind:style="{background:BtnColor}">查询
+                                </button>
+                                <button class="layui-btn layui-btn-normal" @click="payAddFun"
+                                        v-bind:style="{background:BtnColor}">添加支出
+                                </button>
+                                <button class="layui-btn layui-btn-normal" @click="payEditFun"
+                                        v-bind:style="{background:BtnColor}">编辑条目
+                                </button>
+                                <button class="layui-btn layui-btn-normal" @click="payDelFun"
+                                        v-bind:style="{background:BtnColor}">删除条目
                                 </button>
                             </div>
                         </div>
                         <div class="layui-col-md3"></div>
                     </div>
                     <!--按钮区域-->
-                    <div class="layui-row btnParent-panel">
+                    <!--<div class="layui-row btnParent-panel">
                         <div class="btn-panel">
                             <button class="layui-btn layui-btn-normal"
                                     v-bind:style="{background:BtnColor}">新增
@@ -1064,7 +1082,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     v-bind:style="{background:BtnColor}">打印
                             </button>
                         </div>
-                    </div>
+                    </div>-->
                     <!--数据表格区域-->
                     <div class="layui-row expenditureInfoList-panel">
                         <table id="expenditureInfoList" lay-filter="expenditureInfoList"></table>
@@ -1211,6 +1229,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                         <button class="layui-btn layui-btn-normal" @click="QueryAttendanceFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
+                                        <button class="layui-btn layui-btn-normal" @click="addAttendanceFun"
+                                                v-bind:style="{background:BtnColor}">编辑条目
+                                        </button>
+                                        <button class="layui-btn layui-btn-normal" @click="delAttendanceFun"
+                                                v-bind:style="{background:BtnColor}">删除条目
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -1283,6 +1307,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                         <button class="layui-btn layui-btn-normal" @click="salaryQueryFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
+                                        <button class="layui-btn layui-btn-normal" @click="salaryQueryFun"
+                                                v-bind:style="{background:BtnColor}">发放工资
+                                        </button>
+                                        <button class="layui-btn layui-btn-normal" @click="salaryEditFun"
+                                                v-bind:style="{background:BtnColor}">修改条目
+                                        </button>
+                                        <button class="layui-btn layui-btn-normal" @click="salaryDelFun"
+                                                v-bind:style="{background:BtnColor}">删除条目
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -1354,6 +1387,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     <div class="layui-form-item">
                                         <button class="layui-btn layui-btn-normal" @click="employeeQueryFun"
                                                 v-bind:style="{background:BtnColor}">查询
+                                        </button>
+                                        <button class="layui-btn layui-btn-normal" @click="employeeAddFun"
+                                                v-bind:style="{background:BtnColor}">添加员工
+                                        </button>
+                                        <button class="layui-btn layui-btn-normal" @click="employeeDelFun"
+                                                v-bind:style="{background:BtnColor}">删除员工
+                                        </button>
+                                        <button class="layui-btn layui-btn-normal" @click="employeeEditFun"
+                                                v-bind:style="{background:BtnColor}">修改员工
                                         </button>
                                     </div>
                                 </div>
@@ -3386,7 +3428,44 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </table>
         </div>
     </div>
-
+    <!--[收入管理]编辑条目悬浮层-->
+    <div id="revenueEditSubmenu" style="display: none">
+        
+    </div>
+    <!--[收入管理]添加其他收入项-->
+    <div id="addOtherRevenueSubmenu" style="display: none">
+        <!--客户名称 收款人 收款金额 收入备注-->
+        <div class="row-panel" style="margin-top: 10px">
+            <div class="item-panel">
+                <span>客户名称:</span>
+                <input type="text" class="layui-input" placeholder="客户名称" v-model="OtherRevenueClientName">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right: 20px">收款人:</span>
+                <input type="text" class="layui-input" placeholder="收款人" v-model="OtherRevenuePayee">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>收款金额:</span>
+                <input type="text" class="layui-input" placeholder="金额" v-model="OtherRevenueAmount">
+            </div>
+            <div class="item-panel">
+                <span>收入备注:</span>
+                <input type="text" class="layui-input" placeholder="备注" v-model="OtherRevenueAmountRemarks">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button class="layui-btn" @click="revenueSubmitFun"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button class="layui-btn" @click="revenueCancelFun"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
     <!--添加收入悬浮层-->
     <div id="addRevenueSubmenu" class="layui-form">
         <div class="inputArea">

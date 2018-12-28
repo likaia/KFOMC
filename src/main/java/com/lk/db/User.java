@@ -33,6 +33,7 @@ public class User
 	private String mobilePhoneSerialNumber;
 	private JSONArray queryType;
 	private Integer punchRange;
+	private Integer companyID;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -116,6 +117,14 @@ public class User
 	}
 
 
+	public Integer getCompanyID()
+	{
+		return companyID;
+	}
+	public void setCompanyID(Integer companyID)
+	{
+		this.companyID = companyID;
+	}
 	public Integer getUserID()
 	{
 		return userID;

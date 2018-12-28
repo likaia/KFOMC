@@ -2168,3 +2168,29 @@ a {
 	color:white;
 	font-weight: 700;
 }
+/*收入管理[添加收入]样式*/
+#addOtherRevenueSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#addOtherRevenueSubmenu .row-panel .btn-panel{
+	position: absolute;
+	right: 0px;
+	top: 10px;
+}
+#addOtherRevenueSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#addOtherRevenueSubmenu .row-panel .item-panel input{
+	float: left;
+	width: 140px;
+}
+#addOtherRevenueSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 5px;
+}
