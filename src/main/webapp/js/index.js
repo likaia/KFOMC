@@ -252,13 +252,22 @@ $(function () {
             addRevenueCardVal: "", //--->卡号/账号
             addRevenueCollectionAmount: "", //收款金额
             addRevenueRemarks: "", //备注
-            addRevenueVlientInfo: "",//--->客户详细信息
+            addRevenueVlientInfo: "new V",//--->客户详细信息
             addRevenueBankImg: URL + "webPic/bankImg/yinlianzhifu.png", //--->所选择的银行图片
             addRevenueProjectName: "",//--->工程名称
             OtherRevenueClientName:"",
             OtherRevenuePayee:"",
             OtherRevenueAmount:"",
             OtherRevenueAmountRemarks:"",
+            EditRevenueClientName:"",
+            EditRevenueProjuctName:"",
+            EditRevenuePayMethod:"",
+            EditRevenueCaedNum:"",
+            EditRevenuePayAmount:"",
+            EditRevenuePayee:"",
+            EditRevenueRemarks:"",
+            RevenueManagementStart:"",
+            RevenueManagementEnd:"",
             //精确/模糊(合并)点击状态
             fuzzyState: false, //--->模糊状态
             preciseState: false, //--->精确状态
@@ -3179,7 +3188,22 @@ $(function () {
             ,
             /*财务管理[收入管理]查询*/
             revenueQueryFun:function(){
-
+                vm.loadingStatus = "block";
+                var req = {};
+                req.dStart = this.RevenueManagementStart;
+                req.clientName = "";
+                req.dEnd = this.RevenueManagementEnd;
+                req.conditionalQuery = "conditionalQuery";
+                req.operator = $("#nickNameTextPanel").html();
+                if (Af.nullstr(req.dStart) || Af.nullstr(req.dEnd) || Af.nullstr(req.operator)) {
+                    MAIN.ErroAlert("请选择查询条件");
+                    vm.loadingStatus = "none";
+                } else {
+                    Af.rest("IncomeInfo.api", req, function (ans) {
+                        MAIN.revenueInfoDataList(ans.data);
+                        vm.loadingStatus = "none"; //更新失败
+                    })
+                }
             },
             /*财务管理[收入管理]添加其他收入项*/
             revenueAddFun:function(){
@@ -3235,18 +3259,77 @@ $(function () {
                 let rowData = MAIN.getTableRowData("revenueInfoList");
                 if(rowData.length==1)
                 {
-                    Af.openSubmenu("收入信息修改",["720px","520px"],true,$("#revenueEditSubmenu"));
-                    Af.trace(rowData);
+                    Af.openSubmenu("收入信息修改",["720px","310px"],true,$("#revenueEditSubmenu"));
+                    let thisObj = rowData[0];
+                    vm.EditRevenueClientName = thisObj.clientName;
+                    vm.EditRevenueProjuctName = thisObj.productName;
+                    vm.EditRevenuePayMethod = thisObj.paymentMethod;
+                    vm.EditRevenueCaedNum = thisObj.bankCardNumber;
+                    vm.EditRevenuePayAmount = thisObj.paymentAmount;
+                    vm.EditRevenuePayee = thisObj.payee;
+                    vm.EditRevenueRemarks = thisObj.remarks;
                 }
                 else
                 {
                     MAIN.ErroAlert("必须勾选一条收入信息!");
                 }
-
+            },
+            //提交
+            revenueEditSubmitFun:function(){
+                let rowData = MAIN.getTableRowData("revenueInfoList");
+                let req = {
+                    "id":rowData[0].id,
+                    "operator":$("#nickNameTextPanel").html(),
+                    "updateSalary":"updateSalary",
+                    "orderNumber":"",
+                    "incomeDate":"",
+                    "clientName":vm.EditRevenueClientName,
+                    "productName":vm.EditRevenueProjuctName,
+                    "paymentMethod":vm.EditRevenuePayMethod,
+                    "bankCardNumber": vm.EditRevenueCaedNum,
+                    "paymentAmount":vm.EditRevenuePayAmount,
+                    "payee":vm.EditRevenuePayee ,
+                    "remarks": vm.EditRevenueRemarks
+                };
+                Af.rest("IncomeInfo.api",req,function (ans) {
+                   if(ans.errorCode==0)
+                   {
+                       layer.closeAll();
+                       MAIN.revenueInfoList($("#nickNameTextPanel").html());
+                       layer.msg("更新成功");
+                   }
+                   else {
+                       MAIN.ErroAlert(ans.msg);
+                   }
+                });
+            },
+            //取消
+            revenueEditCancelFun:function(){
+                layer.closeAll();
             },
             /*财务管理[收入管理]删除*/
             revenueDelFun:function(){
-
+                let idsArray = MAIN.getSelectId("revenueInfoList");
+                if(idsArray.length>1)
+                {
+                    MAIN.ErroAlert("没有勾选收入条目!");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', function (index) {
+                    let idsStr = idsArray.toString();
+                    let req= {};
+                    req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                    req.operator = $("#nickNameTextPanel").html();
+                    req.delSalary = "delSalary";
+                    Af.rest("IncomeInfo.api", req, function (ans) {
+                        layer.close(index);
+                        layer.msg(ans.msg);
+                        if (ans.errorCode == 0) {
+                            //数据表格重载
+                            MAIN.revenueInfoList($("#nickNameTextPanel").html());
+                        }
+                    });
+                });
             },
             /*财务管理[支出管理]查询*/
             payQueryFun:function(){
@@ -5212,7 +5295,16 @@ $(function () {
         });
         laydate.render({
             elem: '#revenueInfoDateInput', //收入管理：日期区间选择
-            range: true
+            range: true,
+            done: function (value, date, endDate) {
+                if ($.isEmptyObject(date)) {
+                    vm.RevenueManagementStart = "";
+                    vm.RevenueManagementEnd = "";
+                } else {
+                    vm.RevenueManagementStart = date.year + "-" + date.month + "-" + date.date + " " + date.hours + ":" + date.minutes + ":" + date.seconds;
+                    vm.RevenueManagementEnd = endDate.year + "-" + endDate.month + "-" + endDate.date + " " + endDate.hours + ":" + endDate.minutes + ":" + endDate.seconds;
+                }
+            }
         });
         laydate.render({
             elem: '#expenditureInfoDateInput', //支出管理:日期区间选择

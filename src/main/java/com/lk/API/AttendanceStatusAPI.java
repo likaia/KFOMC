@@ -76,8 +76,8 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
-			//自定义查询(可根据 [员工姓名/工号/开始时间/结束时间]查询)
-			if(jsReq.has("queryType"))
+			// 自定义查询(可根据 [员工姓名/工号/开始时间/结束时间]查询)
+			if (jsReq.has("queryType"))
 			{
 				JSONArray queryType = jsReq.getJSONArray("queryType");
 				String nameOfWorker = jsReq.getString("nameOfWorker");
@@ -113,7 +113,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				row.setJobNumber(jobNumber);
 				row.setNameOfWorker(nameOfWorker);
 				row.setQueryType(queryType);
-				List<AttendanceStatusInfo> resultList =  attendanceStatusInfoMapper.customQuery(row);
+				List<AttendanceStatusInfo> resultList = attendanceStatusInfoMapper.customQuery(row);
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */
 				androidData = "\"" + result + "\"";
@@ -164,6 +164,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 			// 新增数据
 			if (jsReq.has("addAttendanceStatusInfo"))
 			{
+				System.out.println(jsReq);
 				String nameOfWorker = jsReq.getString("nameOfWorker");
 				String jobNumber = jsReq.getString("jobNumber");
 				String department = jsReq.getString("department");
@@ -175,6 +176,46 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				String attendanceRange = jsReq.getString("attendanceRange");
 				String fieldCard = jsReq.getString("fieldCard");
 				String remarks = jsReq.getString("remarks");
+				if (jobNumber.equals(""))
+				{
+					jobNumber = null;
+				}
+				if (department.equals(""))
+				{
+					department = null;
+				}
+				if (workingHours.equals(""))
+				{
+					workingHours = null;
+				}
+				if (afterGetOffWorkTime.equals(""))
+				{
+					afterGetOffWorkTime = null;
+				}
+				if (attendanceDate.equals(""))
+				{
+					attendanceDate = null;
+				}
+				if (wifiInfo.equals(""))
+				{
+					wifiInfo = null;
+				}
+				if (attendanceLocation.equals(""))
+				{
+					attendanceLocation = null;
+				}
+				if (attendanceRange.equals(""))
+				{
+					attendanceRange = null;
+				}
+				if (fieldCard.equals(""))
+				{
+					fieldCard = null;
+				}
+				if (remarks.equals(""))
+				{
+					remarks = null;
+				}
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
@@ -229,77 +270,77 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
-				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession.getMapper(AttendanceStatusInfoMapper.class);
+				AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+						.getMapper(AttendanceStatusInfoMapper.class);
 				AttendanceStatusInfo row = new AttendanceStatusInfo();
 				row.setNameOfWorker(nameOfWorker);
 				row.setOperator(operator);
-				if(jsReq.has("jobNumber"))
+				if (jsReq.has("jobNumber"))
 				{
-					String jobNumber = jsReq.getString("jobNumber"); 
+					String jobNumber = jsReq.getString("jobNumber");
 					row.setJobNumber(jobNumber);
 				}
-				if(jsReq.has("department"))
+				if (jsReq.has("department"))
 				{
 					String department = jsReq.getString("department");
 					row.setDepartment(department);
 				}
-				if(jsReq.has("workingHours"))
+				if (jsReq.has("workingHours"))
 				{
 					String workingHours = jsReq.getString("workingHours");
 					row.setWorkingHours(workingHours);
 				}
-				if(jsReq.has("afterGetOffWorkTime"))
+				if (jsReq.has("afterGetOffWorkTime"))
 				{
 					String afterGetOffWorkTime = jsReq.getString("afterGetOffWorkTime");
 					row.setAfterGetOffWorkTime(afterGetOffWorkTime);
 				}
-				if(jsReq.has("attendanceDate"))
+				if (jsReq.has("attendanceDate"))
 				{
 					String attendanceDate = jsReq.getString("attendanceDate");
 					row.setAttendanceDate(attendanceDate);
 				}
-				if(jsReq.has("wifiInfo"))
+				if (jsReq.has("wifiInfo"))
 				{
 					String wifiInfo = jsReq.getString("wifiInfo");
 					row.setWifiInfo(wifiInfo);
 				}
-				if(jsReq.has("attendanceLocation"))
+				if (jsReq.has("attendanceLocation"))
 				{
 					String attendanceLocation = jsReq.getString("attendanceLocation");
 					row.setAttendanceLocation(attendanceLocation);
 				}
-				if(jsReq.has("attendanceRange"))
+				if (jsReq.has("attendanceRange"))
 				{
 					String attendanceRange = jsReq.getString("attendanceRange");
 					row.setAttendanceRange(attendanceRange);
 				}
-				if(jsReq.has("fieldCard"))
+				if (jsReq.has("fieldCard"))
 				{
 					String fieldCard = jsReq.getString("fieldCard");
 					row.setFieldCard(fieldCard);
 				}
-				if(jsReq.has("remarks"))
+				if (jsReq.has("remarks"))
 				{
 					String remarks = jsReq.getString("remarks");
 					row.setRemarks(remarks);
 				}
-				if(jsReq.has("workID"))
+				if (jsReq.has("workID"))
 				{
 					int workID = jsReq.getInt("workID");
 					row.setId(workID);
 				}
-				if(jsReq.has("afternoonWorkTime"))
+				if (jsReq.has("afternoonWorkTime"))
 				{
 					String afternoonWorkTime = jsReq.getString("afternoonWorkTime");
 					row.setAfternoonWorkTime(afternoonWorkTime);
 				}
-				int processResult =  attendanceStatusInfoMapper.update(row);
+				int processResult = attendanceStatusInfoMapper.update(row);
 				sqlSession.commit();
-				if(processResult>0)
+				if (processResult > 0)
 				{
 					msg = "更新成功";
-				}
-				else
+				} else
 				{
 					code = 1;
 					errorCode = 1;

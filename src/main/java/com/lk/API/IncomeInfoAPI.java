@@ -233,6 +233,7 @@ public class IncomeInfoAPI extends AfRestfulApi
 			// 更新客户信息
 			if (jsReq.has("updateSalary"))
 			{
+				int itemId = jsReq.getInt("id");
 				String orderNumber = jsReq.getString("orderNumber");
 				String incomeDate = jsReq.getString("incomeDate");
 				String clientName = jsReq.getString("clientName");
@@ -240,20 +241,35 @@ public class IncomeInfoAPI extends AfRestfulApi
 				Double paymentAmount = jsReq.getDouble("paymentAmount");
 				String payee = jsReq.getString("payee");
 				String remarks = jsReq.getString("remarks");
-				String addTime = serverTime;
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				IncomeInfoMapper incomeInfoMapper = sqlSession.getMapper(IncomeInfoMapper.class);
 				IncomeInfo row = new IncomeInfo();
-				row.setOrderNumber(orderNumber);
-				row.setIncomeDate(incomeDate);
+				if(!orderNumber.equals(""))
+				{
+					row.setOrderNumber(orderNumber);
+				}
+				if(!incomeDate.equals(""))
+				{
+					row.setIncomeDate(incomeDate);
+				}
+				if(jsReq.has("productName"))
+				{
+					String productName = jsReq.getString("productName");
+					row.setProductName(productName);
+				}
+				if(jsReq.has("bankCardNumber"))
+				{
+					String bankCardNumber = jsReq.getString("bankCardNumber");
+					row.setBankCardNumber(bankCardNumber);
+				}
 				row.setClientName(clientName);
+				row.setId(itemId);
 				row.setPaymentMethod(paymentMethod);
 				row.setPaymentAmount(paymentAmount);
 				row.setPayee(payee);
 				row.setRemarks(remarks);
-				row.setAddTime(addTime);
 				int processResult = incomeInfoMapper.update(row);
 				sqlSession.commit();
 				if (processResult > 0)
@@ -283,7 +299,6 @@ public class IncomeInfoAPI extends AfRestfulApi
 		jsReply.put("serverTime", serverTime);
 		jsReply.put("data", result);
 		jsReply.put("androidData", androidData);
-		jsReply.put("operator", operator);
 		jsReply.put("count", count);
 		return jsReply.toString();
 	}

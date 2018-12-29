@@ -34,6 +34,7 @@ public class User
 	private JSONArray queryType;
 	private Integer punchRange;
 	private Integer companyID;
+	private String messageRequest;
 	public String getSysUseAuthority()
 	{
 		return sysUseAuthority;
@@ -327,6 +328,14 @@ public class User
 	public void setMobilePhoneSerialNumber(String mobilePhoneSerialNumber)
 	{
 		this.mobilePhoneSerialNumber = mobilePhoneSerialNumber;
+	}
+	public String getMessageRequest()
+	{
+		return messageRequest;
+	}
+	public void setMessageRequest(String messageRequest)
+	{
+		this.messageRequest = messageRequest;
 	}
 	
 }

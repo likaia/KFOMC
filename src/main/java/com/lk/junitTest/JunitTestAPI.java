@@ -25,11 +25,15 @@ import com.lk.Utils.DeleteFileUtil;
 import com.lk.Utils.LkCommon;
 import com.lk.Utils.WorderToNewWordUtils;
 import com.lk.Utils.ZipUtils;
+import com.lk.db.AttendanceStatusInfo;
 import com.lk.db.ClientInfo;
 import com.lk.db.OrderInfo;
+import com.lk.db.User;
 import com.lk.dbutil.SqlSessionFactoryUtil;
+import com.lk.mappers.AttendanceStatusInfoMapper;
 import com.lk.mappers.ClientInfoMapper;
 import com.lk.mappers.OrderMapper;
+import com.lk.mappers.UserMapper;
 import com.lk.timedTask.PicTempFileManager;
 
 /*
@@ -53,7 +57,7 @@ public class JunitTestAPI
 	 * @AfterClass: 所有测试结束之后运行
 	 */
 	LkCommon lkcommon = new LkCommon();
-	@SuppressWarnings("unused")
+
 	private static Logger logger = Logger.getLogger(JunitTestAPI.class);
 
 	// 测试:JSONArray中每个元素重复出现次数,元素占比,当前元素的金额
@@ -435,10 +439,147 @@ public class JunitTestAPI
 			}
 		}
 	}
-
+	/**
+	 * 
+	 * @Title:             test15
+	 * @Description:     打卡新增数据接口测试
+	 * @param:                
+	 * @return:         void   
+	 * @throws
+	 */
 	@Test
 	public void test15()
 	{
-		
+		String nameOfWorker = "测试";
+		String jobNumber = "";
+		String department = "";
+		String workingHours = "11:30:22";
+		String afterGetOffWorkTime = "";
+		String attendanceDate = "2018-12-29";
+		String wifiInfo = "";
+		String attendanceLocation = "";
+		String attendanceRange = "";
+		String fieldCard = "";
+		String remarks = "";
+		if (jobNumber.equals(""))
+		{
+			jobNumber = null;
+		}
+		if (department.equals(""))
+		{
+			department = null;
+		}
+		if (workingHours.equals(""))
+		{
+			workingHours = null;
+		}
+		if (afterGetOffWorkTime.equals(""))
+		{
+			afterGetOffWorkTime = null;
+		}
+		if (attendanceDate.equals(""))
+		{
+			attendanceDate = null;
+		}
+		if (wifiInfo.equals(""))
+		{
+			wifiInfo = null;
+		}
+		if (attendanceLocation.equals(""))
+		{
+			attendanceLocation = null;
+		}
+		if (attendanceRange.equals(""))
+		{
+			attendanceRange = null;
+		}
+		if (fieldCard.equals(""))
+		{
+			fieldCard = null;
+		}
+		if (remarks.equals(""))
+		{
+			remarks = null;
+		}
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession.getMapper(AttendanceStatusInfoMapper.class);
+		AttendanceStatusInfo row = new AttendanceStatusInfo(nameOfWorker, jobNumber, department, workingHours,
+				afterGetOffWorkTime, attendanceDate, wifiInfo, attendanceLocation, attendanceRange, fieldCard, remarks,
+				null, "李凯");
+		int processResult = attendanceStatusInfoMapper.add(row);
+		sqlSession.commit();
+		if (processResult > 0)
+		{
+			System.out.println("添加成功");
+		} else
+		{
+			logger.error("员工管理[考勤管理]接口错误,添加失败!");
+		}
+		sqlSession.close();
+	}
+	@Test
+	/**
+	 * 
+	 * @Title:             test16
+	 * @Description:     测试JSONArray赋值
+	 * @param:                
+	 * @return:         void   
+	 * @throws
+	 */
+	public void test16()
+	{
+		String operator = "李凯";
+		int companyID = 100001;
+		String messageRequestStr = "{\"messageRequest\":\"王晓梅申请加入公司!\"}";
+		JSONObject messageRequest = new JSONObject(messageRequestStr);
+		// 打开数据库连接 配置当前要使用的Mapper
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		User dbData = userMapper.findByName(operator);
+		JSONObject queryResult = new JSONObject(dbData);
+		if(queryResult.has("messageRequest"))
+		{
+			//Add current entry to JSOPNArraySource data
+			String sqlMessageRequest = queryResult.getString("messageRequest");
+			JSONArray sqlMessageRequestArr = new JSONArray(sqlMessageRequest);
+			sqlMessageRequestArr.put(messageRequest);
+			//update to database
+			User saveRow = new User();
+			saveRow.setMessageRequest(sqlMessageRequestArr.toString());
+			saveRow.setUserName(operator);
+			saveRow.setCompanyID(companyID);
+			int updateResult = userMapper.updateAttendanceInfo(saveRow);
+			sqlSession.commit();
+			if(updateResult>0)
+			{
+				System.out.println("Update completed!");
+			}else{
+				String msg = "Update failed!";
+				System.out.println(msg);
+			}
+		}else{
+			//Generate JSONArray And add the current entry
+			JSONArray rawArray = new JSONArray();
+			rawArray.put(messageRequest);
+			//update to database
+			User saveRow = new User();
+			saveRow.setMessageRequest(rawArray.toString());
+			saveRow.setUserName(operator);
+			saveRow.setCompanyID(companyID);
+			int updateResult = userMapper.updateAttendanceInfo(saveRow);
+			sqlSession.commit();
+			if(updateResult>0)
+			{
+				String	msg = "Update completed!";
+				System.out.println(msg);
+			}else{
+				String msg = "Update failed!";
+				System.out.println(msg);
+			}
+		}
+		// 关闭session
+		sqlSession.close();
 	}
 }

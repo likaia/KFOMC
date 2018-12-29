@@ -3430,7 +3430,53 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     </div>
     <!--[收入管理]编辑条目悬浮层-->
     <div id="revenueEditSubmenu" style="display: none">
-        
+        <!--客户名称/工程名称/付款方式/卡号|账号/付款金额/收款人/备注-->
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>客户名称:</span>
+                <input type="text" placeholder="客户名称" class="layui-input" v-model="EditRevenueClientName">
+            </div>
+            <div class="item-panel">
+                <span>工程名称:</span>
+                <input style="width: 235px" type="text" placeholder="工程名称" class="layui-input" v-model="EditRevenueProjuctName">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 15px">付款方式:</span>
+                <input type="text" placeholder="工程名称" class="layui-input" v-model="EditRevenuePayMethod">
+            </div>
+            <div class="item-panel">
+                <span>卡号/账号:</span>
+                <input type="text" placeholder="卡号/账号" class="layui-input" v-model="EditRevenueCaedNum">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>付款金额:</span>
+                <input type="text" placeholder="付款金额" class="layui-input" v-model="EditRevenuePayAmount">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right: 30px">收款人:</span>
+                <input type="text" placeholder="收款人" class="layui-input" v-model="EditRevenuePayee">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="remarks-panel">
+                <span style="margin-right:40px">备注:</span>
+                <input type="text" placeholder="备注" class="layui-input" v-model="EditRevenueRemarks">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button class="layui-btn" @click="revenueEditSubmitFun"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button class="layui-btn" @click="revenueEditCancelFun"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
     </div>
     <!--[收入管理]添加其他收入项-->
     <div id="addOtherRevenueSubmenu" style="display: none">

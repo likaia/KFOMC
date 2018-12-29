@@ -2194,3 +2194,42 @@ a {
 	float: left;
 	margin-right: 5px;
 }
+/*收入管理[编辑条目]*/
+#revenueEditSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin:10px auto;
+	position: relative;
+}
+#revenueEditSubmenu .row-panel .btn-panel{
+	position: absolute;
+	right: 0;
+	height: 40px;
+}
+#revenueEditSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#revenueEditSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#revenueEditSubmenu .row-panel .item-panel input{
+	width: 230px;
+	float: left;
+}
+#revenueEditSubmenu .row-panel .remarks-panel{
+	width: 100%;
+	height: 40px;
+}
+#revenueEditSubmenu .row-panel .remarks-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#revenueEditSubmenu .row-panel .remarks-panel input{
+	width: 560px;
+	float: left;
+}
