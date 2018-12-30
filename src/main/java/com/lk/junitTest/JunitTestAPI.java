@@ -523,7 +523,7 @@ public class JunitTestAPI
 	/**
 	 * 
 	 * @Title:             test16
-	 * @Description:     测试JSONArray赋值
+	 * @Description:     测试考勤批准接口
 	 * @param:                
 	 * @return:         void   
 	 * @throws

@@ -194,8 +194,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="paymentMethod != null">
 				paymentMethod = #{paymentMethod},
 			</if>
+			<if test="beneficiary != null">
+				beneficiary = #{beneficiary},
+			</if>
 			<if test="paymentAmount != null">
 				paymentAmount = #{paymentAmount},
+			</if>
+			<if test="supperName != null">
+				supperName = #{supperName},
 			</if>
 			<if test=" remarks != null">
 				remarks =#{remarks},

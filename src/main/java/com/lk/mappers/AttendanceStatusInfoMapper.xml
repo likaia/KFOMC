@@ -239,6 +239,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" fieldCard != null">
 				fieldCard = #{fieldCard},
 			</if>
+			<if test=" leaveTheTitle != null">
+				leaveTheTitle = #{leaveTheTitle},
+			</if>
+			<if test=" leaveContent != null">
+				leaveContent = #{leaveContent},
+			</if>
+			<if test=" leaveStartTime != null">
+				leaveStartTime = #{leaveStartTime},
+			</if>
+			<if test=" leaveTime != null">
+				leaveTime = #{leaveTime},
+			</if>
+			<if test=" leavePicture != null">
+				leavePicture = #{leavePicture},
+			</if>
+			<if test=" workReport != null">
+				workReport = #{workReport},
+			</if>
+			<if test=" completeTheTaskThisWeek != null">
+				completeTheTaskThisWeek = #{completeTheTaskThisWeek},
+			</if>
+			<if test=" unfinishedTasksThisWeek != null">
+				unfinishedTasksThisWeek = #{unfinishedTasksThisWeek},
+			</if>
+			<if test=" weeklyPicture != null">
+				weeklyPicture = #{weeklyPicture},
+			</if>
+			<if test=" weeklyNote != null">
+				weeklyNote = #{weeklyNote},
+			</if>
 			<if test=" remarks != null">
 				remarks = #{remarks},
 			</if>

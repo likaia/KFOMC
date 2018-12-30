@@ -1229,7 +1229,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                         <button class="layui-btn layui-btn-normal" @click="QueryAttendanceFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
-                                        <button class="layui-btn layui-btn-normal" @click="addAttendanceFun"
+                                        <button class="layui-btn layui-btn-normal" @click="EditAttendanceFun"
                                                 v-bind:style="{background:BtnColor}">编辑条目
                                         </button>
                                         <button class="layui-btn layui-btn-normal" @click="delAttendanceFun"
@@ -1307,7 +1307,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                         <button class="layui-btn layui-btn-normal" @click="salaryQueryFun"
                                                 v-bind:style="{background:BtnColor}">查询
                                         </button>
-                                        <button class="layui-btn layui-btn-normal" @click="salaryQueryFun"
+                                        <button class="layui-btn layui-btn-normal" @click="salaryAddFun"
                                                 v-bind:style="{background:BtnColor}">发放工资
                                         </button>
                                         <button class="layui-btn layui-btn-normal" @click="salaryEditFun"
@@ -3603,6 +3603,210 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         v-bind:style="{background:BtnColor}">提交
                 </button>
                 <button @click="addRevenueCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--[添加支出]悬浮层-->
+    <div id="payAddSubmenu" style="display: none">
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>支出类别:</span>
+                <input type="text" placeholder="支出类别" class="layui-input" v-model="payAddOutlayType">
+            </div>
+            <div class="item-panel">
+                <span>付款方式:</span>
+                <input type="text" placeholder="付款方式" class="layui-input" v-model="payAddPaymentMethod">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>付款金额:</span>
+                <input type="text" placeholder="付款金额" class="layui-input" v-model="payAddPaymentAmount">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:26px">收款人:</span>
+                <input type="text" placeholder="收款人" class="layui-input" v-model="payAddBeneficiary">
+            </div>
+        </div>
+        <div class="remarks-panel">
+            <span style="margin-right:43px">备注:</span>
+            <input type="text" placeholder="备注" class="layui-input" style="width: 387px" v-model="payAddRemarks">
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="payAddSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="payAddCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--[编辑支出]条目悬浮层-->
+    <div id="payEditSubmenu" style="display: none">
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>支出类别:</span>
+                <input type="text" placeholder="支出类别" class="layui-input" v-model="payEditOutlayType">
+            </div>
+            <div class="item-panel">
+                <span>付款方式:</span>
+                <input type="text" placeholder="付款方式" class="layui-input" v-model="payEditPaymentMethod">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>付款金额:</span>
+                <input type="text" placeholder="付款金额" class="layui-input" v-model="payEditPaymentAmount">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:25px">供货商:</span>
+                <input type="text" placeholder="供货商" class="layui-input" v-model="payEditSupperName">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right:25px">收款人:</span>
+                <input type="text" placeholder="收款人" class="layui-input" v-model="payEditBeneficiary">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:40px">备注:</span>
+                <input type="text" placeholder="备注" class="layui-input" v-model="payEditRemarks">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="payEditSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="payEditCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--编辑考勤信息悬浮层-->
+    <div id="EditAttendanceSubmenu" style="display: none">
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 42px">员工姓名:</span>
+                <input type="text" class="layui-input" placeholder="员工姓名" v-model="EditAttendanceName">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right: 42px">员工工号:</span>
+                <input type="text" class="layui-input specialStyle" placeholder="工号" v-model="EditAttendanceJobNumber">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 42px">员工部门:</span>
+                <input type="text" class="layui-input" placeholder="部门" v-model="EditAttendanceDivision">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right: 42px">请假天数:</span>
+                <input type="text" class="layui-input specialStyle" placeholder="请假天数" v-model="EditAttendanceAskForLeaveDays">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 42px">事假天数:</span>
+                <input type="text" class="layui-input" placeholder="事假天数" v-model="EditAttendanceLeaveDays">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right: 42px">病假天数:</span>
+                <input type="text" class="layui-input specialStyle" placeholder="病假天数" v-model="EditAttendanceSickLeaveDays">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>实际出勤天数:</span>
+                <input type="text" class="layui-input" placeholder="实际出勤天数" v-model="EditAttendanceActualAttendanceDays">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right: 26px">应出勤天数:</span>
+                <input type="text" class="layui-input specialStyle" placeholder="应出勤天数" v-model="EditAttendanceDaysToAttend">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="EditAttendanceSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="EditAttendanceCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--[发放工资]悬浮层-->
+    <div id="salaryAddSubmenu" style="display: none" class="layui-form">
+        <div class="row-panel">
+            <div class="special-panel">
+                <div class="tips-panel">
+                    <span class="specialStyle" style="line-height: 40px">员工姓名:</span>
+                </div>
+                <div class="val-panel">
+                    <select name="salaryAddNameOfWorker" id="salaryAddNameOfWorker" lay-verify="salaryAddNameOfWorker">
+                        <option value=""></option> //
+                    </select>
+                </div>
+            </div>
+            <div class="item-panel">
+                <span>员工工号:</span>
+                <input type="text" class="layui-input" placeholder="工号" style="width:260px">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 22px">职位|岗位:</span>
+                <input type="text" class="layui-input" placeholder="职位|岗位">
+            </div>
+            <div class="item-panel">
+                <span>基本工资:</span>
+                <input type="text" class="layui-input" placeholder="基本工资" style="width:260px">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span class="specialStyle">岗位补贴:</span>
+                <input type="text" class="layui-input" placeholder="岗位补贴">
+
+            </div>
+            <div class="item-panel">
+                <span>应发工资:</span>
+                <input type="text" class="layui-input" placeholder="应发工资" style="width:260px">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span class="specialStyle">考勤扣款:</span>
+                <input type="text" class="layui-input" placeholder="考勤扣款">
+
+            </div>
+            <div class="item-panel">
+                <span>实发工资:</span>
+                <input type="text" class="layui-input" placeholder="实发工资" style="width:260px">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>个人所得税:</span>
+                <input type="text" class="layui-input" placeholder="个人所得税">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:42px">备注:</span>
+                <input type="text" class="layui-input" placeholder="备注" style="width:260px">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="EditAttendanceSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="EditAttendanceCancelFun" class="layui-btn"
                         v-bind:style="{background:BtnColor}">取消
                 </button>
             </div>

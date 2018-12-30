@@ -169,20 +169,38 @@ public class AttendanceInfoAPI extends AfRestfulApi
 			//更新客户信息
 			if(jsReq.has("updateAttendance"))
 			{
-				String nameOfWorker = jsReq.getString("nameOfWorker"); // --->员工姓名
-				String jobNumber = jsReq.getString("jobNumber"); // --->工号
-				String division = jsReq.getString("division"); // --->部门
+				int id = jsReq.getInt("id");
+				String nameOfWorker = null; // --->员工姓名
+				String jobNumber = null; // --->工号
+				String division = null; // --->部门
 				double daysToAttend = jsReq.getDouble("daysToAttend"); // --->应出勤天数
 				double actualAttendanceDays = jsReq.getDouble("actualAttendanceDays");// --->实际出勤天数
 				double askForLeaveDays = jsReq.getDouble("askForLeaveDays"); // --->请假天数
 				double leaveDays = jsReq.getDouble("leaveDays"); // --->事假天数
 				double sickLeaveDays = jsReq.getDouble("sickLeaveDays"); // --->病假天数
-				String remark = jsReq.getString("remark"); // --->备注
+				String remark = null; // --->备注
+				if(jsReq.has("nameOfWorker"))
+				{
+					nameOfWorker = jsReq.getString("nameOfWorker");
+				}
+				if(jsReq.has("jobNumber"))
+				{
+					jobNumber = jsReq.getString("jobNumber");
+				}
+				if(jsReq.has("division"))
+				{
+					division = jsReq.getString("division");
+				}
+				if(jsReq.has("remark"))
+				{
+					remark = jsReq.getString("remark");
+				}
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				AttendanceInfoMapper attendanceInfoMapper = sqlSession.getMapper(AttendanceInfoMapper.class);
 				AttendanceInfo row = new AttendanceInfo(nameOfWorker, jobNumber, division, daysToAttend, actualAttendanceDays, askForLeaveDays, leaveDays, sickLeaveDays, remark, serverTime, operator);
+				row.setId(id);
 				int processResult =  attendanceInfoMapper.update(row);
 				sqlSession.commit();
 				if(processResult>0)

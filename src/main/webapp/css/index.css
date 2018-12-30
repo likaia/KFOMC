@@ -2233,3 +2233,141 @@ a {
 	width: 560px;
 	float: left;
 }
+/*添加支出*/
+#payAddSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#payAddSubmenu .remarks-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+}
+#payAddSubmenu .remarks-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#payAddSubmenu .remarks-panel input{
+	width: 320px;
+	float: left;
+}
+#payAddSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#payAddSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#payAddSubmenu .row-panel .item-panel input{
+	width: 150px;
+	float: left;
+}
+#payAddSubmenu  .row-panel .btn-panel{
+	position: absolute;
+	right: 0;
+}
+/*编辑支出*/
+#payEditSubmenu .row-panel{
+	position: relative;
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+}
+#payEditSubmenu .row-panel .btn-panel{
+	height: 40px;
+	position: absolute;
+	right: 0;
+}
+#payEditSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#payEditSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#payEditSubmenu .row-panel .item-panel input{
+	width: 235px;
+	float: left;
+}
+/*编辑考勤信息*/
+#EditAttendanceSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#EditAttendanceSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#EditAttendanceSubmenu .row-panel .item-panel .specialStyle{
+	width: 258px;
+	height: 40px;
+}
+#EditAttendanceSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#EditAttendanceSubmenu .row-panel .item-panel input{
+	width: 235px;
+	float: left;
+}
+#EditAttendanceSubmenu .row-panel .btn-panel{
+	height: 40px;
+	position: absolute;
+	right: 0;
+}
+/*发放工资悬浮层*/
+#salaryAddSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#salaryAddSubmenu .row-panel .special-panel{
+	width: 50%;
+	float: left;
+}
+#salaryAddSubmenu .row-panel .special-panel .tips-panel{
+	width: 95px;
+	height: 40px;
+	float: left;
+}
+#salaryAddSubmenu .row-panel .special-panel .val-panel{
+	width: 235px;
+	height: 40px;
+	float: left;
+}
+#salaryAddSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#salaryAddSubmenu .row-panel .item-panel .specialStyle{
+	margin-right: 26px;
+}
+#salaryAddSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#salaryAddSubmenu .row-panel .item-panel input{
+	width: 235px;
+	float: left;
+}
+#salaryAddSubmenu .row-panel .btn-panel{
+	height: 40px;
+	position: absolute;
+	right: 0;
+}

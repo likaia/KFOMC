@@ -164,7 +164,6 @@ public class AttendanceStatusAPI extends AfRestfulApi
 			// 新增数据
 			if (jsReq.has("addAttendanceStatusInfo"))
 			{
-				System.out.println(jsReq);
 				String nameOfWorker = jsReq.getString("nameOfWorker");
 				String jobNumber = jsReq.getString("jobNumber");
 				String department = jsReq.getString("department");
@@ -263,7 +262,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
-			// 更新客户信息
+			// 更新考勤状态信息
 			if (jsReq.has("updateAttendance"))
 			{
 				String nameOfWorker = jsReq.getString("nameOfWorker");
@@ -324,6 +323,56 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				{
 					String remarks = jsReq.getString("remarks");
 					row.setRemarks(remarks);
+				}
+				if(jsReq.has("leaveTheTitle"))
+				{
+					String leaveTheTitle = jsReq.getString("leaveTheTitle");
+					row.setLeaveTheTitle(leaveTheTitle);
+				}
+				if(jsReq.has("leaveContent"))
+				{
+					String leaveContent = jsReq.getString("leaveContent");
+					row.setLeaveContent(leaveContent);
+				}
+				if(jsReq.has("leaveStartTime"))
+				{
+					String leaveStartTime = jsReq.getString("leaveStartTime");
+					row.setLeaveStartTime(leaveStartTime);
+				}
+				if(jsReq.has("leaveTime"))
+				{
+					String leaveTime = jsReq.getString("leaveTime");
+					row.setLeaveTime(leaveTime);
+				}
+				if(jsReq.has("leavePicture"))
+				{
+					String leavePicture = jsReq.getString("leavePicture");
+					row.setLeavePicture(leavePicture);
+				}
+				if(jsReq.has("workReport"))
+				{
+					String workReport = jsReq.getString("workReport");
+					row.setWorkReport(workReport);
+				}
+				if(jsReq.has("completeTheTaskThisWeek"))
+				{
+					String completeTheTaskThisWeek  = jsReq.getString("completeTheTaskThisWeek");
+					row.setCompleteTheTaskThisWeek(completeTheTaskThisWeek);
+				}
+				if(jsReq.has("unfinishedTasksThisWeek"))
+				{
+					String unfinishedTasksThisWeek = jsReq.getString("unfinishedTasksThisWeek");
+					row.setUnfinishedTasksThisWeek(unfinishedTasksThisWeek);
+				}
+				if(jsReq.has("weeklyPicture"))
+				{
+					String  weeklyPicture = jsReq.getString("weeklyPicture");
+					row.setWeeklyPicture(weeklyPicture);
+				}
+				if(jsReq.has("weeklyNote"))
+				{
+					String weeklyNote = jsReq.getString("weeklyNote");
+					row.setWeeklyNote(weeklyNote);
 				}
 				if (jsReq.has("workID"))
 				{

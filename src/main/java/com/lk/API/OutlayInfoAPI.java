@@ -121,6 +121,18 @@ public class OutlayInfoAPI extends AfRestfulApi
 				String addTime = serverTime;
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				if(orderNumber.equals(""))
+				{
+					orderNumber = null;
+				}
+				if(outlayDate.equals(""))
+				{
+					outlayDate = serverTime;
+				}
+				if(bankImg.equals(""))
+				{
+					bankImg = null;
+				}
 				// 配置映射器
 				OutlayInfoMapper outlayInfoMapper = sqlSession.getMapper(OutlayInfoMapper.class);
 				OutlayInfo row = new OutlayInfo(orderNumber, outlayDate, outlayType, paymentMethod, paymentAmount, remarks, operator, addTime, beneficiary, bankImg);
@@ -173,9 +185,46 @@ public class OutlayInfoAPI extends AfRestfulApi
 				String paymentMethod = jsReq.getString("paymentMethod");
 				Double paymentAmount = jsReq.getDouble("paymentAmount");
 				String remarks = jsReq.getString("remarks");
-				String beneficiary = jsReq.getString("beneficiary");
+				String beneficiary =null;
+				if(jsReq.has("beneficiary"))
+				{
+					beneficiary = jsReq.getString("beneficiary");
+				}
 				String bankImg = jsReq.getString("bankImg");
+				if(orderNumber.equals(""))
+				{
+					orderNumber = null;
+				}
+				if(outlayDate.equals(""))
+				{
+					outlayDate = null;
+				}
+				if(outlayType.equals(""))
+				{
+					outlayType = null;
+				}
+				if(paymentMethod.equals(""))
+				{
+					paymentMethod = null;
+				}
+				if(paymentAmount.equals(""))
+				{
+					paymentAmount = null;
+				}
+				if(remarks.equals(""))
+				{
+					remarks = null;
+				}
+				if(bankImg.equals(""))
+				{
+					bankImg = null;
+				}
 				OutlayInfo row = new OutlayInfo(id, orderNumber, outlayDate, outlayType, paymentMethod, paymentAmount, remarks, operator, beneficiary, bankImg);
+				if(jsReq.has("supperName"))
+				{
+					String supperName = jsReq.getString("supperName");
+					row.setSupperName(supperName);
+				}
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器

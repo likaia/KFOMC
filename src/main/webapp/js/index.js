@@ -317,6 +317,20 @@ $(function () {
             invoiceFreight: "", //运费
             shippingOrderNumber:"",
             shippingOrderID:"",
+            /*财务管理[支出管理]*/
+            payAddOutlayType:"",
+            payAddPaymentMethod:"",
+            payAddPaymentAmount:"",
+            payAddBeneficiary:"",
+            payAddRemarks:"",
+            payEditOutlayType:"",
+            payEditPaymentMethod:"",
+            payEditPaymentAmount:"",
+            payEditSupperName:"",
+            payEditBeneficiary:"",
+            payEditRemarks:"",
+            payStart:"",
+            payEnd:"",
             /*客户信息管理数据*/
             clientInfoName: "",   //--->客户姓名
             clientInfoStart: "", //--->开始时间
@@ -403,6 +417,15 @@ $(function () {
             editSupplierBankPrompt: '', //--->所属银行提示
             editSupplierWechat: '', //--->供应商联系人微信
             uploadDocumentForOrderNumber:'',
+            /*编辑考勤信息*/
+            EditAttendanceName:"",
+            EditAttendanceJobNumber:"",
+            EditAttendanceDivision:"",
+            EditAttendanceAskForLeaveDays:"",
+            EditAttendanceLeaveDays:"",
+            EditAttendanceSickLeaveDays:"",
+            EditAttendanceActualAttendanceDays:"",
+            EditAttendanceDaysToAttend:"",
             /*客户对账*/
             customerReconciliationSelectVal:"",
             deliveryOrderJsonSrc:[], //--->送货请单图片地址
@@ -3201,7 +3224,7 @@ $(function () {
                 } else {
                     Af.rest("IncomeInfo.api", req, function (ans) {
                         MAIN.revenueInfoDataList(ans.data);
-                        vm.loadingStatus = "none"; //更新失败
+                        vm.loadingStatus = "none";
                     })
                 }
             },
@@ -3291,6 +3314,12 @@ $(function () {
                     "payee":vm.EditRevenuePayee ,
                     "remarks": vm.EditRevenueRemarks
                 };
+                req.paymentAmount = Number(req.paymentAmount);
+                if(isNaN(req.paymentAmount))
+                {
+                    MAIN.ErroAlert("收款金额,必须为有效的数字!");
+                    return;
+                }
                 Af.rest("IncomeInfo.api",req,function (ans) {
                    if(ans.errorCode==0)
                    {
@@ -3310,7 +3339,7 @@ $(function () {
             /*财务管理[收入管理]删除*/
             revenueDelFun:function(){
                 let idsArray = MAIN.getSelectId("revenueInfoList");
-                if(idsArray.length>1)
+                if(idsArray.length<1)
                 {
                     MAIN.ErroAlert("没有勾选收入条目!");
                     return;
@@ -3333,19 +3362,153 @@ $(function () {
             },
             /*财务管理[支出管理]查询*/
             payQueryFun:function(){
-
+                vm.loadingStatus = "block";
+                var req = {};
+                req.dStart = this.payStart;
+                req.dEnd = this.payEnd;
+                req.conditionalQuery = "conditionalQuery";
+                req.operator = $("#nickNameTextPanel").html();
+                if (Af.nullstr(req.dStart) || Af.nullstr(req.dEnd) || Af.nullstr(req.operator)) {
+                    MAIN.ErroAlert("请选择查询条件");
+                    vm.loadingStatus = "none";
+                } else {
+                    Af.rest("OutlayInfo.api", req, function (ans) {
+                        MAIN.expenditureInfoDataList(ans.data);
+                        vm.loadingStatus = "none";
+                    })
+                }
             },
             /*财务管理[支出管理]添加*/
             payAddFun:function(){
-
+                Af.openSubmenu("添加其他支出",["530px","260px"],true,$("#payAddSubmenu"));
+            },
+            //提交
+            payAddSubmitFun:function(){
+                let req = {
+                    "orderNumber":"",
+                    "outlayDate":"",
+                    "outlayType":vm.payAddOutlayType,
+                    "paymentMethod":vm.payAddPaymentMethod,
+                    "paymentAmount":vm.payAddPaymentAmount,
+                    "remarks":vm.payAddRemarks,
+                    "beneficiary":vm.payAddBeneficiary,
+                    "bankImg":"",
+                    "addOutlay":"",
+                    "operator":$("#nickNameTextPanel").html()
+                };
+                req.paymentAmount = Number(req.paymentAmount);
+                if(Af.nullstr(req.outlayType)||Af.nullstr(req.paymentMethod)||Af.nullstr(req.paymentAmount)||Af.nullstr(req.beneficiary))
+                {
+                    MAIN.ErroAlert("(支出类别,付款方式,付款金额,收款人)为必填项!");
+                    return;
+                }
+                if(isNaN(req.paymentAmount))
+                {
+                    MAIN.ErroAlert("收款金额,必须为有效的数字!");
+                    return;
+                }
+                Af.rest("OutlayInfo.api",req,function (ans) {
+                    if(ans.errorCode==0)
+                    {
+                        layer.closeAll();
+                        MAIN.expenditureInfoList($("#nickNameTextPanel").html());
+                        layer.msg("添加成功!");
+                        vm.payAddOutlayType = "";
+                        vm.payAddPaymentMethod = "";
+                        vm.payAddPaymentAmount = "";
+                        vm.payAddRemarks = "";
+                        vm.payAddBeneficiary ="";
+                    }else{
+                        layer.msg(ans.msg);
+                    }
+                })
+            },
+            //取消
+            payAddCancelFun:function(){
+                layer.closeAll();
             },
             /*财务管理[支出管理]编辑*/
             payEditFun:function(){
-
+                let thisRowData = MAIN.getTableRowData("expenditureInfoList");
+                let thisObjData = thisRowData[0];
+                if(thisRowData.length!=1)
+                {
+                    MAIN.ErroAlert("(必须)只能勾选一个订单!");
+                    return;
+                }
+                Af.openSubmenu("编辑支出信息",["730px","270px"],true,$("#payEditSubmenu"));
+                vm.payEditOutlayType = thisObjData.outlayType;
+                vm.payEditPaymentMethod = thisObjData.paymentMethod;
+                vm.payEditPaymentAmount = thisObjData.paymentAmount;
+                vm.payEditSupperName = thisObjData.supperName;
+                vm.payEditBeneficiary = thisObjData.beneficiary;
+                vm.payEditRemarks = thisObjData.remarks;
+            },
+            //提交
+            payEditSubmitFun:function(){
+                let thisRowData = MAIN.getTableRowData("expenditureInfoList");
+                let thisObjData = thisRowData[0];
+                /*请求后台开始更新*/
+                let req = {
+                    "id":thisObjData.id,
+                    "updateSalary":"",
+                    "orderNumber":"",
+                    "outlayDate":"",
+                    "outlayType":vm.payEditOutlayType,
+                    "paymentMethod":vm.payEditPaymentMethod,
+                    "paymentAmount":vm.payEditPaymentAmount,
+                    "remarks":vm.payEditRemarks,
+                    "beneficiary":vm.payEditBeneficiary,
+                    "supperName":vm.payEditSupperName,
+                    "bankImg":"",
+                    "operator":$("#nickNameTextPanel").html()
+                };
+                req.paymentAmount = Number(req.paymentAmount);
+                if(isNaN(req.paymentAmount))
+                {
+                    MAIN.ErroAlert("收款金额,必须为有效的数字!");
+                    Af.trace(req);
+                    return;
+                }
+                Af.rest("OutlayInfo.api",req,function (ans) {
+                    if(ans.errorCode==0)
+                    {
+                        layer.closeAll();
+                        layer.msg("更新成功");
+                        MAIN.expenditureInfoList($("#nickNameTextPanel").html());
+                    }
+                    else{
+                        MAIN.ErroAlert(ans.msg);
+                    }
+                })
+            },
+            //取消
+            payEditCancelFun:function(){
+                layer.closeAll();
             },
             /*财务管理[支出管理]删除*/
             payDelFun:function(){
-
+                let idsArray = MAIN.getSelectId("expenditureInfoList");
+                if(idsArray.length<1)
+                {
+                    MAIN.ErroAlert("没有勾选收入条目!");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', function (index) {
+                    let idsStr = idsArray.toString();
+                    let req= {};
+                    req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                    req.operator = $("#nickNameTextPanel").html();
+                    req.delSalary = "delSalary";
+                    Af.rest("OutlayInfo.api", req, function (ans) {
+                        layer.close(index);
+                        layer.msg(ans.msg);
+                        if (ans.errorCode == 0) {
+                            //数据表格重载
+                            MAIN.expenditureInfoList($("#nickNameTextPanel").html());
+                        }
+                    });
+                });
             },
             /*财务管理[财务报表]*/
 
@@ -3405,33 +3568,105 @@ $(function () {
             ,
             /*员工管理[考勤管理]查询事件*/
             QueryAttendanceFun: function () {
-                if (Af.nullstr(this.AttendanceDivision)) {
+                if (Af.nullstr(vm.AttendanceDivision)&&Af.nullstr(vm.AttendanceNameOfWorker)&&Af.nullstr(vm.AttendanceJobNumber)) {
                     MAIN.ErroAlert("不能查询空数据,请选择一个条件!");
                     return;
                 }
                 var req = {};
+                vm.loadingStatus = "block";
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
                 req.conditionalQuery = "conditionalQuery";
-                req.division = this.originalInformationProductName;
-                req.nameOfWorker = this.AttendanceNameOfWorker;
-                req.jobNumber = this.AttendanceJobNumber;
+                req.division = vm.AttendanceDivision;
+                req.nameOfWorker = vm.AttendanceNameOfWorker;
+                req.jobNumber = vm.AttendanceJobNumber;
                 Af.rest("AttendanceInfo.api", req, function (ans) {
                     if (ans.errorCode != 0) {
                         layer.msg(ans.msg);
+                        vm.loadingStatus = "none";
                     } else {
                         MAIN.AttendanceInfoDataList(ans.data);
+                        vm.loadingStatus = "none";
                     }
                 });
             }
             ,
             /*员工管理[考勤管理]编辑事件*/
-            addAttendanceFun:function(){
+            EditAttendanceFun:function(){
+                let thisRowData = MAIN.getTableRowData("AttendanceInfoList");
+                let thisObj = thisRowData[0];
+                if(thisRowData.length!=1)
+                {
+                    MAIN.ErroAlert("(必须)只能勾选一条考勤信息!");
+                }else{
+                    Af.trace(thisObj);
+                    Af.openSubmenu("编辑考勤信息",["820px","330px"],true,$("#EditAttendanceSubmenu"));
+                    vm.EditAttendanceName=thisObj.nameOfWorker;
+                    vm.EditAttendanceJobNumber=thisObj.jobNumber;
+                    vm.EditAttendanceDivision=thisObj.division;
+                    vm.EditAttendanceAskForLeaveDays=thisObj.askForLeaveDays;
+                    vm.EditAttendanceLeaveDays=thisObj.leaveDays;
+                    vm.EditAttendanceSickLeaveDays=thisObj.sickLeaveDays;
+                    vm.EditAttendanceActualAttendanceDays=thisObj.actualAttendanceDays;
+                    vm.EditAttendanceDaysToAttend=thisObj.daysToAttend;
+                }
+            },
+            //提交
+            EditAttendanceSubmitFun:function(){
+                let thisRowData = MAIN.getTableRowData("AttendanceInfoList");
+                let thisObj = thisRowData[0];
+                let req = {
+                    "nameOfWorker": vm.EditAttendanceName,
+                    "jobNumber": vm.EditAttendanceJobNumber,
+                    "division":vm.EditAttendanceDivision,
+                    "askForLeaveDays":vm.EditAttendanceAskForLeaveDays,
+                    "leaveDays":vm.EditAttendanceLeaveDays,
+                    "sickLeaveDays":vm.EditAttendanceSickLeaveDays,
+                    "actualAttendanceDays":vm.EditAttendanceActualAttendanceDays,
+                    "daysToAttend":vm.EditAttendanceDaysToAttend,
+                    "operator":$("#nickNameTextPanel").html(),
+                    "updateAttendance":"",
+                    "id":thisObj.id
+                };
+                Af.rest("AttendanceInfo.api",req,function (ans) {
+                  if(ans.errorCode==0)
+                  {
+                      layer.closeAll();
+                      layer.msg("更新成功");
+                      MAIN.AttendanceInfoList($("#nickNameTextPanel").html());
 
+                  }else{
+                      layer.msg(ans.msg);
+                  }
+                })
+            },
+            //取消
+            EditAttendanceCancelFun:function(){
+                layer.closeAll();
             },
             /*员工管理[考勤管理]删除事件*/
             delAttendanceFun:function(){
-
+                let idsArray = MAIN.getSelectId("AttendanceInfoList");
+                if(idsArray.length<1)
+                {
+                    MAIN.ErroAlert("没有勾选收入条目!");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', function (index) {
+                    let idsStr = idsArray.toString();
+                    let req= {};
+                    req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                    req.operator = $("#nickNameTextPanel").html();
+                    req.delAttendance = "delAttendance";
+                    Af.rest("AttendanceInfo.api", req, function (ans) {
+                        layer.close(index);
+                        layer.msg(ans.msg);
+                        if (ans.errorCode == 0) {
+                            //数据表格重载
+                            MAIN.AttendanceInfoList($("#nickNameTextPanel").html());
+                        }
+                    });
+                });
             },
             /*员工管理[工资发放]点击事件*/
             salaryGivingFun: function () {
@@ -3484,7 +3719,7 @@ $(function () {
             ,
             /*员工管理[工资发放]新增事件*/
             salaryAddFun:function(){
-
+                Af.openSubmenu("工资发放",["760px","370px"],true,$("#salaryAddSubmenu"));
             },
             /*员工管理[工资发放]编辑事件*/
             salaryEditFun:function(){
@@ -5308,7 +5543,16 @@ $(function () {
         });
         laydate.render({
             elem: '#expenditureInfoDateInput', //支出管理:日期区间选择
-            range: true
+            range: true,
+            done: function (value, date, endDate) {
+                if ($.isEmptyObject(date)) {
+                    vm.payStart = "";
+                    vm.payEnd = "";
+                } else {
+                    vm.payStart = date.year + "-" + date.month + "-" + date.date + " " + date.hours + ":" + date.minutes + ":" + date.seconds;
+                    vm.payEnd = endDate.year + "-" + endDate.month + "-" + endDate.date + " " + endDate.hours + ":" + endDate.minutes + ":" + endDate.seconds;
+                }
+            }
         });
 
 
@@ -7877,7 +8121,6 @@ $(function () {
         MAIN.AttendanceInfoDataList = function (resultData) {
             table.render({
                 data: resultData,
-                url: "AttendanceInfo.api",
                 elem: '#AttendanceInfoList',
                 page: true,
                 limits: [10, 15, 20, 25],
