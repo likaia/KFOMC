@@ -61,15 +61,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="nameOfWorker != null">
 				nameOfWorker = #{nameOfWorker}
 			</if>
+			<if test="operator != null">
+				AND operator like #{operator}  
+			</if>
+			<if test="addTime != null">
+				AND addTime like #{addTime}  
+			</if>
 			<if test="jobNumber != null">
 				AND jobNumber like #{jobNumber}  
 			</if>
 			<if test="dStart != null and dStart != ''">
-				AND attendanceDate <![CDATA[>=]]>
+				AND addTime <![CDATA[>=]]>
 				#{dStart}
 			</if>
 			<if test="dEnd != null and dEnd != ''">
-				AND attendanceDate <![CDATA[<=]]>#{dEnd}
+				AND addTime <![CDATA[<=]]>#{dEnd}
 			</if>
 		</where>
 	</select>
@@ -105,6 +111,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="dEnd != null and dEnd != ''">
 				AND attendanceDate <![CDATA[<=]]>#{dEnd}
+			</if>
+			<if test="leaveStartTime != null">
+				AND leaveStartTime like #{leaveStartTime}  
 			</if>
 		</where>
 	</select>

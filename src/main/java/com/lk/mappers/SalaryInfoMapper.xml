@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		operator
 		FROM t_salary_info
 		<where>
-			<if test="division != null">
+			<if test="position != null">
 				position = #{position}
 			</if>
 			<if test="nameOfWorker != null">
@@ -107,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 批量删除 -->
 	<delete id="del" parameterType="SalaryInfo">
-		delete from t_attendance_info where (id) in
+		delete from t_salary_info where (id) in
 		<foreach item="idsItem" collection="ids" open="(" separator=","
 			close=")">
 			#{idsItem}
@@ -115,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	<!-- 新增数据开始 -->
 	<insert id="add" parameterType="SalaryInfo">
-		insert into t_attendance_info
+		insert into t_salary_info
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="nameOfWorker != null">
 				nameOfWorker,
@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="jobNumber != null">
 				jobNumber,
 			</if>
-			<if test="position != null">
+			<if test=" position != null">
 				position,
 			</if>
 			<if test="basicWage != null">
@@ -138,20 +138,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="payable != null">
 				payable,
 			</if>
-			<if test="releaseType != null">
+			<if test=" releaseType!= null">
 				releaseType,
 			</if>
-			
-			<if test=" attendanceDeduction != null">
+			<if test="attendanceDeduction != null">
 				attendanceDeduction,
 			</if>
-			<if test=" personalIncomeTax != null">
+			<if test="personalIncomeTax != null">
 				personalIncomeTax,
 			</if>
 			<if test=" hasBeenPaidInAdvance != null">
 				hasBeenPaidInAdvance,
 			</if>
-			<if test=" realWage != null">
+			<if test="realWage != null">
 				realWage,
 			</if>
 			<if test="signingTime != null">
@@ -198,8 +197,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="hasBeenPaidInAdvance != null">
 				#{hasBeenPaidInAdvance,jdbcType=DOUBLE},
 			</if>
-			<if test=" realWage != null">
-				#{realWage,jdbcType=VARCHAR},
+			<if test="realWage != null">
+				#{realWage,jdbcType=DOUBLE},
 			</if>
 			<if test="signingTime != null">
 				#{signingTime,jdbcType=VARCHAR},
@@ -214,7 +213,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<!-- 修改信息 -->
 	<update id="update" parameterType="SalaryInfo">
-		update t_attendance_info
+		update t_salary_info
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="nameOfWorker != null">
 				nameOfWorker = #{nameOfWorker},

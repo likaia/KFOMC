@@ -2371,3 +2371,158 @@ a {
 	position: absolute;
 	right: 0;
 }
+/*编辑工资悬浮层*/
+#salaryEditSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#salaryEditSubmenu .row-panel .special-panel{
+	width: 50%;
+	float: left;
+}
+#salaryEditSubmenu .row-panel .special-panel .tips-panel{
+	width: 95px;
+	height: 40px;
+	float: left;
+}
+#salaryEditSubmenu .row-panel .special-panel .val-panel{
+	width: 185px;
+	height: 40px;
+	float: left;
+}
+#salaryEditSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#salaryEditSubmenu .row-panel .item-panel .specialStyle{
+	margin-right: 26px;
+}
+#salaryEditSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#salaryEditSubmenu .row-panel .item-panel input{
+	width: 185px;
+	float: left;
+}
+#salaryEditSubmenu .row-panel .btn-panel{
+	height: 40px;
+	position: absolute;
+	right: 0;
+}
+/*添加员工悬浮层*/
+#employeeAddSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#employeeAddSubmenu .other-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+}
+#employeeAddSubmenu .other-panel span{
+	line-height: 40px;
+	float: left;
+}
+#employeeAddSubmenu .other-panel input{
+	width: 200px;
+	float: left;
+}
+#employeeAddSubmenu .row-panel .special-panel{
+	width: 50%;
+	float: left;
+}
+#employeeAddSubmenu .row-panel .special-panel .tips-panel{
+	width: 95px;
+	height: 40px;
+	float: left;
+}
+#employeeAddSubmenu .row-panel .special-panel .val-panel{
+	width: 185px;
+	height: 40px;
+	float: left;
+}
+#salaryEditSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#employeeAddSubmenu .row-panel .item-panel .specialStyle{
+	margin-right: 26px;
+}
+#employeeAddSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#employeeAddSubmenu .row-panel .item-panel input{
+	width: 200px;
+	float: left;
+}
+#employeeAddSubmenu .row-panel .btn-panel{
+	height: 40px;
+	position: absolute;
+	right: 0;
+}
+/*编辑员工悬浮层*/
+#employeeEditSubmenu .row-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+	position: relative;
+}
+#employeeEditSubmenu .other-panel{
+	width: 90%;
+	height: 40px;
+	margin: 10px auto 0;
+}
+#employeeEditSubmenu .other-panel span{
+	line-height: 40px;
+	float: left;
+}
+#employeeEditSubmenu .other-panel input{
+	width: 200px;
+	float: left;
+}
+#employeeEditSubmenu .row-panel .special-panel{
+	width: 50%;
+	float: left;
+}
+#employeeEditSubmenu .row-panel .special-panel .tips-panel{
+	width: 95px;
+	height: 40px;
+	float: left;
+}
+#employeeEditSubmenu .row-panel .special-panel .val-panel{
+	width: 185px;
+	height: 40px;
+	float: left;
+}
+#employeeEditSubmenu .row-panel .item-panel{
+	width: 50%;
+	height: 40px;
+	float: left;
+}
+#employeeEditSubmenu .row-panel .item-panel .specialStyle{
+	margin-right: 26px;
+}
+#employeeEditSubmenu .row-panel .item-panel span{
+	line-height: 40px;
+	float: left;
+	margin-right: 10px;
+}
+#employeeEditSubmenu .row-panel .item-panel input{
+	width: 200px;
+	float: left;
+}
+#employeeEditSubmenu .row-panel .btn-panel{
+	height: 40px;
+	position: absolute;
+	right: 0;
+}

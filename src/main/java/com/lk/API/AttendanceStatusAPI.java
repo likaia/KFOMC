@@ -76,7 +76,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
-			// 自定义查询(可根据 [员工姓名/工号/开始时间/结束时间]查询)
+			// 自定义查询()
 			if (jsReq.has("queryType"))
 			{
 				JSONArray queryType = jsReq.getJSONArray("queryType");
@@ -120,7 +120,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
-			// 条件查询
+			// 条件查询(可根据 [员工姓名/工号/开始时间/结束时间/请假时间]查询)
 			if (jsReq.has("conditionalQuery"))
 			{
 				String nameOfWorker = jsReq.getString("nameOfWorker");
@@ -143,6 +143,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				{
 					dEnd = null;
 				}
+				
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
@@ -153,6 +154,12 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				row.setdStart(dStart);
 				row.setdEnd(dEnd);
 				row.setJobNumber(jobNumber);
+				/**请假时间*/
+				if(jsReq.has("leaveStartTime"))
+				{
+					String leaveStartTime = jsReq.getString("leaveStartTime");
+					row.setLeaveStartTime(leaveStartTime);
+				}
 				row.setNameOfWorker(nameOfWorker);
 				List<AttendanceStatusInfo> resultList = attendanceStatusInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);

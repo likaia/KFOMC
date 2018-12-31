@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="remarks" column="remarks" />
 		<result property="operator" column="operator" />
 		<result property="addTime" column="addTime" />
+		<result property="basicWage" column="basicWage" />
 	</resultMap>
 	<!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="EmployeeInfoResult"
@@ -30,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		dateOfBirth,
 		dateOfEntry,
 		remarks,
+		basicWage,
 		operator,
 		addTime
 		FROM t_employee_Info
@@ -53,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		dateOfEntry,
 		remarks,
 		operator,
+		basicWage,
 		addTime
 		FROM t_employee_Info
 		<where>
@@ -67,6 +70,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="operator != null">
 				AND operator like #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 自定义查询 -->
+	<select id="customQuery" resultMap="EmployeeInfoResult"
+		parameterType="EmployeeInfo">
+		SELECT id, 
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_employee_Info
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="jobNumber != null">
+				AND jobNumber like #{jobNumber}  
 			</if>
 		</where>
 	</select>
@@ -112,6 +133,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" addTime != null">
 				addTime,
 			</if>
+			<if test=" basicWage != null">
+				basicWage,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="nameOfWorker != null">
@@ -144,11 +168,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" addTime != null">
 				#{addTime,jdbcType=VARCHAR},
 			</if>
+			<if test=" basicWage != null">
+				#{basicWage,jdbcType=DOUBLE},
+			</if>
 		</trim>
 	</insert>
 	<!-- 修改信息 -->
 	<update id="update" parameterType="SalaryInfo">
-		update t_attendance_info
+		update t_employee_Info
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="nameOfWorker != null">
 				nameOfWorker = #{nameOfWorker},
@@ -173,6 +200,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test=" remarks != null">
 				remarks = #{remarks},
+			</if>
+			<if test=" basicWage != null">
+				basicWage = #{basicWage},
 			</if>
 		</trim>
 		<where>

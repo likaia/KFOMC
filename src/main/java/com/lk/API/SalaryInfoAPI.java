@@ -112,7 +112,7 @@ public class SalaryInfoAPI extends AfRestfulApi
 				{
 					nameOfWorker = null;
 				}
-				if (jobNumber.equals("jobNumber"))
+				if (jobNumber.equals(""))
 				{
 					jobNumber = null;
 				}
@@ -135,8 +135,8 @@ public class SalaryInfoAPI extends AfRestfulApi
 			if (jsReq.has("addSalary"))
 			{
 				String  nameOfWorker = jsReq.getString("nameOfWorker");
+				String position = jsReq.getString("position");
 				String  jobNumber = jsReq.getString("jobNumber");
-				String  position = jsReq.getString("position");
 				Double basicWage = jsReq.getDouble("basicWage");
 				Double  jobSubsidy = jsReq.getDouble("jobSubsidy");
 				Double payable = jsReq.getDouble("payable");
@@ -144,7 +144,22 @@ public class SalaryInfoAPI extends AfRestfulApi
 				Double personalIncomeTax = jsReq.getDouble("personalIncomeTax");
 				Double realWage = jsReq.getDouble("realWage");
 				String remarks = jsReq.getString("remarks");
-				SalaryInfo row = new SalaryInfo(nameOfWorker, jobNumber, position, basicWage, jobSubsidy, payable, attendanceDeduction, personalIncomeTax, realWage, serverTime, remarks, operator);
+				SalaryInfo row = new SalaryInfo();
+				row.setOperator(operator);
+				row.setNameOfWorker(nameOfWorker);
+				row.setPosition(position);
+				row.setJobNumber(jobNumber);
+				row.setBasicWage(basicWage);
+				row.setPayable(payable);
+				row.setJobSubsidy(jobSubsidy);
+				row.setAttendanceDeduction(attendanceDeduction);
+				if(personalIncomeTax>0)
+				{
+					row.setPersonalIncomeTax(personalIncomeTax);
+				}
+				row.setRealWage(realWage);
+				row.setRemarks(remarks);
+				row.setSigningTime(serverTime);
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				//配置映射器
@@ -188,9 +203,10 @@ public class SalaryInfoAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
-			//更新客户信息
+			//更新工资信息
 			if(jsReq.has("updateSalary"))
 			{
+				int id = jsReq.getInt("id");
 				String  nameOfWorker = jsReq.getString("nameOfWorker");
 				String  jobNumber = jsReq.getString("jobNumber");
 				String  position = jsReq.getString("position");
@@ -202,6 +218,7 @@ public class SalaryInfoAPI extends AfRestfulApi
 				Double realWage = jsReq.getDouble("realWage");
 				String remarks = jsReq.getString("remarks");
 				SalaryInfo row = new SalaryInfo(nameOfWorker, jobNumber, position, basicWage, jobSubsidy, payable, attendanceDeduction, personalIncomeTax, realWage, serverTime, remarks, operator);
+				row.setId(id);
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				//配置映射器

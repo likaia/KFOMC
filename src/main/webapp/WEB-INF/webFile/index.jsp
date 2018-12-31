@@ -176,8 +176,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 class="my-icon nav-icon iconfont icon-tongjibaobiao"></i><span>统计报表</span><i
                                 class="my-icon nav-more iconfont icon-arrow-right"></i></a>
                             <ul>
-                                <li><a href="javascript:;"><span>客户趋势报表</span></a></li>
-                                <li><a href="javascript:;"><span>订单趋势报表</span></a></li>
+                                <li @click="customerTrendFun"><a href="javascript:;"><span>客户趋势报表</span></a></li>
+                                <li @click="orderTrendFun"><a href="javascript:;"><span>订单趋势报表</span></a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a href="javascript:;"><i
@@ -3749,64 +3749,221 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <span class="specialStyle" style="line-height: 40px">员工姓名:</span>
                 </div>
                 <div class="val-panel">
-                    <select name="salaryAddNameOfWorker" id="salaryAddNameOfWorker" lay-verify="salaryAddNameOfWorker">
-                        <option value=""></option> //
+                    <select name="salaryAddNameOfWorker" id="salaryAddNameOfWorker" lay-filter="salaryAddNameOfWorker">
+                        <option value=""></option>
                     </select>
                 </div>
             </div>
             <div class="item-panel">
                 <span>员工工号:</span>
-                <input type="text" class="layui-input" placeholder="工号" style="width:260px">
+                <input type="text" class="layui-input" placeholder="工号" style="width:260px" v-model="salaryAddJobNumber">
             </div>
         </div>
         <div class="row-panel">
             <div class="item-panel">
                 <span style="margin-right: 22px">职位|岗位:</span>
-                <input type="text" class="layui-input" placeholder="职位|岗位">
+                <input type="text" class="layui-input" placeholder="职位|岗位" v-model="salaryAddDepartment">
             </div>
             <div class="item-panel">
                 <span>基本工资:</span>
-                <input type="text" class="layui-input" placeholder="基本工资" style="width:260px">
+                <input type="text" class="layui-input" placeholder="基本工资" style="width:260px" v-model="salaryAddBasicWage">
             </div>
         </div>
         <div class="row-panel">
             <div class="item-panel">
                 <span class="specialStyle">岗位补贴:</span>
-                <input type="text" class="layui-input" placeholder="岗位补贴">
-
+                <input type="text" class="layui-input" placeholder="岗位补贴" v-model="salaryAddJobSubsidy">
             </div>
             <div class="item-panel">
                 <span>应发工资:</span>
-                <input type="text" class="layui-input" placeholder="应发工资" style="width:260px">
+                <input type="text" class="layui-input" placeholder="应发工资" style="width:260px" v-model="salaryAddPayable">
             </div>
         </div>
         <div class="row-panel">
             <div class="item-panel">
                 <span class="specialStyle">考勤扣款:</span>
-                <input type="text" class="layui-input" placeholder="考勤扣款">
+                <input type="text" class="layui-input" placeholder="考勤扣款" v-model="salaryAddAttendanceDeduction">
 
             </div>
             <div class="item-panel">
                 <span>实发工资:</span>
-                <input type="text" class="layui-input" placeholder="实发工资" style="width:260px">
+                <input type="text" class="layui-input" placeholder="实发工资" style="width:260px" v-model="salaryAddRealWage">
             </div>
         </div>
         <div class="row-panel">
             <div class="item-panel">
                 <span>个人所得税:</span>
-                <input type="text" class="layui-input" placeholder="个人所得税">
+                <input type="text" class="layui-input" placeholder="个人所得税" v-model="salaryAddPersonalIncomeTax">
             </div>
             <div class="item-panel">
                 <span style="margin-right:42px">备注:</span>
-                <input type="text" class="layui-input" placeholder="备注" style="width:260px">
+                <input type="text" class="layui-input" placeholder="备注" style="width:260px" v-model="salaryAddRemark">
             </div>
         </div>
         <div class="row-panel">
             <div class="btn-panel">
-                <button @click="EditAttendanceSubmitFun" class="layui-btn"
+                <button @click="salaryAddSubmitFun" class="layui-btn"
                         v-bind:style="{background:BtnColor}">提交
                 </button>
-                <button @click="EditAttendanceCancelFun" class="layui-btn"
+                <button @click="salaryAddCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="salaryEditSubmenu" style="display: none">
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工姓名:</span>
+                <input type="text" class="layui-input" v-model="salaryEditNameOfWorker">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:25px">员工工号:</span>
+                <input type="text" class="layui-input" v-model="salaryEditEmployeeNumber">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span >基本工资:</span>
+                <input type="text" class="layui-input" v-model="salaryEditBasicWage">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:25px">岗位补贴:</span>
+                <input type="text" class="layui-input" v-model="salaryEditJobSubsidy">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>应发工资:</span>
+                <input type="text" class="layui-input" v-model="salaryEditPayable">
+            </div>
+            <div class="item-panel">
+                <span style="margin-right:25px">考勤扣款:</span>
+                <input type="text" class="layui-input" v-model="salaryEditAttendanceDeduction">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>实发工资:</span>
+                <input type="text" class="layui-input" v-model="salaryEditRealWage">
+            </div>
+            <div class="item-panel">
+                <span>个人所得税:</span>
+                <input type="text" class="layui-input" v-model="salaryEditPersonalIncomeTax">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="salaryEditSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="salaryEditCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--添加员工-->
+    <div id="employeeAddSubmenu" style="display: none">
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工姓名:</span>
+                <input type="text" class="layui-input" style="margin-right: 30px" v-model="employeeAddName">
+            </div>
+            <div class="item-panel">
+                <span>出生年月:</span>
+                <input type="text" class="layui-input" placeholder="点击选择日期" readonly="readonly" style="cursor: pointer" id="employeeAddBornDate">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工工号:</span>
+                <input type="text" class="layui-input" style="margin-right: 30px" v-model="employeeAddJobNumber">
+            </div>
+            <div class="item-panel">
+                <span>员工部门:</span>
+                <input type="text" class="layui-input" v-model="employeeAddDivision">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工职务:</span>
+                <input type="text" class="layui-input" style="margin-right: 30px" v-model="employeeAddPosition">
+            </div>
+            <div class="item-panel">
+                <span>基本工资:</span>
+                <input type="text" class="layui-input" v-model="employeeAddBasicWage">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 25px">手机号:</span>
+                <input type="text" class="layui-input" style="margin-right: 30px;" v-model="employeeAddPhoneNumber">
+            </div>
+            <div class="item-panel">
+                <span>入职日期:</span>
+                <input type="text" class="layui-input" readonly="readonly" placeholder="点击选择日期" style="cursor: pointer" id="employeeAddDateOfEntryDate">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="employeeAddSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="employeeAddCancelFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--[编辑员工]悬浮层-->
+    <div id="employeeEditSubmenu" style="display: none">
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工姓名:</span>
+                <input type="text" class="layui-input" v-model="employeeEditName">
+            </div>
+            <div class="item-panel">
+                <span>出生年月:</span>
+                <input type="text" class="layui-input" placeholder="点击选择日期" readonly="readonly" style="cursor: pointer" id="employeeEditBornDate">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工工号:</span>
+                <input type="text" class="layui-input"  v-model="employeeEditJobNumber">
+            </div>
+            <div class="item-panel">
+                <span>员工部门:</span>
+                <input type="text" class="layui-input" v-model="employeeEditDivision">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span>员工职务:</span>
+                <input type="text" class="layui-input" v-model="employeeEditPosition">
+            </div>
+            <div class="item-panel">
+                <span>基本工资:</span>
+                <input type="text" class="layui-input" v-model="employeeEditBasicWage">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="item-panel">
+                <span style="margin-right: 25px">手机号:</span>
+                <input type="text" class="layui-input" v-model="employeeEditPhoneNumber">
+            </div>
+            <div class="item-panel">
+                <span>入职日期:</span>
+                <input type="text" class="layui-input" readonly="readonly" placeholder="点击选择日期" style="cursor: pointer" id="employeeEditDateOfEntryDate">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="btn-panel">
+                <button @click="employeeEditSubmitFun" class="layui-btn"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button @click="employeeEditCancelFun" class="layui-btn"
                         v-bind:style="{background:BtnColor}">取消
                 </button>
             </div>

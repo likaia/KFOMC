@@ -19,10 +19,12 @@ public class EmployeeInfo
 	private String  position;
 	private String  dateOfBirth;
 	private String  dateOfEntry;
+	private Double basicWage;
 	private String  remarks;
 	private String operator;
 	private String addTime;
 	private JSONArray ids;
+	private JSONArray queryType;
 	public Integer getId()
 	{
 		return id;
@@ -109,6 +111,22 @@ public class EmployeeInfo
 		super();
 	}
 	
+	public Double getBasicWage()
+	{
+		return basicWage;
+	}
+	public void setBasicWage(Double basicWage)
+	{
+		this.basicWage = basicWage;
+	}
+	public JSONArray getQueryType()
+	{
+		return queryType;
+	}
+	public void setQueryType(JSONArray queryType)
+	{
+		this.queryType = queryType;
+	}
 	public String getOperator()
 	{
 		return operator;

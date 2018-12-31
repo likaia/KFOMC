@@ -74,6 +74,24 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				// 关闭链接
 				sqlSession.close();
 			}
+			// 自定义查询()
+			if (jsReq.has("queryType"))
+			{
+				JSONArray queryType = jsReq.getJSONArray("queryType");
+				// 打开连接
+				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+				// 配置映射器
+				EmployeeInfoMapper employeeInfoMapper = sqlSession.getMapper(EmployeeInfoMapper.class);
+				EmployeeInfo row = new EmployeeInfo();
+				row.setQueryType(queryType);
+				row.setOperator(operator);
+				List<EmployeeInfo> resultList = employeeInfoMapper.customQuery(row);
+				result = new JSONArray(resultList);
+				/* 使用转义字符给数据添加双引号 */
+				androidData = "\"" + result + "\"";
+				// 关闭链接
+				sqlSession.close();
+			}
 			// 条件查询
 			if (jsReq.has("conditionalQuery"))
 			{
@@ -120,13 +138,54 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				String dateOfBirth = jsReq.getString("dateOfBirth");
 				String dateOfEntry = jsReq.getString("dateOfEntry");
 				String remarks = jsReq.getString("remarks");
+				String addTime = jsReq.getString("addTime");
+				if(nameOfWorker.equals(""))
+				{
+					nameOfWorker = null;
+				}
+				if(phoneNumber.equals(""))
+				{
+					phoneNumber = null;
+				}
+				if(jobNumber.equals(""))
+				{
+					jobNumber = null;
+				}
+				if(department.equals(""))
+				{
+					department = null;
+				}
+				if(position.equals(""))
+				{
+					position = null;
+				}
+				if(dateOfBirth.equals(""))
+				{
+					dateOfBirth = null;
+				}
+				if(dateOfEntry.equals(""))
+				{
+					dateOfEntry = null;
+				}
+				if(remarks.equals(""))
+				{
+					remarks = null;
+				}
+				if(addTime.equals(""))
+				{
+					addTime = serverTime;
+				}
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				EmployeeInfoMapper employeeInfoMapper = sqlSession.getMapper(EmployeeInfoMapper.class);
 				EmployeeInfo row = new EmployeeInfo(nameOfWorker, phoneNumber, jobNumber, department, position,
 						dateOfBirth, dateOfEntry, remarks, operator, serverTime);
-				employeeInfoMapper.add(row);
+				if(jsReq.has("basicWage"))
+				{
+					Double basicWage = jsReq.getDouble("basicWage");
+					row.setBasicWage(basicWage);
+				}
 				int processResult = employeeInfoMapper.add(row);
 				sqlSession.commit();
 				if (processResult > 0)
@@ -144,20 +203,19 @@ public class EmployeeInfoAPI extends AfRestfulApi
 			// 批量删除
 			if (jsReq.has("delSalary"))
 			{
-				JSONArray ids = jsReq.getJSONArray("ids"); 
+				JSONArray ids = jsReq.getJSONArray("ids");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				EmployeeInfoMapper employeeInfoMapper = sqlSession.getMapper(EmployeeInfoMapper.class);
 				EmployeeInfo row = new EmployeeInfo();
 				row.setIds(ids);
-				int processResult =  employeeInfoMapper.del(row);
+				int processResult = employeeInfoMapper.del(row);
 				sqlSession.commit();
-				if(processResult>0)
+				if (processResult > 0)
 				{
 					msg = "删除成功!";
-				}
-				else
+				} else
 				{
 					code = 1;
 					errorCode = 1;
@@ -166,9 +224,10 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				}
 				sqlSession.close();
 			}
-			//更新客户信息
-			if(jsReq.has("updateSalary"))
+			// 更新客户信息
+			if (jsReq.has("updateSalary"))
 			{
+				int id = jsReq.getInt("id");
 				String nameOfWorker = jsReq.getString("nameOfWorker");
 				String phoneNumber = jsReq.getString("phoneNumber");
 				String jobNumber = jsReq.getString("jobNumber");
@@ -177,18 +236,56 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				String dateOfBirth = jsReq.getString("dateOfBirth");
 				String dateOfEntry = jsReq.getString("dateOfEntry");
 				String remarks = jsReq.getString("remarks");
-				EmployeeInfo row = new EmployeeInfo(nameOfWorker, phoneNumber, jobNumber, department, position, dateOfBirth, dateOfEntry, remarks, operator, serverTime);
+				if(nameOfWorker.equals(""))
+				{
+					nameOfWorker = null;
+				}
+				if(phoneNumber.equals(""))
+				{
+					phoneNumber = null;
+				}
+				if(jobNumber.equals(""))
+				{
+					jobNumber = null;
+				}
+				if(department.equals(""))
+				{
+					department = null;
+				}
+				if(position.equals(""))
+				{
+					position = null;
+				}
+				if(dateOfBirth.equals(""))
+				{
+					dateOfBirth = null;
+				}
+				if(dateOfEntry.equals(""))
+				{
+					dateOfEntry = null;
+				}
+				if(remarks.equals(""))
+				{
+					remarks = null;
+				}
+				EmployeeInfo row = new EmployeeInfo(nameOfWorker, phoneNumber, jobNumber, department, position,
+						dateOfBirth, dateOfEntry, remarks, operator, serverTime);
+				if(jsReq.has("basicWage"))
+				{
+					Double basicWage = jsReq.getDouble("basicWage");
+					row.setBasicWage(basicWage);
+				}
+				row.setId(id);
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
-				//配置映射器
+				// 配置映射器
 				EmployeeInfoMapper employeeInfoMapper = sqlSession.getMapper(EmployeeInfoMapper.class);
-				int processResult =   employeeInfoMapper.update(row);
+				int processResult = employeeInfoMapper.update(row);
 				sqlSession.commit();
-				if(processResult>0)
+				if (processResult > 0)
 				{
 					msg = "更新成功";
-				}
-				else
+				} else
 				{
 					code = 1;
 					errorCode = 1;

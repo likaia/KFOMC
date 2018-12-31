@@ -266,6 +266,7 @@ $(function () {
             EditRevenuePayAmount:"",
             EditRevenuePayee:"",
             EditRevenueRemarks:"",
+            salaryGivingStaffData:"",
             RevenueManagementStart:"",
             RevenueManagementEnd:"",
             //精确/模糊(合并)点击状态
@@ -426,6 +427,40 @@ $(function () {
             EditAttendanceSickLeaveDays:"",
             EditAttendanceActualAttendanceDays:"",
             EditAttendanceDaysToAttend:"",
+            /*财务管理[工资发放]*/
+            salaryAddJobNumber:"",
+            salaryAddBasicWage:"",
+            salaryAddDepartment:"",
+            salaryAddJobSubsidy:"",
+            salaryAddPayable:"",
+            salaryAddAttendanceDeduction:"",
+            salaryAddRealWage:"",
+            salaryAddPersonalIncomeTax:"",
+            salaryAddRemark:"",
+            salaryEditNameOfWorker:"",
+            salaryEditEmployeeNumber:"",
+            salaryEditBasicWage:"",
+            salaryEditJobSubsidy:"",
+            salaryEditPayable:"",
+            salaryEditAttendanceDeduction:"",
+            salaryEditRealWage:"",
+            salaryEditPersonalIncomeTax:"",
+            /*员工管理[添加员工]*/
+            employeeAddName:"",
+            employeeAddJobNumber:"",
+            employeeAddDivision :"",
+            employeeAddPosition:"",
+            employeeAddBasicWage:"",
+            employeeAddPhoneNumber:"",
+            employeeAddDateOfBirth:"",
+            employeeAddDateOfEntry:"",
+            /*员工管理[编辑员工]*/
+            employeeEditName:"",
+            employeeEditJobNumber:"",
+            employeeEditDivision:"",
+            employeeEditPosition:"",
+            employeeEditBasicWage:"",
+            employeeEditPhoneNumber:"",
             /*客户对账*/
             customerReconciliationSelectVal:"",
             deliveryOrderJsonSrc:[], //--->送货请单图片地址
@@ -472,8 +507,20 @@ $(function () {
                     vm.documentUploadStatus = false;
                 }
                 },
+            //客户趋势点击函数
+            customerTrendFun:function(){
+                layer.alert("该模块暂未开放!");
+                return;
+            },
+            //订单趋势点击函数
+            orderTrendFun:function(){
+                layer.alert("该模块暂未开放!");
+                return;
+            },
             //财务报表点击函数
             financeReportFun: function () {
+                layer.alert("本模块暂未开放!");
+                return;
                 /*请求后台获取(当前总收入/当前总支出/当前总余额)*/
                 this.financeReportStatus = "block";
                 var req = {
@@ -3697,10 +3744,11 @@ $(function () {
             ,
             /*员工管理[工资发放]查询事件*/
             salaryQueryFun: function () {
-                if (Af.nullstr(this.SalaryInfoDivisionVal)) {
+                if (Af.nullstr(vm.SalaryInfoDivisionVal)&&Af.nullstr(vm.SalaryInfoNameVal)&&Af.nullstr(vm.SalaryInfoJobNumberVal)) {
                     MAIN.ErroAlert("不能查询空数据,请选择一个条件!");
                     return;
                 }
+                vm.loadingStatus = "block";
                 var req = {};
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
@@ -3708,11 +3756,13 @@ $(function () {
                 req.position = this.SalaryInfoDivisionVal;
                 req.nameOfWorker = this.SalaryInfoNameVal;
                 req.jobNumber = this.SalaryInfoJobNumberVal;
-                Af.rest("AttendanceInfo.api", req, function (ans) {
+                Af.rest("SalaryInfo.api", req, function (ans) {
                     if (ans.errorCode != 0) {
                         layer.msg(ans.msg);
+                        vm.loadingStatus = "none";
                     } else {
                         MAIN.salaryGivingDataList(ans.data);
+                        vm.loadingStatus = "none";
                     }
                 });
             }
@@ -3720,14 +3770,235 @@ $(function () {
             /*员工管理[工资发放]新增事件*/
             salaryAddFun:function(){
                 Af.openSubmenu("工资发放",["760px","370px"],true,$("#salaryAddSubmenu"));
+                let queryType = ["nameOfWorker","jobNumber","department","basicWage"];
+                let req = {
+                    "operator":$("#nickNameTextPanel").html(),
+                    "queryType":queryType,
+                };
+                Af.rest("EmployeeInfo.api",req,function (ans) {
+                    //清空select中除第一个以外的选项
+                    $("#salaryAddNameOfWorker option:gt(0)").remove();
+                    vm.salaryGivingStaffData = ans.data;
+                    renderEmployeeNameFun();
+                    /*渲染员工姓名*/
+                    function renderEmployeeNameFun() {
+                        var data = ans.data;
+                        var nowData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var temporaryData = {};
+                            temporaryData.id = data[i].id;
+                            temporaryData.name = data[i].nameOfWorker;
+                            nowData.push(temporaryData);
+                        }
+                        MAIN.addSelectVal(nowData, "salaryAddNameOfWorker");
+                    }
+                });
+            },
+            //提交
+            salaryAddSubmitFun:function(){
+                let req = {
+                    "addSalary":"",
+                    "operator":$("#nickNameTextPanel").html(),
+                    "nameOfWorker":$("#salaryAddNameOfWorker").find("option:selected").text(),
+                    "jobNumber":vm.salaryAddJobNumber,
+                    "position":vm.salaryAddDepartment,
+                    "basicWage":vm.salaryAddBasicWage,
+                    "jobSubsidy":vm.salaryAddJobSubsidy,
+                    "payable":vm.salaryAddPayable,
+                    "attendanceDeduction":vm.salaryAddAttendanceDeduction,
+                    "realWage":vm.salaryAddRealWage,
+                    "personalIncomeTax":vm.salaryAddPersonalIncomeTax,
+                    "remarks":vm.salaryAddRemark
+                };
+                req.basicWage = Number(req.basicWage);
+                req.jobSubsidy = Number(req.jobSubsidy);
+                req.payable = Number(req.payable);
+                req.attendanceDeduction = Number(req.attendanceDeduction);
+                req.personalIncomeTax = Number(req.personalIncomeTax);
+                req.realWage =Number(req.realWage);
+                if(isNaN(req.basicWage))
+                {
+                    MAIN.ErroAlert("基本工资,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.jobSubsidy))
+                {
+                    MAIN.ErroAlert("岗位补贴,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.payable))
+                {
+                    MAIN.ErroAlert("应发工资,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.attendanceDeduction))
+                {
+                    MAIN.ErroAlert("考勤扣款,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.realWage))
+                {
+                    MAIN.ErroAlert("实发工资,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.personalIncomeTax))
+                {
+                    MAIN.ErroAlert("个人所得税,必须为有效的数字!");
+                    return;
+                }
+                Af.rest("SalaryInfo.api",req,function(ans){
+                    if(ans.errorCode==0)
+                    {
+                        layer.closeAll();
+                        MAIN.salaryGivingList($("#nickNameTextPanel").html());
+                        layer.msg("添加成功");
+                    }else{
+                        layer.msg(ans.msg);
+                    }
+                })
+            },
+            //取消
+            salaryAddCancelFun:function(){
+                layer.closeAll();
             },
             /*员工管理[工资发放]编辑事件*/
             salaryEditFun:function(){
+                let thisRowData = MAIN.getTableRowData("salaryGivingList");
+                let thisObj = thisRowData[0];
+                if(thisRowData.length==1)
+                {
+                    Af.openSubmenu("编辑工资信息",["630px","320px"],true,$("#salaryEditSubmenu"));
+                    if(thisObj.hasOwnProperty("nameOfWorker"))
+                    {
+                        vm.salaryEditNameOfWorker = thisObj.nameOfWorker;
+                    }
+                    if(thisObj.hasOwnProperty("jobNumber"))
+                    {
+                        vm.salaryEditEmployeeNumber = thisObj.jobNumber;
+                    }
+                    if(thisObj.hasOwnProperty("basicWage"))
+                    {
+                        vm.salaryEditBasicWage = thisObj.basicWage;
+                    }
+                    if(thisObj.hasOwnProperty("jobSubsidy"))
+                    {
+                        vm.salaryEditJobSubsidy = thisObj.jobSubsidy;
+                    }
+                    if(thisObj.hasOwnProperty("payable"))
+                    {
+                        vm.salaryEditPayable = thisObj.payable;
+                    }
+                    if(thisObj.hasOwnProperty("attendanceDeduction"))
+                    {
+                        vm.salaryEditAttendanceDeduction = thisObj.attendanceDeduction;
+                    }
+                    if(thisObj.hasOwnProperty("realWage"))
+                    {
+                        vm.salaryEditRealWage = thisObj.realWage;
+                    }
+                    if(thisObj.hasOwnProperty("personalIncomeTax"))
+                    {
+                        vm.salaryEditPersonalIncomeTax = thisObj.personalIncomeTax;
+                    }
+                }else{
+                    MAIN.ErroAlert("只能勾选一条信息进行编辑!");
+                }
+            },
+            //提交
+            salaryEditSubmitFun:function(){
+                let thisRowData = MAIN.getTableRowData("salaryGivingList");
+                let thisObj = thisRowData[0];
+                let req = {
+                    "id": thisObj.id,
+                    "operator":$("#nickNameTextPanel").html(),
+                    "updateSalary":"",
+                    "nameOfWorker":vm.salaryEditNameOfWorker,
+                    "jobNumber":vm.salaryEditEmployeeNumber,
+                    "position":"",
+                    "basicWage":vm.salaryEditBasicWage,
+                    "jobSubsidy":vm.salaryEditJobSubsidy,
+                    "payable":vm.salaryEditPayable,
+                    "attendanceDeduction":vm.salaryEditAttendanceDeduction,
+                    "personalIncomeTax":vm.salaryEditPersonalIncomeTax,
+                    "realWage":vm.salaryEditRealWage,
+                    "remarks":""
+                };
+                req.basicWage = Number(req.basicWage);
+                req.jobSubsidy = Number(req.jobSubsidy);
+                req.payable = Number(req.payable);
+                req.attendanceDeduction = Number(req.attendanceDeduction);
+                req.personalIncomeTax = Number(req.personalIncomeTax);
+                req.realWage =Number(req.realWage);
+                if(isNaN(req.basicWage))
+                {
+                    MAIN.ErroAlert("基本工资,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.jobSubsidy))
+                {
+                    MAIN.ErroAlert("岗位补贴,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.payable))
+                {
+                    MAIN.ErroAlert("应发工资,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.attendanceDeduction))
+                {
+                    MAIN.ErroAlert("考勤扣款,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.realWage))
+                {
+                    MAIN.ErroAlert("实发工资,必须为有效的数字!");
+                    return;
+                }
+                if(isNaN(req.personalIncomeTax))
+                {
+                    MAIN.ErroAlert("个人所得税,必须为有效的数字!");
+                    return;
+                }
+                Af.rest("SalaryInfo.api",req,function(ans){
+                    if(ans.errorCode==0)
+                    {
+                        layer.closeAll();
+                        MAIN.salaryGivingList($("#nickNameTextPanel").html());
+                        layer.msg("更新成功");
+                    }
+                    else{
+                        MAIN.ErroAlert(ans.msg);
+                    }
+                });
 
+            },
+            //取消
+            salaryEditCancelFun:function(){
+                layer.closeAll();
             },
             /*员工管理[工资发放]删除事件*/
             salaryDelFun:function(){
-
+                let idsArray = MAIN.getSelectId("salaryGivingList");
+                if(idsArray.length<1)
+                {
+                    MAIN.ErroAlert("没有勾选工资信息条目!");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', function (index) {
+                    let idsStr = idsArray.toString();
+                    let req= {};
+                    req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                    req.operator = $("#nickNameTextPanel").html();
+                    req.delSalary = "delSalary";
+                    Af.rest("SalaryInfo.api", req, function (ans) {
+                        layer.close(index);
+                        layer.msg(ans.msg);
+                        if (ans.errorCode == 0) {
+                            //数据表格重载
+                            MAIN.salaryGivingList($("#nickNameTextPanel").html());
+                        }
+                    });
+                });
             },
             /*员工管理[员工信息]点击事件*/
             employeeInfoFun: function () {
@@ -3757,37 +4028,177 @@ $(function () {
             ,
             /*员工管理[员工信息]查询点击事件*/
             employeeQueryFun: function () {
-                if (Af.nullstr(this.EmployeeDivisionVal)) {
+                if (Af.nullstr(vm.EmployeeDivisionVal)&&Af.nullstr(vm.EmployeeNameVal)&&Af.nullstr(vm.EmployeejobNumberVal)) {
                     MAIN.ErroAlert("不能查询空数据,请选择一个条件!");
                     return;
                 }
+                vm.loadingStatus = "block";
                 var req = {};
                 //获取查询条件
                 req.operator = $("#nickNameTextPanel").html();
                 req.conditionalQuery = "conditionalQuery";
-                req.department = this.EmployeeDivisionVal;
-                req.nameOfWorker = this.EmployeeNameVal;
-                req.jobNumber = this.EmployeejobNumberVal;
+                req.department = vm.EmployeeDivisionVal;
+                req.nameOfWorker = vm.EmployeeNameVal;
+                req.jobNumber = vm.EmployeejobNumberVal;
                 Af.rest("EmployeeInfo.api", req, function (ans) {
                     if (ans.errorCode != 0) {
                         layer.msg(ans.msg);
+                        vm.loadingStatus = "none";
                     } else {
                         MAIN.employeeInfoDataList(ans.data);
+                        vm.loadingStatus = "none";
                     }
                 });
-            }
-            ,
+            },
             /*员工管理[员工信息]新增点击事件*/
             employeeAddFun:function(){
-
+                Af.openSubmenu("添加员工",["660px","320px"],true,$("#employeeAddSubmenu"))
+            },
+            //提交
+            employeeAddSubmitFun:function(){
+                let req = {
+                    "nameOfWorker":vm.employeeAddName,
+                    "phoneNumber":vm.employeeAddPhoneNumber,
+                    "jobNumber":vm.employeeAddJobNumber,
+                    "department":vm.employeeAddDivision,
+                    "position":vm.employeeAddPosition,
+                    "basicWage":vm.employeeAddBasicWage,
+                    "dateOfBirth":$("#employeeAddBornDate").val(),
+                    "dateOfEntry":$("#employeeAddDateOfEntryDate").val(),
+                    "remarks":"",
+                    "operator":$("#nickNameTextPanel").html(),
+                    "addTime":"",
+                    "addSalary":""
+                };
+                req.basicWage = Number(req.basicWage);
+                if(isNaN(req.basicWage))
+                {
+                    MAIN.ErroAlert("基本工资,必须为有效的数字!");
+                    return;
+                }
+                Af.rest("EmployeeInfo.api",req,function (ans) {
+                    if(ans.errorCode==0)
+                    {
+                        layer.closeAll();
+                        layer.msg("添加成功");
+                        MAIN.employeeInfoList($("#nickNameTextPanel").html());
+                    }
+                    else{
+                        MAIN.ErroAlert(ans.msg);
+                    }
+                })
+            },
+            //取消
+            employeeAddCancelFun:function(){
+                layer.closeAll();
             },
             /*员工管理[员工信息]删除点击事件*/
             employeeDelFun:function(){
-
+                let idsArray = MAIN.getSelectId("employeeInfoList");
+                if(idsArray.length<1)
+                {
+                    MAIN.ErroAlert("没有勾选员工信息条目!");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', function (index) {
+                    let idsStr = idsArray.toString();
+                    let req= {};
+                    req.ids = Af.strToIntArr(idsStr); //将String字符串转int数组
+                    req.operator = $("#nickNameTextPanel").html();
+                    req.delSalary = "delSalary";
+                    Af.rest("EmployeeInfo.api", req, function (ans) {
+                        layer.close(index);
+                        layer.msg(ans.msg);
+                        if (ans.errorCode == 0) {
+                            //数据表格重载
+                            MAIN.employeeInfoList($("#nickNameTextPanel").html());
+                        }
+                    });
+                });
             },
             /*员工管理[员工信息]编辑点击事件*/
             employeeEditFun:function(){
-
+                let thisRowData = MAIN.getTableRowData("employeeInfoList");
+                if(thisRowData.length==1)
+                {
+                    let thisObj = thisRowData[0];
+                    Af.openSubmenu("修改员工信息",["660px","320px"],true,$("#employeeEditSubmenu"));
+                    if(thisObj.hasOwnProperty("nameOfWorker"))
+                    {
+                        vm.employeeEditName = thisObj.nameOfWorker;
+                    }
+                    if(thisObj.hasOwnProperty("jobNumber"))
+                    {
+                        vm.employeeEditJobNumber=thisObj.jobNumber;
+                    }
+                    if(thisObj.hasOwnProperty("department"))
+                    {
+                        vm.employeeEditDivision=thisObj.department;
+                    }
+                    if(thisObj.hasOwnProperty("position"))
+                    {
+                        vm.employeeEditPosition=thisObj.position;
+                    }
+                    if(thisObj.hasOwnProperty("basicWage"))
+                    {
+                        vm.employeeEditBasicWage=thisObj.basicWage;
+                    }
+                    if(thisObj.hasOwnProperty("phoneNumber"))
+                    {
+                        vm.employeeEditPhoneNumber=thisObj.phoneNumber;
+                    }
+                    if(thisObj.hasOwnProperty("dateOfBirth"))
+                    {
+                        $("#employeeEditBornDate").val(thisObj.dateOfBirth);
+                    }
+                    if(thisObj.hasOwnProperty("dateOfEntry"))
+                    {
+                        $("#employeeEditDateOfEntryDate").val(thisObj.dateOfEntry);
+                    }
+                }
+                else {
+                    MAIN.ErroAlert("只能勾选一条员工信息进行编辑!");
+                }
+            },
+            //提交
+            employeeEditSubmitFun:function(){
+                let thisRowData = MAIN.getTableRowData("employeeInfoList");
+                let thisObj = thisRowData[0];
+                let req = {
+                    "id":thisObj.id,
+                    "nameOfWorker":vm.employeeEditName,
+                    "jobNumber":vm.employeeEditJobNumber,
+                    "department":vm.employeeEditDivision,
+                    "position":vm.employeeEditPosition,
+                    "basicWage":vm.employeeEditBasicWage,
+                    "phoneNumber":vm.employeeEditPhoneNumber,
+                    "dateOfBirth":$("#employeeEditBornDate").val(),
+                    "dateOfEntry":$("#employeeEditDateOfEntryDate").val(),
+                    "operator":$("#nickNameTextPanel").html(),
+                    "updateSalary":"",
+                    "remarks":""
+                };
+                req.basicWage = Number(req.basicWage);
+                if(isNaN(req.basicWage))
+                {
+                    MAIN.ErroAlert("基本工资,必须为有效的数字!");
+                    return;
+                }
+                Af.rest("EmployeeInfo.api",req,function(ans){
+                    if(ans.errorCode==0)
+                    {
+                        layer.closeAll();
+                        MAIN.employeeInfoList($("#nickNameTextPanel").html());
+                        layer.msg("更新成功");
+                    }
+                    else{
+                        MAIN.ErroAlert(ans.msg);
+                    }
+                })
+            },
+            //取消
+            employeeEditCancelFun:function(){
+                layer.closeAll();
             },
             /*基础信息[原片信息]点击事件*/
             OriginalInfoFun: function () {
@@ -4411,6 +4822,8 @@ $(function () {
 
             /*基本设置 点击事件*/
             basicSettingsFun: function () {
+                layer.alert("该模块暂未开放");
+                return;
                 this.basicSettingsStatus = "block";
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理 支出管理 客户对账 考勤管理 工资发放 员工信息 原片信息 配件信息 联系我们 隐藏*/
                 this.stockStatus = "none";
@@ -4434,6 +4847,8 @@ $(function () {
             ,
             /*联系我们 点击事件*/
             contactUsFun: function () {
+                layer.alert("该模块暂未开放!");
+                return;
                 this.contactUsStatus = "block";
 
                 /*进货管理 财务报表 出货管理 订单信息管理 订单月结管理 客户信息管理 收入管理 支出管理 客户对账 考勤管理 工资发放 员工信息 原片信息 配件信息 基本设置 隐藏*/
@@ -5554,8 +5969,30 @@ $(function () {
                 }
             }
         });
-
-
+        laydate.render({
+            elem: '#employeeAddBornDate', //添加员工[出生年月]:日期区间选择
+            min: '1950-1-1',
+            max: '2003-12-31',
+            value: '1990-04-14',
+            isInitValue: false //是否允许填充初始值，默认为 true
+        });
+        laydate.render({
+            elem: '#employeeAddDateOfEntryDate', //添加员工[入职日期]:日期区间选择
+            min: '1980-1-1',
+            isInitValue: false //是否允许填充初始值，默认为 true
+        });
+        laydate.render({
+            elem: '#employeeEditBornDate', //添加员工[出生年月]:日期区间选择(编辑)
+            min: '1950-1-1',
+            max: '2003-12-31',
+            value: '1990-04-14',
+            isInitValue: false //是否允许填充初始值，默认为 true
+        });
+        laydate.render({
+            elem: '#employeeEditDateOfEntryDate', //添加员工[入职日期]:日期区间选择(编辑)
+            min: '1980-1-1',
+            isInitValue: false //是否允许填充初始值，默认为 true
+        });
         MAIN.List1Table = function () {
             table.render({
                 url: URL + "/incomeRecordApi",
@@ -5627,6 +6064,34 @@ $(function () {
         });
         form.on('select(originalFilmremarkSelectPanel)', function (data) {
             vm.originalFilmRemarksVal = data.value;
+        });
+        /*监听[工资发放]员工姓名选择*/
+        form.on('select(salaryAddNameOfWorker)', function (data) {
+            let thisData = data.value;
+            let rawData = vm.salaryGivingStaffData;
+            if(rawData.length>0)
+            {
+                for(let i = 0; i <rawData.length;i++)
+                {
+                    let thisObj = rawData[i];
+                    let nameOfWorker = thisObj.nameOfWorker;
+                    if(nameOfWorker==thisData)
+                    {
+                        if(thisObj.hasOwnProperty("jobNumber"))
+                        {
+                            vm.salaryAddJobNumber = thisObj.jobNumber;
+                        }
+                        if(thisObj.hasOwnProperty("department"))
+                        {
+                            vm.salaryAddDepartment = thisObj.department;
+                        }
+                        if(thisObj.hasOwnProperty("basicWage"))
+                        {
+                            vm.salaryAddBasicWage = thisObj.basicWage;
+                        }
+                    }
+                }
+            }
         });
         /*监听配件采购*/
         form.on('select(FittingNumberSelectPanel)', function (data) {
@@ -8543,8 +9008,8 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'remarks',
-                            title: '备注',
+                            field: 'basicWage',
+                            title: '基本工资',
                             align: "center"
                         }
                     ]
@@ -8560,7 +9025,7 @@ $(function () {
                     departmentSelectFun();
                     AttendanceNameSelectFun();
                     AttendanceJobNumberSelectFun();
-
+                    console.log(res);
                     /*渲染部门*/
                     function departmentSelectFun() {
                         var data = res.data;
@@ -8592,10 +9057,14 @@ $(function () {
                         var data = res.data;
                         var nowData = [];
                         for (var i = 0; i < data.length; i++) {
-                            var temporaryData = {};
-                            temporaryData.id = data[i].id;
-                            temporaryData.name = data[i].jobNumber;
-                            nowData.push(temporaryData);
+                            let thisObj = data[i];
+                            if(thisObj.hasOwnProperty("jobNumber"))
+                            {
+                                var temporaryData = {};
+                                temporaryData.id = data[i].id;
+                                temporaryData.name = data[i].jobNumber;
+                                nowData.push(temporaryData);
+                            }
                         }
                         addSelectVal(nowData, "EmployeejobNumber");
                     }
@@ -8682,8 +9151,8 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'remarks',
-                            title: '备注',
+                            field: 'basicWage',
+                            title: '基本工资',
                             align: "center"
                         }
                     ]
