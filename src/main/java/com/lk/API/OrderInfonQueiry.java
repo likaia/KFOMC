@@ -79,7 +79,7 @@ public class OrderInfonQueiry extends AfRestfulApi
 						{ "orderNumber", "orderDate", "clientName", "projectName", "glassNumber", "totalArea",
 								"totalAmount", "alreadyPaid", "unpaid", "preparedBy", "operator" };
 						JSONArray queryType = new JSONArray(queryTypeArr);
-						JSONArray unfinishedArr = new JSONArray();
+
 						// 打开连接
 						SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 						// 配置映射器
@@ -87,7 +87,6 @@ public class OrderInfonQueiry extends AfRestfulApi
 						OrderInfo row = new OrderInfo();
 						row.setOperator(operator);
 						row.setQueryType(queryType);
-						row.setUnfinishedArr(unfinishedArr.toString());
 						List<OrderInfo> resultList = orderMapper.customQuery(row);
 						result = new JSONArray(resultList);
 						// 关闭链接

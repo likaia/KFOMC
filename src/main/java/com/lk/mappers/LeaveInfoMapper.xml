@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.LeaveInfoMapper">
+  <!--定义结果集:用于存储所有数据 -->
+	<resultMap type="LeaveInfo" id="LeaveInfoResult">
+		<id property="id" column="id" />
+		<result property="leaveTheTitle" column="leaveTheTitle" />
+		<result property="leaveType" column="leaveType" />
+		<result property="leaveContent" column="leaveContent" />
+		<result property="leaveStartTime" column="leaveStartTime" />
+		<result property="leaveTime" column="leaveTime" />
+		<result property="leavePicture" column="leavePicture" />
+		<result property="addTime" column="addTime" />
+		<result property="operator" column="operator" />
+  </resultMap>
+  <!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="LeaveInfoResult"
+		parameterType="LeaveInfo">
+		SELECT
+		id,
+		leaveTheTitle,
+		leaveType,
+		leaveContent,
+		leaveStartTime,
+		leaveTime,
+		leavePicture,
+		addTime,
+		operator
+		FROM t_leaveInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="LeaveInfoResult"
+		parameterType="LeaveInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_leaveInfo  
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="leaveType != null">
+				AND leaveType like #{leaveType}
+			</if>
+			<if test="addTime != null">
+				AND addTime like #{addTime}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="LeaveInfoResult"
+		parameterType="LeaveInfo">
+		SELECT
+		id,
+		leaveTheTitle,
+		leaveType,
+		leaveContent,
+		leaveStartTime,
+		leaveTime,
+		leavePicture,
+		addTime,
+		operator
+		FROM t_leaveInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="leaveType != null">
+				AND leaveType like #{leaveType}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND addTime <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND addTime <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="LeaveInfo">
+		delete from t_leaveInfo where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="LeaveInfo">
+		insert into t_leaveInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="leaveTheTitle != null">
+				leaveTheTitle,
+			</if>
+			<if test="leaveType != null">
+				leaveType,
+			</if>
+			<if test="leaveContent != null">
+				leaveContent,
+			</if>
+			<if test="leaveStartTime != null">
+				leaveStartTime,
+			</if>
+			<if test="leaveTime != null">
+				leaveTime,
+			</if>
+			<if test="leavePicture != null">
+				leavePicture,
+			</if>
+			<if test=" addTime != null">
+				addTime,
+			</if>
+			<if test=" operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="leaveTheTitle != null">
+				#{leaveTheTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="leaveType != null">
+				#{leaveType,jdbcType=VARCHAR},
+			</if>
+			<if test="leaveContent != null">
+				#{leaveContent,jdbcType=VARCHAR},
+			</if>
+			<if test="leaveStartTime != null">
+				#{leaveStartTime,jdbcType=VARCHAR},
+			</if>
+			<if test="leaveTime != null">
+				#{leaveTime,jdbcType=VARCHAR},
+			</if>
+			<if test="leavePicture != null">
+				#{leavePicture,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改客户信息 -->
+	<update id="update" parameterType="ClientInfo">
+		update t_leaveInfo
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="leaveTheTitle != null">
+				leaveTheTitle = #{leaveTheTitle},
+			</if>
+			<if test="leaveType != null">
+				leaveType = #{leaveType},
+			</if>
+			<if test="leaveContent != null">
+				leaveContent = #{leaveContent},
+			</if>
+			<if test="leaveStartTime != null">
+				leaveStartTime = #{leaveStartTime},
+			</if>
+			<if test="leaveTime != null">
+				leaveTime = #{leaveTime},
+			</if>
+			<if test=" leavePicture != null">
+				leavePicture = #{leavePicture},
+			</if>
+			<if test=" addTime != null">
+				addTime =#{addTime},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
+</mapper>

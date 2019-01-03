@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 自定义查询 -->
 	<select id="customQuery" resultMap="AttendanceStatusInfoResult"
 		parameterType="AttendanceStatusInfo">
-		SELECT id, 
+		SELECT id,
 		<foreach item="queryTypeItem" collection="queryType" open=""
 			separator="," close="">
 			${queryTypeItem}
@@ -62,13 +62,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				nameOfWorker = #{nameOfWorker}
 			</if>
 			<if test="operator != null">
-				AND operator like #{operator}  
+				AND operator like #{operator}
 			</if>
 			<if test="addTime != null">
-				AND addTime like #{addTime}  
+				AND addTime like #{addTime}
 			</if>
 			<if test="jobNumber != null">
-				AND jobNumber like #{jobNumber}  
+				AND jobNumber like #{jobNumber}
 			</if>
 			<if test="dStart != null and dStart != ''">
 				AND addTime <![CDATA[>=]]>
@@ -88,6 +88,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		jobNumber,
 		department,
 		workingHours,
+		morningWorkTime,
+		afternoonWorkTime,
 		afterGetOffWorkTime,
 		attendanceDate,
 		wifiInfo,
@@ -103,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				nameOfWorker = #{nameOfWorker}
 			</if>
 			<if test="jobNumber != null">
-				AND jobNumber like #{jobNumber}  
+				AND jobNumber like #{jobNumber}
 			</if>
 			<if test="dStart != null and dStart != ''">
 				AND attendanceDate <![CDATA[>=]]>
@@ -111,9 +113,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="dEnd != null and dEnd != ''">
 				AND attendanceDate <![CDATA[<=]]>#{dEnd}
-			</if>
-			<if test="leaveStartTime != null">
-				AND leaveStartTime like #{leaveStartTime}  
 			</if>
 		</where>
 	</select>
@@ -247,36 +246,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test=" fieldCard != null">
 				fieldCard = #{fieldCard},
-			</if>
-			<if test=" leaveTheTitle != null">
-				leaveTheTitle = #{leaveTheTitle},
-			</if>
-			<if test=" leaveContent != null">
-				leaveContent = #{leaveContent},
-			</if>
-			<if test=" leaveStartTime != null">
-				leaveStartTime = #{leaveStartTime},
-			</if>
-			<if test=" leaveTime != null">
-				leaveTime = #{leaveTime},
-			</if>
-			<if test=" leavePicture != null">
-				leavePicture = #{leavePicture},
-			</if>
-			<if test=" workReport != null">
-				workReport = #{workReport},
-			</if>
-			<if test=" completeTheTaskThisWeek != null">
-				completeTheTaskThisWeek = #{completeTheTaskThisWeek},
-			</if>
-			<if test=" unfinishedTasksThisWeek != null">
-				unfinishedTasksThisWeek = #{unfinishedTasksThisWeek},
-			</if>
-			<if test=" weeklyPicture != null">
-				weeklyPicture = #{weeklyPicture},
-			</if>
-			<if test=" weeklyNote != null">
-				weeklyNote = #{weeklyNote},
 			</if>
 			<if test=" remarks != null">
 				remarks = #{remarks},

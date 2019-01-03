@@ -143,7 +143,6 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				{
 					dEnd = null;
 				}
-				
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
@@ -154,12 +153,6 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				row.setdStart(dStart);
 				row.setdEnd(dEnd);
 				row.setJobNumber(jobNumber);
-				/**请假时间*/
-				if(jsReq.has("leaveStartTime"))
-				{
-					String leaveStartTime = jsReq.getString("leaveStartTime");
-					row.setLeaveStartTime(leaveStartTime);
-				}
 				row.setNameOfWorker(nameOfWorker);
 				List<AttendanceStatusInfo> resultList = attendanceStatusInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
@@ -272,6 +265,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 			// 更新考勤状态信息
 			if (jsReq.has("updateAttendance"))
 			{
+				
 				String nameOfWorker = jsReq.getString("nameOfWorker");
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
@@ -281,6 +275,12 @@ public class AttendanceStatusAPI extends AfRestfulApi
 				AttendanceStatusInfo row = new AttendanceStatusInfo();
 				row.setNameOfWorker(nameOfWorker);
 				row.setOperator(operator);
+				if(jsReq.has("id"))
+				{
+					int id = jsReq.getInt("id");
+					row.setId(id);
+				}
+
 				if (jsReq.has("jobNumber"))
 				{
 					String jobNumber = jsReq.getString("jobNumber");
@@ -331,56 +331,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 					String remarks = jsReq.getString("remarks");
 					row.setRemarks(remarks);
 				}
-				if(jsReq.has("leaveTheTitle"))
-				{
-					String leaveTheTitle = jsReq.getString("leaveTheTitle");
-					row.setLeaveTheTitle(leaveTheTitle);
-				}
-				if(jsReq.has("leaveContent"))
-				{
-					String leaveContent = jsReq.getString("leaveContent");
-					row.setLeaveContent(leaveContent);
-				}
-				if(jsReq.has("leaveStartTime"))
-				{
-					String leaveStartTime = jsReq.getString("leaveStartTime");
-					row.setLeaveStartTime(leaveStartTime);
-				}
-				if(jsReq.has("leaveTime"))
-				{
-					String leaveTime = jsReq.getString("leaveTime");
-					row.setLeaveTime(leaveTime);
-				}
-				if(jsReq.has("leavePicture"))
-				{
-					String leavePicture = jsReq.getString("leavePicture");
-					row.setLeavePicture(leavePicture);
-				}
-				if(jsReq.has("workReport"))
-				{
-					String workReport = jsReq.getString("workReport");
-					row.setWorkReport(workReport);
-				}
-				if(jsReq.has("completeTheTaskThisWeek"))
-				{
-					String completeTheTaskThisWeek  = jsReq.getString("completeTheTaskThisWeek");
-					row.setCompleteTheTaskThisWeek(completeTheTaskThisWeek);
-				}
-				if(jsReq.has("unfinishedTasksThisWeek"))
-				{
-					String unfinishedTasksThisWeek = jsReq.getString("unfinishedTasksThisWeek");
-					row.setUnfinishedTasksThisWeek(unfinishedTasksThisWeek);
-				}
-				if(jsReq.has("weeklyPicture"))
-				{
-					String  weeklyPicture = jsReq.getString("weeklyPicture");
-					row.setWeeklyPicture(weeklyPicture);
-				}
-				if(jsReq.has("weeklyNote"))
-				{
-					String weeklyNote = jsReq.getString("weeklyNote");
-					row.setWeeklyNote(weeklyNote);
-				}
+				
 				if (jsReq.has("workID"))
 				{
 					int workID = jsReq.getInt("workID");

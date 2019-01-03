@@ -30,25 +30,6 @@ public class AttendanceStatusInfo
 	private String addTime;
 	private String dStart;
 	private String dEnd;
-	/**
-	 * 
-	 * @Title:             2018-12-29 18:31
-	 * @Description:    字段新增
-	 * 	@Description: 	请假标题  请假内容 开始时间 结束时间 请假图片
-     * @Description:    工作汇报 今周完成任务 本周未完成任务 周报图片 周报备注
-	 * @return:        
-	 * @throws
-	 */
-	private String leaveTheTitle;
-	private String leaveContent;
-	private String leaveStartTime;
-	private String leaveTime;
-	private String leavePicture;
-	private String workReport;
-	private String completeTheTaskThisWeek;
-	private String unfinishedTasksThisWeek;
-	private String weeklyPicture;
-	private String weeklyNote;
 	private String operator;
 	public Integer getId()
 	{
@@ -201,86 +182,7 @@ public class AttendanceStatusInfo
 		return dEnd;
 	}
 	
-	public String getLeaveTheTitle()
-	{
-		return leaveTheTitle;
-	}
-	public void setLeaveTheTitle(String leaveTheTitle)
-	{
-		this.leaveTheTitle = leaveTheTitle;
-	}
-	public String getLeaveContent()
-	{
-		return leaveContent;
-	}
-	public void setLeaveContent(String leaveContent)
-	{
-		this.leaveContent = leaveContent;
-	}
-	public String getLeaveStartTime()
-	{
-		return leaveStartTime;
-	}
-	public void setLeaveStartTime(String leaveStartTime)
-	{
-		this.leaveStartTime = leaveStartTime;
-	}
-	public String getLeaveTime()
-	{
-		return leaveTime;
-	}
-	public void setLeaveTime(String leaveTime)
-	{
-		this.leaveTime = leaveTime;
-	}
-	public String getLeavePicture()
-	{
-		return leavePicture;
-	}
-	public void setLeavePicture(String leavePicture)
-	{
-		this.leavePicture = leavePicture;
-	}
-	public String getWorkReport()
-	{
-		return workReport;
-	}
-	public void setWorkReport(String workReport)
-	{
-		this.workReport = workReport;
-	}
-	public String getCompleteTheTaskThisWeek()
-	{
-		return completeTheTaskThisWeek;
-	}
-	public void setCompleteTheTaskThisWeek(String completeTheTaskThisWeek)
-	{
-		this.completeTheTaskThisWeek = completeTheTaskThisWeek;
-	}
-	public String getUnfinishedTasksThisWeek()
-	{
-		return unfinishedTasksThisWeek;
-	}
-	public void setUnfinishedTasksThisWeek(String unfinishedTasksThisWeek)
-	{
-		this.unfinishedTasksThisWeek = unfinishedTasksThisWeek;
-	}
-	public String getWeeklyPicture()
-	{
-		return weeklyPicture;
-	}
-	public void setWeeklyPicture(String weeklyPicture)
-	{
-		this.weeklyPicture = weeklyPicture;
-	}
-	public String getWeeklyNote()
-	{
-		return weeklyNote;
-	}
-	public void setWeeklyNote(String weeklyNote)
-	{
-		this.weeklyNote = weeklyNote;
-	}
+	
 	public void setdEnd(String dEnd)
 	{
 		this.dEnd = dEnd;

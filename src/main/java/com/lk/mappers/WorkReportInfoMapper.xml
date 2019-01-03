@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.WorkReportInfoMapper">
+  <!--定义结果集:用于存储所有数据 -->
+	<resultMap type="WorkReportInfo" id="WorkReportInfoResult">
+		<id property="id" column="id" />
+		<result property="workReportName" column="workReportName" />
+		<result property="completeTheTaskThisWeek" column="completeTheTaskThisWeek" />
+		<result property="unfinishedTasksThisWeek" column="unfinishedTasksThisWeek" />
+		<result property="weeklyPicture" column="weeklyPicture" />
+		<result property="weeklyNote" column="weeklyNote" />
+		<result property="addTime" column="addTime" />
+		<result property="operator" column="operator" />
+  </resultMap>
+  <!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="WorkReportInfoResult"
+		parameterType="WorkReportInfo">
+		SELECT
+		id,
+		workReportName,
+		completeTheTaskThisWeek,
+		unfinishedTasksThisWeek,
+		weeklyPicture,
+		weeklyNote,
+		addTime,
+		operator
+		FROM t_workReportInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="WorkReportInfoResult"
+		parameterType="WorkReportInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_workReportInfo  
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="workReportName != null">
+				AND workReportName like #{workReportName}
+			</if>
+			<if test="addTime != null">
+				AND addTime like #{addTime}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="WorkReportInfoResult"
+		parameterType="WorkReportInfo">
+		SELECT
+		id,
+		workReportName,
+		completeTheTaskThisWeek,
+		unfinishedTasksThisWeek,
+		weeklyPicture,
+		weeklyNote,
+		addTime,
+		operator
+		FROM t_workReportInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="workReportName != null">
+				AND workReportName like #{workReportName}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND addTime <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND addTime <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="WorkReportInfo">
+		delete from t_workReportInfo where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="WorkReportInfo">
+		insert into t_workReportInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="workReportName != null">
+				workReportName,
+			</if>
+			<if test="completeTheTaskThisWeek != null">
+				completeTheTaskThisWeek,
+			</if>
+			<if test="unfinishedTasksThisWeek != null">
+				unfinishedTasksThisWeek,
+			</if>
+			<if test="weeklyPicture != null">
+				weeklyPicture,
+			</if>
+			<if test="weeklyNote != null">
+				weeklyNote,
+			</if>
+			<if test=" addTime != null">
+				addTime,
+			</if>
+			<if test=" operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="workReportName != null">
+				#{workReportName,jdbcType=VARCHAR},
+			</if>
+			<if test="completeTheTaskThisWeek != null">
+				#{completeTheTaskThisWeek,jdbcType=VARCHAR},
+			</if>
+			<if test="unfinishedTasksThisWeek != null">
+				#{unfinishedTasksThisWeek,jdbcType=VARCHAR},
+			</if>
+			<if test="weeklyPicture != null">
+				#{weeklyPicture,jdbcType=VARCHAR},
+			</if>
+			<if test="weeklyNote != null">
+				#{weeklyNote,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改客户信息 -->
+	<update id="update" parameterType="WorkReportInfo">
+		update t_workReportInfo
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="workReportName != null">
+				workReportName = #{workReportName},
+			</if>
+			<if test="completeTheTaskThisWeek != null">
+				completeTheTaskThisWeek = #{completeTheTaskThisWeek},
+			</if>
+			<if test="unfinishedTasksThisWeek != null">
+				unfinishedTasksThisWeek = #{unfinishedTasksThisWeek},
+			</if>
+			<if test="weeklyPicture != null">
+				weeklyPicture = #{weeklyPicture},
+			</if>
+			<if test="weeklyNote != null">
+				weeklyNote = #{weeklyNote},
+			</if>
+			<if test=" addTime != null">
+				addTime =#{addTime},
+			</if>
+			<if test=" operator != null">
+				operator = #{operator},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
+</mapper>

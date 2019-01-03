@@ -162,7 +162,7 @@ public class JunitTestAPI
 	@Test
 	public void test4() throws ParseException
 	{
-		String result = lkcommon.timeIntervalJudgment("08:20", "", "08:00", "08:20", "09:00");
+		String result = lkcommon.timeIntervalJudgment("09:50", "", "08:00", "08:40", "08:50");
 		System.out.println("当前打卡状态:" + result);
 	}
 

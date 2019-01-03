@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.MessageApprovalInfoMapper">
+  <!--定义结果集:用于存储所有数据 -->
+	<resultMap type="MessageApprovalInfo" id="MessageApprovalInfoResult">
+		<id property="id" column="id" />
+		<result property="applicant" column="applicant" />
+		<result property="approvalType" column="approvalType" />
+		<result property="approvalContent" column="approvalContent" />
+		<result property="approvalStatus" column="approvalStatus" />
+		<result property="addTime" column="addTime" />
+		<result property="operator" column="operator" />
+  </resultMap>
+   <!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="MessageApprovalInfoResult"
+		parameterType="MessageApprovalInfo">
+		SELECT
+		id,
+		applicant,
+		approvalType,
+		approvalContent,
+		approvalStatus,
+		addTime,
+		operator
+		FROM t_messageApprovalInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="MessageApprovalInfoResult"
+		parameterType="MessageApprovalInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_messageApprovalInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+			<if test="applicant != null">
+				AND applicant like #{applicant}
+			</if>
+			<if test="addTime != null">
+				AND addTime like #{addTime}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="MessageApprovalInfoResult"
+		parameterType="MessageApprovalInfo">
+		SELECT
+		id,
+		applicant,
+		approvalType,
+		approvalContent,
+		approvalStatus,
+		addTime,
+		operator
+		FROM t_messageApprovalInfo
+		<where>
+			<if test="operator != null">
+				operator = #{operator}
+			</if>
+			<if test="approvalStatus != null">
+				AND approvalStatus like #{approvalStatus}
+			</if>
+			<if test="dStart != null and dStart != ''">
+				AND addTime <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND addTime <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="MessageApprovalInfo">
+		delete from t_messageApprovalInfo where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="MessageApprovalInfo">
+		insert into t_messageApprovalInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="applicant != null">
+				applicant,
+			</if>
+			<if test="approvalType != null">
+				approvalType,
+			</if>
+			<if test="approvalContent != null">
+				approvalContent,
+			</if>
+			<if test="approvalStatus != null">
+				approvalStatus,
+			</if>
+			<if test=" addTime != null">
+				addTime,
+			</if>
+			<if test=" operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="applicant != null">
+				#{applicant,jdbcType=VARCHAR},
+			</if>
+			<if test="approvalType != null">
+				#{approvalType,jdbcType=VARCHAR},
+			</if>
+			<if test="approvalContent != null">
+				#{approvalContent,jdbcType=VARCHAR},
+			</if>
+			<if test="approvalStatus != null">
+				#{approvalStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改客户信息 -->
+	<update id="update" parameterType="WorkReportInfo">
+		update t_messageApprovalInfo
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="applicant != null">
+				applicant = #{applicant},
+			</if>
+			<if test="approvalType != null">
+				approvalType = #{approvalType},
+			</if>
+			<if test="approvalContent != null">
+				approvalContent = #{approvalContent},
+			</if>
+			<if test="approvalStatus != null">
+				approvalStatus = #{approvalStatus},
+			</if>
+			<if test=" addTime != null">
+				addTime =#{addTime},
+			</if>
+			<if test=" operator != null">
+				operator = #{operator},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="operator != null">
+				AND operator like #{operator}
+			</if>
+		</where>
+	</update>
+</mapper>

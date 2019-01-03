@@ -378,18 +378,19 @@ public class LkCommon
 		return sb.toString();
 	}
 
-	/*
-	 * 时间区间判断
+	/**
 	 * 
-	 * @ inputDate当前时间
-	 * 
-	 * @ prohibitDate 标准时间
-	 * 
-	 * @ startDate 开始时间
-	 * 
-	 * @ normalDate 正常时间
-	 * 
-	 * @ endDate 结束时间
+	 * @Title:             timeIntervalJudgment
+	 * @Description:     TODO
+	 * @param:             @param inputDate        当前时间
+	 * @param:             @param prohibitDate   禁止打卡时间
+	 * @param:             @param startDate        标准时间
+	 * @param:             @param normalDate   开始时间
+	 * @param:             @param endDate         结束时间
+	 * @param:             @return
+	 * @param:             @throws ParseException   
+	 * @return:         String   
+	 * @throws
 	 */
 	public String timeIntervalJudgment(String inputDate, String prohibitDate, String startDate, String normalDate,
 			String endDate) throws ParseException
