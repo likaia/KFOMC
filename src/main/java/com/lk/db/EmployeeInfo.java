@@ -25,6 +25,9 @@ public class EmployeeInfo
 	private String addTime;
 	private JSONArray ids;
 	private JSONArray queryType;
+	private String mobilePhoneManufacturer;
+	private String phoneModel;
+	private String mobilePhoneSerialNumber;
 	public Integer getId()
 	{
 		return id;
@@ -143,6 +146,31 @@ public class EmployeeInfo
 	public void setIds(JSONArray ids)
 	{
 		this.ids = ids;
+	}
+	
+	public String getMobilePhoneManufacturer()
+	{
+		return mobilePhoneManufacturer;
+	}
+	public void setMobilePhoneManufacturer(String mobilePhoneManufacturer)
+	{
+		this.mobilePhoneManufacturer = mobilePhoneManufacturer;
+	}
+	public String getPhoneModel()
+	{
+		return phoneModel;
+	}
+	public void setPhoneModel(String phoneModel)
+	{
+		this.phoneModel = phoneModel;
+	}
+	public String getMobilePhoneSerialNumber()
+	{
+		return mobilePhoneSerialNumber;
+	}
+	public void setMobilePhoneSerialNumber(String mobilePhoneSerialNumber)
+	{
+		this.mobilePhoneSerialNumber = mobilePhoneSerialNumber;
 	}
 	public EmployeeInfo(String nameOfWorker, String phoneNumber, String jobNumber, String department, String position,
 			String dateOfBirth, String dateOfEntry, String remarks, String operator, String addTime)

@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/AttendanceStatusAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/AttendanceStatusAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/OrderInfonQueiry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/AttendanceStatusInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/AttendanceStatusInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/AttendanceStatusInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/AttendanceStatusInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/EmployeeInfoAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/EmployeeInfoAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/ProductNameModelInquiry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/ProductNameModelInquiry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/EmployeeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/EmployeeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/ProductListInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/ProductListInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/db/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/EmployeeInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/EmployeeInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ProductNumeInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/ProductNumeInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,8 +32,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="2145" column="30" selection-start-line="2145" selection-start-column="13" selection-end-line="2145" selection-end-column="30" />
+            <state relative-caret-position="471">
+              <caret line="3245" column="24" selection-start-line="3245" selection-start-column="24" selection-end-line="3245" selection-end-column="24" />
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -97,8 +103,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60425">
-              <caret line="2417" column="31" selection-start-line="2417" selection-start-column="31" selection-end-line="2417" selection-end-column="31" />
+            <state relative-caret-position="721">
+              <caret line="2522" column="22" selection-start-line="2522" selection-start-column="22" selection-end-line="2522" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -106,8 +112,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="2725" column="37" selection-start-line="2725" selection-start-column="20" selection-end-line="2725" selection-end-column="37" />
+            <state relative-caret-position="304">
+              <caret line="6152" column="102" selection-start-line="6152" selection-start-column="102" selection-end-line="6152" selection-end-column="102" />
+              <folding>
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -125,16 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>employeeAddDateOfEntry</find>
-      <find>employeeAddDivision</find>
-      <find>salaryDelFun</find>
-      <find>salaryQueryFun</find>
-      <find>MAIN.employeeInfoList</find>
-      <find>employeeQueryFun</find>
-      <find>employeeEditFun</find>
-      <find>employeeEditJobNumber</find>
-      <find>employeeAddSubmenu</find>
-      <find>BornDate</find>
       <find>employeeEditSubmenu</find>
       <find>employeeEditName</find>
       <find>employeeEditDateOfEntryDate</find>
@@ -155,6 +161,16 @@
       <find>已完成订单</find>
       <find>OrderMonthlyFun</find>
       <find>订单详情</find>
+      <find>序列号</find>
+      <find>单价必须为</find>
+      <find>客户信息</find>
+      <find>新增原片信息</find>
+      <find>typeof</find>
+      <find>is</find>
+      <find>isnan</find>
+      <find>addProductSubmenu</find>
+      <find>原片采购</find>
+      <find>OriginalFilmspecificationModel</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -182,9 +198,9 @@
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/imageCompression.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
       </list>
     </option>
   </component>
@@ -202,7 +218,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -214,6 +229,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -410,11 +426,12 @@
       <workItem from="1546321914325" duration="56000" />
       <workItem from="1546321992468" duration="31000" />
       <workItem from="1546354604342" duration="706000" />
+      <workItem from="1546677392456" duration="13755000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1252441000" />
+    <option name="totallyTimeSpent" value="1266196000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -671,24 +688,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60425">
-          <caret line="2417" column="31" selection-start-line="2417" selection-start-column="31" selection-end-line="2417" selection-end-column="31" />
+        <state relative-caret-position="304">
+          <caret line="6152" column="102" selection-start-line="6152" selection-start-column="102" selection-end-line="6152" selection-end-column="102" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="2725" column="37" selection-start-line="2725" selection-start-column="20" selection-end-line="2725" selection-end-column="37" />
+        <state relative-caret-position="721">
+          <caret line="2522" column="22" selection-start-line="2522" selection-start-column="22" selection-end-line="2522" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="2145" column="30" selection-start-line="2145" selection-start-column="13" selection-end-line="2145" selection-end-column="30" />
+        <state relative-caret-position="471">
+          <caret line="3245" column="24" selection-start-line="3245" selection-start-column="24" selection-end-line="3245" selection-end-column="24" />
           <folding>
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />

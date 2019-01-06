@@ -17,6 +17,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="operator" column="operator" />
 		<result property="addTime" column="addTime" />
 		<result property="basicWage" column="basicWage" />
+		<result property="mobilePhoneManufacturer" column="mobilePhoneManufacturer" />
+		<result property="phoneModel" column="phoneModel" />
+		<result property="mobilePhoneSerialNumber" column="mobilePhoneSerialNumber" />
 	</resultMap>
 	<!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="EmployeeInfoResult"
@@ -33,8 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		remarks,
 		basicWage,
 		operator,
+		mobilePhoneManufacturer,
+		phoneModel,
+		mobilePhoneSerialNumber
 		addTime
-		FROM t_employee_Info
+		FROM
+		t_employee_Info
 		<where>
 			<if test="operator != null">
 				operator = #{operator}
@@ -56,6 +63,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		remarks,
 		operator,
 		basicWage,
+		mobilePhoneManufacturer,
+		phoneModel,
+		mobilePhoneSerialNumber.
 		addTime
 		FROM t_employee_Info
 		<where>
@@ -76,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 自定义查询 -->
 	<select id="customQuery" resultMap="EmployeeInfoResult"
 		parameterType="EmployeeInfo">
-		SELECT id, 
+		SELECT id,
 		<foreach item="queryTypeItem" collection="queryType" open=""
 			separator="," close="">
 			${queryTypeItem}
@@ -87,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				operator = #{operator}
 			</if>
 			<if test="jobNumber != null">
-				AND jobNumber like #{jobNumber}  
+				AND jobNumber like #{jobNumber}
 			</if>
 		</where>
 	</select>
@@ -203,6 +213,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test=" basicWage != null">
 				basicWage = #{basicWage},
+			</if>
+			<if test=" mobilePhoneManufacturer != null">
+				mobilePhoneManufacturer = #{mobilePhoneManufacturer},
+			</if>
+			<if test=" phoneModel != null">
+				phoneModel = #{phoneModel},
+			</if>
+			<if test=" mobilePhoneSerialNumber != null">
+				mobilePhoneSerialNumber = #{mobilePhoneSerialNumber},
 			</if>
 		</trim>
 		<where>

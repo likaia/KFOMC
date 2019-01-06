@@ -117,9 +117,8 @@ public class ProductNameModelInquiry extends AfRestfulApi
 			{
 				String productName = jsReq.getString("productName"); //原片名称
 				String color  = jsReq.getString("color");
-				String thickness = jsReq.getString("thickness");
-				int  unitPrice = jsReq.getInt("unitPrice");//单价
-				int wholesalePrice = jsReq.getInt("wholesalePrice"); //批发价
+				Double  unitPrice = jsReq.getDouble("unitPrice");//单价
+				Double wholesalePrice = jsReq.getDouble("wholesalePrice"); //折扣价
 				int length = jsReq.getInt("length");
 				int width = jsReq.getInt("width");
 				Double area =  jsReq.getDouble("area");
@@ -134,7 +133,7 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				row.setLength(length);
 				row.setColor(color);
 				row.setWidth(width);
-				row.setThickness(thickness);
+			
 				row.setUnitPrice(unitPrice);
 				row.setArea(area);
 				row.setWholesalePrice(wholesalePrice);
@@ -187,9 +186,8 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				String productName = jsReq.getString("productName"); //原片名称
 				int id = jsReq.getInt("profuctId");
 				String color  = jsReq.getString("color");
-				String thickness = jsReq.getString("thickness");
-				int  unitPrice = jsReq.getInt("unitPrice");//单价
-				int wholesalePrice = jsReq.getInt("wholesalePrice"); //批发价
+				Double  unitPrice = jsReq.getDouble("unitPrice");//单价
+				Double wholesalePrice = jsReq.getDouble("wholesalePrice"); //批发价
 				int length = jsReq.getInt("length");
 				int width = jsReq.getInt("width");
 				Double area = jsReq.getDouble("area"); //计算面积
@@ -204,7 +202,6 @@ public class ProductNameModelInquiry extends AfRestfulApi
 				row.setLength(length);
 				row.setColor(color);
 				row.setWidth(width);
-				row.setThickness(thickness);
 				row.setUnitPrice(unitPrice);
 				row.setArea(area);
 				row.setWholesalePrice(wholesalePrice);

@@ -275,6 +275,21 @@ public class EmployeeInfoAPI extends AfRestfulApi
 					Double basicWage = jsReq.getDouble("basicWage");
 					row.setBasicWage(basicWage);
 				}
+				if(jsReq.has("mobilePhoneManufacturer"))
+				{
+					String mobilePhoneManufacturer = jsReq.getString("mobilePhoneManufacturer");
+					row.setMobilePhoneManufacturer(mobilePhoneManufacturer);
+				}
+				if(jsReq.has("phoneModel"))
+				{
+					String phoneModel = jsReq.getString("phoneModel");
+					row.setPhoneModel(phoneModel);
+				}
+				if(jsReq.has("mobilePhoneSerialNumber"))
+				{
+					String mobilePhoneSerialNumber = jsReq.getString("mobilePhoneSerialNumber");
+					row.setMobilePhoneSerialNumber(mobilePhoneSerialNumber);
+				}
 				row.setId(id);
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();

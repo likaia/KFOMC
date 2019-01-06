@@ -23,8 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userID" column="userID" />
 		<result property="bearingInformation" column="bearingInformation" />
 		<result property="punchRange" column="punchRange" />
-		<result property="companyID" column="companyID" />
-		<result property="messageRequest" column="messageRequest" />
+
 	</resultMap>
 	<!-- 添加 -->
 	<insert id="add" parameterType="User">
@@ -54,9 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="companyID != null">
 				companyID,
 			</if>
-			<if test="messageRequest != null">
-				messageRequest,
-			</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userName != null">
@@ -83,9 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="companyID != null">
 				#{companyID,jdbcType=INTEGER},
 			</if>
-			<if test="messageRequest != null">
-				#{messageRequest,jdbcType=VARCHAR},
-			</if>
+
 		</trim>
 	</insert>
 	<!-- 更新 -->
@@ -152,9 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="punchRange != null">
 				punchRange = #{punchRange},
 			</if>
-			<if test="messageRequest != null">
-				messageRequest = #{messageRequest},
-			</if>
+	
 		</trim>
 		<where>
 			<if test="id != null">

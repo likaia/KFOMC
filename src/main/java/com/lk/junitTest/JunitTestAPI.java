@@ -547,7 +547,7 @@ public class JunitTestAPI
 			sqlMessageRequestArr.put(messageRequest);
 			//update to database
 			User saveRow = new User();
-			saveRow.setMessageRequest(sqlMessageRequestArr.toString());
+	
 			saveRow.setUserName(operator);
 			saveRow.setCompanyID(companyID);
 			int updateResult = userMapper.updateAttendanceInfo(saveRow);
@@ -565,7 +565,6 @@ public class JunitTestAPI
 			rawArray.put(messageRequest);
 			//update to database
 			User saveRow = new User();
-			saveRow.setMessageRequest(rawArray.toString());
 			saveRow.setUserName(operator);
 			saveRow.setCompanyID(companyID);
 			int updateResult = userMapper.updateAttendanceInfo(saveRow);
@@ -581,5 +580,22 @@ public class JunitTestAPI
 		}
 		// 关闭session
 		sqlSession.close();
+	}
+	@Test
+	public void test17()
+	{
+		/**
+		 * 方法一：使用indexOf和subString方法，循环判断并截取
+		 */
+		String st = "i have i a i aiaiai";
+		String M = "i";
+		int count = 0;
+		while(st.indexOf(M)>=0) {
+			st=st.substring(st.indexOf(M)+M.length());
+			count++;
+		}
+		System.out.println("指定字符串在原字符串中出现："+count+"次");
+		
+		
 	}
 }

@@ -8,8 +8,8 @@ public class ProductListInfo
 	private String productName;
 	private String color;
 	private String thickness;
-	private Integer unitPrice;
-	private Integer wholesalePrice;
+	private Double unitPrice;
+	private Double wholesalePrice;
 	private JSONArray queryType;
 	private Double area;
 	private String remarks;
@@ -63,24 +63,23 @@ public class ProductListInfo
 	{
 		this.thickness = thickness;
 	}
-	public Integer getUnitPrice()
+	
+	public Double getUnitPrice()
 	{
 		return unitPrice;
 	}
-	public void setUnitPrice(Integer unitPrice)
+	public void setUnitPrice(Double unitPrice)
 	{
 		this.unitPrice = unitPrice;
 	}
-	public Integer getWholesalePrice()
+	public Double getWholesalePrice()
 	{
 		return wholesalePrice;
 	}
-	public void setWholesalePrice(Integer wholesalePrice)
+	public void setWholesalePrice(Double wholesalePrice)
 	{
 		this.wholesalePrice = wholesalePrice;
 	}
-
-
 	public JSONArray getQueryType()
 	{
 		return queryType;

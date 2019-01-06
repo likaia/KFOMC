@@ -666,6 +666,8 @@ $(function () {
                 req.remarks = $("#OriginalFilmremarks").val();
                 req.operator = $("#nickNameTextPanel").html();
                 req.addOrderData = "addOrderData";
+                Af.trace(req);
+                return;
                 if (Af.nullstr(req.purchaseDate) || Af.nullstr(req.supplier) || Af.nullstr(req.specificationModel) || Af.nullstr(req.thickness) || Af.nullstr(req.color) || Af.nullstr(req.quantity) || Af.nullstr(req.unitPrice) || Af.nullstr(req.totalPurchase) || Af.nullstr(req.shippingFee) || Af.nullstr(req.remarks)) {
                     MAIN.ErroAlert("请检查红色必填项!");
                     vm.loadingStatus = "none";
@@ -4253,41 +4255,33 @@ $(function () {
                 layer.open({
                     title: "新增原片信息",
                     type: 1,
-                    area: ['960px', '620px'],
+                    area: ['520px', '460px'],
                     content: $("#addProductSubmenu"),
                     btn: ['提交', '取消'],
                     skin: 'btn-Color',
                     yes: function (index, layero) {
                         /*判断用户输入的数据的合法性*/
                         if (Af.nullstr(vm.productNameVal) || Af.nullstr(vm.originalFilmUnitPriceVal) || Af.nullstr(vm.productLength) || Af.nullstr(vm.productWidth)) {
-                            MAIN.ErroAlert("产品名称,单价,长度,宽度为必填项!");
+                            MAIN.ErroAlert("产品名称|单价|规格型号|为必填项!");
                             return;
-                        }
-                        //用正则表达式判断用户输入的数据是否符合规范
-                        var regExpNum = new RegExp(/^\d{1,}$/);
-                        if (!regExpNum.test(vm.originalFilmUnitPriceVal)) {
-                            layer.msg("单价必须为纯数字!");
-                            return;
-                        }
-                        if (!Af.nullstr(vm.originalFilmWholesalePriceVal)) {
-                            if (!regExpNum.test(vm.originalFilmWholesalePriceVal)) {
-                                layer.msg("批发价必须位为纯数字!");
-                                return;
-                            }
                         }
                         var req = {
                             operator: $("#nickNameTextPanel").html(),
                             addProduct: "addProduct",
                             productName: vm.productNameVal,
                             color: vm.productColor,
-                            thickness: vm.originalFilmThicknessVal,
-                            unitPrice: parseInt(vm.originalFilmUnitPriceVal),
-                            wholesalePrice: parseInt(vm.originalFilmWholesalePriceVal),
+                            unitPrice: Number(vm.originalFilmUnitPriceVal),
+                            wholesalePrice: Number(vm.originalFilmWholesalePriceVal),
                             length: vm.productLength,
                             width: vm.productWidth,
                             area: (vm.productLength * vm.productWidth) / 1000000,
                             remarks: vm.originalFilmRemarksVals
                         };
+                        if(isNaN(req.unitPrice)||isNaN(req.wholesalePrice)||isNaN(req.area))
+                        {
+                            MAIN.ErroAlert("单价,折扣价,规格型号不能有英文或中文出现!");
+                            return;
+                        }
                         Af.rest("productNameModelInquiry.api", req, function (ans) {
                             if (ans.errorCode == 0) {
                                 vm.productNameVal = "";
@@ -4383,7 +4377,7 @@ $(function () {
                 layer.open({
                     title: "原片信息编辑",
                     type: 1,
-                    area: ['960px', '620px'],
+                    area: ['520px', '460px'],
                     //shadeClose : true, //点击遮罩关闭
                     content: $("#editProductSubmenu"),
                     btn: ['提交', '取消'],
@@ -4408,33 +4402,25 @@ $(function () {
                             MAIN.ErroAlert("产品名称,单价,长度,宽度为必填项!");
                             return;
                         }
-                        //用正则表达式判断用户输入的数据是否符合规范
-                        var regExpNum = new RegExp(/^\d{1,}$/);
-                        if (!regExpNum.test(vm.editOriginalFilmUnitPriceVal)) {
-                            layer.msg("单价必须为纯数字!");
-                            return;
-                        }
-                        if (!Af.nullstr(vm.editOriginalFilmWholesalePriceVal)) {
-                            if (!regExpNum.test(vm.editOriginalFilmWholesalePriceVal)) {
-                                layer.msg("批发价必须位为纯数字!");
-                                return;
-                            }
-                        }
+
                         var req = {
                             operator: $("#nickNameTextPanel").html(),
                             updateProduct: "updateProduct",
                             productName: vm.editProductNameVal, //--->原片名称
                             profuctId: vm.profuctId,//id
                             color: vm.editProductColor,//--->颜色
-                            thickness: vm.editOriginalFilmThicknessVal, //--->厚度
-                            unitPrice: parseInt(vm.editOriginalFilmUnitPriceVal), //单价
-                            wholesalePrice: parseInt(vm.editOriginalFilmWholesalePriceVal),//批发价
+                            unitPrice: Number(vm.editOriginalFilmUnitPriceVal), //单价
+                            wholesalePrice: Number(vm.editOriginalFilmWholesalePriceVal),//批发价
                             length: vm.editProductLength, //--->长度
                             width: vm.editProductWidth,//--->宽度
                             area: (vm.editProductLength * vm.editProductWidth) / 1000000,//面积
                             remarks: vm.editOriginalFilmRemarksVals//备注
-
                         };
+                        if(isNaN(req.unitPrice)||isNaN(req.wholesalePrice)||isNaN(req.area))
+                        {
+                            MAIN.ErroAlert("单价,折扣价,规格型号不能有英文或中文出现!");
+                            return;
+                        }
                         Af.rest("productNameModelInquiry.api", req, function (ans) {
                             if (ans.errorCode == 0) {
                                 vm.editProductNameVal = "";
@@ -6154,13 +6140,18 @@ $(function () {
             vm.purchaseProductName = data.value;
             //查询 厚度,颜色,单价
             var req = {};
-            req.queryType = ["thickness", "color", "unitPrice"];
+            req.queryType = ["length","width","color", "unitPrice"];
             req.operator = $("#nickNameTextPanel").html();
             req.productName = vm.purchaseProductName;
             Af.rest("productNameModelInquiry.api", req, function (ans) {
                 if (ans.errorCode == 0) {
                     let data = ans.data;
-                    $("#OriginalFilmthickness").val(data[0].thickness);
+                    //$("#OriginalFilmthickness").val(data[0].thickness);
+                    Af.trace(data);
+                    if(data.length>1)
+                    {
+                        Af.openSubmenu("型号选择",["630px","320px"],true,$("#MultipleSpecificationsSubmenu"));
+                    }
                     $("#OriginalFilmcolor").val(data[0].color);
                     $("#OriginalFilmunitPrice").val(data[0].unitPrice);
                 }
@@ -7813,11 +7804,6 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'id',
-                            title: '序列号',
-                            align: "center"
-                        },
-                        {
                             field: 'customerType',
                             title: '客户类型',
                             align: "center"
@@ -7934,11 +7920,6 @@ $(function () {
                         {
                             fixed: "left",
                             type: 'checkbox',
-                            align: "center"
-                        },
-                        {
-                            field: 'id',
-                            title: '序列号',
                             align: "center"
                         },
                         {
@@ -9179,11 +9160,6 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'id',
-                            title: '序列号',
-                            align: "center"
-                        },
-                        {
                             field: 'productName',
                             title: '产品名称',
                             align: "center"
@@ -9208,11 +9184,7 @@ $(function () {
                             title: '面积',
                             align: "center"
                         },
-                        {
-                            field: 'thickness',
-                            title: '厚度',
-                            align: "center"
-                        },
+
                         {
                             field: 'unitPrice',
                             title: '单价',
@@ -9220,7 +9192,7 @@ $(function () {
                         },
                         {
                             field: 'wholesalePrice',
-                            title: '批发价',
+                            title: '折扣价',
                             align: "center"
                         },
                         {
@@ -9298,11 +9270,6 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'id',
-                            title: '序列号',
-                            align: "center"
-                        },
-                        {
                             field: 'productName',
                             title: '产品名称',
                             align: "center"
@@ -9317,16 +9284,7 @@ $(function () {
                             title: '颜色',
                             align: "center"
                         },
-                        {
-                            field: 'texture',
-                            title: '纹理',
-                            align: "center"
-                        },
-                        {
-                            field: 'thickness',
-                            title: '厚度',
-                            align: "center"
-                        },
+
                         {
                             field: 'unitPrice',
                             title: '单价',
@@ -9334,7 +9292,7 @@ $(function () {
                         },
                         {
                             field: 'memberPrice',
-                            title: '会员价',
+                            title: '折扣价',
                             align: "center"
                         },
                         {
@@ -9429,11 +9387,6 @@ $(function () {
                             align: "center"
                         },
                         {
-                            field: 'id',
-                            title: '序列号',
-                            align: "center"
-                        },
-                        {
                             field: 'fittingName',
                             title: '配件名称',
                             align: "center"
@@ -9510,11 +9463,6 @@ $(function () {
                         {
                             fixed: "left",
                             type: 'checkbox',
-                            align: "center"
-                        },
-                        {
-                            field: 'id',
-                            title: '序列号',
                             align: "center"
                         },
                         {

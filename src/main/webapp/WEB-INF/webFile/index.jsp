@@ -3182,183 +3182,129 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     </div>
     <!--基础信息[原片信息]新增悬浮层-->
     <div id="addProductSubmenu">
-        <form class="layui-form layui-form-pane" action="">
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>原片名称:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="productNameVal" class="layui-input" placeholder="5～13位汉字字母数字组合"
-                               maxlength="13">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>颜色:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="productColor" class="layui-input" placeholder="2～5位汉字"
-                               maxlength="5">
-                    </div>
-                </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>原片名称:</span>
             </div>
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>长度:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="productLength" class="layui-input" placeholder="2～5位数字"
-                               maxlength="5">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>宽度:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="productWidth" class="layui-input" placeholder="2~5位数字"
-                               maxlength="20">
-                    </div>
-                </div>
+            <div class="val-panel">
+                <input type="text" v-model="productNameVal" class="layui-input" placeholder="原片名称(厚度|具体型号)"
+                       maxlength="13">
             </div>
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>厚 度:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="originalFilmThicknessVal" class="layui-input" placeholder="mm"
-                               maxlength="17">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>单 价:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="originalFilmUnitPriceVal" class="layui-input" placeholder="元"
-                               maxlength="11">
-                    </div>
-                </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>颜色:</span>
             </div>
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>批 发 价:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="originalFilmWholesalePriceVal" class="layui-input" placeholder="元"
-                               maxlength="9">
-                    </div>
-                </div>
+            <div class="val-panel">
+                <input type="text" v-model="productColor" class="layui-input" placeholder="2～5位汉字"
+                       maxlength="5">
             </div>
-            <div class="remarkRow-panel">
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">备注</label>
-                    <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" v-model="originalFilmRemarksVals"
-                                  class="layui-textarea"></textarea>
-                    </div>
-                </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>规格型号:</span>
             </div>
-            <!--           <div class="foot-panel">
-                           <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
-                           <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-                       </div>-->
-        </form>
+            <div class="val-panel">
+                <input type="text" v-model="productLength" class="length-panel layui-input">
+                <span>x</span>
+                <input type="text" v-model="productWidth" class="width-panel layui-input">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>单价:</span>
+            </div>
+            <div class="val-panel">
+                <input type="text" v-model="originalFilmUnitPriceVal" class="layui-input" placeholder="元"
+                       maxlength="11">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>折扣价:</span>
+            </div>
+            <div class="val-panel">
+                <input type="text" v-model="originalFilmWholesalePriceVal" class="layui-input" placeholder="元"
+                       maxlength="9">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>备注:</span>
+            </div>
+            <div class="val-panel">
+                <input type="text" v-model="originalFilmRemarksVals" placeholder="备注" class="layui-input">
+            </div>
+        </div>
     </div>
-
+    <!--基础信息[原片采购][原片名称]多个规格型号选择-->
+    <div id="MultipleSpecificationsSubmenu" class="layui-form">
+        <div class="row-panel">
+            <input type="radio" name="originalFilmModel">
+            <p>-5mm</p>
+            <p>2400x200</p>
+            <p>18.5元</p>
+        </div>
+        <div class="row-panel">
+            <input type="radio" name="originalFilmModel">
+        </div>
+    </div>
     <!--基础信息[原片信息]编辑悬浮层-->
     <div id="editProductSubmenu">
-        <form class="layui-form layui-form-pane" action="">
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>原片名称:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editProductNameVal" class="layui-input" placeholder="5～13位汉字字母数字组合"
-                               maxlength="13">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>颜色:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editProductColor" class="layui-input" placeholder="2～5位汉字"
-                               maxlength="5">
-                    </div>
-                </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>原片名称:</span>
             </div>
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>长度:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editProductLength" class="layui-input" placeholder="2～5位数字"
-                               maxlength="5">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>宽度:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editProductWidth" class="layui-input" placeholder="2～5位数字"
-                               maxlength="20">
-                    </div>
-                </div>
+            <div class="val-panel">
+                <input type="text" v-model="editProductNameVal" class="layui-input" placeholder="原片名称(厚度|具体型号)"
+                       maxlength="13">
             </div>
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>厚 度:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editOriginalFilmThicknessVal" class="layui-input" placeholder="mm"
-                               maxlength="17">
-                    </div>
-                </div>
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>单 价:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editOriginalFilmUnitPriceVal" class="layui-input" placeholder="元"
-                               maxlength="11">
-                    </div>
-                </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>颜色:</span>
             </div>
-            <div class="row-panel">
-                <div class="item-panel">
-                    <div class="left-panel">
-                        <span>批 发 价:</span>
-                    </div>
-                    <div class="val-panel">
-                        <input type="text" v-model="editOriginalFilmWholesalePriceVal" class="layui-input"
-                               placeholder="元"
-                               maxlength="9">
-                    </div>
-                </div>
+            <div class="val-panel">
+                <input type="text" v-model="editProductColor" class="layui-input" placeholder="2～5位汉字"
+                       maxlength="5">
             </div>
-            <div class="remarkRow-panel">
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">备注</label>
-                    <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" v-model="editOriginalFilmRemarksVals"
-                                  class="layui-textarea"></textarea>
-                    </div>
-                </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>规格型号:</span>
             </div>
-            <!--            <div class="foot-panel">
-                            <i class="layui-icon layui-icon-star-fill" style="font-size: 18px; color: #FF5722;"></i>
-                            <span>贴心提示:为了节约您的宝贵时间,提交前请务必检查每一项数据的准确性!</span>
-                        </div>-->
-        </form>
+            <div class="val-panel">
+                <input type="text" v-model="editProductLength" class="length-panel layui-input">
+                <span>x</span>
+                <input type="text" v-model="editProductWidth" class="width-panel layui-input">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>单价:</span>
+            </div>
+            <div class="val-panel">
+                <input type="text" v-model="editOriginalFilmUnitPriceVal" class="layui-input" placeholder="元"
+                       maxlength="11">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>折扣价:</span>
+            </div>
+            <div class="val-panel">
+                <input type="text" v-model="editOriginalFilmWholesalePriceVal" class="layui-input" placeholder="元"
+                       maxlength="9">
+            </div>
+        </div>
+        <div class="row-panel">
+            <div class="left-panel">
+                <span>备注:</span>
+            </div>
+            <div class="val-panel">
+                <input type="text" v-model="editOriginalFilmRemarksVals" placeholder="备注" class="layui-input">
+            </div>
+        </div>
     </div>
     <!--基础信息[配件信息]新增悬浮层-->
     <div id="addFittingSubmenu">

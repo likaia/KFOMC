@@ -1914,99 +1914,81 @@ a {
 /*基础信息[原片信息]新增悬浮层*/
 #addProductSubmenu{
 	width: 98%;  /*1060*/
-	height: 490px; /*530px*/
 	margin: 15px auto 0;
 	display: none;
 }
-#addProductSubmenu .remarkRow-panel{
-	width: 100%;
-	height: 150px;
-	margin-top: 15px;
-}
+
 #addProductSubmenu .row-panel{
 	width: 100%;
 	height: 40px;
 	margin-top: 15px;
 }
-#addProductSubmenu .row-panel .item-panel{
-	width: 50%;
+#addProductSubmenu .row-panel .left-panel{
+	width: 90px;
+	height: 40px;
+	float: left;
+	margin-left: 20px;
+}
+#addProductSubmenu .row-panel .left-panel span{
+	line-height: 40px;
+	font-size: 18px;
+}
+#addProductSubmenu .row-panel .val-panel{
+	width: 370px;
 	height: 40px;
 	float: left;
 }
-#addProductSubmenu .row-panel .item-panel .left-panel{
-	width: 18%;
-	height: 40px;
+#addProductSubmenu .row-panel .val-panel .length-panel{
+	width: 100px;
 	float: left;
-	text-align: right;
-	margin-right: 2%;
 }
-#addProductSubmenu .row-panel .item-panel .left-panel span{
+#addProductSubmenu .row-panel .val-panel .width-panel{
+	width: 100px;
+	float: left;
+}
+#addProductSubmenu .row-panel .val-panel span{
+	float: left;
 	line-height: 40px;
 }
-#addProductSubmenu .row-panel .item-panel .val-panel{
-	width: 80%;
+/*基础信息[原片信息]编辑悬浮层*/
+
+#editProductSubmenu{
+	width: 98%;  /*1060*/
+	margin: 15px auto 0;
+	display: none;
+}
+
+#editProductSubmenu .row-panel{
+	width: 100%;
+	height: 40px;
+	margin-top: 15px;
+}
+#editProductSubmenu .row-panel .left-panel{
+	width: 90px;
+	height: 40px;
+	float: left;
+	margin-left: 20px;
+}
+#editProductSubmenu .row-panel .left-panel span{
+	line-height: 40px;
+	font-size: 18px;
+}
+#editProductSubmenu .row-panel .val-panel{
+	width: 370px;
 	height: 40px;
 	float: left;
 }
-#addProductSubmenu .foot-panel{
-	width: 100%;
-	height: 60px;
-	text-align: center;
+#editProductSubmenu .row-panel .val-panel .length-panel{
+	width: 100px;
+	float: left;
 }
-#addProductSubmenu .foot-panel span{
-	line-height: 60px;
-	color: #FF5722;
-	font-size: 18px;
-	font-weight: 600;
+#editProductSubmenu .row-panel .val-panel .width-panel{
+	width: 100px;
+	float: left;
 }
-
-/*基础信息[原片信息]编辑悬浮层*/
-#editProductSubmenu{
-    width: 98%;  /*1060*/
-    height: 490px; /*530px*/
-    margin: 15px auto 0;
-    display: none;
-}
-#editProductSubmenu .remarkRow-panel{
-    width: 100%;
-    height: 150px;
-    margin-top: 15px;
-}
-#editProductSubmenu .row-panel{
-    width: 100%;
-    height: 40px;
-    margin-top: 15px;
-}
-#editProductSubmenu .row-panel .item-panel{
-    width: 50%;
-    height: 40px;
-    float: left;
-}
-#editProductSubmenu .row-panel .item-panel .left-panel{
-    width: 18%;
-    height: 40px;
-    float: left;
-    text-align: right;
-    margin-right: 2%;
-}
-#editProductSubmenu .row-panel .item-panel .left-panel span{
-    line-height: 40px;
-}
-#editProductSubmenu .row-panel .item-panel .val-panel{
-    width: 80%;
-    height: 40px;
-    float: left;
-}
-#editProductSubmenu .foot-panel{
-    width: 100%;
-    height: 60px;
-    text-align: center;
-}
-#editProductSubmenu .foot-panel span{
-    line-height: 60px;
-    color: #FF5722;
-    font-size: 18px;
-    font-weight: 600;
+#editProductSubmenu .row-panel .val-panel span{
+	float: left;
+	line-height: 40px;
 }
 /*基础信息[配件信息]新增悬浮层*/
 #addFittingSubmenu{
@@ -2525,4 +2507,19 @@ a {
 	height: 40px;
 	position: absolute;
 	right: 0;
+}
+/*基础信息[原片采购][原片名称]多个规格型号选择*/
+#MultipleSpecificationsSubmenu .row-panel{
+	width: 98%;
+	height: 40px;
+	margin: 0 auto;
+}
+#MultipleSpecificationsSubmenu .row-panel input{
+	float: left;
+	margin-left: 10px;
+}
+#MultipleSpecificationsSubmenu .row-panel p{
+	float: left;
+	line-height: 40px;
+	margin-left: 10px;
 }
