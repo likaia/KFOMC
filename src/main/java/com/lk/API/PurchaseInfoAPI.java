@@ -118,11 +118,11 @@ public class PurchaseInfoAPI extends AfRestfulApi
 			//进货管理新增数据
 			if(jsReq.has("addOrderData"))
 			{
+				String thickness = jsReq.getString("thickness");
 				String orderNumber = jsReq.getString("orderNumber");
 				String purchaseDate = jsReq.getString("purchaseDate");
 				String supplier = jsReq.getString("supplier");
 				String specificationModel = jsReq.getString("specificationModel");
-				String thickness = jsReq.getString("thickness");
 				String color = jsReq.getString("color");
 				String quantity = jsReq.getString("quantity");
 				String unitPrice = jsReq.getString("unitPrice");
@@ -137,7 +137,8 @@ public class PurchaseInfoAPI extends AfRestfulApi
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
 				PurchaseMapper purchaseMapper = sqlSession.getMapper(PurchaseMapper.class);
-				PurchaseInfo row = new PurchaseInfo(orderNumber, purchaseDate, supplier, specificationModel, thickness, color, quantity, unitPrice, totalAmount+"元", shippingFee, unloadingFee, remarks, operator);
+				PurchaseInfo row = new PurchaseInfo(orderNumber, purchaseDate, supplier, specificationModel, color, quantity, unitPrice, totalAmount+"元", shippingFee, unloadingFee, remarks, operator);
+				row.setThickness(thickness);
 				int processResult = purchaseMapper.add(row);
 				sqlSession.commit();
 				if(processResult>0)
@@ -207,7 +208,6 @@ public class PurchaseInfoAPI extends AfRestfulApi
 						//--->库存表内没有当前规格型号,新增此条规格型号
 						String originalTitle =  specificationModel;       //--->原片名称
 						String originalColor = color; //--->原片颜色
-						String originalThickness = thickness; //--->原片厚度
 						int storageNum =Integer.parseInt(quantity); //--->原片数量
 						int numberOfOutbound = 0;//--->出库数量
 						int stockBalance =Integer.parseInt(quantity); //--->库存余量
@@ -216,7 +216,7 @@ public class PurchaseInfoAPI extends AfRestfulApi
 						InventoryInfo addInventoryRow = new InventoryInfo();
 						addInventoryRow.setOriginalTitle(originalTitle);
 						addInventoryRow.setOriginalColor(originalColor);
-						addInventoryRow.setOriginalThickness(originalThickness);
+		
 						addInventoryRow.setStorageNum(storageNum);
 						addInventoryRow.setNumberOfOutbound(numberOfOutbound);
 						addInventoryRow.setStockBalance(stockBalance);

@@ -147,7 +147,7 @@ $(function () {
             /*页面加载完成,*/
         }
     }
-
+    var MultipleSpeciLayer = "";
     var URL = "https://www.kaisir.cn/";
     var MAIN = {};
     var globalVar = 1; //
@@ -235,6 +235,7 @@ $(function () {
             //订单信息管理:日期 用户选择数据
             dStart: "",
             dEnd: "",
+            MultipleRadioVal:"",
             /*订单管理[开单]精确合并需要的数据,获取用户输入的所有规格型号*/
             allSpecificationModel: "",
             preciseMergerVal: "", //--->精确合并后的数据
@@ -269,6 +270,7 @@ $(function () {
             salaryGivingStaffData:"",
             RevenueManagementStart:"",
             RevenueManagementEnd:"",
+            addProductStatus:false,
             //精确/模糊(合并)点击状态
             fuzzyState: false, //--->模糊状态
             preciseState: false, //--->精确状态
@@ -663,12 +665,14 @@ $(function () {
                 req.totalPurchase = $("#OriginalFilmtotalPurchase").val();
                 req.shippingFee = $("#OriginalFilmshippingFee").val();
                 req.unloadingFee = $("#OriginalunloadingFee").val();
+                if(Af.nullstr(req.unloadingFee))
+                {
+                    req.unloadingFee = "0";
+                }
                 req.remarks = $("#OriginalFilmremarks").val();
                 req.operator = $("#nickNameTextPanel").html();
                 req.addOrderData = "addOrderData";
-                Af.trace(req);
-                return;
-                if (Af.nullstr(req.purchaseDate) || Af.nullstr(req.supplier) || Af.nullstr(req.specificationModel) || Af.nullstr(req.thickness) || Af.nullstr(req.color) || Af.nullstr(req.quantity) || Af.nullstr(req.unitPrice) || Af.nullstr(req.totalPurchase) || Af.nullstr(req.shippingFee) || Af.nullstr(req.remarks)) {
+                if (Af.nullstr(req.purchaseDate) || Af.nullstr(req.specificationModel) || Af.nullstr(req.color) || Af.nullstr(req.quantity) || Af.nullstr(req.unitPrice) || Af.nullstr(req.totalPurchase)) {
                     MAIN.ErroAlert("请检查红色必填项!");
                     vm.loadingStatus = "none";
                     if (Af.nullstr(req.purchaseDate)) {
@@ -680,16 +684,6 @@ $(function () {
                             "border-color": "#E5E5E5"
                         });
                     }
-                    if (Af.nullstr(req.supplier)) {
-                        $("#OriginalFilmsupplier").css({
-                            "border-color": "red"
-                        });
-                    } else {
-                        $("#OriginalFilmsupplier").css({
-                            "border-color": "#E5E5E5"
-                        });
-
-                    }
                     if (Af.nullstr(req.specificationModel)) {
                         $("#OriginalFilmspecificationModel").css({
                             "border-color": "red"
@@ -699,15 +693,6 @@ $(function () {
                             "border-color": "#E5E5E5"
                         });
 
-                    }
-                    if (Af.nullstr(req.thickness)) {
-                        $("#OriginalFilmthickness").css({
-                            "border-color": "red"
-                        });
-                    } else {
-                        $("#OriginalFilmthickness").css({
-                            "border-color": "#E5E5E5"
-                        });
                     }
                     if (Af.nullstr(req.color)) {
                         $("#OriginalFilmcolor").css({
@@ -749,26 +734,6 @@ $(function () {
                         });
 
                     }
-                    if (Af.nullstr(req.shippingFee)) {
-                        $("#OriginalFilmshippingFee").css({
-                            "border-color": "red"
-                        });
-                    } else {
-                        $("#OriginalFilmshippingFee").css({
-                            "border-color": "#E5E5E5"
-                        });
-
-                    }
-                    if (Af.nullstr(req.remarks)) {
-                        $("#OriginalFilmremarks").css({
-                            "border-color": "red"
-                        });
-                    } else {
-                        $("#OriginalFilmremarks").css({
-                            "border-color": "#E5E5E5"
-                        });
-
-                    }
                 } else {
                     Af.rest("PurchaseInfo.api", req, function (ans) {
                         if (ans.errorCode == 0) {
@@ -786,6 +751,7 @@ $(function () {
                             $("#OriginalFilmtotalPurchase").val("");
                             $("#OriginalFilmshippingFee").val("");
                             $("#OriginalFilmremarks").val("");
+                            vm.MultipleRadioVal = "";
                             //清空select中除第一个以外的选项
                             $("#fittingSpecificationModel option:gt(0)").remove();
                             vm.loadingStatus = "none";
@@ -834,11 +800,7 @@ $(function () {
                             "border-color": "#E5E5E5"
                         });
                     }
-                    if (!Af.nullstr(req.shippingFee)) {
-                        $("#OriginalFilmshippingFee").css({
-                            "border-color": "#E5E5E5"
-                        });
-                    }
+
                     if (!Af.nullstr(req.remarks)) {
                         $("#OriginalFilmremarks").css({
                             "border-color": "#E5E5E5"
@@ -972,7 +934,7 @@ $(function () {
                 //获取用户自定义输入的配件名称
                 req.fittingName = vm.newAccessories;
                 req.fittingImgUrl = vm.productImageUrl;
-                if (Af.nullstr(req.orderNumber) || Af.nullstr(req.fittingDate) || Af.nullstr(req.supplier) || Af.nullstr(req.purchaseQuantity) || Af.nullstr(req.totalPurchase)) {
+                if (Af.nullstr(req.orderNumber) || Af.nullstr(req.fittingDate) || Af.nullstr(req.purchaseQuantity) || Af.nullstr(req.totalPurchase)) {
                     MAIN.ErroAlert("请检查红色必填项!");
                     vm.loadingStatus = "none";
                     if (Af.nullstr(req.fittingDate)) {
@@ -1505,6 +1467,23 @@ $(function () {
                 }
             }
             ,
+            //基础信息[原片采购][原片名称]多个规格型号选择 提交事件
+            MultipleSpeciSubmitFun:function(){
+                if(!Af.nullstr(vm.MultipleRadioVal))
+                {
+                    let thisSelectVal = JSON.parse(vm.MultipleRadioVal);
+                    $("#OriginalFilmthickness").val(thisSelectVal.length+"x"+thisSelectVal.width);
+                    $("#OriginalFilmcolor").val(thisSelectVal.color);
+                    $("#OriginalFilmunitPrice").val(thisSelectVal.unitPrice);
+                    layer.close(MultipleSpeciLayer);
+                }else{
+                    MAIN.ErroAlert("请勾选一个型号");
+                }
+            },
+            ///基础信息[原片采购][原片名称]多个规格型号选择 取消事件
+            MultipleSpeciCancelFun:function(){
+                layer.closeAll();
+            },
             //出货管理[查看详情] 函数
             shipmentSeeDetails: function () {
                 /*获取当前勾选行的数据*/
@@ -1774,68 +1753,129 @@ $(function () {
             }
             ,
             /*订单信息管理:开单按钮点击交互函数*/
-            billingFun: function () {
+            billingFun: function (callState) {
                 vm.loadingStatus = "block";
-                layer.open({
-                    title: "正在开单",
-                    type: 1,
-                    area: ['1270px', '840px'],
-                    //shadeClose : true, //点击遮罩关闭
-                    content: $("#billingManageSubmenu"),
-                    success: function () {
+                /**
+                 * 解决时间:2018年1月7日 14:04
+                 * @type {Array}
+                 * 解决问题:用户第一次侯点开单,动态生成下拉选择框数据*2
+                 * 问题原因:全局变量 ansSelectData没有进行清空处理
+                 */
+                ansSelectData = [];
+                if(callState)
+                {
+                    layer.open({
+                        title: "正在开单",
+                        type: 1,
+                        area: ['1270px', '840px'],
+                        //shadeClose : true, //点击遮罩关闭
+                        content: $("#billingManageSubmenu"),
+                        success: function () {
+                            /*清空除第一个以外的所有选项*/
+                            $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
+                            $("#customize1 option:gt(0)").remove();
+                            /*请求后台获取 规格型号[产品名称] 集合*/
+                            var req = {};
+                            req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
+                            req.queryType = ["productName", "unitPrice"];
+                            var selectData = []; //品名型号下拉列表数据
+                            Af.rest("productNameModelInquiry.api", req, function (ans) { //查询原片信息表
+                                if (ans.errorCode == 0) {
+                                    var resultArray = ans.data; //--->JSONArray
+                                    for (var i = 0; i < resultArray.length; i++) {
+                                        var resultOBJ = {};
+                                        resultOBJ['id'] = resultArray[i].id;
+                                        resultOBJ['name'] = resultArray[i].productName;
+                                        resultOBJ['unitPrice'] = resultArray[i].unitPrice;
+                                        selectData.push(resultOBJ);
+                                        ansSelectData.push(resultOBJ);
+                                    }
+                                    //渲染品名型号下拉选择
+                                    MAIN.addSelectCustomize(selectData, "customize1");
+                                    if (globalVar != 1) {
+                                        MAIN.addSelectCustomize(selectData, "customize" + globalVar + "");
+                                    }
+                                    //获取订单号并赋值
+                                    $("#billingOrderNumber").val(ans.serverTime);
+                                    MAIN.billingorderNumber = ans.serverTime;
+                                    //获取服务器时间并赋值
+                                    $("#billingDatePanel").val(ans.nowTime);
+                                    vm.loadingStatus = "none";
+                                }
+                            });
+                            var selectId = 0; //用户选择slect下拉框的id(打开弹出层时,设置一个定时器!用于监听用户是否选择下拉框)
+                            timer = setInterval(function () {
+                                selectId = $('option:selected', "select[name='customize1']").index(); //--->获取当前选择项的索引
+                                if (!Af.nullstr(selectId)) {
+                                    if (selectId > 0) {
+                                        //给单价赋值
+                                        $("#submenu .table-panel .content-panel .row_1 .item-panel .unitPrice").val(selectData[selectId - 1].unitPrice);
+                                    }
+                                }
+                            }, 100);
+                        },
+                        end: function () { //弹层销毁出发回调
 
-                    },
-                    end: function () { //弹层销毁出发回调
+                        }
+                    });
+                }else{
+                    /*清空除第一个以外的所有选项*/
+                    $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
+                    $("#customize1 option:gt(0)").remove();
+                    /*请求后台获取 规格型号[产品名称] 集合*/
+                    var req = {};
+                    req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
+                    req.queryType = ["productName", "unitPrice"];
+                    var selectData = []; //品名型号下拉列表数据
+                    Af.rest("productNameModelInquiry.api", req, function (ans) { //查询原片信息表
+                        if (ans.errorCode == 0) {
+                            var resultArray = ans.data; //--->JSONArray
+                            for (var i = 0; i < resultArray.length; i++) {
+                                var resultOBJ = {};
+                                resultOBJ['id'] = resultArray[i].id;
+                                resultOBJ['name'] = resultArray[i].productName;
+                                resultOBJ['unitPrice'] = resultArray[i].unitPrice;
+                                selectData.push(resultOBJ);
+                                ansSelectData.push(resultOBJ);
+                            }
+                            //渲染品名型号下拉选择
+                            MAIN.addSelectCustomize(selectData, "customize1");
+                            if (globalVar != 1) {
+                                MAIN.addSelectCustomize(selectData, "customize" + globalVar + "");
+                            }
+                            //获取订单号并赋值
+                            $("#billingOrderNumber").val(ans.serverTime);
+                            MAIN.billingorderNumber = ans.serverTime;
+                            //获取服务器时间并赋值
+                            $("#billingDatePanel").val(ans.nowTime);
+                            vm.loadingStatus = "none";
+                        }
+                    });
+                    var selectId = 0; //用户选择slect下拉框的id(打开弹出层时,设置一个定时器!用于监听用户是否选择下拉框)
+                    timer = setInterval(function () {
+                        selectId = $('option:selected', "select[name='customize1']").index(); //--->获取当前选择项的索引
+                        if (!Af.nullstr(selectId)) {
+                            if (selectId > 0) {
+                                //给单价赋值
+                                $("#submenu .table-panel .content-panel .row_1 .item-panel .unitPrice").val(selectData[selectId - 1].unitPrice);
+                            }
+                        }
+                    }, 100);
+                }
 
-                    }
-                });
-                /*清空除第一个以外的所有选项*/
-                $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
-                $("#customize1 option:gt(0)").remove();
-                /*请求后台获取 规格型号[产品名称] 集合*/
-                var req = {};
-                req.operator = $("#nickNameTextPanel").html(); //--->获取用户名
-                req.queryType = ["productName", "unitPrice"];
-                var selectData = []; //品名型号下拉列表数据
-                Af.rest("productNameModelInquiry.api", req, function (ans) { //查询原片信息表
-                    if (ans.errorCode == 0) {
-                        var resultArray = ans.data; //--->JSONArray
-                        for (var i = 0; i < resultArray.length; i++) {
-                            var resultOBJ = {};
-                            resultOBJ['id'] = resultArray[i].id;
-                            resultOBJ['name'] = resultArray[i].productName;
-                            resultOBJ['unitPrice'] = resultArray[i].unitPrice;
-                            selectData.push(resultOBJ);
-                            ansSelectData.push(resultOBJ);
-                        }
-                        //渲染品名型号下拉选择
-                        MAIN.addSelectCustomize(selectData, "customize1");
-                        if (globalVar != 1) {
-                            MAIN.addSelectCustomize(selectData, "customize" + globalVar + "");
-                        }
-                        //获取订单号并赋值
-                        $("#billingOrderNumber").val(ans.serverTime);
-                        MAIN.billingorderNumber = ans.serverTime;
-                        //获取服务器时间并赋值
-                        $("#billingDatePanel").val(ans.nowTime);
-                        vm.loadingStatus = "none";
-                    }
-                });
-                var selectId = 0; //用户选择slect下拉框的id(打开弹出层时,设置一个定时器!用于监听用户是否选择下拉框)
-                timer = setInterval(function () {
-                    selectId = $('option:selected', "select[name='customize1']").index(); //--->获取当前选择项的索引
-                    if (!Af.nullstr(selectId)) {
-                        if (selectId > 0) {
-                            //给单价赋值
-                            $("#submenu .table-panel .content-panel .row_1 .item-panel .unitPrice").val(selectData[selectId - 1].unitPrice);
-                        }
-                    }
-                }, 100);
+
             }
             ,
             /*订单信息管理:开单悬浮层[新增] 数据交互*/
             billingaddFun: function () {
                 var status = 1;
+                if(vm.addProductStatus)
+                {
+                    layer.confirm('您已录入大于一条数据,若需要录入新的原片信息,此页面将刷新,已录入数据不会保存?', function (index) {
+                        window.location.reload()
+                    });
+                    return;
+                }
                 vm.addProductFun(status);
             }
             ,
@@ -2163,6 +2203,7 @@ $(function () {
                     //全局变量复位
                     globalVar = 1;
                     globalGlassNum = 0;
+                    printClicks = 0;
                     globalArea = 0;
                     globalPrice = 0;
                     userInputDatas = [];
@@ -4303,24 +4344,11 @@ $(function () {
                                     var selectData = []; //品名型号下拉列表数据
                                     Af.rest("productNameModelInquiry.api", reqs, function (ans) { //查询原片信息表
                                         if (ans.errorCode == 0) {
-                                            var resultArray = ans.data; //--->JSONArray
-                                            for (var i = 0; i < resultArray.length; i++) {
-                                                var resultOBJ = {};
-                                                resultOBJ['id'] = resultArray[i].id;
-                                                resultOBJ['name'] = resultArray[i].productName;
-                                                resultOBJ['unitPrice'] = resultArray[i].unitPrice;
-                                                selectData.push(resultOBJ);
-                                                ansSelectData.push(resultOBJ);
-                                            }
-                                            /*清空除第一个以外的所有选项*/
-                                            $("#customize1 option:gt(0)").remove();
-                                            //渲染品名型号下拉选择
-                                            MAIN.addSelectVal(selectData, "customize1");
-                                            //获取订单号并赋值
-                                            $("#billingOrderNumber").val(ans.serverTime);
-                                            MAIN.billingorderNumber = ans.serverTime;
-                                            //获取服务器时间并赋值
-                                            $("#billingDatePanel").val(ans.nowTime);
+                                            /**
+                                             * 解决时间:2019年1月7日 14:32
+                                             * 解决问题:新增规格型号,渲染下拉列表,用户勾选时找不到单价
+                                             */
+                                            vm.billingFun(false);
                                         }
                                     });
                                 }
@@ -5472,6 +5500,7 @@ $(function () {
                     layer.alert("致命错误!请选择品名型号!然后鼠标单击数量输入框，并按下回车进行下一个品名型号的录入!");
                     return;
                 }
+                vm.addProductStatus = true;
                 //判断用户是否勾选品名型号
                 var selectIds = $("select[name='customize" + globalVar + "']").val();
                 if (Af.nullstr(selectIds)) { //为空代表没有勾选
@@ -5479,7 +5508,14 @@ $(function () {
                     $("select[name='customize" + globalVar + "']").val(lastselectId); //---->赋值当前选择框的数据
                     /*获取单价panel*/
                     var pricePanel = $(parent_panel + " " + containerPanel + row_line + globalVar + foot_panel + " .unitPrice");
-                    let thisSelectVal = Number(lastselectId) - 1;
+                    /**
+                     * 此处修改时间:2019年1月7日 10:09
+                     * @type {number}
+                     * 解决BUG:用户没有选择规格型号的情况下,自动赋值单价为上一项
+                     * 解决方法:去掉之前的-1
+                     * 原代码:let thisSelectVal =  Number(lastselectId)-1;
+                     */
+                    let thisSelectVal = Number(lastselectId);
                     //给单价赋值
                     pricePanel.val(ansSelectData[thisSelectVal].unitPrice);
                 }
@@ -5489,13 +5525,14 @@ $(function () {
                 var first_row = $("#submenu .table-panel .content-panel .row_1 .item-panel .marks").val();
                 if (Af.nullstr(first_row)) {
                     MAIN.ErroAlert("请输入标记!");
-                    //标记行获取标点
+                    //标记行获取焦点
                     $("#submenu .table-panel .content-panel .row_1 .item-panel .marks").focus();
                 } else {
                     globalVar++; //添加行
                     //清空初第一个以外的所有选项
                     $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
                     MAIN.addRow("#submenu .table-panel .content-panel");
+                    console.log("此处加断点");
                     //获取焦点
                     $("#submenu .table-panel .content-panel .row-panel .item-panel .getFocus").focus();
                 }
@@ -6135,6 +6172,9 @@ $(function () {
         form.on('select(stockProductNameSelectPanel)', function (data) {
             vm.originalTitleName = data.value;
         });
+        form.on('radio(MultipleRadio)', function(data){
+            vm.MultipleRadioVal = data.value;
+        });
         /*监听原片采购[原片名称]选择*/
         form.on('select(OriginalFilmspecificationModel)', function (data) {
             vm.purchaseProductName = data.value;
@@ -6146,11 +6186,29 @@ $(function () {
             Af.rest("productNameModelInquiry.api", req, function (ans) {
                 if (ans.errorCode == 0) {
                     let data = ans.data;
-                    //$("#OriginalFilmthickness").val(data[0].thickness);
-                    Af.trace(data);
                     if(data.length>1)
                     {
-                        Af.openSubmenu("型号选择",["630px","320px"],true,$("#MultipleSpecificationsSubmenu"));
+                        let MultiplePanel = $("#MultipleSpecificationsSubmenu .contentContainer");
+                        MultiplePanel.html("");
+                        $.each(data,function (index,item) {
+                            let div_start = "<div class=\"row-panel\">";
+                            let input_panel = "<input type=\"radio\" name=\"originalFilmModel\" value='"+JSON.stringify(item)+"' lay-filter='MultipleRadio'>";
+                            let p_start = "<p>";
+                            let p_style_start = "<p style=\"margin-right: 10px\">";
+                            let p_end = "</p>";
+                            let div_end = "</div>";
+                            MultiplePanel.append(div_start+input_panel+p_start+ vm.purchaseProductName+p_end+p_start+item.length+"x"+item.width+p_end+p_style_start+item.unitPrice+"元"+p_end+div_end);
+                        });
+                        form.render('radio');
+                        MultipleSpeciLayer = layer.open({
+                            title: "型号选择",
+                            type: 1,
+                            area: ["470px","320px"],
+                            shadeClose : true, //点击遮罩关闭
+                            content: $("#MultipleSpecificationsSubmenu")
+                        });
+                    }else{
+                        $("#OriginalFilmthickness").val(data[0].length+"x"+data[0].width);
                     }
                     $("#OriginalFilmcolor").val(data[0].color);
                     $("#OriginalFilmunitPrice").val(data[0].unitPrice);
@@ -6695,7 +6753,7 @@ $(function () {
                         },
                         {
                             field: 'thickness',
-                            title: '厚度',
+                            title: '详细尺寸',
                             align: "center"
                         },
                         {
@@ -6853,7 +6911,7 @@ $(function () {
                         },
                         {
                             field: 'thickness',
-                            title: '厚度',
+                            title: '详细尺寸',
                             align: "center"
                         },
                         {

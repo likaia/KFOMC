@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		operator,
 		mobilePhoneManufacturer,
 		phoneModel,
-		mobilePhoneSerialNumber
+		mobilePhoneSerialNumber,
 		addTime
 		FROM
 		t_employee_Info
@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		basicWage,
 		mobilePhoneManufacturer,
 		phoneModel,
-		mobilePhoneSerialNumber.
+		mobilePhoneSerialNumber,
 		addTime
 		FROM t_employee_Info
 		<where>
@@ -230,6 +230,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="operator != null">
 				AND operator like #{operator}
+			</if>
+			<if test="nameOfWorker != null">
+				AND nameOfWorker like #{nameOfWorker}
 			</if>
 		</where>
 	</update>

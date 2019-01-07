@@ -168,6 +168,10 @@ public class FittingInfoAPI extends AfRestfulApi
 				String orderNumber = jsReq.getString("orderNumber");
 				String fittingDate = jsReq.getString("fittingDate");
 				String supplier = jsReq.getString("supplier");
+				if(supplier.equals(""))
+				{
+					supplier = null;
+				}
 				String specificationModel = jsReq.getString("specificationModel");
 				String specificationModelVal = jsReq.getString("specificationModelVal"); // 用户选择的数据id
 				String purchaseQuantity = jsReq.getString("purchaseQuantity");

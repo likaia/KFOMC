@@ -89,6 +89,7 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				result = new JSONArray(resultList);
 				/* 使用转义字符给数据添加双引号 */
 				androidData = "\"" + result + "\"";
+				
 				// 关闭链接
 				sqlSession.close();
 			}
@@ -122,6 +123,7 @@ public class EmployeeInfoAPI extends AfRestfulApi
 				row.setOperator(operator);
 				List<EmployeeInfo> resultList = employeeInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
+	
 				/* 使用转义字符给数据添加双引号 */
 				androidData = "\"" + result + "\"";
 				// 关闭链接
@@ -227,49 +229,54 @@ public class EmployeeInfoAPI extends AfRestfulApi
 			// 更新客户信息
 			if (jsReq.has("updateSalary"))
 			{
-				int id = jsReq.getInt("id");
-				String nameOfWorker = jsReq.getString("nameOfWorker");
-				String phoneNumber = jsReq.getString("phoneNumber");
-				String jobNumber = jsReq.getString("jobNumber");
-				String department = jsReq.getString("department");
-				String position = jsReq.getString("position");
-				String dateOfBirth = jsReq.getString("dateOfBirth");
-				String dateOfEntry = jsReq.getString("dateOfEntry");
-				String remarks = jsReq.getString("remarks");
-				if(nameOfWorker.equals(""))
+				EmployeeInfo row = new EmployeeInfo();
+				row.setOperator(operator);
+				row.setAddTime(serverTime);
+				if(jsReq.has("id"))
 				{
-					nameOfWorker = null;
+					int id = jsReq.getInt("id");
+					row.setId(id);
 				}
-				if(phoneNumber.equals(""))
+				if(jsReq.has("nameOfWorker"))
 				{
-					phoneNumber = null;
+					String nameOfWorker = jsReq.getString("nameOfWorker");
+					row.setNameOfWorker(nameOfWorker);
 				}
-				if(jobNumber.equals(""))
+				if(jsReq.has("phoneNumber"))
 				{
-					jobNumber = null;
+					String phoneNumber = jsReq.getString("phoneNumber");
+					row.setPhoneNumber(phoneNumber);
 				}
-				if(department.equals(""))
+				if(jsReq.has("jobNumber"))
 				{
-					department = null;
+					String jobNumber = jsReq.getString("jobNumber");
+					row.setJobNumber(jobNumber);
 				}
-				if(position.equals(""))
+				if(jsReq.has("department"))
 				{
-					position = null;
+					String department = jsReq.getString("department");
+					row.setDepartment(department);
 				}
-				if(dateOfBirth.equals(""))
+				if(jsReq.has("position"))
 				{
-					dateOfBirth = null;
+					String position = jsReq.getString("position");
+					row.setPosition(position);
 				}
-				if(dateOfEntry.equals(""))
+				if(jsReq.has("dateOfBirth"))
 				{
-					dateOfEntry = null;
+					String dateOfBirth = jsReq.getString("dateOfBirth");
+					row.setDateOfBirth(dateOfBirth);
 				}
-				if(remarks.equals(""))
+				if(jsReq.has("dateOfEntry"))
 				{
-					remarks = null;
+					String dateOfEntry = jsReq.getString("dateOfEntry");
+					row.setDateOfEntry(dateOfEntry);
 				}
-				EmployeeInfo row = new EmployeeInfo(nameOfWorker, phoneNumber, jobNumber, department, position,
-						dateOfBirth, dateOfEntry, remarks, operator, serverTime);
+				if(jsReq.has("remarks"))
+				{
+					String remarks = jsReq.getString("remarks");
+					row.setRemarks(remarks);
+				}
 				if(jsReq.has("basicWage"))
 				{
 					Double basicWage = jsReq.getDouble("basicWage");
@@ -290,7 +297,7 @@ public class EmployeeInfoAPI extends AfRestfulApi
 					String mobilePhoneSerialNumber = jsReq.getString("mobilePhoneSerialNumber");
 					row.setMobilePhoneSerialNumber(mobilePhoneSerialNumber);
 				}
-				row.setId(id);
+				
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器

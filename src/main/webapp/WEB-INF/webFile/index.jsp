@@ -2655,9 +2655,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 <div class="item-panel">
                     <div class="details-panel">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">厚度:</label>
+                            <label class="layui-form-label">规格型号:</label>
                             <div class="layui-input-block">
-                                <input type="text" placeholder="mm" id="OriginalFilmthickness"
+                                <input type="text" id="OriginalFilmthickness"
                                        class="layui-input">
                             </div>
                         </div>
@@ -3238,15 +3238,19 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
     </div>
     <!--基础信息[原片采购][原片名称]多个规格型号选择-->
-    <div id="MultipleSpecificationsSubmenu" class="layui-form">
-        <div class="row-panel">
-            <input type="radio" name="originalFilmModel">
-            <p>-5mm</p>
-            <p>2400x200</p>
-            <p>18.5元</p>
+    <div id="MultipleSpecificationsSubmenu" class="layui-form" style="display: none">
+        <div class="contentContainer">
+
         </div>
         <div class="row-panel">
-            <input type="radio" name="originalFilmModel">
+            <div class="btn-panel">
+                <button class="layui-btn" @click="MultipleSpeciSubmitFun"
+                        v-bind:style="{background:BtnColor}">提交
+                </button>
+                <button class="layui-btn" @click="MultipleSpeciCancelFun"
+                        v-bind:style="{background:BtnColor}">取消
+                </button>
+            </div>
         </div>
     </div>
     <!--基础信息[原片信息]编辑悬浮层-->

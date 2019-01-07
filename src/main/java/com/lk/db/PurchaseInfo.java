@@ -173,7 +173,7 @@ public class PurchaseInfo
 		this.queryType = queryType;
 	}
 	public PurchaseInfo(String orderNumber, String purchaseDate, String supplier, String specificationModel,
-			String thickness, String color, String quantity, String unitPrice, String totalPurchase, String shippingFee,
+			String color, String quantity, String unitPrice, String totalPurchase, String shippingFee,
 			String unloadingFee, String remarks, String operator)
 	{
 		super();
@@ -181,7 +181,6 @@ public class PurchaseInfo
 		this.purchaseDate = purchaseDate;
 		this.supplier = supplier;
 		this.specificationModel = specificationModel;
-		this.thickness = thickness;
 		this.color = color;
 		this.quantity = quantity;
 		this.unitPrice = unitPrice;
