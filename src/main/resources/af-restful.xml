@@ -52,9 +52,9 @@
 	<!-- 文件下载接口 -->
 	<api name="fileDownload" class="com.lk.API.FileDownloadAPI" />
 	<!-- 请假信息接口 -->
-	<api name="fileDownload" class="com.lk.API.LeaveInfoAPI" />
+	<api name="leaveInfo" class="com.lk.API.LeaveInfoAPI" />
 	<!-- 工作汇报信息接口 -->
-	<api name="fileDownload" class="com.lk.API.WorkReportInfoAPI" />
+	<api name="workReportInfo" class="com.lk.API.WorkReportInfoAPI" />
 	<!--  消息审批接口-->
 	<api name="messageApproval" class="com.lk.API.MessageApprovalInfoAPI" />
 </restful>
