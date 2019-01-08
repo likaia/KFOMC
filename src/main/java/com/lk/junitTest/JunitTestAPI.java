@@ -27,11 +27,13 @@ import com.lk.Utils.WorderToNewWordUtils;
 import com.lk.Utils.ZipUtils;
 import com.lk.db.AttendanceStatusInfo;
 import com.lk.db.ClientInfo;
+import com.lk.db.LeaveInfo;
 import com.lk.db.OrderInfo;
 import com.lk.db.User;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.AttendanceStatusInfoMapper;
 import com.lk.mappers.ClientInfoMapper;
+import com.lk.mappers.LeaveInfoMapper;
 import com.lk.mappers.OrderMapper;
 import com.lk.mappers.UserMapper;
 import com.lk.timedTask.PicTempFileManager;
@@ -595,7 +597,30 @@ public class JunitTestAPI
 			count++;
 		}
 		System.out.println("指定字符串在原字符串中出现："+count+"次");
-		
-		
+	}
+	@Test
+	public void test18()
+	{
+		String leaveType = "";
+		if(leaveType.equals(""))
+		{
+			leaveType = null;
+		}
+		String dStart = "2019-01-08 00:00";
+		String dEnd =  "2019-01-08 23:00";
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		LeaveInfoMapper leaveInfoMapper = sqlSession.getMapper(LeaveInfoMapper.class);
+		LeaveInfo row = new LeaveInfo();
+		row.setOperator("李凯");
+		row.setdStart(dStart);
+		row.setdEnd(dEnd);
+		row.setLeaveType(leaveType);
+		List<LeaveInfo> resultList = leaveInfoMapper.conditionalQuery(row);
+		JSONArray result = new JSONArray(resultList);
+		System.out.println(result);
+		// 关闭链接
+		sqlSession.close();
 	}
 }

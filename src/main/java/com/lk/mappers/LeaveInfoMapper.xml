@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lk.mappers.LeaveInfoMapper">
-  <!--定义结果集:用于存储所有数据 -->
+	<!--定义结果集:用于存储所有数据 -->
 	<resultMap type="LeaveInfo" id="LeaveInfoResult">
 		<id property="id" column="id" />
 		<result property="leaveTheTitle" column="leaveTheTitle" />
@@ -14,8 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="leavePicture" column="leavePicture" />
 		<result property="addTime" column="addTime" />
 		<result property="operator" column="operator" />
-  </resultMap>
-  <!-- 分页查询数据开始: -->
+	</resultMap>
+	<!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="LeaveInfoResult"
 		parameterType="LeaveInfo">
 		SELECT
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			separator="," close="">
 			${queryTypeItem}
 		</foreach>
-		FROM t_leaveInfo  
+		FROM t_leaveInfo
 		<where>
 			<if test="operator != null">
 				operator = #{operator}

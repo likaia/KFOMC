@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="approvalStatus" column="approvalStatus" />
 		<result property="addTime" column="addTime" />
 		<result property="operator" column="operator" />
+		<result property="remarks" column="remarks" />
   </resultMap>
    <!-- 分页查询数据开始: -->
 	<select id="findexpenditurePage" resultMap="MessageApprovalInfoResult"
@@ -113,6 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" operator != null">
 				operator,
 			</if>
+			<if test=" remarks != null">
+				remarks,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="applicant != null">
@@ -132,6 +136,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="operator != null">
 				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>

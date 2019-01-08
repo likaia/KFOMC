@@ -98,7 +98,10 @@ public class LeaveInfoAPI extends AfRestfulApi
 				String leaveType = jsReq.getString("leaveType");
 				String dStart = jsReq.getString("dStart");
 				String dEnd = jsReq.getString("dEnd");
-
+				if(leaveType.equals(""))
+				{
+					leaveType = null;
+				}
 				if (dStart.equals(""))
 				{
 					dStart = null;

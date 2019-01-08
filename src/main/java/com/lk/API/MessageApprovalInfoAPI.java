@@ -138,6 +138,7 @@ public class MessageApprovalInfoAPI extends AfRestfulApi
 				String approvalContent = jsReq.getString("approvalContent");
 				String approvalStatus = jsReq.getString("approvalStatus");
 				String addTime = jsReq.getString("addTime");
+				String remarks = jsReq.getString("remarks");
 				if (applicant.equals(""))
 				{
 					applicant = null;
@@ -168,6 +169,7 @@ public class MessageApprovalInfoAPI extends AfRestfulApi
 				row.setApplicant(applicant);
 				row.setApprovalType(approvalType);
 				row.setApprovalContent(approvalContent);
+				row.setRemarks(remarks);
 				row.setApprovalStatus(approvalStatus);
 				row.setAddTime(addTime);
 				int processResult = messageApprovalInfoMapper.add(row);
