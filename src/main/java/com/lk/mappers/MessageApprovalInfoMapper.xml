@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		approvalContent,
 		approvalStatus,
 		addTime,
+		remarks,
 		operator
 		FROM t_messageApprovalInfo
 		<where>
@@ -66,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		approvalContent,
 		approvalStatus,
 		addTime,
+		remarks,
 		operator
 		FROM t_messageApprovalInfo
 		<where>

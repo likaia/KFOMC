@@ -1995,10 +1995,22 @@ $(function () {
                 req.operator = $("#nickNameTextPanel").html();
                 req.clientName = $("#billingClientName").val(); //-->客户名称
                 req.projectName = $("#billingprojectName").val(); //-->工程名称
+                if(Af.nullstr($("#billingprojectName").val()))
+                {
+                    req.projectName = "";
+                }
                 req.orderNumber = MAIN.billingorderNumber //-->订单号
                 req.time = $("#billingDatePanel").val(); //-->日期
                 req.deliveryAddress = $("#billingdeliveryAddress").val(); //--->送货地址
+                if(Af.nullstr($("#billingdeliveryAddress").val()))
+                {
+                    req.deliveryAddress = "";
+                }
                 req.contactNumber = $("#billingcontactNumber").val(); //--->联系电话
+                if(Af.nullstr($("#billingcontactNumber").val()))
+                {
+                    req.contactNumber = "";
+                }
                 req.ShippingMethod = $("#billingShippingMethod").find("option:selected").text(); //--->发货方式
                 req.billingPreparedBy = $("#billingPreparedBy").find("option:selected").text(); //---->制单人
                 req.glassNumber = $("#billingGlassNum").val(); //--->玻璃数量
@@ -2012,7 +2024,7 @@ $(function () {
                 req.data = userInputArray;
                 req.unfinishedArr = unfinishedArr; //--->未发货数据
                 req.addOrderData = "addOrderData";
-                if (Af.nullstr(req.clientName) || Af.nullstr(req.projectName) || Af.nullstr(req.time) || Af.nullstr(req.deliveryAddress) || Af.nullstr(req.contactNumber)) {
+                if (Af.nullstr(req.clientName) ||Af.nullstr(req.time)) {
                     MAIN.ErroAlert("清检查红色必填项!");
                     if (Af.nullstr(req.clientName)) {
                         $("#billingClientName").css({

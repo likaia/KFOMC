@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -622,5 +624,32 @@ public class JunitTestAPI
 		System.out.println(result);
 		// 关闭链接
 		sqlSession.close();
+	}
+	@Test
+	public void test19()
+	{
+		Pattern p=Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})");  
+		Matcher m=p.matcher("dsajkasd1984-10-20ddsadasdas 1909-01-20");  
+		if(m.find())
+		{  
+		    System.out.println("日期:"+m.group());  
+		    System.out.println("年:"+m.group(1));  
+		    System.out.println("月:"+m.group(2));  
+		    System.out.println("日:"+m.group(3));  
+		}
+	}
+	@Test
+	public void test20()
+	{
+			String aa = "[[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1001\",\"id\":1,\"glassArea\":\"0.51\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"1511\",\"glassWidth\":\"982\",\"id\":20,\"glassArea\":\"1.48\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"802\",\"glassWidth\":\"994\",\"id\":24,\"glassArea\":\"0.80\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":2,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"653\",\"glassWidth\":\"872\",\"id\":3,\"glassArea\":\"0.57\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":15,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"503\",\"glassWidth\":\"865\",\"id\":21,\"glassArea\":\"0.44\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1061\",\"id\":4,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"782\",\"glassWidth\":\"1061\",\"id\":5,\"glassArea\":\"0.83\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1056\",\"id\":16,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"692\",\"glassWidth\":\"1056\",\"id\":17,\"glassArea\":\"0.73\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"632\",\"glassWidth\":\"1058\",\"id\":22,\"glassArea\":\"0.67\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"802\",\"glassWidth\":\"1058\",\"id\":25,\"glassArea\":\"0.85\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"485\",\"glassWidth\":\"872\",\"id\":6,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"853\",\"id\":23,\"glassArea\":\"0.41\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1001\",\"id\":7,\"glassArea\":\"0.51\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"960\",\"glassWidth\":\"1001\",\"id\":8,\"glassArea\":\"0.96\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"811\",\"glassWidth\":\"1001\",\"id\":18,\"glassArea\":\"0.81\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"1100\",\"totalAmount\":\"1100.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1061\",\"id\":9,\"glassArea\":\"0.55\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"1100\",\"totalAmount\":\"1100.00\",\"glassMark\":\"#1\",\"glassLength\":\"960\",\"glassWidth\":\"1061\",\"id\":10,\"glassArea\":\"1.02\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"811\",\"glassWidth\":\"1056\",\"id\":19,\"glassArea\":\"0.86\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"614\",\"glassWidth\":\"1061\",\"id\":11,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":12,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1061\",\"id\":13,\"glassArea\":\"0.55\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1061\",\"id\":14,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"}]]" ;
+			JSONArray bb = new JSONArray(aa);
+			for(int  i = 0;i <bb.length();i++)
+			{
+				JSONArray cc = bb.getJSONArray(i);
+				for(int j = 0; j <cc.length();j++)
+				{
+					
+				}
+			}
 	}
 }
