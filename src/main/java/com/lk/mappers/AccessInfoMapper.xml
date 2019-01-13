@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.mappers.AccessInfoMapper">
+  <!--定义结果集:用于存储所有数据 -->
+	<resultMap type="AccessInfo" id="AccessInfoResult">
+		<id property="id" column="id" />
+		<result property="accessDevice" column="accessDevice" />
+		<result property="osName" column="osName" />
+		<result property="browserType" column="browserType" />
+		<result property="browserName" column="browserName" />
+		<result property="userAgent" column="userAgent" />
+		<result property="addTime" column="addTime" />
+  </resultMap>
+  <!-- 分页查询数据开始: -->
+	<select id="findexpenditurePage" resultMap="AccessInfoResult"
+		parameterType="AccessInfo">
+		SELECT
+		id,
+		accessDevice,
+		osName,
+		browserType,
+		browserName,
+		userAgent,
+		addTime
+		FROM t_Access_Info
+	</select>
+	<!-- 自定义查询表内数据 -->
+	<select id="customQuery" resultMap="AccessInfoResult"
+		parameterType="AccessInfo">
+		SELECT id,
+		<foreach item="queryTypeItem" collection="queryType" open=""
+			separator="," close="">
+			${queryTypeItem}
+		</foreach>
+		FROM t_Access_Info
+		<where>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
+		</where>
+	</select>
+	<!-- 根据特定条件查询表内数据 -->
+	<select id="conditionalQuery" resultMap="AccessInfoResult"
+		parameterType="AccessInfo">
+		SELECT
+		id,
+		accessDevice,
+		osName,
+		browserType,
+		browserName,
+		userAgent,
+		addTime
+		FROM t_Access_Info
+		<where>
+			<if test="dStart != null and dStart != ''">
+				AND addTime <![CDATA[>=]]>
+				#{dStart}
+			</if>
+			<if test="dEnd != null and dEnd != ''">
+				AND addTime <![CDATA[<=]]>#{dEnd}
+			</if>
+		</where>
+	</select>
+	<!-- 批量删除 -->
+	<delete id="del" parameterType="AccessInfo">
+		delete from t_Access_Info where (id) in
+		<foreach item="idsItem" collection="ids" open="(" separator=","
+			close=")">
+			#{idsItem}
+		</foreach>
+	</delete>
+	<!-- 新增数据开始 -->
+	<insert id="add" parameterType="AccessInfo">
+		insert into t_Access_Info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="accessDevice != null">
+				accessDevice,
+			</if>
+			<if test="osName != null">
+				osName,
+			</if>
+			<if test="browserType != null">
+				browserType,
+			</if>
+			<if test="browserName != null">
+				browserName,
+			</if>
+			<if test="userAgent != null">
+				userAgent,
+			</if>
+			<if test="addTime != null">
+				addTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="accessDevice != null">
+				#{accessDevice,jdbcType=VARCHAR},
+			</if>
+			<if test="osName != null">
+				#{osName,jdbcType=VARCHAR},
+			</if>
+			<if test="browserType != null">
+				#{browserType,jdbcType=VARCHAR},
+			</if>
+			<if test="browserName != null">
+				#{browserName,jdbcType=VARCHAR},
+			</if>
+			<if test="userAgent != null">
+				#{userAgent,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改客户信息 -->
+	<update id="update" parameterType="ClientInfo">
+		update t_AccessInfo
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="accessDevice != null">
+				accessDevice = #{accessDevice},
+			</if>
+			<if test="osName != null">
+				osName = #{osName},
+			</if>
+			<if test="browserType != null">
+				browserType = #{browserType},
+			</if>
+			<if test="browserName != null">
+				browserName = #{browserName},
+			</if>
+			<if test="userAgent != null">
+				userAgent = #{userAgent},
+			</if>
+			<if test=" addTime != null">
+				addTime =#{addTime},
+			</if>
+		</trim>
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+		</where>
+	</update>
+</mapper>

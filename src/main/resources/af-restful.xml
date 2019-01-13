@@ -57,4 +57,6 @@
 	<api name="workReportInfo" class="com.lk.API.WorkReportInfoAPI" />
 	<!--  消息审批接口-->
 	<api name="messageApproval" class="com.lk.API.MessageApprovalInfoAPI" />
+	<!--用户访问信息接口-->
+	<api name="accessInfo" class="com.lk.API.AccessInfoAPI" />
 </restful>

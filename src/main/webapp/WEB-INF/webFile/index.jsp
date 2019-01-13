@@ -3188,7 +3188,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
             <div class="val-panel">
                 <input type="text" v-model="productNameVal" class="layui-input" placeholder="原片名称(厚度|具体型号)"
-                       maxlength="13">
+                       maxlength="33">
             </div>
         </div>
         <div class="row-panel">
@@ -3261,7 +3261,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             </div>
             <div class="val-panel">
                 <input type="text" v-model="editProductNameVal" class="layui-input" placeholder="原片名称(厚度|具体型号)"
-                       maxlength="13">
+                       maxlength="33"> 
             </div>
         </div>
         <div class="row-panel">

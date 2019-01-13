@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/MessageApprovalInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/MessageApprovalInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/LkTableupdate-min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/af-restful.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/af-restful.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp.oldPage" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,10 +23,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="162" column="19" selection-start-line="162" selection-start-column="8" selection-end-line="162" selection-end-column="19" />
+            <state relative-caret-position="225">
+              <caret line="48" column="37" lean-forward="true" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -45,7 +44,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>MultipleSpeciLayer</find>
       <find>PurchaseRegistrationSubmenu</find>
       <find>型号选择</find>
       <find>原片名称选择</find>
@@ -75,6 +73,7 @@
       <find>正在开单</find>
       <find>打印</find>
       <find>globalPrice</find>
+      <find>原片名称</find>
     </findStrings>
     <replaceStrings>
       <replace>配件信息</replace>
@@ -88,7 +87,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/Login.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/Preview.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/tagPrint.css" />
@@ -97,22 +95,23 @@
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/GenerateOrderDetailsLink.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/test.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/imageCompression.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/LkCommon.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/index.css" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/index.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="179" />
-    <option name="y" value="439" />
-    <option name="width" value="1439" />
-    <option name="height" value="814" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="256" />
+    <option name="y" value="206" />
+    <option name="width" value="1419" />
+    <option name="height" value="806" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -153,6 +152,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="fonts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -170,7 +177,33 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="MobilePage" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="MobilePage" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KFOMC" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KFOMC" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webFile" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -182,12 +215,12 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/WebstormProjects/项目练习" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
+    <property name="settings.editor.selected.configurable" value="preferences.general" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -197,9 +230,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/webapp/css" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/js" />
       <recent name="$PROJECT_DIR$/src/main/webapp/js/mob" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/img" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/js/clipboard" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -377,12 +410,15 @@
       <workItem from="1546846813595" duration="3458000" />
       <workItem from="1546861077812" duration="23000" />
       <workItem from="1547000627400" duration="1781000" />
-      <workItem from="1547017149526" duration="1499000" />
+      <workItem from="1547017149526" duration="2832000" />
+      <workItem from="1547089288405" duration="1238000" />
+      <workItem from="1547101768581" duration="341000" />
+      <workItem from="1547344350724" duration="874000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1306100000" />
+    <option name="totallyTimeSpent" value="1309886000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -394,9 +430,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="28" width="1920" height="1052" extended-state="6" />
+    <frame x="276" y="198" width="1419" height="806" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15242615" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20716846" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -540,13 +576,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -571,13 +600,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -599,10 +621,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8550">
+          <caret line="342" column="4" selection-start-line="342" selection-start-column="4" selection-end-line="354" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="821">
+          <caret line="2518" column="17" selection-start-line="2518" selection-start-column="17" selection-end-line="2518" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+          <folding>
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/underscore-min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkTableupdate-min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-275">
+          <caret column="1065" lean-forward="true" selection-start-column="1065" selection-end-column="1065" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="174" column="27" selection-start-line="174" selection-start-column="27" selection-end-line="174" selection-end-column="27" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50725">
-          <caret line="2041" column="47" selection-start-line="2041" selection-start-column="32" selection-end-line="2041" selection-end-column="47" />
+        <state relative-caret-position="296">
+          <caret line="3263" column="39" selection-start-line="3263" selection-start-column="39" selection-end-line="3263" selection-end-column="39" />
           <folding>
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -638,56 +717,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkCommon.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8550">
-          <caret line="342" column="4" selection-start-line="342" selection-start-column="4" selection-end-line="354" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="821">
-          <caret line="2518" column="17" selection-start-line="2518" selection-start-column="17" selection-end-line="2518" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/orderDetails.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+        <state relative-caret-position="300">
+          <caret line="24" column="7" lean-forward="true" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/js/orderDetails.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/MobilePage/css/orderDetails.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
-          <folding>
-            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="575">
+          <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/underscore-min.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp.oldPage">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        <state relative-caret-position="250">
+          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/LkTableupdate-min.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-275">
-          <caret column="1065" lean-forward="true" selection-start-column="1065" selection-end-column="1065" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="162" column="19" selection-start-line="162" selection-start-column="8" selection-end-line="162" selection-end-column="19" />
+        <state relative-caret-position="225">
+          <caret line="48" column="37" lean-forward="true" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
         </state>
       </provider>
     </entry>

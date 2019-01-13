@@ -39,6 +39,7 @@
     text-align: center;
 }
 #footPanel span{
+    font-size: 20px;
     color: red;
 }
 #footPanel .textPanel{
