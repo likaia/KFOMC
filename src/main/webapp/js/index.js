@@ -5535,7 +5535,7 @@ $(function () {
                 clearInterval(timer);
                 //判断第一行用户是否有输入标记
                 var first_row = $("#submenu .table-panel .content-panel .row_1 .item-panel .marks").val();
-                if (Af.nullstr(first_row)) {
+                /*if (Af.nullstr(first_row)) {
                     MAIN.ErroAlert("请输入标记!");
                     //标记行获取焦点
                     $("#submenu .table-panel .content-panel .row_1 .item-panel .marks").focus();
@@ -5547,7 +5547,18 @@ $(function () {
                     console.log("此处加断点");
                     //获取焦点
                     $("#submenu .table-panel .content-panel .row-panel .item-panel .getFocus").focus();
-                }
+                }*/
+                /**
+                 * 方案修改:取消标记框验证
+                 * 时间:2019 1.20 12:13
+                 */
+                globalVar++; //添加行
+                //清空初第一个以外的所有选项
+                $("select[name='customize" + globalVar + "'] option:gt(0)").remove();
+                MAIN.addRow("#submenu .table-panel .content-panel");
+                console.log("此处加断点");
+                //获取焦点
+                $("#submenu .table-panel .content-panel .row-panel .item-panel .getFocus").focus();
             }
         });
         /*第一行标记框按下回车键响应*/

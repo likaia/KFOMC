@@ -265,8 +265,7 @@ public class AttendanceStatusAPI extends AfRestfulApi
 			// 更新考勤状态信息
 			if (jsReq.has("updateAttendance"))
 			{
-				
-				String nameOfWorker = jsReq.getString("nameOfWorker");
+				String nameOfWorker = jsReq.getString("nameOfWorker"); //updateAttendance nameOfWorker id  operator
 				// 打开连接
 				SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 				// 配置映射器
@@ -280,7 +279,6 @@ public class AttendanceStatusAPI extends AfRestfulApi
 					int id = jsReq.getInt("id");
 					row.setId(id);
 				}
-
 				if (jsReq.has("jobNumber"))
 				{
 					String jobNumber = jsReq.getString("jobNumber");
@@ -291,10 +289,20 @@ public class AttendanceStatusAPI extends AfRestfulApi
 					String department = jsReq.getString("department");
 					row.setDepartment(department);
 				}
-				if (jsReq.has("workingHours"))
+				if (jsReq.has("workingHours")) 
 				{
 					String workingHours = jsReq.getString("workingHours");
 					row.setWorkingHours(workingHours);
+				}
+				if(jsReq.has("morningWorkTime"))
+				{
+					String morningWorkTime = jsReq.getString("morningWorkTime");
+					row.setMorningWorkTime(morningWorkTime);
+				}
+				if(jsReq.has("afternoonWorkTime"))
+				{
+					String afternoonWorkTime = jsReq.getString("afternoonWorkTime");
+					row.setAfternoonWorkTime(afternoonWorkTime);
 				}
 				if (jsReq.has("afterGetOffWorkTime"))
 				{

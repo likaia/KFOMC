@@ -696,6 +696,35 @@ public class LkCommon
 		return repickStr;
 	}
 	/**
+	 * 
+	 * @Title:             getStrTime
+	 * @Description:     提取字符串中的时间
+	 * @param:             @param rawData
+	 * @param:             @return   
+	 * @return:         JSONObject   
+	 * @throws
+	 */
+	public JSONObject getStrTime(String rawData)
+	{
+		JSONObject result = new JSONObject();
+		Pattern p=Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})");  
+		Matcher m=p.matcher(rawData);  
+		if(m.find())
+		{  
+			//获取第一个时间
+			String firstTime = m.group();
+			result.put("firstTime", firstTime);
+			//去除中文
+		    String rcData = removeChinese(rawData);
+		    //删除第一个时间
+		    String secondTime =rcData.replaceAll(firstTime, "");
+		    //去除空格 得到第二个时间
+		    secondTime = secondTime.replace(" ", "");
+		    result.put("secondTime",secondTime);
+		}
+		return result;
+	}
+	/**
 	 * 根据小时判断是否为上午、中午、下午
 	 * @param hour
 	 * @return

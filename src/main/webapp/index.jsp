@@ -18,7 +18,6 @@
 <script type="text/javascript" src="jquery/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/LkCommon.js"></script>
 </head>
-
 <body>
 	<button id="exportBtn">导出</button>
 	<button id="testBtn">测试</button>

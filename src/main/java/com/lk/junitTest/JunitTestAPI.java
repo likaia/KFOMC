@@ -14,8 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -30,12 +29,14 @@ import com.lk.Utils.ZipUtils;
 import com.lk.db.AttendanceStatusInfo;
 import com.lk.db.ClientInfo;
 import com.lk.db.LeaveInfo;
+import com.lk.db.MessageApprovalInfo;
 import com.lk.db.OrderInfo;
 import com.lk.db.User;
 import com.lk.dbutil.SqlSessionFactoryUtil;
 import com.lk.mappers.AttendanceStatusInfoMapper;
 import com.lk.mappers.ClientInfoMapper;
 import com.lk.mappers.LeaveInfoMapper;
+import com.lk.mappers.MessageApprovalInfoMapper;
 import com.lk.mappers.OrderMapper;
 import com.lk.mappers.UserMapper;
 import com.lk.timedTask.PicTempFileManager;
@@ -628,15 +629,9 @@ public class JunitTestAPI
 	@Test
 	public void test19()
 	{
-		Pattern p=Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})");  
-		Matcher m=p.matcher("dsajkasd1984-10-20ddsadasdas 1909-01-20");  
-		if(m.find())
-		{  
-		    System.out.println("日期:"+m.group());  
-		    System.out.println("年:"+m.group(1));  
-		    System.out.println("月:"+m.group(2));  
-		    System.out.println("日:"+m.group(3));  
-		}
+		String aa = "哈哈哈哈哈哈哈 2018-05-122018-05-13";
+		JSONObject bb =lkcommon.getStrTime(aa);
+		System.out.println(bb);
 	}
 	@Test
 	public void test20()
@@ -651,5 +646,56 @@ public class JunitTestAPI
 					
 				}
 			}
+	}
+	@Test
+	public void test21()
+	{
+		String nameOfWorker = "ssu112u";
+		String operator = "9";
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
+				.getMapper(AttendanceStatusInfoMapper.class);
+		AttendanceStatusInfo row = new AttendanceStatusInfo();
+		row.setNameOfWorker(nameOfWorker);
+		row.setOperator(operator);
+		int id = 51;
+		row.setId(id);
+		row.setJobNumber("hahah");
+		row.setMorningWorkTime("11:30");
+		int processResult = attendanceStatusInfoMapper.update(row);
+		sqlSession.commit();
+		if (processResult > 0)
+		{
+			System.out.println("更新成功");
+		}
+		else
+		{
+			System.out.println("shibai");
+		}
+	}
+	@Test
+	public void test22()
+	{
+		// 打开连接
+		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
+		// 配置映射器
+		MessageApprovalInfoMapper messageApprovalInfoMapper = sqlSession
+				.getMapper(MessageApprovalInfoMapper.class);
+		MessageApprovalInfo row = new MessageApprovalInfo();
+		row.setOperator("9");
+		row.setId(2);
+		row.setApprovalStatus("0");
+		int processResult = messageApprovalInfoMapper.update(row);
+		sqlSession.commit();
+		if (processResult > 0)
+		{
+			System.out.println("更新成功");
+		} else
+		{
+			
+		}
+		sqlSession.close();
 	}
 }

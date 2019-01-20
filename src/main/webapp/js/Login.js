@@ -16,6 +16,15 @@ $(function() {
 		var userName = $("#userNameInput").val();
 		 MAIN.AvatarReadingFun(userName);
 	});
+	<!--判断当前打开设备-->
+	if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+		//$(location).attr('href', 'https://www.kaisir.cn/Mobile');
+		/*隐藏滑块验证*/
+		$("#sliderPanelParent").css({"display":"none"});
+		MAIN.loginVerification = true;
+	} else {
+
+	}
 	/*登录按钮事件*/
 	$("#loginBtn").click(function(){
 		var userName = $("#userNameInput").val();
@@ -26,9 +35,22 @@ $(function() {
 		 }, 700);
 		 MAIN.loginFun(userName,passWord,MAIN.loginVerification);
 	});
+	//微信登录
+	$("#wechatPanel").click(function () {
+		ErroAlert("暂未开放,请使用账号密码登录!");
+	});
+	//QQ登录
+	$("#qqPanel").click(function () {
+		ErroAlert("暂未开放,请使用账号密码登录!");
+	});
+	//手机号验证码登录
+	$("#cellPhonePanel").click(function () {
+		ErroAlert("暂未开放,请使用账号密码登录!");
+	});
 	/*注册链接点击事件*/
 	$("#SignLink").click(function(){
-		MAIN.SignFun();
+		//MAIN.SignFun();
+		ErroAlert("内测期间,不提供注册!");
 	});
 	/*注册按钮点击事件*/
 	$("#SignBtn").click(function(){
@@ -44,19 +66,10 @@ $(function() {
 		//判断用户名或者密码是否为空
 			if (userName == "" ||passWord == "" || !loginVerification) {
 				 NProgress.done();
-				if (!userName) {
-					$('#userNameInputPanel').css({"border-color":"red"});
-					$('#userNameInput').attr('placeholder',"用户名不能为空");
-				} else {
-					$('#userNameInputPanel').css({"border-color":"white"});
-					$('#userNameInput').attr('placeholder',"");
-				}
-				if (!passWord) {
-					$('#passWordInput').css({"border-color":"red"});
-					$('#passwordInp').attr('placeholder',"密码不能为空");
-				} else {
-					$('#passWordInput').css({"border-color":"white"});
-					$('#passwordInp').attr('placeholder',"");
+				if(Af.nullstr(userName)||Af.nullstr(passWord))
+				{
+					ErroAlert("用户名和密码为必填项!");
+					return false;
 				}
 				if (!loginVerification) {
 					ErroAlert("请完成滑块验证!");
@@ -64,8 +77,6 @@ $(function() {
 			} else {
 				 NProgress.start();//---->显示进度条
 				//密码框 用户名框颜色变白
-				$('#userNameInputPanel').css({"border-color":"white"});
-				$('#passWordInput').css({"border-color":"white"});
 				/*向后台发送请求*/
 				var req = {};
 				req.userName = userName;
@@ -227,8 +238,8 @@ $(function() {
 	});
 	//滑动验证
 	$("#sliderPanel").slider({
-		width : 371, // width
-		height : 50, // height
+		width : 390, // width
+		height : 48, // height
 		color : "#fff", // 文字颜色
 		fontSize : 17, // 文字大小
 		// 背景颜色

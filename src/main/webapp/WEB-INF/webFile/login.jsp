@@ -35,26 +35,33 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script src="js/main.js"></script>
 </head>
 <body>
 <%-- 登录--%>
 <div class="limiter" id="login-panel">
-    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+    <div class="container-login100" style="background-image: url('img/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
             <form class="login100-form validate-form">
-					<span class="login100-form-title p-b-49">
-
+					<span>
+                        <!--头像-->
+                        <div class="avatar-panel">
+                            <img src="img/login.png" alt="" id="avatarImg">
+                        </div>
 					</span>
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
-                    <input class="input100" type="text" name="username" placeholder="请输入用户名" autocomplete="off">
+                    <input class="input100" id="userNameInput" maxlength="10" type="text" placeholder="请输入用户名" autocomplete="off">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
-
-                <div class="wrap-input100 validate-input" data-validate="请输入密码">
+                <div id="sliderPanelParent" class="wrap-input100 m-b-23">
+                    <span class="label-input100">滑块验证</span>
+                    <div class="slider-panel">
+                        <div id="sliderPanel" style="margin-top: 7px" class="slider-panel"></div>
+                    </div>
+                </div>
+                <div class="wrap-input100 validate-input"  data-validate="请输入密码">
                     <span class="label-input100">密码</span>
-                    <input class="input100" type="password" name="pass" placeholder="请输入密码">
+                    <input class="input100" type="password" id="passwordInp" maxlength="14" placeholder="请输入密码" autocomplete="off">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
 
@@ -62,10 +69,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <a href="javascript:">忘记密码？</a>
                 </div>
 
-                <div class="container-login100-form-btn">
+                <div>
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn">登 录</button>
+                        <button id="loginBtn" class="login100-form-btn">登 录</button>
                     </div>
                 </div>
 
@@ -74,21 +81,21 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 </div>
 
                 <div class="flex-c-m">
-                    <a href="#" class="login100-social-item bg1">
+                    <a href="javascript:;" class="login100-social-item bg1" id="wechatPanel">
                         <i class="fa fa-wechat"></i>
                     </a>
 
-                    <a href="#" class="login100-social-item bg2">
+                    <a href="javascript:;" class="login100-social-item bg2" id="qqPanel">
                         <i class="fa fa-qq"></i>
                     </a>
 
-                    <a href="#" class="login100-social-item bg3">
-                        <i class="fa fa-weibo"></i>
+                    <a href="javascript:;" class="login100-social-item bg3" id="cellPhonePanel">
+                        <i class="layui-icon layui-icon-cellphone" style="font-size: 30px; color: #ffffff;"></i>
                     </a>
                 </div>
 
                 <div class="flex-col-c p-t-25">
-                    <a href="javascript:" class="txt2">立即注册</a>
+                    <a href="javascript:" class="txt2" id="SignLink">立即注册</a>
                 </div>
             </form>
         </div>
@@ -150,5 +157,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         </div>
     </section>
 </div>
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -258,9 +258,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="operator != null">
 				AND operator like #{operator}
 			</if>
-			<if test="nameOfWorker != null">
-				AND nameOfWorker like #{nameOfWorker}
-			</if>
 		</where>
 	</update>
 </mapper>
