@@ -80,6 +80,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="leaveType != null">
 				AND leaveType like #{leaveType}
 			</if>
+			<if test="id != null">
+				AND id like #{id}
+			</if>
 			<if test="dStart != null and dStart != ''">
 				AND addTime <![CDATA[>=]]>
 				#{dStart}

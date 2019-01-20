@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/API/AttendanceStatusAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/API/AttendanceStatusAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/Utils/LkCommon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/junitTest/JunitTestAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lk/mappers/AttendanceStatusInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lk/mappers/AttendanceStatusInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webFile/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/login.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/img/login.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="64054409-25aa-45f9-a333-434d27dadea6" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -72,8 +60,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="5552" column="37" lean-forward="true" selection-start-line="5552" selection-start-column="37" selection-end-line="5552" selection-end-column="37" />
+            <state relative-caret-position="396">
+              <caret line="5551" column="19" selection-start-line="5551" selection-start-column="19" selection-end-line="5551" selection-end-column="31" />
               <folding>
                 <element signature="n#!!block;n#focusNextInput#0" />
                 <element signature="n#!!block;n#ModelItemOneFun#0" />
@@ -474,12 +462,12 @@
       <workItem from="1547449439451" duration="4237000" />
       <workItem from="1547515518026" duration="1071000" />
       <workItem from="1547522550689" duration="130000" />
-      <workItem from="1547957448704" duration="742000" />
+      <workItem from="1547957448704" duration="860000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1332342000" />
+    <option name="totallyTimeSpent" value="1332460000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -809,8 +797,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="5552" column="37" lean-forward="true" selection-start-line="5552" selection-start-column="37" selection-end-line="5552" selection-end-column="37" />
+        <state relative-caret-position="396">
+          <caret line="5551" column="19" selection-start-line="5551" selection-start-column="19" selection-end-line="5551" selection-end-column="31" />
           <folding>
             <element signature="n#!!block;n#focusNextInput#0" />
             <element signature="n#!!block;n#ModelItemOneFun#0" />

@@ -102,6 +102,7 @@ public class LeaveInfoAPI extends AfRestfulApi
 				{
 					leaveType = null;
 				}
+				
 				if (dStart.equals(""))
 				{
 					dStart = null;
@@ -118,6 +119,11 @@ public class LeaveInfoAPI extends AfRestfulApi
 				row.setOperator(operator);
 				row.setdStart(dStart);
 				row.setdEnd(dEnd);
+				if(jsReq.has("id"))
+				{
+					int id = jsReq.getInt("id");
+					row.setId(id);
+				}
 				row.setLeaveType(leaveType);
 				List<LeaveInfo> resultList = leaveInfoMapper.conditionalQuery(row);
 				result = new JSONArray(resultList);
