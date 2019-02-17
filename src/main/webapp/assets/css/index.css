@@ -1,0 +1,157 @@
+#mainBodyPanel .row .nav-panel{
+    width: 100%;
+    border-bottom: 1px solid #666;
+}
+#mainBodyPanel .row .nav-panel ul{
+    overflow: hidden;
+    width: 100%;
+    height: 32px;
+    list-style: none;
+    margin: 0;
+}
+#mainBodyPanel .row .nav-panel ul li{
+    background: #fff;
+    list-style: none;
+    color: #666;
+    line-height: 20px;
+    text-align: center;
+    float: left;
+    border-radius: 3px 3px 0 0;
+    font-size: 12px;
+}
+#mainBodyPanel .row .nav-panel ul .nav-hover{
+    background: #eee
+}
+
+#mainBodyPanel .row .nav-panel ul li a {
+    padding: 6px 16px;
+    display: block;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}
+#mainBodyPanel .row .nav-panel ul .active{
+    background: #666;
+}
+#mainBodyPanel .row .nav-panel ul .active a{
+    color: #fff;
+}
+#timeNav{
+    margin-top: 20px;
+}
+#timeNav li{
+    float: left;
+    cursor: pointer;
+    min-width: 60px;
+    height: 32px;
+    text-align: center;
+    padding: 8px 15px;
+    background: #fff;
+    border-right: 1px solid #bfcbd9;
+    border-top: 1px solid #bfcbd9;
+    border-bottom: 1px solid #bfcbd9;
+}
+#timeNav li:first-child{
+    border-radius: 4px 0 0 4px;
+    border-left: 1px solid #bfcbd9;
+}
+#timeNav li:last-child{
+    border-radius: 0 4px 4px 0;
+}
+#timeNav li .nav-hover{
+    color: #5458b3;
+}
+#timeNav li span{
+    line-height: 1;
+    color: #1f2d3d;
+}
+#timeNav .active{
+    background-color: #5458b3;
+    border-color: #5458b3;
+}
+#timeNav .active span{
+    color: #ffffff;
+}
+#mainBodyPanel .row{
+    position: relative;
+}
+#mainBodyPanel .row .right-panel{
+    min-width: 255px;
+    max-width: 396px;
+    height: 42px;
+    margin-top: 10px;
+    position: absolute;
+    right: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(104deg, #6bb3ff, #58a4ff);
+}
+#mainBodyPanel .row .right-panel span{
+    color: #fff;
+    line-height: 42px;
+    font-size: 17px;
+}
+#mainBodyPanel .row .lineChart-panel{
+    width: 100%;
+    min-width: 998px;
+    height: 342px;
+    border: solid 1px #dddddd;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+#mainBodyPanel .row .BottomTable-panel{
+    width: 100%;
+    min-height: 100px;
+    background: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#orderCustomerPanel .item-panel{
+    width: 50%;
+    height: 64px;
+    float: left;
+    cursor: pointer;
+}
+#orderCustomerPanel .item-panel .Icon-panel{
+    width: 28px;
+    height: 28px;
+    margin: 10px auto 0;
+    overflow: hidden;
+}
+#orderCustomerPanel .item-panel .Icon-panel img{
+    width: 100%;
+    height: 100%;
+}
+#orderCustomerPanel .item-panel .Text-panel{
+    width: 100%;
+    height: 20px;
+    margin-top: 5px;
+    text-align: center;
+}
+#sideMenu li .tip_bg{
+    width: 100%;
+    height: 40px;
+    background: #5458b3;
+}
+#sideMenu li .tip_bg .LiteralPanel{
+    width: 90%;
+    height: 40px;
+    margin: 0 auto;
+}
+#sideMenu li .tip_bg .LiteralPanel span{
+    line-height: 40px;
+    color: white;
+}
+#sideMenu li a img{
+    width: 100%;
+    height: 100%;
+}
+#sideMenu li a span{
+    font-size: 16px;
+}
+#orderCustomerPanel .item-panel .Text-panel span{
+    font-size: 16px;
+}

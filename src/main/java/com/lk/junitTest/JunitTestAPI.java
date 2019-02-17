@@ -15,7 +15,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -444,6 +443,7 @@ public class JunitTestAPI
 			}
 		}
 	}
+
 	/**
 	 * 
 	 * @Title:             test15
@@ -524,6 +524,7 @@ public class JunitTestAPI
 		}
 		sqlSession.close();
 	}
+
 	@Test
 	/**
 	 * 
@@ -544,41 +545,44 @@ public class JunitTestAPI
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		User dbData = userMapper.findByName(operator);
 		JSONObject queryResult = new JSONObject(dbData);
-		if(queryResult.has("messageRequest"))
+		if (queryResult.has("messageRequest"))
 		{
-			//Add current entry to JSOPNArraySource data
+			// Add current entry to JSOPNArraySource data
 			String sqlMessageRequest = queryResult.getString("messageRequest");
 			JSONArray sqlMessageRequestArr = new JSONArray(sqlMessageRequest);
 			sqlMessageRequestArr.put(messageRequest);
-			//update to database
+			// update to database
 			User saveRow = new User();
-	
+
 			saveRow.setUserName(operator);
 			saveRow.setCompanyID(companyID);
 			int updateResult = userMapper.updateAttendanceInfo(saveRow);
 			sqlSession.commit();
-			if(updateResult>0)
+			if (updateResult > 0)
 			{
 				System.out.println("Update completed!");
-			}else{
+			} else
+			{
 				String msg = "Update failed!";
 				System.out.println(msg);
 			}
-		}else{
-			//Generate JSONArray And add the current entry
+		} else
+		{
+			// Generate JSONArray And add the current entry
 			JSONArray rawArray = new JSONArray();
 			rawArray.put(messageRequest);
-			//update to database
+			// update to database
 			User saveRow = new User();
 			saveRow.setUserName(operator);
 			saveRow.setCompanyID(companyID);
 			int updateResult = userMapper.updateAttendanceInfo(saveRow);
 			sqlSession.commit();
-			if(updateResult>0)
+			if (updateResult > 0)
 			{
-				String	msg = "Update completed!";
+				String msg = "Update completed!";
 				System.out.println(msg);
-			}else{
+			} else
+			{
 				String msg = "Update failed!";
 				System.out.println(msg);
 			}
@@ -586,6 +590,7 @@ public class JunitTestAPI
 		// 关闭session
 		sqlSession.close();
 	}
+
 	@Test
 	public void test17()
 	{
@@ -595,22 +600,24 @@ public class JunitTestAPI
 		String st = "i have i a i aiaiai";
 		String M = "i";
 		int count = 0;
-		while(st.indexOf(M)>=0) {
-			st=st.substring(st.indexOf(M)+M.length());
+		while (st.indexOf(M) >= 0)
+		{
+			st = st.substring(st.indexOf(M) + M.length());
 			count++;
 		}
-		System.out.println("指定字符串在原字符串中出现："+count+"次");
+		System.out.println("指定字符串在原字符串中出现：" + count + "次");
 	}
+
 	@Test
 	public void test18()
 	{
 		String leaveType = "";
-		if(leaveType.equals(""))
+		if (leaveType.equals(""))
 		{
 			leaveType = null;
 		}
 		String dStart = "2019-01-08 00:00";
-		String dEnd =  "2019-01-08 23:00";
+		String dEnd = "2019-01-08 23:00";
 		// 打开连接
 		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 		// 配置映射器
@@ -626,27 +633,30 @@ public class JunitTestAPI
 		// 关闭链接
 		sqlSession.close();
 	}
+
 	@Test
 	public void test19()
 	{
 		String aa = "哈哈哈哈哈哈哈 2018-05-122018-05-13";
-		JSONObject bb =lkcommon.getStrTime(aa);
+		JSONObject bb = lkcommon.getStrTime(aa);
 		System.out.println(bb);
 	}
+
 	@Test
 	public void test20()
 	{
-			String aa = "[[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1001\",\"id\":1,\"glassArea\":\"0.51\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"1511\",\"glassWidth\":\"982\",\"id\":20,\"glassArea\":\"1.48\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"802\",\"glassWidth\":\"994\",\"id\":24,\"glassArea\":\"0.80\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":2,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"653\",\"glassWidth\":\"872\",\"id\":3,\"glassArea\":\"0.57\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":15,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"503\",\"glassWidth\":\"865\",\"id\":21,\"glassArea\":\"0.44\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1061\",\"id\":4,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"782\",\"glassWidth\":\"1061\",\"id\":5,\"glassArea\":\"0.83\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1056\",\"id\":16,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"692\",\"glassWidth\":\"1056\",\"id\":17,\"glassArea\":\"0.73\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"632\",\"glassWidth\":\"1058\",\"id\":22,\"glassArea\":\"0.67\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"802\",\"glassWidth\":\"1058\",\"id\":25,\"glassArea\":\"0.85\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"485\",\"glassWidth\":\"872\",\"id\":6,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"853\",\"id\":23,\"glassArea\":\"0.41\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1001\",\"id\":7,\"glassArea\":\"0.51\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"960\",\"glassWidth\":\"1001\",\"id\":8,\"glassArea\":\"0.96\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"811\",\"glassWidth\":\"1001\",\"id\":18,\"glassArea\":\"0.81\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"1100\",\"totalAmount\":\"1100.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1061\",\"id\":9,\"glassArea\":\"0.55\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"1100\",\"totalAmount\":\"1100.00\",\"glassMark\":\"#1\",\"glassLength\":\"960\",\"glassWidth\":\"1061\",\"id\":10,\"glassArea\":\"1.02\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"811\",\"glassWidth\":\"1056\",\"id\":19,\"glassArea\":\"0.86\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"614\",\"glassWidth\":\"1061\",\"id\":11,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":12,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1061\",\"id\":13,\"glassArea\":\"0.55\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1061\",\"id\":14,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"}]]" ;
-			JSONArray bb = new JSONArray(aa);
-			for(int  i = 0;i <bb.length();i++)
+		String aa = "[[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1001\",\"id\":1,\"glassArea\":\"0.51\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"1511\",\"glassWidth\":\"982\",\"id\":20,\"glassArea\":\"1.48\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"802\",\"glassWidth\":\"994\",\"id\":24,\"glassArea\":\"0.80\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":2,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"653\",\"glassWidth\":\"872\",\"id\":3,\"glassArea\":\"0.57\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":15,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"503\",\"glassWidth\":\"865\",\"id\":21,\"glassArea\":\"0.44\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1061\",\"id\":4,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"782\",\"glassWidth\":\"1061\",\"id\":5,\"glassArea\":\"0.83\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1056\",\"id\":16,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"692\",\"glassWidth\":\"1056\",\"id\":17,\"glassArea\":\"0.73\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"632\",\"glassWidth\":\"1058\",\"id\":22,\"glassArea\":\"0.67\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"802\",\"glassWidth\":\"1058\",\"id\":25,\"glassArea\":\"0.85\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"485\",\"glassWidth\":\"872\",\"id\":6,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"853\",\"id\":23,\"glassArea\":\"0.41\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1001\",\"id\":7,\"glassArea\":\"0.51\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"960\",\"glassWidth\":\"1001\",\"id\":8,\"glassArea\":\"0.96\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"811\",\"glassWidth\":\"1001\",\"id\":18,\"glassArea\":\"0.81\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"1100\",\"totalAmount\":\"1100.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1061\",\"id\":9,\"glassArea\":\"0.55\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"1100\",\"totalAmount\":\"1100.00\",\"glassMark\":\"#1\",\"glassLength\":\"960\",\"glassWidth\":\"1061\",\"id\":10,\"glassArea\":\"1.02\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"811\",\"glassWidth\":\"1056\",\"id\":19,\"glassArea\":\"0.86\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"614\",\"glassWidth\":\"1061\",\"id\":11,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"482\",\"glassWidth\":\"872\",\"id\":12,\"glassArea\":\"0.42\",\"productName\":\"5+25+5白玻双钢化\"}],[{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"514\",\"glassWidth\":\"1061\",\"id\":13,\"glassArea\":\"0.55\",\"productName\":\"5+25+5白玻双钢化\"},{\"glassNum\":\"1\",\"unitPrice\":\"110\",\"totalAmount\":\"110.00\",\"glassMark\":\"#1\",\"glassLength\":\"611\",\"glassWidth\":\"1061\",\"id\":14,\"glassArea\":\"0.65\",\"productName\":\"5+25+5白玻双钢化\"}]]";
+		JSONArray bb = new JSONArray(aa);
+		for (int i = 0; i < bb.length(); i++)
+		{
+			JSONArray cc = bb.getJSONArray(i);
+			for (int j = 0; j < cc.length(); j++)
 			{
-				JSONArray cc = bb.getJSONArray(i);
-				for(int j = 0; j <cc.length();j++)
-				{
-					
-				}
+
 			}
+		}
 	}
+
 	@Test
 	public void test21()
 	{
@@ -655,8 +665,7 @@ public class JunitTestAPI
 		// 打开连接
 		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 		// 配置映射器
-		AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession
-				.getMapper(AttendanceStatusInfoMapper.class);
+		AttendanceStatusInfoMapper attendanceStatusInfoMapper = sqlSession.getMapper(AttendanceStatusInfoMapper.class);
 		AttendanceStatusInfo row = new AttendanceStatusInfo();
 		row.setNameOfWorker(nameOfWorker);
 		row.setOperator(operator);
@@ -669,20 +678,19 @@ public class JunitTestAPI
 		if (processResult > 0)
 		{
 			System.out.println("更新成功");
-		}
-		else
+		} else
 		{
 			System.out.println("shibai");
 		}
 	}
+
 	@Test
 	public void test22()
 	{
 		// 打开连接
 		SqlSession sqlSession = SqlSessionFactoryUtil.openSession();
 		// 配置映射器
-		MessageApprovalInfoMapper messageApprovalInfoMapper = sqlSession
-				.getMapper(MessageApprovalInfoMapper.class);
+		MessageApprovalInfoMapper messageApprovalInfoMapper = sqlSession.getMapper(MessageApprovalInfoMapper.class);
 		MessageApprovalInfo row = new MessageApprovalInfo();
 		row.setOperator("9");
 		row.setId(2);
@@ -694,8 +702,41 @@ public class JunitTestAPI
 			System.out.println("更新成功");
 		} else
 		{
-			
+
 		}
 		sqlSession.close();
+	}
+
+	@Test
+	public void test23()
+	{
+		/**
+		 * 测试if单选择结构
+		 * @author asus
+		 *
+		 */
+		// 通过掷三个骰子看看今天手气如何
+		int i = (int) (6 * Math.random()) + 1;
+		int j = (int) (6 * Math.random()) + 1;
+		int k = (int) (6 * Math.random()) + 1;
+		System.out.println("您的骰子:" + i + " " + j + " " + k);
+		int count = i + j + k;
+		System.out.println("总和为:" + count);
+		// 如果三个骰子之和大于15，则今天手气不错
+		if (count > 15)
+		{
+			System.out.println("今天手气不错");
+		}
+		// 如果三个骰子之和在10到15之间，则手气一般
+		else if (count >= 10 && count <= 15)
+		{
+			System.out.println("今天手气一般");
+			System.out.println("得了" + count + "分");
+		} else
+		{
+			// 如果三个骰子之和小于10，则今天手气不佳
+			System.out.println("今天手气不佳");
+		}
+
 	}
 }
